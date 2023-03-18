@@ -1,10 +1,8 @@
 <?php
 
-namespace Ls\ClientAssistant;
-
 function initGuzzle()
 {
-    return new \GuzzleHttp\Client();
+    return new GuzzleHttp\Client();
 }
 
 function config(string $key)
@@ -27,12 +25,6 @@ function config(string $key)
 
     return getArrayValue($configFile, $keys);
 }
-
-function view(string $view, $viewAddress)
-{
-    return $viewAddress . DIRECTORY_SEPARATOR . str_replace('.', DIRECTORY_SEPARATOR, $view) . '.php';
-}
-
 
 function getArrayValue(array $array, array $indexes)
 {
