@@ -12,5 +12,9 @@
             "email": "iamamirsalehi@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "guzzlehttp/guzzle": "^7.0",
+        "hekmatinasser/verta": "^2.1",
+        "nikic/fast-route": "^1.3"
+    }
 }
