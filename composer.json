@@ -1,0 +1,16 @@
+{
+    "name": "ls/client-assistant",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Ls\\ClientAssistant\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Amir Salehi",
+            "email": "iamamirsalehi@gmail.com"
+        }
+    ],
+    "require": {}
+}
