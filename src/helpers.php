@@ -29,7 +29,7 @@ function config(string $key)
 
 function view(string $view, $viewAddress)
 {
-    return $viewAddress . DIRECTORY_SEPARATOR . str_replace('.', DIRECTORY_SEPARATOR, $view);
+    return $viewAddress . DIRECTORY_SEPARATOR . str_replace('.', DIRECTORY_SEPARATOR, $view) . '.php';
 }
 
 

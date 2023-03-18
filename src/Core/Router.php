@@ -1,6 +1,6 @@
 <?php
 
-namespace Core;
+namespace Ls\ClientAssistant\Core;
 
 class Router extends \AltoRouter
 {
