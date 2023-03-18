@@ -1,9 +1,10 @@
 <?php
 
+namespace Ls\ClientAssistant;
 
 function initGuzzle()
 {
-    return new GuzzleHttp\Client();
+    return new \GuzzleHttp\Client();
 }
 
 function config(string $key)

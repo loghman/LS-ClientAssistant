@@ -2,6 +2,8 @@
 
 namespace Ls\ClientAssistant\Core;
 
+use function Ls\ClientAssistant\view;
+
 class Router extends \AltoRouter
 {
     private string $viewsDirectoryAddress = '';
