@@ -27,11 +27,9 @@ function config(string $key)
     return getArrayValue($configFile, $keys);
 }
 
-function view(string $view, $viewAddress): void
+function view(string $view, $viewAddress)
 {
-    $view = explode('.', $view);
-
-
+    return $viewAddress . DIRECTORY_SEPARATOR . str_replace('.', DIRECTORY_SEPARATOR, $view);
 }
 
 
