@@ -27,6 +27,13 @@ function config(string $key)
     return getArrayValue($configFile, $keys);
 }
 
+function view(string $view, $viewAddress): void
+{
+    $view = explode('.', $view);
+
+
+}
+
 
 function getArrayValue(array $array, array $indexes)
 {
