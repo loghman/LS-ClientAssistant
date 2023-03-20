@@ -1,6 +1,6 @@
 <?php
 
-namespace Ls\ClientAssistant\Utilites\Tools;
+namespace Ls\ClientAssistant\Utilities\Tools;
 
 class Validation
 {

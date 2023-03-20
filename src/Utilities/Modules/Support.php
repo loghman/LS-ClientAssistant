@@ -1,6 +1,6 @@
 <?php
 
-namespace Ls\ClientAssistant\Utilites\Modules;
+namespace Ls\ClientAssistant\Utilities\Modules;
 
 class Support
 {

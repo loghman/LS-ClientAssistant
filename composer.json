@@ -15,6 +15,7 @@
     "require": {
         "guzzlehttp/guzzle": "^7.0",
         "hekmatinasser/verta": "^2.1",
-        "altorouter/altorouter": "^2.0"
+        "altorouter/altorouter": "^2.0",
+        "illuminate/collections": "^8.83"
     }
 }
