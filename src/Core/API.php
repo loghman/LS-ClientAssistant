@@ -2,7 +2,7 @@
 
 namespace Ls\ClientAssistant\Core;
 
-use Ls\ClientAssistant\Utilities\Config;
+use Ls\ClientAssistant\Helpers\Config;
 
 class API
 {

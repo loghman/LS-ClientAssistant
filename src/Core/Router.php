@@ -2,7 +2,7 @@
 
 namespace Ls\ClientAssistant\Core;
 
-use Ls\ClientAssistant\Utilities\View;
+use Ls\ClientAssistant\Helpers\View;
 
 class Router extends \AltoRouter
 {

@@ -1,12 +1,14 @@
 <?php
 
-namespace Ls\ClientAssistant\Apis\V1;
+namespace Ls\ClientAssistant\Utilites\Modules;
 
 use Ls\ClientAssistant\Core\API;
 
+
+//TODO: return object if it's single
 class LMS
 {
-    public static function lmsGetCourses(string $param = null, bool $includeComments = false): array
+    public static function getCourses(string $param = null, bool $includeComments = false): array
     {
 
         $response = API::guzzle()->get((API::uri('v1/lms/product/search')), [

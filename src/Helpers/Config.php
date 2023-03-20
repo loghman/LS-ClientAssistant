@@ -1,6 +1,6 @@
 <?php
 
-namespace Ls\ClientAssistant\Utilities;
+namespace Ls\ClientAssistant\Helpers;
 
 class Config
 {
