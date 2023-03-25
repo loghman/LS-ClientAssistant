@@ -35,13 +35,6 @@ class User implements Filterable, Searchable
         return Response::many($response);
     }
 
-    /*
-     *
-     * $keyValues sample = [
-     *       'author_id' => 1,
-     *       'category_id' => 1,
-     * ]
-     * */
     public static function filter(array $keyValues = [], array $with = [], int $perPage = 20, $orderBy = OrderByEnum::LATEST): Collection
     {
         if (!in_array($orderBy, [OrderByEnum::LATEST, OrderByEnum::FIRST])) {

@@ -5,11 +5,13 @@ namespace Ls\ClientAssistant\Utilities\Modules;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\API;
+use Ls\ClientAssistant\Core\Contracts\Filterable;
+use Ls\ClientAssistant\Core\Contracts\Searchable;
 use Ls\ClientAssistant\Core\Enums\CMSSignalEnum;
 use Ls\ClientAssistant\Core\Enums\OrderByEnum;
 use Ls\ClientAssistant\Helpers\Response;
 
-class CMS
+class CMS implements Searchable, Filterable
 {
     public static function getPost(int $id, array $with = []): Collection
     {

@@ -14,3 +14,8 @@ include_once __DIR__ . "/vendor/autoload.php";
 //print_r(\Ls\ClientAssistant\Utilities\Modules\CMS::search('آمد', ['title', 'content'], ['comments'], 100));
 //print_r(\Ls\ClientAssistant\Utilities\Modules\CMS::filter(['author_id' => 1], ['comments'], 100, \Ls\ClientAssistant\Core\Enums\OrderByEnum::LATEST));
 //print_r(\Ls\ClientAssistant\Utilities\Modules\CMS::signal(1, \Ls\ClientAssistant\Core\Enums\CMSSignalEnum::VISIT, 1));
+
+//print_r(\Ls\ClientAssistant\Utilities\Modules\LMS::getProduct(1, ['items']));
+//print_r(\Ls\ClientAssistant\Utilities\Modules\LMS::getProducts(['items', 100]));
+//print_r(\Ls\ClientAssistant\Utilities\Modules\LMS::search('php-expert', ['title'], ['items'], 100));
+//print_r(\Ls\ClientAssistant\Utilities\Modules\LMS::filter(['age_range' => 'adult'], ['items'], 100, \Ls\ClientAssistant\Core\Enums\OrderByEnum::LATEST));
