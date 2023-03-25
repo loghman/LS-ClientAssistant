@@ -19,3 +19,8 @@ include_once __DIR__ . "/vendor/autoload.php";
 //print_r(\Ls\ClientAssistant\Utilities\Modules\LMS::getProducts(['items', 100]));
 //print_r(\Ls\ClientAssistant\Utilities\Modules\LMS::search('php-expert', ['title'], ['items'], 100));
 //print_r(\Ls\ClientAssistant\Utilities\Modules\LMS::filter(['age_range' => 'adult'], ['items'], 100, \Ls\ClientAssistant\Core\Enums\OrderByEnum::LATEST));
+
+//print_r(\Ls\ClientAssistant\Utilities\Modules\Term::getTerm(1, ['posts']));
+//print_r(\Ls\ClientAssistant\Utilities\Modules\Term::getTerms(['posts'], 100));
+//print_r(\Ls\ClientAssistant\Utilities\Modules\Term::search('hertha-gulgowski', ['slug'], ['posts'], 100));
+//print_r(\Ls\ClientAssistant\Utilities\Modules\Term::filter(['type' => 'tag'], ['posts'], 100, \Ls\ClientAssistant\Core\Enums\OrderByEnum::LATEST));
