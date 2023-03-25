@@ -2,6 +2,8 @@
 
 namespace Ls\ClientAssistant\Utilities\Modules;
 
+use Ls\ClientAssistant\Core\Enums\OrderByEnum;
+
 class CMS
 {
     public static function getPost(int $id, array $with = ['comment', 'product'])
@@ -14,12 +16,12 @@ class CMS
 
     }
 
-    public static function search(string $keyword, array $columns = [], array $with = [],  int $perPage = 20)
+    public static function search(string $keyword, array $columns = [], array $with = [], int $perPage = 20)
     {
 
     }
 
-    public static function filter(array $keyValues = [], array $with = [], int $perPage = 20, $orderBy = 'latest')
+    public static function filter(array $keyValues = [], array $with = [], int $perPage = 20, $orderBy = OrderByEnum::LATEST)
     {
         // $orderBy => 'most_visited', 'latest', 'most_visited', 'most_commented', 'first', 'cheapest', ''
         $keyValues = [
