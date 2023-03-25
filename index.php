@@ -29,3 +29,5 @@ include_once __DIR__ . "/vendor/autoload.php";
 //print_r(\Ls\ClientAssistant\Utilities\Modules\Survey::getSurveys());
 //print_r(\Ls\ClientAssistant\Utilities\Modules\Survey::search('test'));
 //print_r(\Ls\ClientAssistant\Utilities\Modules\Survey::filter(['type' => 1]));
+
+print_r(\Ls\ClientAssistant\Utilities\Modules\Comment::getPostComments(5));
