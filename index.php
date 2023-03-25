@@ -24,3 +24,8 @@ include_once __DIR__ . "/vendor/autoload.php";
 //print_r(\Ls\ClientAssistant\Utilities\Modules\Term::getTerms(['posts'], 100));
 //print_r(\Ls\ClientAssistant\Utilities\Modules\Term::search('hertha-gulgowski', ['slug'], ['posts'], 100));
 //print_r(\Ls\ClientAssistant\Utilities\Modules\Term::filter(['type' => 'tag'], ['posts'], 100, \Ls\ClientAssistant\Core\Enums\OrderByEnum::LATEST));
+
+//print_r(\Ls\ClientAssistant\Utilities\Modules\Survey::getSurvey(1));
+//print_r(\Ls\ClientAssistant\Utilities\Modules\Survey::getSurveys());
+//print_r(\Ls\ClientAssistant\Utilities\Modules\Survey::search('test'));
+//print_r(\Ls\ClientAssistant\Utilities\Modules\Survey::filter(['type' => 1]));
