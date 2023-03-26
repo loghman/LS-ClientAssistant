@@ -12,6 +12,11 @@ use Ls\ClientAssistant\Helpers\Response;
 
 class User implements Filterable, Searchable
 {
+    public static function getApiKey()
+    {
+        return $GLOBALS['apikey'];
+    }
+
     public static function getUser(int $id, array $with = []): Collection
     {
         $response = API::guzzle()->get(API::uri('v1/users/' . $id), [
