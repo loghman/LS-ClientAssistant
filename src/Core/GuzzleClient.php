@@ -11,11 +11,15 @@ class GuzzleClient
 {
     public static function get(string $uri, array $queryParam = []): Collection
     {
-        $client = new Client(['base_uri' => Config::get('endpoints.base')]);
-        $response = $client->get((Config::get('endpoints.base') . $uri), [
+        $client = new Client([
+            'base_uri' => Config::get('endpoints.base'),
             'headers' => [
-                'client_api_key' => $GLOBALS['apikey'],
+//                'client_api_key' => $GLOBALS['apikey'],
+                'client_api_key' => 'askdjkjsdhfkshdfjkshdfjsd',
             ],
+        ]);
+
+        $response = $client->get((Config::get('endpoints.base') . $uri), [
             RequestOptions::QUERY => $queryParam,
         ]);
 
