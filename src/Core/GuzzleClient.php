@@ -14,8 +14,7 @@ class GuzzleClient
         $client = new Client([
             'base_uri' => Config::get('endpoints.base'),
             'headers' => [
-//                'client_api_key' => $GLOBALS['apikey'],
-                'client_api_key' => 'askdjkjsdhfkshdfjkshdfjsd',
+                'Client-Api-Key' => $GLOBALS['apikey'],
             ],
         ]);
 
@@ -35,7 +34,7 @@ class GuzzleClient
         $client = new Client();
         $response = $client->put($uri, [
             'headers' => [
-                'client_api_key' => $GLOBALS['apikey'],
+                'Client-Api-Key' => $GLOBALS['apikey'],
             ],
             'form_params' => $formParams,
         ]);
@@ -52,7 +51,7 @@ class GuzzleClient
         $client = new Client();
         $response = $client->post($uri, [
             'headers' => [
-                'client_api_key' => $GLOBALS['apikey'],
+                'Client-Api-Key' => $GLOBALS['apikey'],
             ],
             'form_params' => $formParams,
         ]);

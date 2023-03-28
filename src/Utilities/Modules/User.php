@@ -12,7 +12,7 @@ class User extends ModuleUtility
     public static function get(int $id, array $with = []): Collection
     {
         return GuzzleClient::get(('v1/users/' . $id), [
-            'with' => json_encode($with)
+            'with' => json_encode($with),
         ]);
     }
 
@@ -26,7 +26,7 @@ class User extends ModuleUtility
             'with' => json_encode($with),
             'filter' => json_encode($keyValues),
             'per_page' => $perPage,
-            'order_by' => $orderBy
+            'order_by' => $orderBy,
         ]);
     }
 
@@ -36,7 +36,7 @@ class User extends ModuleUtility
             's' => $keyword,
             'with' => json_encode($with),
             'columns' => json_encode($columns),
-            'per_page' => $perPage
+            'per_page' => $perPage,
         ]);
     }
 }
