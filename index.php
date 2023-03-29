@@ -42,3 +42,13 @@ include_once __DIR__ . "/vendor/autoload.php";
 //print_r(\Ls\ClientAssistant\Utilities\Modules\Coupon::get(1));
 //print_r(\Ls\ClientAssistant\Utilities\Modules\Coupon::list());
 //print_r(\Ls\ClientAssistant\Utilities\Modules\Coupon::search('a'));
+
+
+//print_r(\Ls\ClientAssistant\Utilities\Modules\Badge::get(1));
+//print_r(\Ls\ClientAssistant\Utilities\Modules\Badge::list());
+//print_r(\Ls\ClientAssistant\Utilities\Modules\Badge::search('a'));
+
+
+//print_r(\Ls\ClientAssistant\Utilities\Modules\Gift::get(1));
+//print_r(\Ls\ClientAssistant\Utilities\Modules\Gift::list());
+//print_r(\Ls\ClientAssistant\Utilities\Modules\Gift::search('a'));
