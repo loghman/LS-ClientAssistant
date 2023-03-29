@@ -34,3 +34,11 @@ include_once __DIR__ . "/vendor/autoload.php";
 //print_r(\Ls\ClientAssistant\Utilities\Modules\Enrollment::get(1, ['user']));
 //print_r(\Ls\ClientAssistant\Utilities\Modules\Enrollment::list(['user']));
 //print_r(\Ls\ClientAssistant\Utilities\Modules\Enrollment::search('a'));
+
+//print_r(\Ls\ClientAssistant\Utilities\Modules\Cart::get(1));
+//print_r(\Ls\ClientAssistant\Utilities\Modules\Cart::list());
+//print_r(\Ls\ClientAssistant\Utilities\Modules\Cart::search('a'));
+
+//print_r(\Ls\ClientAssistant\Utilities\Modules\Coupon::get(1));
+//print_r(\Ls\ClientAssistant\Utilities\Modules\Coupon::list());
+//print_r(\Ls\ClientAssistant\Utilities\Modules\Coupon::search('a'));

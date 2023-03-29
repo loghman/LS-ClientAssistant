@@ -7,18 +7,18 @@ use Ls\ClientAssistant\Core\Contracts\ModuleUtility;
 use Ls\ClientAssistant\Core\Enums\OrderByEnum;
 use Ls\ClientAssistant\Core\GuzzleClient;
 
-class Cart extends ModuleUtility
+class Coupon extends ModuleUtility
 {
     public static function get(int $id, array $with = []): Collection
     {
-        return GuzzleClient::get('v1/cart/' . $id, [
+        return GuzzleClient::get('v1/coupon/' . $id, [
             'with' => json_encode($with),
         ]);
     }
 
     public static function list(array $with = [], array $keyValues = [], int $perPage = 20, $orderBy = OrderByEnum::LATEST): Collection
     {
-        return GuzzleClient::get('v1/cart/', [
+        return GuzzleClient::get('v1/coupon/', [
             'with' => json_encode($with),
             'filter' => json_encode($keyValues),
             'order_by' => $orderBy,
@@ -28,7 +28,7 @@ class Cart extends ModuleUtility
 
     public static function search(string $keyword, array $columns = [], array $with = [], int $perPage = 20): Collection
     {
-        return GuzzleClient::get('v1/cart/', [
+        return GuzzleClient::get('v1/coupon/', [
             's' => $keyword,
             'with' => json_encode($with),
             'columns' => json_encode($columns),
