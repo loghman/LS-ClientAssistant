@@ -7,28 +7,28 @@ use Ls\ClientAssistant\Core\Contracts\ModuleUtility;
 use Ls\ClientAssistant\Core\GuzzleClient;
 use Ls\ClientAssistant\Core\Enums\OrderByEnum;
 
-class Term extends ModuleUtility
+class LMSProduct extends ModuleUtility
 {
     public static function get(int $id, array $with = []): Collection
     {
-        return GuzzleClient::get('v1/term/' . $id, [
-            'with' => json_encode($with)
+        return GuzzleClient::get('v1/lms/product/' . $id, [
+            'with' => json_encode($with),
         ]);
     }
 
     public static function list(array $with = [], array $keyValues = [], int $perPage = 20, $orderBy = OrderByEnum::LATEST): Collection
     {
-        return GuzzleClient::get('v1/term', [
-            'filter' => json_encode($keyValues),
+        return GuzzleClient::get('v1/lms/product', [
             'with' => json_encode($with),
+            'filter' => json_encode($keyValues),
+            'order_by' => $orderBy,
             'per_page' => $perPage,
-            'order_by' => $orderBy
         ]);
     }
 
     public static function search(string $keyword, array $columns = [], array $with = [], int $perPage = 20): Collection
     {
-        return GuzzleClient::get('v1/term', [
+        return GuzzleClient::get('v1/lms/product', [
             's' => $keyword,
             'with' => json_encode($with),
             'columns' => json_encode($columns),

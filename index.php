@@ -2,9 +2,7 @@
 
 include_once __DIR__ . "/vendor/autoload.php";
 
-
-//['code', 'email']
-print_r(\Ls\ClientAssistant\Utilities\Modules\User::get(1));
+//print_r(\Ls\ClientAssistant\Utilities\Modules\User::get(1, ['code', 'email']));
 //print_r(\Ls\ClientAssistant\Utilities\Modules\User::list(['code', 'email'], [], 100));
 //print_r(\Ls\ClientAssistant\Utilities\Modules\User::search('isamirsalehi@gmail.com', ['code', 'email'], ['posts'], 100));
 
@@ -27,3 +25,12 @@ print_r(\Ls\ClientAssistant\Utilities\Modules\User::get(1));
 //print_r(\Ls\ClientAssistant\Utilities\Modules\Survey::search('test'));
 
 //print_r(\Ls\ClientAssistant\Utilities\Modules\Comment::getPostComments(5));
+
+//print_r(\Ls\ClientAssistant\Utilities\Modules\CareerPath::get(1, ['careerPathItems', 'products']));
+//print_r(\Ls\ClientAssistant\Utilities\Modules\CareerPath::list());
+//print_r(\Ls\ClientAssistant\Utilities\Modules\CareerPath::search('sddf'));
+
+
+//print_r(\Ls\ClientAssistant\Utilities\Modules\Enrollment::get(1, ['user']));
+//print_r(\Ls\ClientAssistant\Utilities\Modules\Enrollment::list(['user']));
+//print_r(\Ls\ClientAssistant\Utilities\Modules\Enrollment::search('a'));
