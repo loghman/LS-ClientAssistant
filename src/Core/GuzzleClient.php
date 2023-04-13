@@ -23,7 +23,7 @@ class GuzzleClient
         ]);
 
         if (in_array($response->getStatusCode(), [200, 201])) {
-            return collect(json_decode($response->getBody(), true));
+            return collect(json_decode($response->getBody(), true)['data']);
         }
 
         return collect();
@@ -40,7 +40,7 @@ class GuzzleClient
         ]);
 
         if (in_array($response->getStatusCode(), [200, 201])) {
-            return collect(json_decode($response->getBody(), true));
+            return collect(json_decode($response->getBody(), true)['data']);
         }
 
         return collect();
@@ -57,7 +57,7 @@ class GuzzleClient
         ]);
 
         if (in_array($response->getStatusCode(), [200, 201])) {
-            return collect(json_decode($response->getBody(), true));
+            return collect(json_decode($response->getBody(), true)['data']);
         }
 
         return collect();
