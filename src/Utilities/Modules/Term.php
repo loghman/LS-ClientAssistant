@@ -9,9 +9,9 @@ use Ls\ClientAssistant\Core\Enums\OrderByEnum;
 
 class Term extends ModuleUtility
 {
-    public static function get(int $id, array $with = []): Collection
+    public static function get(int|string $idOrSlug, array $with = []): Collection
     {
-        return GuzzleClient::get('v1/term/' . $id, [
+        return GuzzleClient::get('v1/term/' . $idOrSlug, [
             'with' => json_encode($with)
         ]);
     }

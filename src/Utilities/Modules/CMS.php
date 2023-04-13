@@ -10,9 +10,9 @@ use Ls\ClientAssistant\Core\Enums\OrderByEnum;
 
 class CMS extends ModuleUtility
 {
-    public static function get(int $id, array $with = []): Collection
+    public static function get(int|string $idOrSlug, array $with = []): Collection
     {
-        return GuzzleClient::get('v1/cms/' . $id, [
+        return GuzzleClient::get('v1/cms/' . $idOrSlug, [
             'with' => json_encode($with),
         ]);
     }

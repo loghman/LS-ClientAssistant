@@ -7,7 +7,7 @@ use Ls\ClientAssistant\Core\Enums\OrderByEnum;
 
 abstract class ModuleUtility
 {
-    abstract public static function get(int $id, array $with = []): Collection;
+    abstract public static function get(int|string $idOrSlug, array $with = []): Collection;
 
     abstract public static function list(array $with = [], array $keyValues = [], int $perPage = 20, $orderBy = OrderByEnum::LATEST): Collection;
 

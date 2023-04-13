@@ -9,7 +9,7 @@ use Ls\ClientAssistant\Core\GuzzleClient;
 
 class Badge extends ModuleUtility
 {
-    public static function get(int $id, array $with = []): Collection
+    public static function get(int|string $id, array $with = []): Collection
     {
         return GuzzleClient::get('v1/badge/' . $id, [
             'with' => json_encode($with)
