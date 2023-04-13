@@ -8,13 +8,13 @@ class Paginator
 {
     public static function setLink(array $paginatedData): array
     {
-        if (isset($paginatedData['first_page_url'])) {
-            $needleUrl = substr($paginatedData['first_page_url'], 0, strpos($paginatedData['first_page_url'], 'api'));
-            $paginatedData['first_page_url'] = str_replace($needleUrl, Config::get('endpoints.app_url'), $paginatedData['first_page_url']);
-            $paginatedData['last_page_url'] = str_replace($needleUrl, Config::get('endpoints.app_url'), $paginatedData['last_page_url']);
-            $paginatedData['path'] = str_replace($needleUrl, Config::get('endpoints.app_url'), $paginatedData['path']);
+        if (isset($paginatedData['data']['first_page_url'])) {
+            $needleUrl = substr($paginatedData['data']['first_page_url'], 0, strpos($paginatedData['data']['first_page_url'], 'api'));
+            $paginatedData['data']['first_page_url'] = str_replace($needleUrl, Config::get('endpoints.app_url'), $paginatedData['data']['first_page_url']);
+            $paginatedData['data']['last_page_url'] = str_replace($needleUrl, Config::get('endpoints.app_url'), $paginatedData['data']['last_page_url']);
+            $paginatedData['data']['path'] = str_replace($needleUrl, Config::get('endpoints.app_url'), $paginatedData['data']['path']);
 
-            foreach ($paginatedData['links'] as $link) {
+            foreach ($paginatedData['data']['links'] as $link) {
                 if (!is_null($link['url'])) {
                     $link['url'] = str_replace($needleUrl, Config::get('endpoints.app_url'), $link['url']);
                 }
