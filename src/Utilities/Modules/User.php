@@ -9,7 +9,7 @@ use Ls\ClientAssistant\Core\Enums\OrderByEnum;
 
 class User extends ModuleUtility
 {
-    public static function get(int|string $idOrSlug, array $with = []): Collection
+    public static function get(string $idOrSlug, array $with = []): Collection
     {
         return GuzzleClient::get(('v1/users/' . $idOrSlug), [
             'with' => json_encode($with),

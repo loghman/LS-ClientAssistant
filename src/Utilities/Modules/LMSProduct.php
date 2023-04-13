@@ -9,7 +9,7 @@ use Ls\ClientAssistant\Core\Enums\OrderByEnum;
 
 class LMSProduct extends ModuleUtility
 {
-    public static function get(int|string $idOrSlug, array $with = []): Collection
+    public static function get(string $idOrSlug, array $with = []): Collection
     {
         return GuzzleClient::get('v1/lms/product/' . $idOrSlug, [
             'with' => json_encode($with),

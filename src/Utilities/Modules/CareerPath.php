@@ -9,7 +9,7 @@ use Ls\ClientAssistant\Core\GuzzleClient;
 
 class CareerPath extends ModuleUtility
 {
-    public static function get(int|string $idOrSlug, array $with = []): Collection
+    public static function get(string $idOrSlug, array $with = []): Collection
     {
         return GuzzleClient::get('v1/lms/career-path/' . $idOrSlug, [
             'with' => json_encode($with),
