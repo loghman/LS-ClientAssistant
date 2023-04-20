@@ -55,9 +55,14 @@ class CMS extends ModuleUtility
 
     public static function queryParams(array $params, array $with = []): Collection
     {
-        return GuzzleClient::get('v1/cms/param', [
-            $params,
+        $data = [
             'with' => $with,
-        ]);
+        ];
+
+        foreach ($params as $key => $value) {
+            $data[$key] = $value;
+        }
+
+        return GuzzleClient::get('v1/cms/param', $data);
     }
 }
