@@ -52,4 +52,12 @@ class CMS extends ModuleUtility
             'value' => $value,
         ]);
     }
+
+    public static function queryParams(array $params, array $with = []): Collection
+    {
+        return GuzzleClient::get('v1/cms/param', [
+            'params' => $params,
+            'with' => $with,
+        ]);
+    }
 }
