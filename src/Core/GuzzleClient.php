@@ -35,7 +35,7 @@ class GuzzleClient
         ]);
 
         if (in_array($response->getStatusCode(), [200, 201])) {
-            return collect(Paginator::setLink(json_decode($response->getBody(), true)));
+            return self::parseData($response);
         }
 
         return collect();
@@ -52,7 +52,7 @@ class GuzzleClient
         ]);
 
         if (in_array($response->getStatusCode(), [200, 201])) {
-            return collect(Paginator::setLink(json_decode($response->getBody(), true)));
+            return self::parseData($response);
         }
 
         return collect();
@@ -69,9 +69,19 @@ class GuzzleClient
         ]);
 
         if (in_array($response->getStatusCode(), [200, 201])) {
-            return collect(Paginator::setLink(json_decode($response->getBody(), true)));
+            return self::parseData($response);
         }
 
         return collect();
+    }
+
+    private static function parseData($response): Collection
+    {
+        $data = json_decode($response->getBody(), true);
+        if (isset($data['data']['data'])) {
+            return collect(Paginator::setLink($data));
+        } else {
+            return collect($data);
+        }
     }
 }
