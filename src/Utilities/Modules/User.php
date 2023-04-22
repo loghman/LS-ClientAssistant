@@ -9,6 +9,13 @@ use Ls\ClientAssistant\Core\Enums\OrderByEnum;
 
 class User extends ModuleUtility
 {
+    public static function me($barerToken): Collection
+    {
+        return GuzzleClient::get(('v1/user/me'), [
+            'headers' => ['Authorization' => 'Bearer ' . $barerToken],
+        ]);
+    }
+
     public static function get(string $idOrSlug, array $with = []): Collection
     {
         return GuzzleClient::get(('v1/users/' . $idOrSlug), [
