@@ -35,4 +35,18 @@ class LMSProduct extends ModuleUtility
             'per_page' => $perPage,
         ]);
     }
+
+    public static function queryParams(array $params, array $with = [], int $perPage = 20): Collection
+    {
+        $data = [
+            'with' => $with,
+            'per_page' => $perPage,
+        ];
+
+        foreach ($params as $key => $value) {
+            $data[$key] = $value;
+        }
+
+        return GuzzleClient::get('v1/lms/product/param', $data);
+    }
 }
