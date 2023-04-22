@@ -28,7 +28,7 @@ class TwoFaBasedAuth
     public static function verifyVerificationCode(string $mobileOrEmail, string $otp): Collection
     {
         $guzzle = GuzzleClient::self();
-        $response = $guzzle->post('v1/auth/verify', [
+        $response = $guzzle->post('v1/auth/verify-otp', [
             'form_params' => [
                 'auth_type' => 'OtpBased',
                 'input' => $mobileOrEmail,
