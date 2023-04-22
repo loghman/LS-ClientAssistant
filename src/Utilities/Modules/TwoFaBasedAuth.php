@@ -30,7 +30,7 @@ class TwoFaBasedAuth
         $guzzle = GuzzleClient::self();
         $response = $guzzle->post('v1/auth/verify-otp', [
             'form_params' => [
-                'auth_type' => 'OtpBased',
+                'auth_method' => 'OtpBased',
                 'input' => $mobileOrEmail,
                 'otp' => $otp,
             ],
@@ -48,7 +48,7 @@ class TwoFaBasedAuth
         $guzzle = GuzzleClient::self();
         $response = $guzzle->post('v1/auth/send-otp', [
             'form_params' => [
-                'auth_type' => 'OtpBased',
+                'auth_method' => 'OtpBased',
                 'input' => $mobileOrEmail,
             ],
         ]);
