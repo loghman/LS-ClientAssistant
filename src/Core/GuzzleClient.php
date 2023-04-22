@@ -10,6 +10,17 @@ use Ls\ClientAssistant\Utilities\Tools\Paginator;
 
 class GuzzleClient
 {
+
+    public static function self(): Client
+    {
+        return new Client([
+            'base_uri' => Config::get('endpoints.base'),
+            'headers' => [
+                'Client-Api-Key' => $GLOBALS['apikey'],
+            ],
+        ]);
+    }
+
     public static function get(string $uri, array $queryParam = []): Collection
     {
         $client = new Client([
