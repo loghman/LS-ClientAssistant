@@ -10,11 +10,14 @@ class Paginator
     {
         if (isset($paginatedData['data']['first_page_url'])) {
             $actualLink = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            $actualLink = str_replace('?' . $_SERVER['QUERY_STRING'], '', $actualLink);
             $firstPageUrl = $actualLink . substr($paginatedData['data']['first_page_url'], strpos($paginatedData['data']['first_page_url'], '?'));
             $lastPageUrl = $actualLink . substr($paginatedData['data']['last_page_url'], strpos($paginatedData['data']['last_page_url'], '?'));
+            $nextPageUrl = $actualLink . substr($paginatedData['data']['next_page_url'], strpos($paginatedData['data']['next_page_url'], '?'));
 
             $paginatedData['data']['first_page_url'] = $firstPageUrl;
             $paginatedData['data']['last_page_url'] = $lastPageUrl;
+            $paginatedData['data']['next_page_url'] = $nextPageUrl;
             $paginatedData['data']['path'] = $actualLink;
 
             foreach ($paginatedData['data']['links'] as $key => $link) {
