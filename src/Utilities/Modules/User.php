@@ -2,6 +2,7 @@
 
 namespace Ls\ClientAssistant\Utilities\Modules;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\GuzzleClient;
 use Ls\ClientAssistant\Core\Contracts\ModuleUtility;
@@ -11,9 +12,14 @@ class User extends ModuleUtility
 {
     public static function me($barerToken): Collection
     {
-        return GuzzleClient::get(('v1/user/me'), [
-            'headers' => ['Authorization' => 'Bearer ' . $barerToken],
+        $guzzle = GuzzleClient::self();
+        $response = $guzzle->get('v1/user/me', [
+            RequestOptions::HEADERS => [
+                'Authorization' => 'Bearer ' . $barerToken,
+            ]
         ]);
+
+        return collect(json_decode($response->getBody()->getContents()));
     }
 
     public static function get(string $idOrSlug, array $with = []): Collection
