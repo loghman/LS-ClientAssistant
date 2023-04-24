@@ -41,14 +41,17 @@ class GuzzleClient
         return collect();
     }
 
-    public static function put(string $uri, array $formParams = []): Collection
+    public static function put(string $uri, array $formParams = [], array $headers = []): Collection
     {
         $client = new Client();
-        $response = $client->put($uri, [
-            'headers' => [
-                'Client-Api-Key' => $GLOBALS['apikey'],
-            ],
-            'form_params' => $formParams,
+
+        $headerData = [];
+        $headerData['Client-Api-Key'] = $GLOBALS['apikey'];
+        $headerData['Content-Type'] = 'application/json';
+        $mergedHeaders = array_merge($headerData, $headers);
+        $response = $client->put((Config::get('endpoints.base') . $uri), [
+            'headers' => $mergedHeaders,
+            'json' => $formParams,
         ]);
 
         if (in_array($response->getStatusCode(), [200, 201])) {
@@ -58,13 +61,14 @@ class GuzzleClient
         return collect();
     }
 
-    public static function post(string $uri, array $formParams = []): Collection
+    public static function post(string $uri, array $formParams = [], array $headers = []): Collection
     {
         $client = new Client();
-        $response = $client->post($uri, [
-            'headers' => [
-                'Client-Api-Key' => $GLOBALS['apikey'],
-            ],
+        $headerData = [];
+        $headerData['Client-Api-Key'] = $GLOBALS['apikey'];
+        $mergedHeaders = array_merge($headerData, $headers);
+        $response = $client->post((Config::get('endpoints.base') . $uri), [
+            'headers' => $mergedHeaders,
             'form_params' => $formParams,
         ]);
 
