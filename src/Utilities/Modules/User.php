@@ -76,4 +76,11 @@ class User extends ModuleUtility
 
         return self::me($userToken);
     }
+
+    public static function logout(string $userToken): bool
+    {
+        $response = GuzzleClient::get('v1/auth/logout', [], ['Authorization' => 'Bearer ' . $userToken]);
+
+        return $response['success'];
+    }
 }

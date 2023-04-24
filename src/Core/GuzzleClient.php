@@ -21,13 +21,17 @@ class GuzzleClient
         ]);
     }
 
-    public static function get(string $uri, array $queryParam = []): Collection
+    public static function get(string $uri, array $queryParam = [], $headers = []): Collection
     {
+
+        $headerData = [];
+        $headerData['Client-Api-Key'] = $GLOBALS['apikey'];
+        $headerData['Content-Type'] = 'application/json';
+        $mergedHeaders = array_merge($headerData, $headers);
+
         $client = new Client([
             'base_uri' => Config::get('endpoints.base'),
-            'headers' => [
-                'Client-Api-Key' => $GLOBALS['apikey'],
-            ],
+            'headers' => $mergedHeaders
         ]);
 
         $response = $client->get((Config::get('endpoints.base') . $uri), [
@@ -49,6 +53,7 @@ class GuzzleClient
         $headerData['Client-Api-Key'] = $GLOBALS['apikey'];
         $headerData['Content-Type'] = 'application/json';
         $mergedHeaders = array_merge($headerData, $headers);
+
         $response = $client->put((Config::get('endpoints.base') . $uri), [
             'headers' => $mergedHeaders,
             'json' => $formParams,
@@ -67,6 +72,7 @@ class GuzzleClient
         $headerData = [];
         $headerData['Client-Api-Key'] = $GLOBALS['apikey'];
         $mergedHeaders = array_merge($headerData, $headers);
+
         $response = $client->post((Config::get('endpoints.base') . $uri), [
             'headers' => $mergedHeaders,
             'form_params' => $formParams,
