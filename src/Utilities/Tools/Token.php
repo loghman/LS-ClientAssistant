@@ -17,6 +17,13 @@ class Token
         return $self;
     }
 
+    public function remove(): void
+    {
+        if (isset($_COOKIE['token'])) {
+            unset($_COOKIE['token']);
+        }
+    }
+
     public function setCookie(): self
     {
         $this->setCookie = true;
