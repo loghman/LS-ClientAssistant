@@ -2,6 +2,7 @@
 
 namespace Ls\ClientAssistant\Services;
 
+use Ls\ClientAssistant\Helpers\Str;
 use Respect\Validation\Validator as v;
 
 class Validator
@@ -13,8 +14,8 @@ class Validator
     {
         $validator = new self();
 
-        $isEmail = v::stringVal()->email()->validate($data['input']);
-        $isMobile = v::numericVal()->regex('/((\+98|0)?9\d{9})|((\+)?\d{10,12})/')->validate($data['input']);
+        $isEmail = v::stringVal()->email()->validate(Str::toPersian($data['input']));
+        $isMobile = v::numericVal()->regex('/((\+98|0)?9\d{9})|((\+)?\d{10,12})/')->validate(Str::toPersian($data['input']));
 
         if (!$isEmail and !$isMobile) {
             $validator->ok = false;
@@ -24,7 +25,7 @@ class Validator
         }
 
         if (isset($data['password'])) {
-            $notBlankPassword = v::notBlank()->min(3)->validate($data['password']);
+            $notBlankPassword = v::notBlank()->min(3)->validate(Str::toPersian($data['input']));
             if (!$notBlankPassword) {
                 $validator->ok = false;
                 $validator->errors[] = 'رمز عبور نباید خالی باشد';
@@ -42,9 +43,9 @@ class Validator
     {
         $validator = new self();
 
-        $isEmail = v::stringVal()->email()->validate($data['input']);
-        $isMobile = v::numericVal()->regex('/((\+98|0)?9\d{9})|((\+)?\d{10,12})/')->validate($data['input']);
-        $isValidOtp = v::numericVal()->validate($data['otp']);
+        $isEmail = v::stringVal()->email()->validate(Str::toPersian($data['input']));
+        $isMobile = v::numericVal()->regex('/((\+98|0)?9\d{9})|((\+)?\d{10,12})/')->validate(Str::toPersian($data['input']));
+        $isValidOtp = v::numericVal()->validate(Str::toPersian($data['input']));
 
         if (!$isEmail and !$isMobile) {
             $validator->ok = false;
