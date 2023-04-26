@@ -38,14 +38,45 @@ class Validator
         return $validator;
     }
 
-    public static function verifyOtp()
+    public static function verifyOtp($data): self
     {
+        $validator = new self();
 
+        $isEmail = v::stringVal()->email()->validate($data['input']);
+        $isMobile = v::numericVal()->regex('/((\+98|0)?9\d{9})|((\+)?\d{10,12})/')->validate($data['input']);
+        $isValidOtp = v::numericVal()->validate($data['otp']);
+
+        if (!$isEmail and !$isMobile) {
+            $validator->ok = false;
+            $validator->errors[] = 'ورودی باید ایمیل یا موبایل باشد';
+
+            return $validator;
+        }
+
+        if (!$isValidOtp) {
+            $validator->ok = false;
+            $validator->errors[] = 'کد احراز هویت اجباری است';
+
+            return $validator;
+        }
+
+        $validator->ok = true;
+        return $validator;
     }
 
-    public static function validatePassword()
+    public static function password($data): self
     {
+        return new self();
+    }
 
+    public static function consultForm(): self
+    {
+        return new self();
+    }
+
+    public static function comment(): self
+    {
+        return new self();
     }
 
     public function errors(): array
