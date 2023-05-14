@@ -2,6 +2,7 @@
 
 namespace Ls\ClientAssistant\Utilities\Modules;
 
+use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\Contracts\ModuleUtility;
 use Ls\ClientAssistant\Core\Enums\OrderByEnum;
@@ -47,5 +48,17 @@ class Enrollment extends ModuleUtility
         ], ['Authorization' => 'Bearer ' . $userToken]);
 
         return GuzzleClient::parseData($response);
+    }
+
+    public static function logs(int $enrollmentId, string $userToken): Collection
+    {
+        $guzzle = GuzzleClient::self();
+        $response = $guzzle->get(('v1/lms/enrollment/' . $enrollmentId . '/logs'), [
+            RequestOptions::HEADERS => [
+                'Authorization' => 'Bearer ' . $userToken,
+            ]
+        ]);
+
+        return collect(json_decode($response->getBody()->getContents()));
     }
 }
