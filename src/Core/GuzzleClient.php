@@ -85,7 +85,7 @@ class GuzzleClient
         return collect();
     }
 
-    private static function parseData($response): Collection
+    public static function parseData($response): Collection
     {
         $data = json_decode($response->getBody(), true);
         if (isset($data['data']['data'])) {
