@@ -4,7 +4,6 @@ namespace Ls\ClientAssistant\Helpers;
 
 class Str
 {
-
     public static function contains($str, $needle, $case_sensitive = 0): bool
     {
         if ($case_sensitive) {

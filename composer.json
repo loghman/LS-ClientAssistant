@@ -4,7 +4,10 @@
     "autoload": {
         "psr-4": {
             "Ls\\ClientAssistant\\": "src/"
-        }
+        },
+        "files": [
+            "./framework_helpers.php"
+        ]
     },
     "authors": [
         {
