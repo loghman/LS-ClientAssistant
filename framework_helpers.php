@@ -2,7 +2,7 @@
 
 function site_url(string $uri): string
 {
-    return ($GLOBALS['appUrl'] ?? '') . '/' . $uri;
+    return ($GLOBALS['appUrl'] ?? '')  . $uri;
 }
 
 function asset_url(string $path): string
