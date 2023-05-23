@@ -113,12 +113,12 @@ class Validator
 
     public function errors(): array
     {
-        return [];
+        return $this->errors;
     }
 
     public function ok(): bool
     {
-        return true;
+        return $this->ok;
     }
 
     public function validatedData(): array
