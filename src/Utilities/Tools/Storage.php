@@ -8,7 +8,7 @@ use Ls\ClientAssistant\Core\GuzzleClient;
 
 class Storage
 {
-    public static function generateJwtToken(string $userToken): Collection
+    public static function generateJwtToken(string $userToken): ?string
     {
         $guzzle = GuzzleClient::self();
         $response = $guzzle->get('v1/storage-jwt-token', [
@@ -17,6 +17,6 @@ class Storage
             ]
         ]);
 
-        return collect(json_decode($response->getBody()->getContents()));
+        return json_decode($response->getBody()->getContents(), true)['data']['jwt-token'] ?? null;
     }
 }
