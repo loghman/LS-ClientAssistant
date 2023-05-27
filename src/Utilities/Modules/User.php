@@ -41,21 +41,21 @@ class User extends ModuleUtility
         ]);
     }
 
-    public static function me($barerToken): Collection
+    public static function me($userToken): Collection
     {
         $guzzle = GuzzleClient::self();
         $response = $guzzle->get('v1/user/me', [
             RequestOptions::HEADERS => [
-                'Authorization' => 'Bearer ' . $barerToken,
+                'Authorization' => 'Bearer ' . $userToken,
             ]
         ]);
 
         return collect(json_decode($response->getBody()->getContents()));
     }
 
-    public static function loggedIn(string $token): bool
+    public static function loggedIn(string $userToken): bool
     {
-        $user = self::me($token);
+        $user = self::me($userToken);
         return (!is_null($user['data']) or !empty($user['data']));
     }
 
@@ -82,5 +82,68 @@ class User extends ModuleUtility
         $response = GuzzleClient::get('v1/auth/logout', [], ['Authorization' => 'Bearer ' . $userToken]);
 
         return $response['success'];
+    }
+
+    public static function courses(string $userToken): Collection
+    {
+        return GuzzleClient::get('v1/user/enrollments', [], [
+            'Authorization' => 'Bearer ' . $userToken,
+        ]);
+    }
+
+    public static function stats(string $userToken): Collection
+    {
+        return GuzzleClient::get('v1/user/stats', [], [
+            'Authorization' => 'Bearer ' . $userToken,
+        ]);
+    }
+
+    public static function uploadResumeBanner($file, string $userToken, string $title = null, int $attachmentId = null): Collection
+    {
+        return GuzzleClient::put('v1/user/resume-banner', [
+            'file' => $file,
+            'title' => $title,
+            'attachment_id' => $attachmentId,
+        ], [
+            'Authorization' => 'Bearer ' . $userToken,
+        ]);
+    }
+
+    public static function updatePassword(string $currentPassword, string $password, string $passwordConfirmation, string $userToken): Collection
+    {
+        return GuzzleClient::put('v1/user/update-password', [
+            'current_password' => $currentPassword,
+            'password' => $password,
+            'password_confirmation' => $passwordConfirmation,
+        ], [
+            'Authorization' => 'Bearer ' . $userToken,
+        ]);
+    }
+
+    public static function sendOtpForMobileNumber(string $mobile, string $userToken): Collection
+    {
+        try {
+            return GuzzleClient::put('v1/user/send-otp-for-mobile-number', [
+                'input' => $mobile,
+            ], [
+                'Authorization' => 'Bearer ' . $userToken,
+            ]);
+        } catch (\Exception $exception) {
+            return collect($exception->getMessage());
+        }
+    }
+
+    public static function verifyCodeForUpdatingMobileNumber(string $mobile, string $otp, string $userToken): Collection
+    {
+        try {
+            return GuzzleClient::put('v1/user/verify-mobile-verification-code', [
+                'input' => $mobile,
+                'otp' => $otp,
+            ], [
+                'Authorization' => 'Bearer ' . $userToken,
+            ]);
+        } catch (\Exception $exception) {
+            return collect($exception->getMessage());
+        }
     }
 }

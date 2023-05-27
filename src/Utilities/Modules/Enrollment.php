@@ -37,17 +37,16 @@ class Enrollment extends ModuleUtility
         ]);
     }
 
-    public static function signal(int $enrollmentId, int $productItem, string $userToken, string $type): Collection
+    public static function signal(int $enrollmentId, int $productItem, string $type, string $userToken): void
     {
         if (!in_array($type, ['visited', 'completed', 'played'])) {
             throw new \InvalidArgumentException('Type must be in [visited, completed, played]');
         }
 
-        $response = GuzzleClient::put(('v1/lms/enrollment/' . $enrollmentId . '/signal/' . $productItem), [
+        $response = GuzzleClient::put(sprintf('v1/lms/enrollment/%s/signal/%s', $enrollmentId, $productItem), [
             'signal' => $type,
         ], ['Authorization' => 'Bearer ' . $userToken]);
 
-        return GuzzleClient::parseData($response);
     }
 
     public static function logs(int $enrollmentId, string $userToken): Collection
