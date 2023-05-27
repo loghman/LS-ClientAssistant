@@ -119,4 +119,31 @@ class User extends ModuleUtility
             'Authorization' => 'Bearer ' . $userToken,
         ]);
     }
+
+    public static function sendOtpForMobileNumber(string $mobile, string $userToken): Collection
+    {
+        try {
+            return GuzzleClient::put('v1/user/send-otp-for-mobile-number', [
+                'input' => $mobile,
+            ], [
+                'Authorization' => 'Bearer ' . $userToken,
+            ]);
+        } catch (\Exception $exception) {
+            return collect($exception->getMessage());
+        }
+    }
+
+    public static function verifyCodeForUpdatingMobileNumber(string $mobile, string $otp, string $userToken): Collection
+    {
+        try {
+            return GuzzleClient::put('v1/user/verify-mobile-verification-code', [
+                'input' => $mobile,
+                'otp' => $otp,
+            ], [
+                'Authorization' => 'Bearer ' . $userToken,
+            ]);
+        } catch (\Exception $exception) {
+            return collect($exception->getMessage());
+        }
+    }
 }
