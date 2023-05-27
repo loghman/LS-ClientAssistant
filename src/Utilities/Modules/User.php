@@ -100,7 +100,7 @@ class User extends ModuleUtility
 
     public static function uploadResumeBanner($file, string $userToken, string $title = null, int $attachmentId = null): Collection
     {
-        return GuzzleClient::put('v1/user/stats', [
+        return GuzzleClient::put('v1/user/resume-banner', [
             'file' => $file,
             'title' => $title,
             'attachment_id' => $attachmentId,
@@ -111,7 +111,7 @@ class User extends ModuleUtility
 
     public static function updatePassword(string $currentPassword, string $password, string $passwordConfirmation, string $userToken): Collection
     {
-        return GuzzleClient::put('v1/user/stats', [
+        return GuzzleClient::put('v1/user/update-password', [
             'current_password' => $currentPassword,
             'password' => $password,
             'password_confirmation' => $passwordConfirmation,

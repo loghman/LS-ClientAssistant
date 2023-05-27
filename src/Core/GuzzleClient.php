@@ -87,7 +87,11 @@ class GuzzleClient
 
     public static function parseData($response): Collection
     {
-        $data = json_decode($response->getBody(), true);
+        $data = json_decode($response->getBody() ?? '', true);
+        if (empty($data['data'])) {
+            return collect();
+        }
+
         if (isset($data['data']['data'])) {
             return collect(Paginator::setLink($data));
         } else {

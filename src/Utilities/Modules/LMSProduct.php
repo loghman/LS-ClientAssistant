@@ -55,8 +55,10 @@ class LMSProduct extends ModuleUtility
         return GuzzleClient::get(sprintf('v1/lms/product/%s/chapters', $productId));
     }
 
-    public static function chapterStats(int $productId, int $chapterId): Collection
+    public static function chapterStats(int $productId, int $chapterId, string $userToken): Collection
     {
-        return GuzzleClient::get(sprintf('v1/lms/product/%s/chapter/%s/stats', $productId, $chapterId));
+        return GuzzleClient::get(sprintf('v1/lms/product/%s/chapter/%s/stats', $productId, $chapterId), [], [
+            'Authorization' => 'Bearer ' . $userToken,
+        ]);
     }
 }
