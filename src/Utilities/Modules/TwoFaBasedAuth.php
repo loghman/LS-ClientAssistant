@@ -8,21 +8,27 @@ use Illuminate\Support\Collection;
 
 class TwoFaBasedAuth
 {
-    public static function login(string $mobileOrEmail): Collection
+    public static function login(string $mobileOrEmail): array
     {
         $guzzle = GuzzleClient::self();
-        $response = $guzzle->post('v1/auth/login', [
-            'form_params' => [
-                'auth_method' => 'OtpBased',
-                'input' => $mobileOrEmail,
-            ],
-        ]);
-
-        if (in_array($response->getStatusCode(), [200, 201])) {
-            return collect(json_decode($response->getBody()));
+        try {
+            $response = $guzzle->post('v1/auth/login', [
+                'form_params' => [
+                    'auth_method' => 'OtpBased',
+                    'input' => $mobileOrEmail,
+                ],
+            ]);
+        }catch (\Exception $e) {
+            return array_merge(
+                json_decode($e->getResponse()->getBody()->getContents(), true),
+                ['status' => $e->getCode()]
+            );
         }
 
-        return collect();
+        return array_merge(
+            json_decode($response->getBody()->getContents(), true),
+            ['status' => $response->getStatusCode()]
+        );
     }
 
     public static function verifyVerificationCode(string $mobileOrEmail, string $otp): Collection

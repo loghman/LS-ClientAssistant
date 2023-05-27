@@ -7,41 +7,54 @@ use Ls\ClientAssistant\Core\GuzzleClient;
 
 class PasswordBasedAuth
 {
-    public static function login(string $mobileOrEmail, string $password): Collection
+    public static function login(string $mobileOrEmail, string $password): array
     {
         $guzzle = GuzzleClient::self();
-        $response = $guzzle->post('v1/auth/login', [
-            'form_params' => [
-                'auth_method' => 'PasswordBased',
-                'input' => $mobileOrEmail,
-                'password' => $password,
-            ],
-        ]);
 
-        if (in_array($response->getStatusCode(), [200, 201])) {
-            return collect(json_decode($response->getBody()));
+        try {
+            $response = $guzzle->post('v1/auth/login', [
+                'form_params' => [
+                    'auth_method' => 'PasswordBased',
+                    'input' => $mobileOrEmail,
+                    'password' => $password,
+                ],
+            ]);
+        }catch (\Exception $e) {
+            return array_merge(
+                json_decode($e->getResponse()->getBody()->getContents(), true),
+                ['status' => $e->getCode()]
+            );
         }
 
-        return collect();
+        return array_merge(
+            json_decode($response->getBody()->getContents(), true),
+            ['status' => $response->getStatusCode()]
+        );
     }
 
-    public static function register(string $mobileOrEmail, string $password, string $passwordConfirmation): Collection
+    public static function register(string $mobileOrEmail, string $password, string $passwordConfirmation): array
     {
         $guzzle = GuzzleClient::self();
-        $response = $guzzle->post('v1/auth/register', [
-            'form_params' => [
-                'auth_method' => 'PasswordBased',
-                'input' => $mobileOrEmail,
-                'password' => $password,
-                'password_confirmation' => $passwordConfirmation,
-            ],
-        ]);
-
-        if (in_array($response->getStatusCode(), [200, 201])) {
-            return collect(json_decode($response->getBody()));
+        try {
+            $response = $guzzle->post('v1/auth/register', [
+                'form_params' => [
+                    'auth_method' => 'PasswordBased',
+                    'input' => $mobileOrEmail,
+                    'password' => $password,
+                    'password_confirmation' => $passwordConfirmation,
+                ],
+            ]);
+        }catch (\Exception $e) {
+            return array_merge(
+                json_decode($e->getResponse()->getBody()->getContents(), true),
+                ['status' => $e->getCode()]
+            );
         }
 
-        return collect();
+        return array_merge(
+            json_decode($response->getBody()->getContents(), true),
+            ['status' => $response->getStatusCode()]
+        );
     }
 
     public static function verifyVerificationCode(string $mobileOrEmail, string $otp): Collection
