@@ -4,6 +4,7 @@ namespace Ls\ClientAssistant\Utilities\Modules;
 
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\GuzzleClient;
+use Ls\ClientAssistant\Helpers\Response;
 
 class PasswordBasedAuth
 {
@@ -19,7 +20,7 @@ class PasswordBasedAuth
                     'password' => $password,
                 ],
             ]);
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return array_merge(
                 json_decode($e->getResponse()->getBody()->getContents(), true),
                 ['status' => $e->getCode()]
@@ -44,7 +45,7 @@ class PasswordBasedAuth
                     'password_confirmation' => $passwordConfirmation,
                 ],
             ]);
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return array_merge(
                 json_decode($e->getResponse()->getBody()->getContents(), true),
                 ['status' => $e->getCode()]
@@ -59,36 +60,44 @@ class PasswordBasedAuth
 
     public static function verifyVerificationCode(string $mobileOrEmail, string $otp): Collection
     {
-        $guzzle = GuzzleClient::self();
-        $response = $guzzle->post('v1/auth/verify-otp', [
-            'form_params' => [
-                'auth_method' => 'PasswordBased',
-                'input' => $mobileOrEmail,
-                'otp' => $otp,
-            ],
-        ]);
+        try {
+            $guzzle = GuzzleClient::self();
+            $response = $guzzle->post('v1/auth/verify-otp', [
+                'form_params' => [
+                    'auth_method' => 'PasswordBased',
+                    'input' => $mobileOrEmail,
+                    'otp' => $otp,
+                ],
+            ]);
 
-        if (in_array($response->getStatusCode(), [200, 201])) {
-            return collect(json_decode($response->getBody()));
+            if (in_array($response->getStatusCode(), [200, 201])) {
+                return collect(json_decode($response->getBody()));
+            }
+
+            return collect();
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
         }
-
-        return collect();
     }
 
     public static function sendVerificationCode($mobileOrEmail): Collection
     {
-        $guzzle = GuzzleClient::self();
-        $response = $guzzle->post('v1/auth/send-otp', [
-            'form_params' => [
-                'auth_method' => 'PasswordBased',
-                'input' => $mobileOrEmail,
-            ],
-        ]);
+        try {
+            $guzzle = GuzzleClient::self();
+            $response = $guzzle->post('v1/auth/send-otp', [
+                'form_params' => [
+                    'auth_method' => 'PasswordBased',
+                    'input' => $mobileOrEmail,
+                ],
+            ]);
 
-        if (in_array($response->getStatusCode(), [200, 201])) {
-            return collect(json_decode($response->getBody()));
+            if (in_array($response->getStatusCode(), [200, 201])) {
+                return collect(json_decode($response->getBody()));
+            }
+
+            return collect();
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
         }
-
-        return collect();
     }
 }

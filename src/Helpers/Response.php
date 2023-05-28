@@ -24,4 +24,22 @@ class Response
 
         return collect();
     }
+
+    public static function parseException(\Exception $exception): Collection
+    {
+        return collect([
+            'success' => false,
+            'message' => json_decode($exception->getResponse()->getBody()->getContents() ?? '', true),
+            'data' => [],
+        ]);
+    }
+
+    public static function success(string $message = '', array $data = []): Collection
+    {
+        return collect([
+            'success' => true,
+            'message' => $message,
+            'data' => $data,
+        ]);
+    }
 }
