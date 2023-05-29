@@ -86,4 +86,40 @@ class LMSProduct extends ModuleUtility
             return Response::parseException($exception);
         }
     }
+
+    public static function nextItem(int $productId, int $itemId): Collection
+    {
+        try {
+            return GuzzleClient::get(sprintf('v1/lms/product/%s/item/%s/next', $productId, $itemId));
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
+    public static function prevItem(int $productId, int $itemId): Collection
+    {
+        try {
+            return GuzzleClient::get(sprintf('v1/lms/product/%s/item/%s/prev', $productId, $itemId));
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
+    public static function nextChapter(int $productId, int $chapterId): Collection
+    {
+        try {
+            return GuzzleClient::get(sprintf('v1/lms/product/%s/item/%s/next', $productId, $chapterId));
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
+    public static function prevChapter(int $productId, int $chapterId): Collection
+    {
+        try {
+            return GuzzleClient::get(sprintf('v1/lms/product/%s/item/%s/prev', $productId, $chapterId));
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
 }
