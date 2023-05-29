@@ -64,7 +64,7 @@ class User extends ModuleUtility
                 ]
             ]);
 
-            return collect(json_decode($response->getBody()->getContents()));
+            return GuzzleClient::parseData($response);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
