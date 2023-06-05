@@ -85,6 +85,26 @@ class GuzzleClient
         return collect();
     }
 
+    public static function delete(string $uri, array $formParams = [], array $headers = []): Collection
+    {
+        $client = new Client();
+        $headerData = [];
+        $headerData['Client-Api-Key'] = $GLOBALS['apikey'];
+        $mergedHeaders = array_merge($headerData, $headers);
+
+        $response = $client->delete((Config::get('endpoints.base') . $uri), [
+            'headers' => $mergedHeaders,
+            'form_params' => $formParams,
+        ]);
+
+        if (in_array($response->getStatusCode(), [200, 201])) {
+            return self::parseData($response);
+        }
+
+        return collect();
+    }
+
+
     public static function parseData($response): Collection
     {
         $data = json_decode($response->getBody() ?? '', true);
