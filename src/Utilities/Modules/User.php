@@ -165,6 +165,21 @@ class User extends ModuleUtility
         }
     }
 
+    public static function uploadProfileImage($file, string $userToken, string $title = null, int $attachmentId = null): Collection
+    {
+        try {
+            return GuzzleClient::put('v1/user/upload-profile-image', [
+                'file' => $file,
+                'title' => $title,
+                'attachment_id' => $attachmentId,
+            ], [
+                'Authorization' => 'Bearer ' . $userToken,
+            ]);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
     public static function sendOtpForMobileNumber(string $mobile, string $userToken): Collection
     {
         try {

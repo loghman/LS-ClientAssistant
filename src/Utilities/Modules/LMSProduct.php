@@ -122,4 +122,43 @@ class LMSProduct extends ModuleUtility
             return Response::parseException($exception);
         }
     }
+
+    public static function faculty(int $productId): Collection
+    {
+        try {
+            return GuzzleClient::get(sprintf('v1/lms/product/%s/faculty', $productId));
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
+    public static function demo(int $productId): Collection
+    {
+        try {
+            return GuzzleClient::get(sprintf('v1/lms/product/%s/demo', $productId));
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
+    public static function createTopic(array $data, string $userToken): Collection
+    {
+        try {
+            return GuzzleClient::post('v1/support/topic', [
+                'entity_type' => 'lms_product_items',
+                'entity_id' => $data['item_id'],
+                'title' => $data['title'],
+                'content' => $data['content'],
+                'attachment' => $data['attachment'] ?? null,
+                'is_anonymous' => $data['is_anonymous'] ?? null,
+                'section' => $data['section'] ?? null,
+                'community' => $data['community'] ?? null,
+                'department' => $data['department'] ?? null,
+            ], [
+                'Authorization' => 'Bearer ' . $userToken,
+            ]);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
 }
