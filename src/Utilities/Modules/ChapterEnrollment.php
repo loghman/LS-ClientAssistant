@@ -11,7 +11,7 @@ class ChapterEnrollment
     public static function forUser(string $userToken): Collection
     {
         try {
-            return GuzzleClient::put('v1/user/chapter-enrollments', [], [
+            return GuzzleClient::get('v1/user/chapter-enrollments', [], [
                 'Authorization' => 'Bearer ' . $userToken,
             ]);
         } catch (\Exception $exception) {
