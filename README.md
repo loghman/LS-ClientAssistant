@@ -70,6 +70,124 @@ all the result from utilites are type of ``Collection`` that comes with some use
 
 
 
+### me
+
+To get the all information about a user, you just need to pass the user token to the ``me`` method.
+
+```php
+User::me($userToken);
+```
+
+### loggedIn
+
+If you want to check if nor user is logged in you just need to call ``loggedIn`` method and pass userToken.
+
+```php
+User::loggedIn($userToken);
+```
+
+### logout
+
+```php
+User::logout($userToken);
+```
+
+### updateUserInfo
+
+To update user information like (real_name, display_name, gender, birth_date) you just need to pass mentioned data as an array and userToken as second argument.
+
+```php
+User::updateUserInfo($data, $userToken);
+```
+
+A real example could be:
+
+```php
+User::updateUserInfo([
+    'real_name' => 'Amir Salehi',
+    'display_name' => 'Amir',
+    'gender' => 'male',
+    'birth_date' => '2001-09-27',
+], $userToken);
+```
+
+
+### courses
+
+To get all the courses that user has purchased.
+
+```php
+User::courses($userToken);
+```
+
+
+### stats
+
+Stats include (courses_count, questions_count, comments_count, days_with_platform)
+
+```php
+User::stats($userToken);
+```
+
+### uploadResumeBanner
+
+To upload user resume's benner.
+
+Paramters:
+
+1. file (uploaded file's response content)
+1. userToken
+1. title (optional)
+1. attachment id (optional - for updating resume banner)
+
+```php
+User::uploadResumeBanner($file, $userToken, $title, $attachmentId);
+```
+
+### updatePassword
+
+To update user password.
+
+Parameters:
+
+1. current password
+2. new password
+3. password confirmation
+4. user token
+
+```php
+User::updatePassword($currentPassword, $newPassword, $passwordConfirmation, $userToken);
+```
+
+### uploadProfileImage
+
+To upload profile image
+
+1. file (uploaded file's response content)
+2. userToken
+3. title (optional)
+4. attachment id (optional - for updating user profile image)
+
+```php
+User::uploadProfileImage($file, $userToken, $title, $attachmentId);
+```
+
+### Update user mobile
+
+In updating user mobile scenario, you first need to send an otp for user and then verify it.
+
+#### sendOtpForMobileNumber
+
+```php
+User::sendOtpForMobileNumber($mobile, $userToken);
+```
+
+#### verifyCodeForUpdatingMobileNumber
+
+```php
+User::verifyCodeForUpdatingMobileNumber($mobile, $otp, $userToken);
+```
+
 
 
 # Enrollments
