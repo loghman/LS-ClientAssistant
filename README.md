@@ -59,13 +59,11 @@ Parameters:
 LMSProduct::queryParams();
 ```
 
-
 ### Return type of methods
 
 all the result from utilites are type of ``Collection`` that comes with some useful feature that you can use in your projects. To get more information about collections click on the link below.
 
 [Laravel collections](https://laravel.com/docs/10.x/collections)
-
 
 # Authentication
 
@@ -74,7 +72,6 @@ There are two different authentication method you can use that are ``PasswordBas
 When user is successfully loggeed in or registered a token will be returned that you can store that token in user browser cookies to keep the user logged in.
 
 ## Password based
-
 
 ### Login
 
@@ -123,9 +120,7 @@ To send an otp again.
 PasswordBasedAuth::sendVerificationCode($mobileOrEmail);
 ```
 
-
 ## Two fa based
-
 
 ### login
 
@@ -179,8 +174,6 @@ Just like that.
 
 # User
 
-
-
 ### me
 
 To get the all information about a user, you just need to pass the user token to the ``me`` method.
@@ -222,7 +215,6 @@ User::updateUserInfo([
 ], $userToken);
 ```
 
-
 ### courses
 
 To get all the courses that user has purchased.
@@ -230,7 +222,6 @@ To get all the courses that user has purchased.
 ```php
 User::courses($userToken);
 ```
-
 
 ### stats
 
@@ -247,9 +238,9 @@ To upload user resume's benner.
 Paramters:
 
 1. file (uploaded file's response content)
-1. userToken
-1. title (optional)
-1. attachment id (optional - for updating resume banner)
+2. userToken
+3. title (optional)
+4. attachment id (optional - for updating resume banner)
 
 ```php
 User::uploadResumeBanner($file, $userToken, $title, $attachmentId);
@@ -299,8 +290,6 @@ User::sendOtpForMobileNumber($mobile, $userToken);
 User::verifyCodeForUpdatingMobileNumber($mobile, $otp, $userToken);
 ```
 
-
-
 # CMS
 
 CMS class includes five funtionalities that four of them are type of ``Common methods`` that are explained at first (``get``, ``list``, ``search``).
@@ -319,11 +308,9 @@ Parameters:
 CMS::signal($postId, 'like', 1);
 ```
 
-
 # Cart
 
 Cart includes the ``common methods`` (``get``, ``list``, ``search``). Basically cart is for the shoppng basket in your website.
-
 
 # Chapter enrollment
 
@@ -333,10 +320,7 @@ User might have enrolled just some chapters that you can get the purchased chapt
 ChapterEnrollment::forUser($userToken);
 ```
 
-
 # Comments
-
-
 
 ### Comments of a product
 
@@ -351,7 +335,6 @@ Parameters:
 Comment::getLMSProductComments($productId, $perPage);
 ```
 
-
 ### Comments of a post
 
 To get all the comments of a post.
@@ -364,7 +347,6 @@ Parameters:
 ```php
 Comment::getPostComments($postId, $perPage);
 ```
-
 
 ### Comments of a shop product
 
@@ -379,11 +361,9 @@ Parameters:
 Comment::getShopProductComments($shopId, $perPage);
 ```
 
-
 # Coupon
 
 Coupon has three ``Commen methods`` that mentioned at first. Basically you can get information about existed coupons in platform by using this class.
-
 
 # Enrollments
 
@@ -426,17 +406,13 @@ Parameters:
 Enrollment::signal(1, 1, 'visited', $userToken);
 ```
 
-
-
 # Gift
 
 Gift are for gamification section that has three ``Common methods`` that are mentioned at first (``get``, ``list``, ``search``).
 
-
 # LMS Product
 
 LMS Product comes with a lot of funcationally and some of the are ``Common methods`` that are mentioned at first (``get``, ``list``, ``search``, ``queryParams``).
-
 
 ### chapters
 
@@ -445,7 +421,6 @@ To get all the chapters of a product.
 ```php
 LMSProduct::chapters($productId);
 ```
-
 
 ### chapterStats
 
@@ -468,7 +443,6 @@ To get the next item's data of an item (like a video of a session that user is w
 ```php
 LMSProduct::nextItem($productId, $itemId);
 ```
-
 
 ### prevItem
 
@@ -494,7 +468,6 @@ To get the previous chapter's data.
 LMSProduct::prevChapter($productId, $chapterId);
 ```
 
-
 ### faculty
 
 To get all the information about teachers and mentors of an product.
@@ -502,7 +475,6 @@ To get all the information about teachers and mentors of an product.
 ```php
 LMSProduct::faculty($productId);
 ```
-
 
 ### demo
 
@@ -532,7 +504,6 @@ LMSProduct::createTopic([
 
 QC consists of three ``common methods`` that are mentioned at first (``get``, ``list``, ``search``).
 
-
 ### addReview
 
 To add a review for a product
@@ -552,8 +523,6 @@ QC::addReview([
     'rate' => 5,
 ], $userToken);
 ```
-
-
 
 # Support
 
@@ -576,7 +545,6 @@ Parameters:
 SupportCommunity::list();
 ```
 
-
 ### stats
 
 To get the stats about community like (active\_students, topics\_count, community\_count)
@@ -585,13 +553,11 @@ To get the stats about community like (active\_students, topics\_count, communit
 SupportCommunity::stats();
 ```
 
-
 ## Topic
 
 Topic includes three ``Common methods`` that are mentioned at first (``get``, ``list``, ``search``).
 
 ## Reply
-
 
 ### reply
 
@@ -608,7 +574,6 @@ SupportReply::reply([
     'content' => 'this is a reply',
 ], $userToken);
 ```
-
 
 ### update
 
@@ -655,10 +620,10 @@ Parameters:
 SupportReply::delete($topicId, $replyId, $userToken);
 ```
 
-
 # Survery
 
 Survery includes three Common methods that are mentioned at first (``get``, ``list``, ``search``).
 
-
 # Term
+
+Term includes three Common methods that are mentioned at first (``get``, ``list``, ``search``).
