@@ -72,6 +72,12 @@
     * [delete](#delete)
 * [Survey](#survey)
 * [Term](#term)
+* [Tools](#tools)
+
+  * [Datetime](#datetime)
+  * [IP](#ip)
+  * [Lang](#lang)
+  * [Price](#price)
 
 
 
@@ -704,3 +710,53 @@ Survery includes three Common methods that are mentioned at first (``get``, ``li
 # Term
 
 Term includes three Common methods that are mentioned at first (``get``, ``list``, ``search``).
+
+
+
+# Tools
+
+Some useful tools are implemented to provide you better experience working with this framework
+
+## DateTime
+
+To covert english date time to persian.
+
+```php
+DateTime::toPersianDate($enDate);
+```
+
+## IP
+
+To get the user IP.
+
+```php
+IP::get();
+```
+
+To get info about ip
+
+```php
+IP::info($ip);
+```
+
+## Lang
+
+To convert persian number to english.
+
+```php
+Lang::persianNumbers($number);
+```
+
+To convert english number to persian.
+
+```php
+Lang::latinNumbers($number);
+```
+
+## Price
+
+To convert price to persian price.
+
+```php
+Price::toPersianPrice($price);
+```
