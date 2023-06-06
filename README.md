@@ -303,7 +303,7 @@ User::verifyCodeForUpdatingMobileNumber($mobile, $otp, $userToken);
 
 # CMS
 
-CMS class includes five funtionalities that four of them are type of ``Common methods`` that are explained at first.
+CMS class includes five funtionalities that four of them are type of ``Common methods`` that are explained at first (``get``, ``list``, ``search``).
 
 ### Signal
 
@@ -322,7 +322,7 @@ CMS::signal($postId, 'like', 1);
 
 # Cart
 
-Cart includes the ``common methods``. Basically cart is for the shoppng basket in your website.
+Cart includes the ``common methods`` (``get``, ``list``, ``search``). Basically cart is for the shoppng basket in your website.
 
 
 # Chapter enrollment
@@ -387,9 +387,11 @@ Coupon has three ``Commen methods`` that mentioned at first. Basically you can g
 
 # Enrollments
 
-### Logs
+Enrollment has three ``commen methods`` that are mentioned at first (``get``, ``list``, ``search``). but also it comes with two new methods called ``logs`` and ``signal``.
 
-To get the logs of a enrollment to just can easily call the ``logs`` method statically. The logs include all the information about every single session that user has viewed or played.
+### logs
+
+To get the logs of a enrollment to just can easily call the ``logs`` method statically. The logs include all the information about every single session that user has viewed, played or completed.
 
 First of all you need to ``use`` the Enrollment class in first line of your code.
 
@@ -408,7 +410,7 @@ Paramters:
 Enrollment::logs(4, $userToken);
 ```
 
-### Signal
+### signal
 
 Signals are a comment pattern in this framework that you can do some little action, for example, you can signal the action that user just played a video or viewed the session page.
 In order to that you can use the sample code below.
@@ -422,4 +424,106 @@ Parameters:
 
 ```php
 Enrollment::signal(1, 1, 'visited', $userToken);
+```
+
+
+
+# Gift
+
+Gift are for gamification section that has three ``Common methods`` that are mentioned at first (``get``, ``list``, ``search``).
+
+
+# LMS Product
+
+LMS Product comes with a lot of funcationally and some of the are ``Common methods`` that are mentioned at first (``get``, ``list``, ``search``, ``queryParams``).
+
+
+### chapters
+
+To get all the chapters of a product.
+
+```php
+LMSProduct::chapters($productId);
+```
+
+
+### chapterStats
+
+To get the stats about chapters that includes (chapter\_complete\_percentage)
+
+Parameters:
+
+1. product id
+2. chapter id
+3. user token
+
+```php
+LMSProduct::chapterStats($productId, $chapterId, $userToken);
+```
+
+### nextItem
+
+To get the next item's data of an item (like a video of a session that user is watching).
+
+```php
+LMSProduct::nextItem($productId, $itemId);
+```
+
+
+### prevItem
+
+To get the previous item's data of an item (like a video of a session that user is watching).
+
+```php
+LMSProduct::prevItem($productId, $itemId);
+```
+
+### nextChaper
+
+To get the next chapter's data.
+
+```php
+LMSProduct::nextChapter($productId, $chapterId);
+```
+
+### prevChapter
+
+To get the previous chapter's data.
+
+```php
+LMSProduct::prevChapter($productId, $chapterId);
+```
+
+
+### faculty
+
+To get all the information about teachers and mentors of an product.
+
+```php
+LMSProduct::faculty($productId);
+```
+
+
+### demo
+
+To get the free items of a product which are known for demo.
+
+```php
+LMSProduct::demo($productId);
+```
+
+### createTopic
+
+To create a topic for an item (session) of a product.
+
+Parameters:
+
+1. data (includes: item_id, title, content, attachment(optional), is_anonymous(optional), section(optional), community(optional), department(optional))
+2. userToken
+
+```php
+LMSProduct::createTopic([
+    'title' => 'How to print a hello world in javascript?',
+    'content' => 'The long content of How to print a hello world in javascript?'
+], $userToken);
 ```
