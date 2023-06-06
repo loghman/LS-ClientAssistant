@@ -9,7 +9,7 @@ The get method is for fetch a single item, take a look at the example below
 Parameters:
 
 1. id or slug
-2. with (this parameter is when you want someting that is related to it, like you want to have prodcut and the creator data then you pass like this: ['user'])
+2. with (optional - this parameter is when you want someting that is related to it, like you want to have prodcut and the creator data then you pass like this: ['user'])
 
 ```php
 LMSProduct::get(1, ['user']);
@@ -21,10 +21,10 @@ To get the list of someting you can just easily call list method, list method co
 
 Paramters:
 
-1. with
-2. keyValues (for filtering)
-3. perPage (for pagination, the defualt number is 20 and it means 20 items per page)
-4. orderBy (you can set an order for returned collection which the default is ``OrderByEnum::LATEST``)
+1. with (optional)
+2. keyValues (optional - for filtering)
+3. perPage (optional - for pagination, the defualt number is 20 and it means 20 items per page)
+4. orderBy (optional - you can set an order for returned collection which the default is ``OrderByEnum::LATEST``)
 
 ```php
 LMSProduct::list();
@@ -36,13 +36,13 @@ To search items you can use search method statically and it comes with four argu
 
 Parameters:
 
-1. keyword (the keyword you wanna search for)
-2. columns (the columns name you want to be returned)
-3. with
-4. perPage
+1. keyword (optional - the keyword you wanna search for)
+2. columns (optional - the columns name you want to be returned)
+3. with (optional)
+4. perPage (optional)
 
 ```php
-LMSProduct::search()
+LMSProduct::search();
 ```
 
 ### queryParams
@@ -56,7 +56,7 @@ Parameters:
 3. perPage
 
 ```php
-LMSProduct::queryParams()
+LMSProduct::queryParams();
 ```
 
 
@@ -65,6 +65,117 @@ LMSProduct::queryParams()
 all the result from utilites are type of ``Collection`` that comes with some useful feature that you can use in your projects. To get more information about collections click on the link below.
 
 [Laravel collections](https://laravel.com/docs/10.x/collections)
+
+
+# Authentication
+
+There are two different authentication method you can use that are ``PasswordBasedAuth`` and ``TwoFaBasedAuth``.
+
+When user is successfully loggeed in or registered a token will be returned that you can store that token in user browser cookies to keep the user logged in.
+
+## Password based
+
+
+### Login
+
+To login with your (mobile, email) and password.
+
+```php
+PasswordBasedAuth::login($mobileOrEmail, $password);
+```
+
+If user already exists a token will be returned as result.
+
+### Register
+
+To register you need to pass the parameters below:
+
+1. mobileOrEmail
+2. password
+3. password confirmation
+
+```php
+PasswordBasedAuth::register($mobileOrEmail, $password, $passwordConfirmation);
+```
+
+After calling the ``register`` method a otp will be sent to the user and you have to verify it.
+
+### verifyVerificationCode
+
+To verify otp.
+
+Parameters:
+
+1. mobileOrEmail
+2. otp
+
+```php
+PasswordBasedAuth::verifyVerificationCode($mobileOrEmail, $otp);
+```
+
+If the otp is valid a token will be returned.
+
+### sendVerificationCode
+
+To send an otp again.
+
+```php
+PasswordBasedAuth::sendVerificationCode($mobileOrEmail);
+```
+
+
+## Two fa based
+
+
+### login
+
+To login or register.
+
+```php
+TwoFaBasedAuth::login($mobileOrEmail);
+```
+
+An otp will be sent to the user then user has to verify it in order to get the token to be logged in.
+
+### verifyVerificationCode
+
+```php
+TwoFaBasedAuth::verifyVerificationCode($mobileOrEmail, $otp);
+```
+
+If the otp is valid then a token will be returned as result.
+
+### sendVerificationCode
+
+To an otp again
+
+```php
+TwoFaBasedAuth::sendVerificationCode($mobileOrEmail);
+```
+
+### logout
+
+```php
+TwoFaBasedAuth::logout($userToken);
+```
+
+## Storing the token in user browser
+
+To store the returned token in authentication scenario, we provide the ``Token`` class.
+
+```php
+Token::token($token)->setCookie()->weeks(2);
+```
+
+We just stored the token for 2 weeks in user browser, there are also other methods you can use instead of ``weeks`` like ``seconds``, ``minutes``, ``hours``, ``days`` and ``weeks``.
+
+You can also delete the token.
+
+```php
+Token::token($token)->remove();
+```
+
+Just like that.
 
 # User
 
