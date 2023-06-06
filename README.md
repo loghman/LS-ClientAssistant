@@ -1,3 +1,13 @@
+* [Common methods](#commonmethods)
+  * [get](#get)
+  * [list](#list)
+  * [search](#search)
+  * [queryParams](#queryparams)
+  * [return type of methods](#returntypeofmethods)
+* [Authentication](#authentication)
+
+
+
 # Common methods
 
 Most of the utilities has three method including ``get``, ``list``, ``search`` that you can use statically
