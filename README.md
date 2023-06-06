@@ -478,7 +478,7 @@ To get the previous item's data of an item (like a video of a session that user 
 LMSProduct::prevItem($productId, $itemId);
 ```
 
-### nextChaper
+### nextChapter
 
 To get the next chapter's data.
 
