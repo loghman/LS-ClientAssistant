@@ -527,3 +527,138 @@ LMSProduct::createTopic([
     'content' => 'The long content of How to print a hello world in javascript?'
 ], $userToken);
 ```
+
+# QC
+
+QC consists of three ``common methods`` that are mentioned at first (``get``, ``list``, ``search``).
+
+
+### addReview
+
+To add a review for a product
+
+Parameters:
+
+1. product id
+2. item id
+3. rate
+4. comment (optional)
+5. userToken
+
+```php
+QC::addReview([
+   'product_id' => 1,
+    'item_id' => 1,
+    'rate' => 5,
+], $userToken);
+```
+
+
+
+# Support
+
+Support section consists of three sections that are community, topic and reply.
+
+## Community
+
+### list
+
+To get the list of communities.
+
+Parameters:
+
+1. with (optional)
+2. keyValue (optional)
+3. perPage (optional)
+4. orderBy (optional)
+
+```php
+SupportCommunity::list();
+```
+
+
+### stats
+
+To get the stats about community like (active\_students, topics\_count, community\_count)
+
+```php
+SupportCommunity::stats();
+```
+
+
+## Topic
+
+Topic includes three ``Common methods`` that are mentioned at first (``get``, ``list``, ``search``).
+
+## Reply
+
+
+### reply
+
+To reply a topic.
+
+Parameters:
+
+1. data (topic_id, content, attachment(optional))
+2. userToken
+
+```php
+SupportReply::reply([
+    'topic_id' => 1,
+    'content' => 'this is a reply',
+], $userToken);
+```
+
+
+### update
+
+To update a reply.
+
+Parameters:
+
+1. data (topic_id, replye_id, content, attachment(optional))
+2. userToken
+
+```php
+SupportReply::update([
+    'topic_id' => 1,
+    'reply_id' => 1,
+    'content' => 'this is a reply',
+], $userToken);
+```
+
+### like
+
+To like a reply.
+
+Parameters:
+
+1. topic id
+2. reply id
+3. userToken
+
+```php
+SupportReply::like($topicId, $replyId, $userToken);
+```
+
+### delete
+
+To delete a reply.
+
+Parameters:
+
+1. topic id
+2. reply id
+3. userToken
+
+```php
+SupportReply::delete($topicId, $replyId, $userToken);
+```
+
+
+# Survery
+
+Survery includes three Common methods that are mentioned at first (``get``, ``list``, ``search``).
+
+
+# Term
