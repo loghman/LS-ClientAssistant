@@ -1,4 +1,4 @@
-# Common method
+# Common methods
 
 Most of the utilities has three method including ``get``, ``list``, ``search`` that you can use statically
 
@@ -299,6 +299,90 @@ User::sendOtpForMobileNumber($mobile, $userToken);
 User::verifyCodeForUpdatingMobileNumber($mobile, $otp, $userToken);
 ```
 
+
+
+# CMS
+
+CMS class includes five funtionalities that four of them are type of ``Common methods`` that are explained at first.
+
+### Signal
+
+Signal include actions like (visit, like, dislike, rate, bookmark), for example to save a new like for a post you just need to write the code below:
+
+Parameters:
+
+1. post id
+2. type (visit, like, dislike, rate, bookmark)
+3. value
+
+```php
+CMS::signal($postId, 'like', 1);
+```
+
+
+# Cart
+
+Cart includes the ``common methods``. Basically cart is for the shoppng basket in your website.
+
+
+# Chapter enrollment
+
+User might have enrolled just some chapters that you can get the purchased chapters via this class.
+
+```php
+ChapterEnrollment::forUser($userToken);
+```
+
+
+# Comments
+
+
+
+### Comments of a product
+
+To get all the comments of a product.
+
+Parameters:
+
+1. Product id
+2. perPage (optional - for pagination, the default value is 20)
+
+```php
+Comment::getLMSProductComments($productId, $perPage);
+```
+
+
+### Comments of a post
+
+To get all the comments of a post.
+
+Parameters:
+
+1. post id
+2. perPage (optional - for pagination, the default value is 20)
+
+```php
+Comment::getPostComments($postId, $perPage);
+```
+
+
+### Comments of a shop product
+
+To get all the comments of a shop product.
+
+Parameters:
+
+1. shop id
+2. perPage (optional - for pagination, the default value is 20)
+
+```php
+Comment::getShopProductComments($shopId, $perPage);
+```
+
+
+# Coupon
+
+Coupon has three ``Commen methods`` that mentioned at first. Basically you can get information about existed coupons in platform by using this class.
 
 
 # Enrollments
