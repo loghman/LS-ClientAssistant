@@ -48,4 +48,20 @@ class SupportTopic extends ModuleUtility
             return Response::parseException($exception);
         }
     }
+
+    public static function getProductItemTopics(int $productItemId, array $with = [], array $keyValues = [], int $perPage = 20, $orderBy = OrderByEnum::LATEST): Collection
+    {
+        try {
+            return GuzzleClient::get('v1/support/topic', [
+                'with' => json_encode($with),
+                'filter' => json_encode($keyValues),
+                'order_by' => $orderBy,
+                'per_page' => $perPage,
+                'entity_id' => $productItemId,
+                'entity_type' => 'lms_product_items',
+            ]);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
 }

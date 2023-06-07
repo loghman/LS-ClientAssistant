@@ -3,13 +3,24 @@
 namespace Ls\ClientAssistant\Utilities\Modules;
 
 use Illuminate\Support\Collection;
-use Ls\ClientAssistant\Core\Contracts\ModuleUtility;
 use Ls\ClientAssistant\Core\Enums\OrderByEnum;
 use Ls\ClientAssistant\Core\GuzzleClient;
 use Ls\ClientAssistant\Helpers\Response;
 
 class SupportCommunity
 {
+
+    public static function get(int $id, array $with = []): Collection
+    {
+        try {
+            return GuzzleClient::get('v1/support/community/' . $id, [
+                'with' => json_encode($with),
+            ]);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
     public static function list(array $with = [], array $keyValues = [], int $perPage = 20, $orderBy = OrderByEnum::LATEST): Collection
     {
         try {
