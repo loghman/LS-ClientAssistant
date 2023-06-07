@@ -8,7 +8,7 @@ use Ls\ClientAssistant\Helpers\Response;
 
 class SupportReply
 {
-    public static function reply(array $data, string $userToken): Collection
+    public static function create(array $data, string $userToken): Collection
     {
         try {
             return GuzzleClient::post(sprintf("v1/support/topic/%s/reply", $data['topic_id']), [
