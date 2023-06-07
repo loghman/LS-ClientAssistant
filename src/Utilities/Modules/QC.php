@@ -13,7 +13,7 @@ class QC extends ModuleUtility
     public static function get(string $idOrSlug, array $with = []): Collection
     {
         try {
-            return GuzzleClient::get('v1/lms/review' . $idOrSlug, [
+            return GuzzleClient::get('v1/lms/review/' . $idOrSlug, [
                 'with' => json_encode($with)
             ]);
         } catch (\Exception $exception) {
