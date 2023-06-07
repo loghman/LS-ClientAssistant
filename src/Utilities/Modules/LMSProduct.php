@@ -67,10 +67,16 @@ class LMSProduct extends ModuleUtility
         }
     }
 
-    public static function chapters(int $productId): Collection
+    public static function chapters(int $productId, string $userToken = null): Collection
     {
+        $headers = [];
+        if (!is_null($userToken)) {
+            $headers = [
+                'Authorization' => 'Bearer ' . $userToken,
+            ];
+        }
         try {
-            return GuzzleClient::get(sprintf('v1/lms/product/%s/chapters', $productId));
+            return GuzzleClient::get(sprintf('v1/lms/product/%s/chapters', $productId), [], $headers);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -157,6 +163,15 @@ class LMSProduct extends ModuleUtility
             ], [
                 'Authorization' => 'Bearer ' . $userToken,
             ]);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
+    public static function stats(): Collection
+    {
+        try {
+            return GuzzleClient::get('v1/lms/product/stats');
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
