@@ -64,4 +64,26 @@ class QC extends ModuleUtility
             return Response::parseException($exception);
         }
     }
+
+    public static function getProductItemReviews(int $productItemId, array $with = []): Collection
+    {
+        try {
+            return GuzzleClient::get('v1/lms/review/' . $productItemId . '/item', [
+                'with' => json_encode($with)
+            ]);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
+    public static function getProductReviews(int $productId, array $with = []): Collection
+    {
+        try {
+            return GuzzleClient::get('v1/lms/review/' . $productId . '/product', [
+                'with' => json_encode($with)
+            ]);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
 }
