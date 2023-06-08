@@ -43,4 +43,13 @@ class SupportCommunity
             return Response::parseException($exception);
         }
     }
+
+    public static function topics(string $idOrSlug): Collection
+    {
+        try {
+            return GuzzleClient::get('v1/support/community/' . $idOrSlug . '/topics');
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
 }
