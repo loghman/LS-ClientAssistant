@@ -10,10 +10,10 @@ use Ls\ClientAssistant\Helpers\Response;
 class SupportCommunity
 {
 
-    public static function get(int $id, array $with = []): Collection
+    public static function get(string $idOrSlug, array $with = []): Collection
     {
         try {
-            return GuzzleClient::get('v1/support/community/' . $id, [
+            return GuzzleClient::get('v1/support/community/' . $idOrSlug, [
                 'with' => json_encode($with),
             ]);
         } catch (\Exception $exception) {
