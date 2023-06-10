@@ -9,6 +9,9 @@ use Ls\ClientAssistant\Helpers\Response;
 
 class SupportCommunity
 {
+    public const TOPIC_FILTER_NEWEST = 'newest';
+    public const TOPIC_FILTER_MOST_CONTROVERSIAL = 'mostControversial';
+    public const TOPIC_FILTER_NO_REPLIES = 'noReplies';
 
     public static function get(string $idOrSlug, array $with = []): Collection
     {
@@ -44,12 +47,13 @@ class SupportCommunity
         }
     }
 
-    public static function topics(string $idOrSlug, int $perPage = 20, $page = null): Collection
+    public static function topics(string $idOrSlug, int $perPage = 20, $page = null, $filter = null): Collection
     {
         try {
             return GuzzleClient::get(sprintf("v1/support/community/%s/topics", $idOrSlug), [
                 'per_page' => $perPage,
                 'page' => $page,
+                'filter_by' => $filter,
             ]);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
