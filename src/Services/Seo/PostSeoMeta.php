@@ -20,10 +20,8 @@ class PostSeoMeta extends SeoMeta {
 
     public function getCanonical()
     {
-        // TODO if canonical_url is null we should use page url
-        if (!empty($this->post['seo']['canonical_url']))
-            return "<link rel='canonical' href='{$this->post['seo']['canonical_url']}'/>";
-        return null;
+        $url = $this->post['seo']['canonical_url'] ?? getCurrentUrl();
+        return "<link rel='canonical' href='$url'/>";
     }
 
     public function getMetaTags()

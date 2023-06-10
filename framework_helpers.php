@@ -54,11 +54,23 @@ if (!function_exists('seoMeta')) {
         return $seoMeta->render($returnType);
     }
 }
+
 if (!function_exists('subWords')) {
     function subWords($content, $max_chars, $ellipsis = ' ...')
     {
         if (mb_strlen($content) <= $max_chars)
             return $content;
         return mb_substr(strip_tags($content), 0, $max_chars) . $ellipsis;
+    }
+}
+
+if (!function_exists('getCurrentUrl')) {
+    function getCurrentUrl($remove_parameters = 0)
+    {
+        $uri = urldecode($_SERVER["REQUEST_URI"]);
+        $domain = $_SERVER['HTTP_HOST'];
+        if ($remove_parameters)
+            $uri = strtok($uri, '?');
+        return (isset($_SERVER['HTTPS']) ? "https" : "http") . "://{$domain}{$uri}";
     }
 }
