@@ -30,7 +30,7 @@ class PostSeoMeta extends SeoMeta {
     {
         $metaTags = '';
         // description
-        $description = $this->post["seo"]["description"] ?? substr(strip_tags($this->post['content']), 0, 165);
+        $description = $this->post["seo"]["description"] ?? subWords($this->post['content'],165);
         $metaTags .= "<meta name='description' content='$description'/>" . PHP_EOL;
 
         // keyword
@@ -81,7 +81,7 @@ class PostSeoMeta extends SeoMeta {
             $openGraph .= "<meta property='og:title' content='{$this->post['title']}' />" . PHP_EOL;
 
         if (empty($this->post['seo']['og']['description'])){
-            $description = substr(strip_tags($this->post['content']), 0, 165);
+            $description = subWords($this->post['content'],165);
             $openGraph .= "<meta property='og:description' content='$description' />" . PHP_EOL;
         }
 
