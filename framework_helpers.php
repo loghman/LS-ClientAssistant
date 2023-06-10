@@ -35,3 +35,22 @@ if (!function_exists('redirect')) {
         exit();
     }
 }
+
+if (!function_exists('seoMeta')) {
+    function seoMeta($entity_type = null, $entity = null, $section = null, $returnType = 'html')
+    {
+        // validation
+        $class = sprintf("Ls\ClientAssistant\Services\Seo\%sSeoMeta", ucfirst($entity_type));
+        class_exists($class) || throw new \Exception("Class ($class) Not Found!");
+
+        $seoMeta = new $class($entity);
+
+        if (!empty($section)) {
+            $methodName = sprintf('get%s', ucfirst($section));
+            method_exists($seoMeta, $methodName) || throw new \Exception("Section ($section) Not Found!");
+            return $seoMeta->$methodName();
+        }
+
+        return $seoMeta->render($returnType);
+    }
+}
