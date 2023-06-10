@@ -64,4 +64,13 @@ class SupportTopic extends ModuleUtility
             return Response::parseException($exception);
         }
     }
+
+    public static function relatedTopics(string $id): Collection
+    {
+        try {
+            return GuzzleClient::get(sprintf("v1/support/topic/%s/related-topics", $id));
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
 }
