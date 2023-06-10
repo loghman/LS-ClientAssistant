@@ -65,10 +65,10 @@ class SupportCommunity
         }
     }
 
-    public static function bestQuestions(string $idOrSlug): Collection
+    public static function bestTopics(string $idOrSlug): Collection
     {
         try {
-            return GuzzleClient::get(sprintf("v1/support/community/%s/best-questions", $idOrSlug));
+            return GuzzleClient::get(sprintf("v1/support/community/%s/best-topics", $idOrSlug));
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
