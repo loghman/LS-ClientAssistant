@@ -20,7 +20,7 @@ class PostSeoMeta extends SeoMeta {
 
     public function getCanonical()
     {
-        $url = $this->post['seo']['canonical_url'] ?? getCurrentUrl();
+        $url = $this->post['seo']['canonical_url'] ?? getCurrentUrl(true);
         return "<link rel='canonical' href='$url'/>";
     }
 
@@ -70,7 +70,7 @@ class PostSeoMeta extends SeoMeta {
             $openGraph .= "<meta property='og:article:author' content='{$this->post['author']['display_name']}' />" . PHP_EOL;
 
         if (empty($this->post['seo']['og']['image']))
-            $openGraph .= "<meta property='og:image' content='{$this->post['thumbnail']}' />" . PHP_EOL;
+            $openGraph .= "<meta property='og:image' content='{$this->post['thumbnailUrl']}' />" . PHP_EOL;
 
         if (empty($this->post['seo']['og']['locale']))
             $openGraph .= "<meta property='og:locale' content='fa_IR' />" . PHP_EOL;
@@ -84,12 +84,12 @@ class PostSeoMeta extends SeoMeta {
         }
 
 
-
         $updatedTime = date('Y-m-d\TH:i:s+03:30', strtotime($this->post['updated_at']));
         $openGraph .= "<meta property='og:updated_time' content='$updatedTime' />" . PHP_EOL;
 
         //TODO url
-        $openGraph .= "<meta property='og:url' content='{$this->post["slug"]}' />" . PHP_EOL;
+        $url = getCurrentUrl(true);
+        $openGraph .= "<meta property='og:url' content='$url' />" . PHP_EOL;
 
         $openGraph .= "<meta property='og:type' content='article' />" . PHP_EOL;
 

@@ -74,3 +74,12 @@ if (!function_exists('getCurrentUrl')) {
         return (isset($_SERVER['HTTPS']) ? "https" : "http") . "://{$domain}{$uri}";
     }
 }
+
+if (!function_exists('route')) {
+    function route(string $path, array $data = [], array $queryParams = [])
+    {
+        global $routeParser;
+        $route = $routeParser->urlFor($path, $data, $queryParams);
+        return ($_ENV['APP_URL'] ?? '') . $route;
+    }
+}
