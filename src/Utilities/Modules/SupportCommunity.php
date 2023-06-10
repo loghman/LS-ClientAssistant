@@ -55,4 +55,22 @@ class SupportCommunity
             return Response::parseException($exception);
         }
     }
+
+    public static function bestParticipants(string $idOrSlug): Collection
+    {
+        try {
+            return GuzzleClient::get(sprintf("v1/support/community/%s/best-participants", $idOrSlug));
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
+    public static function bestQuestions(string $idOrSlug): Collection
+    {
+        try {
+            return GuzzleClient::get(sprintf("v1/support/community/%s/best-questions", $idOrSlug));
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
 }
