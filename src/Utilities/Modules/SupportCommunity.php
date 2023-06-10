@@ -56,10 +56,10 @@ class SupportCommunity
         }
     }
 
-    public static function bestParticipants(string $idOrSlug): Collection
+    public static function bestUsers(string $idOrSlug): Collection
     {
         try {
-            return GuzzleClient::get(sprintf("v1/support/community/%s/best-participants", $idOrSlug));
+            return GuzzleClient::get(sprintf("v1/support/community/%s/best-users", $idOrSlug));
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
