@@ -44,11 +44,12 @@ class SupportCommunity
         }
     }
 
-    public static function topics(string $idOrSlug, int $perPage = 20): Collection
+    public static function topics(string $idOrSlug, int $perPage = 20, $page = null): Collection
     {
         try {
-            return GuzzleClient::get('v1/support/community/' . $idOrSlug . '/topics', [
+            return GuzzleClient::get(sprintf("v1/support/community/%s/topics", $idOrSlug), [
                 'per_page' => $perPage,
+                'page' => $page,
             ]);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
