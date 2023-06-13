@@ -2,6 +2,7 @@
 
 namespace Ls\ClientAssistant\Utilities\Modules;
 
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\GuzzleClient;
 use Ls\ClientAssistant\Helpers\Response;
@@ -17,6 +18,8 @@ class SupportReply
             ], [
                 'Authorization' => 'Bearer ' . $userToken,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -31,6 +34,8 @@ class SupportReply
             ], [
                 'Authorization' => 'Bearer ' . $userToken,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -42,6 +47,8 @@ class SupportReply
             return GuzzleClient::post(sprintf("v1/support/topic/%s/reply/%s", $topicId, $replyId), [], [
                 'Authorization' => 'Bearer ' . $userToken,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -53,6 +60,8 @@ class SupportReply
             return GuzzleClient::delete(sprintf("v1/support/topic/%s/reply/%s", $topicId, $replyId), [], [
                 'Authorization' => 'Bearer ' . $userToken,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }

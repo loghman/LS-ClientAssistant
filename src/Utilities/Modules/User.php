@@ -2,6 +2,7 @@
 
 namespace Ls\ClientAssistant\Utilities\Modules;
 
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\GuzzleClient;
@@ -17,6 +18,8 @@ class User extends ModuleUtility
             return GuzzleClient::get(('v1/users/' . $idOrSlug), [
                 'with' => json_encode($with),
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -35,6 +38,8 @@ class User extends ModuleUtility
                 'per_page' => $perPage,
                 'order_by' => $orderBy,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -49,6 +54,8 @@ class User extends ModuleUtility
                 'columns' => json_encode($columns),
                 'per_page' => $perPage,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -65,6 +72,8 @@ class User extends ModuleUtility
             ]);
 
             return GuzzleClient::parseData($response);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -97,6 +106,8 @@ class User extends ModuleUtility
             }
 
             return self::me($userToken);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -119,6 +130,8 @@ class User extends ModuleUtility
             return GuzzleClient::get('v1/user/enrollments', [], [
                 'Authorization' => 'Bearer ' . $userToken,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -130,6 +143,8 @@ class User extends ModuleUtility
             return GuzzleClient::get('v1/user/stats', [], [
                 'Authorization' => 'Bearer ' . $userToken,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -145,6 +160,8 @@ class User extends ModuleUtility
             ], [
                 'Authorization' => 'Bearer ' . $userToken,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -160,6 +177,8 @@ class User extends ModuleUtility
             ], [
                 'Authorization' => 'Bearer ' . $userToken,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -175,6 +194,8 @@ class User extends ModuleUtility
             ], [
                 'Authorization' => 'Bearer ' . $userToken,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -188,6 +209,8 @@ class User extends ModuleUtility
             ], [
                 'Authorization' => 'Bearer ' . $userToken,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -202,6 +225,8 @@ class User extends ModuleUtility
             ], [
                 'Authorization' => 'Bearer ' . $userToken,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
