@@ -95,6 +95,8 @@ class SupportCommunity
     {
         try {
             return GuzzleClient::get('v1/support/community/random-users');
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
