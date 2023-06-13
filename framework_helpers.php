@@ -83,3 +83,10 @@ if (!function_exists('route')) {
         return ($_ENV['APP_URL'] ?? '') . $route;
     }
 }
+
+if (!function_exists('is_active')) {
+    function is_active_uri(string $uri): bool
+    {
+        return $_SERVER['REQUEST_URI'] == $uri;
+    }
+}
