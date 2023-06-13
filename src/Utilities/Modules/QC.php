@@ -2,6 +2,7 @@
 
 namespace Ls\ClientAssistant\Utilities\Modules;
 
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\Contracts\ModuleUtility;
 use Ls\ClientAssistant\Core\Enums\OrderByEnum;
@@ -16,6 +17,8 @@ class QC extends ModuleUtility
             return GuzzleClient::get('v1/lms/review/' . $idOrSlug, [
                 'with' => json_encode($with)
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -30,6 +33,8 @@ class QC extends ModuleUtility
                 'order_by' => $orderBy,
                 'per_page' => $perPage,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -44,6 +49,8 @@ class QC extends ModuleUtility
                 'columns' => json_encode($columns),
                 'per_page' => $perPage,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -60,6 +67,8 @@ class QC extends ModuleUtility
             ], [
                 'Authorization' => 'Bearer ' . $userToken,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -71,6 +80,8 @@ class QC extends ModuleUtility
             return GuzzleClient::get('v1/lms/review/' . $productItemId . '/item', [
                 'with' => json_encode($with)
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -82,6 +93,8 @@ class QC extends ModuleUtility
             return GuzzleClient::get('v1/lms/review/' . $productId . '/product', [
                 'with' => json_encode($with)
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }

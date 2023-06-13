@@ -2,6 +2,7 @@
 
 namespace Ls\ClientAssistant\Utilities\Modules;
 
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\Contracts\ModuleUtility;
 use Ls\ClientAssistant\Core\Enums\OrderByEnum;
@@ -16,6 +17,8 @@ class SupportTopic extends ModuleUtility
             return GuzzleClient::get('v1/support/topic/' . $idOrSlug, [
                 'with' => json_encode($with),
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -30,6 +33,8 @@ class SupportTopic extends ModuleUtility
                 'order_by' => $orderBy,
                 'per_page' => $perPage,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -44,6 +49,8 @@ class SupportTopic extends ModuleUtility
                 'columns' => json_encode($columns),
                 'per_page' => $perPage,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -60,6 +67,8 @@ class SupportTopic extends ModuleUtility
                 'entity_id' => $productItemId,
                 'entity_type' => 'lms_product_items',
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -69,6 +78,29 @@ class SupportTopic extends ModuleUtility
     {
         try {
             return GuzzleClient::get(sprintf("v1/support/topic/%s/related-topics", $id));
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
+    public static function create(array $data, string $userToken): Collection
+    {
+        try {
+            return GuzzleClient::post('v1/support/topic', [
+                'title' => $data['title'],
+                'content' => $data['content'],
+                'attachment' => $data['attachment'] ?? null,
+                'is_anonymous' => $data['is_anonymous'] ?? null,
+                'section' => $data['section'] ?? null,
+                'community' => $data['community'] ?? null,
+                'department' => $data['department'] ?? null,
+            ], [
+                'Authorization' => 'Bearer ' . $userToken,
+            ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }

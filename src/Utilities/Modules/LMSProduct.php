@@ -2,6 +2,7 @@
 
 namespace Ls\ClientAssistant\Utilities\Modules;
 
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\Contracts\ModuleUtility;
 use Ls\ClientAssistant\Core\GuzzleClient;
@@ -16,6 +17,8 @@ class LMSProduct extends ModuleUtility
             return GuzzleClient::get('v1/lms/product/' . $idOrSlug, [
                 'with' => json_encode($with),
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -30,6 +33,8 @@ class LMSProduct extends ModuleUtility
                 'order_by' => $orderBy,
                 'per_page' => $perPage,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -44,6 +49,8 @@ class LMSProduct extends ModuleUtility
                 'columns' => json_encode($columns),
                 'per_page' => $perPage,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -62,6 +69,8 @@ class LMSProduct extends ModuleUtility
             }
 
             return GuzzleClient::get('v1/lms/product/param', $data);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -77,6 +86,8 @@ class LMSProduct extends ModuleUtility
         }
         try {
             return GuzzleClient::get(sprintf('v1/lms/product/%s/chapters', $productId), [], $headers);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -88,6 +99,8 @@ class LMSProduct extends ModuleUtility
             return GuzzleClient::get(sprintf('v1/lms/product/%s/chapter/%s/stats', $productId, $chapterId), [], [
                 'Authorization' => 'Bearer ' . $userToken,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -97,6 +110,8 @@ class LMSProduct extends ModuleUtility
     {
         try {
             return GuzzleClient::get(sprintf('v1/lms/product/%s/item/%s/next', $productId, $itemId));
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -106,6 +121,8 @@ class LMSProduct extends ModuleUtility
     {
         try {
             return GuzzleClient::get(sprintf('v1/lms/product/%s/item/%s/prev', $productId, $itemId));
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -115,6 +132,8 @@ class LMSProduct extends ModuleUtility
     {
         try {
             return GuzzleClient::get(sprintf('v1/lms/product/%s/item/%s/next', $productId, $chapterId));
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -124,6 +143,8 @@ class LMSProduct extends ModuleUtility
     {
         try {
             return GuzzleClient::get(sprintf('v1/lms/product/%s/item/%s/prev', $productId, $chapterId));
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -133,6 +154,8 @@ class LMSProduct extends ModuleUtility
     {
         try {
             return GuzzleClient::get(sprintf('v1/lms/product/%s/faculty', $productId));
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -142,6 +165,8 @@ class LMSProduct extends ModuleUtility
     {
         try {
             return GuzzleClient::get(sprintf('v1/lms/product/%s/demo', $productId));
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -163,6 +188,8 @@ class LMSProduct extends ModuleUtility
             ], [
                 'Authorization' => 'Bearer ' . $userToken,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -172,6 +199,8 @@ class LMSProduct extends ModuleUtility
     {
         try {
             return GuzzleClient::get('v1/lms/product/stats');
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }

@@ -2,6 +2,7 @@
 
 namespace Ls\ClientAssistant\Utilities\Modules;
 
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\Contracts\ModuleUtility;
@@ -17,6 +18,8 @@ class Enrollment extends ModuleUtility
             return GuzzleClient::get('v1/lms/enrollment/' . $id, [
                 'with' => json_encode($with),
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -31,6 +34,8 @@ class Enrollment extends ModuleUtility
                 'order_by' => $orderBy,
                 'per_page' => $perPage,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -45,6 +50,8 @@ class Enrollment extends ModuleUtility
                 'columns' => json_encode($columns),
                 'per_page' => $perPage,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -62,6 +69,8 @@ class Enrollment extends ModuleUtility
             ], ['Authorization' => 'Bearer ' . $userToken]);
 
             return Response::success();
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -78,6 +87,8 @@ class Enrollment extends ModuleUtility
             ]);
 
             return collect(json_decode($response->getBody()->getContents()));
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }

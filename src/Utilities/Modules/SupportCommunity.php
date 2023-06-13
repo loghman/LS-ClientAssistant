@@ -2,6 +2,7 @@
 
 namespace Ls\ClientAssistant\Utilities\Modules;
 
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\Enums\OrderByEnum;
 use Ls\ClientAssistant\Core\GuzzleClient;
@@ -19,6 +20,8 @@ class SupportCommunity
             return GuzzleClient::get('v1/support/community/' . $idOrSlug, [
                 'with' => json_encode($with),
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -33,6 +36,8 @@ class SupportCommunity
                 'order_by' => $orderBy,
                 'per_page' => $perPage,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -42,6 +47,8 @@ class SupportCommunity
     {
         try {
             return GuzzleClient::get('v1/support/community/stats');
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -55,6 +62,8 @@ class SupportCommunity
                 'page' => $page,
                 'filter_by' => $filter,
             ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -64,6 +73,8 @@ class SupportCommunity
     {
         try {
             return GuzzleClient::get(sprintf("v1/support/community/%s/best-users", $idOrSlug));
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -73,6 +84,21 @@ class SupportCommunity
     {
         try {
             return GuzzleClient::get(sprintf("v1/support/community/%s/best-topics", $idOrSlug));
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
+    public static function randomUsers($count = 5): Collection
+    {
+        try {
+            return GuzzleClient::get('v1/support/community/random-users', [
+                'users_count' => $count,
+            ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }

@@ -83,3 +83,20 @@ if (!function_exists('route')) {
         return ($_ENV['APP_URL'] ?? '') . $route;
     }
 }
+
+if (!function_exists('is_active_uri')) {
+    function is_active_uri(string $uri): bool
+    {
+        if (str_starts_with($_SERVER['REQUEST_URI'], '/')) {
+            return substr($_SERVER['REQUEST_URI'], 1) == $uri;
+        }
+        return $_SERVER['REQUEST_URI'] == $uri;
+    }
+}
+
+if (!function_exists('is_active_uri_param')) {
+    function is_active_uri_param(string $param): bool
+    {
+        return str_contains($_SERVER['REQUEST_URI'], $param);
+    }
+}
