@@ -100,3 +100,21 @@ if (!function_exists('is_active_uri_param')) {
         return str_contains($_SERVER['REQUEST_URI'], $param);
     }
 }
+
+if (!function_exists('abort')) {
+    function abort($code, $message = '', array $headers = [])
+    {
+        http_response_code($code);
+        foreach ($headers as $header) header($header);
+        view("errors.$code", compact('code', 'message'));
+        die();
+    }
+}
+
+if (!function_exists('get_or_fail')) {
+    function get_or_fail($response, $message = null)
+    {
+        if (empty($response['data']) || empty($response)) abort(403, $message);
+        return $response;
+    }
+}
