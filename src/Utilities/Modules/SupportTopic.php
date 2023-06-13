@@ -84,4 +84,25 @@ class SupportTopic extends ModuleUtility
             return Response::parseException($exception);
         }
     }
+
+    public static function create(array $data, string $userToken): Collection
+    {
+        try {
+            return GuzzleClient::post('v1/support/topic', [
+                'title' => $data['title'],
+                'content' => $data['content'],
+                'attachment' => $data['attachment'] ?? null,
+                'is_anonymous' => $data['is_anonymous'] ?? null,
+                'section' => $data['section'] ?? null,
+                'community' => $data['community'] ?? null,
+                'department' => $data['department'] ?? null,
+            ], [
+                'Authorization' => 'Bearer ' . $userToken,
+            ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
 }
