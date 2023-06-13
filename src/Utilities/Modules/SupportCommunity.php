@@ -94,7 +94,9 @@ class SupportCommunity
     public static function randomUsers($count = 5): Collection
     {
         try {
-            return GuzzleClient::get('v1/support/community/random-users');
+            return GuzzleClient::get('v1/support/community/random-users', [
+                'users_count' => $count,
+            ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
