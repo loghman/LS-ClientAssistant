@@ -114,7 +114,7 @@ if (!function_exists('abort')) {
 if (!function_exists('get_or_fail')) {
     function get_or_fail($response, $message = null)
     {
-        if (empty($response['data']) || empty($response)) abort(403, $message);
+        if (empty($response['data']) || empty($response)) abort(404, $message);
         return $response;
     }
 }
