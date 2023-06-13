@@ -97,6 +97,6 @@ if (!function_exists('is_active_uri')) {
 if (!function_exists('is_active_uri_param')) {
     function is_active_uri_param(string $param): bool
     {
-        return str_starts_with($_SERVER['REQUEST_URI'], $param);
+        return str_contains($_SERVER['REQUEST_URI'], $param);
     }
 }
