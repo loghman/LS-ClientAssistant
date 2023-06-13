@@ -2,6 +2,7 @@
 
 namespace Ls\ClientAssistant\Utilities\Modules;
 
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\RequestOptions;
 use Ls\ClientAssistant\Core\GuzzleClient;
 use Illuminate\Support\Collection;
@@ -49,6 +50,8 @@ class TwoFaBasedAuth
             }
 
             return collect();
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -70,6 +73,8 @@ class TwoFaBasedAuth
             }
 
             return collect();
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
@@ -88,6 +93,8 @@ class TwoFaBasedAuth
             }
 
             return collect();
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }

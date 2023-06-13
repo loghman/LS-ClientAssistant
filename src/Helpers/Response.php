@@ -2,6 +2,7 @@
 
 namespace Ls\ClientAssistant\Helpers;
 
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
 use Psr\Http\Message\ResponseInterface;
 
@@ -25,11 +26,16 @@ class Response
         return collect();
     }
 
+    public static function parseClientException(ClientException $exception): Collection
+    {
+        return collect(json_decode($exception->getResponse()->getBody()->getContents() ?? ''));
+    }
+
     public static function parseException(\Exception $exception): Collection
     {
         return collect([
             'success' => false,
-            'message' => json_decode($exception->getResponse()->getBody()->getContents() ?? '', true),
+            'message' => $exception->getMessage(),
             'data' => [],
         ]);
     }
