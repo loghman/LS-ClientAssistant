@@ -2,6 +2,7 @@
 
 namespace Ls\ClientAssistant\Utilities\Modules;
 
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\Contracts\ModuleUtility;
 use Ls\ClientAssistant\Core\Enums\OrderByEnum;
@@ -16,7 +17,9 @@ class Coupon extends ModuleUtility
             return GuzzleClient::get('v1/coupon/' . $id, [
                 'with' => json_encode($with),
             ]);
-        } catch (\Exception $exception) {
+        }  catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        }catch (\Exception $exception){
             return Response::parseException($exception);
         }
     }
@@ -30,7 +33,9 @@ class Coupon extends ModuleUtility
                 'order_by' => $orderBy,
                 'per_page' => $perPage,
             ]);
-        } catch (\Exception $exception) {
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        }catch (\Exception $exception){
             return Response::parseException($exception);
         }
     }
@@ -44,7 +49,9 @@ class Coupon extends ModuleUtility
                 'columns' => json_encode($columns),
                 'per_page' => $perPage,
             ]);
-        } catch (\Exception $exception) {
+        }  catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        }catch (\Exception $exception){
             return Response::parseException($exception);
         }
     }
