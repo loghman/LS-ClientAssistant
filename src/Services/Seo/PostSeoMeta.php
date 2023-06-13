@@ -4,7 +4,8 @@ namespace Ls\ClientAssistant\Services\Seo;
 
 use Ls\ClientAssistant\Services\Seo\SeoMeta;
 
-class PostSeoMeta extends SeoMeta {
+class PostSeoMeta extends SeoMeta
+{
     private $post;
 
     public function __construct($post)
@@ -20,7 +21,7 @@ class PostSeoMeta extends SeoMeta {
 
     public function getCanonical()
     {
-        $url = $this->post['seo']['canonical_url'] ?? getCurrentUrl(true);
+        $url = $this->post['seo']['canonical_url'] ?? get_current_url(true);
         return "<link rel='canonical' href='$url'/>";
     }
 
@@ -28,12 +29,12 @@ class PostSeoMeta extends SeoMeta {
     {
         $metaTags = '';
         // description
-        $description = $this->post["seo"]["description"] ?? subWords($this->post['content'],165);
+        $description = $this->post["seo"]["description"] ?? sub_words($this->post['content'], 165);
         $metaTags .= "<meta name='description' content='$description'/>" . PHP_EOL;
 
         // keyword
-        if (isset($this->post['seo']['keywords'])){
-            $keywords = implode(', ',$this->post['seo']['keywords']);
+        if (isset($this->post['seo']['keywords'])) {
+            $keywords = implode(', ', $this->post['seo']['keywords']);
             $metaTags .= "<meta name='keywords' content='$keywords'/>" . PHP_EOL;
         }
 
@@ -70,7 +71,7 @@ class PostSeoMeta extends SeoMeta {
             $openGraph .= "<meta property='og:article:author' content='{$this->post['author']['display_name']}' />" . PHP_EOL;
 
         if (empty($this->post['seo']['og']['image']))
-            $openGraph .= "<meta property='og:image' content='{$this->post['thumbnailUrl']}' />" . PHP_EOL;
+            $openGraph .= "<meta property='og:image' content='{$this->post['thumbnail']}' />" . PHP_EOL;
 
         if (empty($this->post['seo']['og']['locale']))
             $openGraph .= "<meta property='og:locale' content='fa_IR' />" . PHP_EOL;
@@ -78,8 +79,8 @@ class PostSeoMeta extends SeoMeta {
         if (empty($this->post['seo']['og']['title']))
             $openGraph .= "<meta property='og:title' content='{$this->post['title']}' />" . PHP_EOL;
 
-        if (empty($this->post['seo']['og']['description'])){
-            $description = subWords($this->post['content'],165);
+        if (empty($this->post['seo']['og']['description'])) {
+            $description = sub_words($this->post['content'], 165);
             $openGraph .= "<meta property='og:description' content='$description' />" . PHP_EOL;
         }
 
@@ -88,12 +89,13 @@ class PostSeoMeta extends SeoMeta {
         $openGraph .= "<meta property='og:updated_time' content='$updatedTime' />" . PHP_EOL;
 
         //TODO url
-        $url = getCurrentUrl(true);
+        $url = get_current_url(true);
         $openGraph .= "<meta property='og:url' content='$url' />" . PHP_EOL;
 
         $openGraph .= "<meta property='og:type' content='article' />" . PHP_EOL;
 
-        $openGraph .= "<meta property='og:article:section' content='{$this->post['mainCategory']['name_fa']}' />" . PHP_EOL;
+        if (!empty($this->post['mainCategory']['name_fa']))
+            $openGraph .= "<meta property='og:article:section' content='{$this->post['mainCategory']['name_fa']}' />" . PHP_EOL;
 
         return $openGraph;
     }

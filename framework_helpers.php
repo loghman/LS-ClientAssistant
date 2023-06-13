@@ -36,8 +36,8 @@ if (!function_exists('redirect')) {
     }
 }
 
-if (!function_exists('seoMeta')) {
-    function seoMeta($entity_type = null, $entity = null, $section = null, $returnType = 'html')
+if (!function_exists('seo_meta')) {
+    function seo_meta($entity_type = null, $entity = null, $section = null, $returnType = 'html')
     {
         // validation
         $class = sprintf("Ls\ClientAssistant\Services\Seo\%sSeoMeta", ucfirst($entity_type));
@@ -55,8 +55,8 @@ if (!function_exists('seoMeta')) {
     }
 }
 
-if (!function_exists('subWords')) {
-    function subWords($content, $max_chars, $ellipsis = ' ...')
+if (!function_exists('sub_words')) {
+    function sub_words($content, $max_chars, $ellipsis = ' ...')
     {
         if (mb_strlen($content) <= $max_chars)
             return $content;
@@ -64,8 +64,8 @@ if (!function_exists('subWords')) {
     }
 }
 
-if (!function_exists('getCurrentUrl')) {
-    function getCurrentUrl($remove_parameters = 0)
+if (!function_exists('get_current_url')) {
+    function get_current_url($remove_parameters = 0)
     {
         $uri = urldecode($_SERVER["REQUEST_URI"]);
         $domain = $_SERVER['HTTP_HOST'];
