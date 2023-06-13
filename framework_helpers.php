@@ -87,6 +87,9 @@ if (!function_exists('route')) {
 if (!function_exists('is_active')) {
     function is_active_uri(string $uri): bool
     {
+        if (str_starts_with($_SERVER['REQUEST_URI'], '/')) {
+            return substr($_SERVER['REQUEST_URI'], 1) == $uri;
+        }
         return $_SERVER['REQUEST_URI'] == $uri;
     }
 }
