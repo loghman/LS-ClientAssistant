@@ -2,6 +2,7 @@
 
 namespace Ls\ClientAssistant\Utilities\Modules;
 
+use Exception;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Collection;
@@ -22,7 +23,7 @@ class User extends ModuleUtility
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return Response::parseException($exception);
         }
     }
@@ -42,7 +43,7 @@ class User extends ModuleUtility
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return Response::parseException($exception);
         }
     }
@@ -58,7 +59,7 @@ class User extends ModuleUtility
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return Response::parseException($exception);
         }
     }
@@ -76,7 +77,7 @@ class User extends ModuleUtility
             return GuzzleClient::parseData($response);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return Response::parseException($exception);
         }
     }
@@ -102,9 +103,9 @@ class User extends ModuleUtility
     public static function loggedIn(string $userToken): bool
     {
         try {
-            $user = self::me($userToken);
+            $user = self::getCurrent();
             return (!is_null($user['data']) or !empty($user['data']));
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return false;
         }
     }
@@ -128,7 +129,7 @@ class User extends ModuleUtility
             return self::me($userToken);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return Response::parseException($exception);
         }
     }
@@ -137,11 +138,11 @@ class User extends ModuleUtility
     {
         try {
             $response = GuzzleClient::get('v1/auth/logout', [], ['Authorization' => 'Bearer ' . $userToken]);
-
-            return $response['success'];
-        } catch (\Exception $exception) {
+        } catch (Exception $e) {
             return false;
         }
+
+        return $response['success'] ?? true;
     }
 
     public static function courses(string $userToken): Collection
@@ -152,7 +153,7 @@ class User extends ModuleUtility
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return Response::parseException($exception);
         }
     }
@@ -165,7 +166,7 @@ class User extends ModuleUtility
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return Response::parseException($exception);
         }
     }
@@ -182,7 +183,7 @@ class User extends ModuleUtility
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return Response::parseException($exception);
         }
     }
@@ -199,7 +200,7 @@ class User extends ModuleUtility
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return Response::parseException($exception);
         }
     }
@@ -216,7 +217,7 @@ class User extends ModuleUtility
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return Response::parseException($exception);
         }
     }
@@ -231,7 +232,7 @@ class User extends ModuleUtility
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return Response::parseException($exception);
         }
     }
@@ -247,7 +248,7 @@ class User extends ModuleUtility
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return Response::parseException($exception);
         }
     }
