@@ -12,6 +12,8 @@ use Ls\ClientAssistant\Helpers\Response;
 
 class User extends ModuleUtility
 {
+    private static $currentUser;
+
     public static function get(string $idOrSlug, array $with = []): Collection
     {
         try {
@@ -77,6 +79,24 @@ class User extends ModuleUtility
         } catch (\Exception $exception) {
             return Response::parseException($exception);
         }
+    }
+
+    public static function getCurrent()
+    {
+        if (!isset($_COOKIE['token'])) {
+            return;
+        }
+
+        if (is_null(self::$currentUser)) {
+            self::$currentUser = self::me($_COOKIE['token']);
+        }
+
+        return self::$currentUser;
+    }
+
+    public static function forgetCurrent()
+    {
+        self::$currentUser = null;
     }
 
     public static function loggedIn(string $userToken): bool
