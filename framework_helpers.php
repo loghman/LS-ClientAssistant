@@ -118,3 +118,60 @@ if (!function_exists('get_or_fail')) {
         return $response;
     }
 }
+
+if (!function_exists('site_url')) {
+    function site_url(string $uri)
+    {
+        return ($_ENV['APP_URL'] ?? '') . '/' . $uri;
+    }
+}
+
+if (!function_exists('asset_url')) {
+    function asset_url(string $path)
+    {
+        return ($_ENV['APP_URL'] ?? '') . '/assets/' . $path;
+    }
+}
+
+if (!function_exists('storage_url')) {
+    function storage_url(string $path = null)
+    {
+        return ($_ENV['STORAGE_URL'] ?? '') . '/' . $path;
+    }
+}
+
+if (!function_exists('base_storage_url')) {
+    function base_storage_url()
+    {
+        return str_replace('/s', '', storage_url());
+    }
+}
+
+if (!function_exists('core_url')) {
+    function core_url(string $path = null)
+    {
+        return rtrim($_ENV['CORE_URL'] ?? '', '/api/') . '/' . $path;
+    }
+}
+
+if (!function_exists('redirect')) {
+    function redirect($url)
+    {
+        header("Location: $url");
+        exit();
+    }
+}
+
+if (!function_exists('generate_storage_jwt_token')) {
+    function generate_storage_jwt_token($userId): string
+    {
+        return \Ls\ClientAssistant\Helpers\Jwt::generate($userId, $_ENV['JWT_SECRET']);
+    }
+}
+
+if (!function_exists('current_user')) {
+    function current_user()
+    {
+        return \Ls\ClientAssistant\Utilities\Modules\User::getCurrent()['data'] ?? null;
+    }
+}
