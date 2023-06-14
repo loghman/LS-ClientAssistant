@@ -162,15 +162,15 @@ if (!function_exists('redirect')) {
     }
 }
 
-if (!function_exists('generateStorageJWTToken')) {
-    function generateStorageJWTToken($userId): string
+if (!function_exists('generate_storage_jwt_token')) {
+    function generate_storage_jwt_token($userId): string
     {
         return \Ls\ClientAssistant\Helpers\Jwt::generate($userId, $_ENV['JWT_SECRET']);
     }
 }
 
-if (!function_exists('currentUser')) {
-    function currentUser()
+if (!function_exists('current_user')) {
+    function current_user()
     {
         return \Ls\ClientAssistant\Utilities\Modules\User::getCurrent()['data'] ?? null;
     }
