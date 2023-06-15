@@ -1,5 +1,8 @@
 <?php
 
+use Ls\ClientAssistant\Core\GuzzleClient;
+use Ls\ClientAssistant\Utilities\Modules\User;
+
 if (!function_exists('site_url')) {
     function site_url(string $uri): string
     {
