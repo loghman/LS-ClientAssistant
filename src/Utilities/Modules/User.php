@@ -10,6 +10,7 @@ use Ls\ClientAssistant\Core\GuzzleClient;
 use Ls\ClientAssistant\Core\Contracts\ModuleUtility;
 use Ls\ClientAssistant\Core\Enums\OrderByEnum;
 use Ls\ClientAssistant\Helpers\Response;
+use Ls\ClientAssistant\Utilities\Tools\Token;
 
 class User extends ModuleUtility
 {
@@ -98,10 +99,7 @@ class User extends ModuleUtility
     public static function forgetCurrent(): void
     {
         self::$currentUser = null;
-        setcookie('token', '', time() - 3600, '/', ($domain = get_cookie_domain()), (bool) $domain);
-        if (isset($_COOKIE['token'])) {
-            unset($_COOKIE['token']);
-        }
+        Token::token()->remove();
     }
 
     public static function loggedIn(): bool
