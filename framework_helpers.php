@@ -1,5 +1,8 @@
 <?php
 
+use Ls\ClientAssistant\Core\GuzzleClient;
+use Ls\ClientAssistant\Utilities\Modules\User;
+
 if (!function_exists('site_url')) {
     function site_url(string $uri): string
     {
@@ -173,5 +176,23 @@ if (!function_exists('current_user')) {
     function current_user()
     {
         return \Ls\ClientAssistant\Utilities\Modules\User::getCurrent()['data'] ?? null;
+    }
+}
+
+if (!function_exists('page_editor')) {
+    function page_editor(string $routeName, string $entityType = null, string $entityId = null): array
+    {
+        $pageMetaResult = GuzzleClient::get('v1/marketing/page-meta/getMetadata', [
+            'route_name' => $routeName,
+            'entity_type' => $entityType,
+            'entity_id' => $entityId,
+        ]);
+
+        $pageMeta = $pageMetaResult['data'] ?? [];
+        $editMode = ($_GET['mode'] ?? '') == 'edit';
+        $user = User::me($_COOKIE['token']);
+        $canEdit = in_array('pageeditor:update', ($user['data']['permissions'] ?? []), true);
+
+        return compact('pageMeta', 'editMode', 'canEdit', 'routeName');
     }
 }
