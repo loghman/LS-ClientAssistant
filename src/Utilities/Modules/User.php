@@ -138,6 +138,7 @@ class User extends ModuleUtility
     {
         try {
             $response = GuzzleClient::get('v1/auth/logout', [], ['Authorization' => 'Bearer ' . $userToken]);
+            self::forgetCurrent();
         } catch (Exception $e) {
             return false;
         }
