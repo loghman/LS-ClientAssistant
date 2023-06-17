@@ -8,7 +8,7 @@ class Token
     private string $token;
     private string $cookieName;
 
-    public static function token(string $token, string $cookieName = 'token'): self
+    public static function token(string $token = '', string $cookieName = 'token'): self
     {
         $self = new self();
         $self->token = $token;
@@ -19,9 +19,7 @@ class Token
 
     public function remove(): void
     {
-        if (isset($_COOKIE['token'])) {
-            setcookie('token', '', time() - 3600);
-        }
+        setcookie('token', '', time() - 3600, '/', ($domain = get_cookie_domain()), (bool) $domain);
     }
 
     public function setCookie(): self
@@ -33,8 +31,8 @@ class Token
 
     public function seconds(int $seconds = 1): self
     {
-        if ($this->setCookie) {
-            setcookie($this->cookieName, $this->token, time() + $seconds, '/');
+        if ($this->setCookie && $this->token) {
+            setcookie($this->cookieName, $this->token, time() + $seconds, '/', ($domain = get_cookie_domain()), (bool) $domain);
         }
 
         return $this;
@@ -42,8 +40,8 @@ class Token
 
     public function minutes(int $minutes = 1): self
     {
-        if ($this->setCookie) {
-            setcookie($this->cookieName, $this->token, time() + (60 * $minutes), '/');
+        if ($this->setCookie && $this->token) {
+            setcookie($this->cookieName, $this->token, time() + (60 * $minutes), '/', ($domain = get_cookie_domain()), (bool) $domain);
         }
 
         return $this;
@@ -51,8 +49,8 @@ class Token
 
     public function hours(int $hours = 1): self
     {
-        if ($this->setCookie) {
-            setcookie($this->cookieName, $this->token, time() + ((60 * 60) * $hours), '/');
+        if ($this->setCookie && $this->token) {
+            setcookie($this->cookieName, $this->token, time() + 60 * 60 * $hours, '/', ($domain = get_cookie_domain()), (bool) $domain);
         }
 
         return $this;
@@ -60,8 +58,8 @@ class Token
 
     public function days(int $days = 1): self
     {
-        if ($this->setCookie) {
-            setcookie($this->cookieName, $this->token, time() + (((60 * 60) * 24) * $days), '/');
+        if ($this->setCookie && $this->token) {
+            setcookie($this->cookieName, $this->token, time() + 60 * 60 * 24 * $days, '/', ($domain = get_cookie_domain()), (bool) $domain);
         }
 
         return $this;
@@ -69,8 +67,8 @@ class Token
 
     public function weeks(int $weeks = 1): self
     {
-        if ($this->setCookie) {
-            setcookie($this->cookieName, $this->token, time() + ((((60 * 60) * 24) * 7) * $weeks), '/');
+        if ($this->setCookie && $this->token) {
+            setcookie($this->cookieName, $this->token, time() + 60 * 60 * 24 * 7 * $weeks, '/', ($domain = get_cookie_domain()), (bool) $domain);
         }
 
         return $this;
