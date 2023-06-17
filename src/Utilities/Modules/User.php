@@ -95,9 +95,13 @@ class User extends ModuleUtility
         return self::$currentUser;
     }
 
-    public static function forgetCurrent()
+    public static function forgetCurrent(): void
     {
         self::$currentUser = null;
+        setcookie('token', '', time() - 3600, '/', ($domain = get_cookie_domain()), (bool) $domain);
+        if (isset($_COOKIE['token'])) {
+            unset($_COOKIE['token']);
+        }
     }
 
     public static function loggedIn(): bool

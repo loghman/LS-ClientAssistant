@@ -196,3 +196,11 @@ if (!function_exists('page_editor')) {
         return compact('pageMeta', 'editMode', 'canEdit', 'routeName');
     }
 }
+
+if (! function_exists('get_cookie_domain')) {
+    function get_cookie_domain() {
+        $domain = core_url();
+
+        return parse_url($domain)['host'] ?? null;
+    }
+}
