@@ -11,18 +11,10 @@ class Auth implements \Psr\Http\Server\MiddlewareInterface
 {
     public function process(Request $request, RequestHandler $handler): Response
     {
-        if (!isset($_COOKIE['token'])) {
+        if (!User::loggedIn()) {
             redirect(site_url('auth'));
         }
 
-        $user = User::me($_COOKIE['token']);
-        if (is_null($user['data'])) {
-            redirect(site_url('auth'));
-        }
-
-        $response = $handler->handle($request);
-        $existingContent = (string)$response->getBody();
-
-        return $response;
+        return $handler->handle($request);
     }
 }

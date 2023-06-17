@@ -100,14 +100,11 @@ class User extends ModuleUtility
         self::$currentUser = null;
     }
 
-    public static function loggedIn(string $userToken): bool
+    public static function loggedIn(): bool
     {
-        try {
-            $user = self::getCurrent();
-            return (!is_null($user['data']) or !empty($user['data']));
-        } catch (Exception $exception) {
-            return false;
-        }
+        $user = self::getCurrent();
+
+        return !is_null($user['data']) or !empty($user['data']);
     }
 
     public static function updateUserInfo(array $data, string $userToken): Collection
