@@ -12,15 +12,10 @@ class Guess implements \Psr\Http\Server\MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if (isset($_COOKIE['token'])) {
-            $user = User::loggedIn($_COOKIE['token']);
-            if ($user) {
-                redirect(site_url(''));
-            }
+        if (User::loggedIn()) {
+            redirect(site_url(''));
         }
 
-        $response = $handler->handle($request);
-
-        return $response;
+        return $handler->handle($request);
     }
 }

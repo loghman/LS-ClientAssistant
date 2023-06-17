@@ -95,19 +95,20 @@ class User extends ModuleUtility
         return self::$currentUser;
     }
 
-    public static function forgetCurrent()
+    public static function forgetCurrent(): void
     {
         self::$currentUser = null;
+        setcookie('token', '', time() - 3600, '/', ($domain = get_cookie_domain()), (bool) $domain);
+        if (isset($_COOKIE['token'])) {
+            unset($_COOKIE['token']);
+        }
     }
 
-    public static function loggedIn(string $userToken): bool
+    public static function loggedIn(): bool
     {
-        try {
-            $user = self::getCurrent();
-            return (!is_null($user['data']) or !empty($user['data']));
-        } catch (Exception $exception) {
-            return false;
-        }
+        $user = self::getCurrent();
+
+        return !is_null($user['data']) or !empty($user['data']);
     }
 
     public static function updateUserInfo(array $data, string $userToken): Collection
@@ -138,6 +139,7 @@ class User extends ModuleUtility
     {
         try {
             $response = GuzzleClient::get('v1/auth/logout', [], ['Authorization' => 'Bearer ' . $userToken]);
+            self::forgetCurrent();
         } catch (Exception $e) {
             return false;
         }
