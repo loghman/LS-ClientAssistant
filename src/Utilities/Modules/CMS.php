@@ -98,4 +98,18 @@ class CMS extends ModuleUtility
             return Response::parseException($exception);
         }
     }
+
+    public static function categories(): Collection
+    {
+        try {
+            return GuzzleClient::get('v1/term', [
+                'type' => 'category',
+                'module' => 'cms',
+            ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
 }
