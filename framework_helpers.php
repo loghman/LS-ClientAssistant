@@ -1,6 +1,8 @@
 <?php
 
 use Ls\ClientAssistant\Core\GuzzleClient;
+use Ls\ClientAssistant\Helpers\Config;
+use Ls\ClientAssistant\Utilities\Modules\Setting;
 use Ls\ClientAssistant\Utilities\Modules\User;
 
 if (!function_exists('site_url')) {
@@ -206,5 +208,49 @@ if (! function_exists('get_cookie_domain')) {
         $domain = core_url();
 
         return parse_url($domain)['host'] ?? null;
+    }
+}
+
+if (! function_exists('setting')) {
+    function setting($key = null, $default = null)
+    {
+        $settings = Setting::all()->toArray();
+
+        if (! $key) {
+            return $settings;
+        }
+
+        if (($index = array_search($key, array_column($settings, 'key'))) === false) {
+            return $default;
+        }
+
+        return $settings[$index]['value'] ?? $default;
+    }
+}
+
+if (! function_exists('auth_label')) {
+    function auth_label()
+    {
+        $userLoginFields = json_decode(setting('user_login_fields', "[]"), true);
+        if (count($userLoginFields) == 0) {
+            return ' ';
+        }
+        $usernameLabel = setting('username_label');
+        $availableUserLoginFields = Config::get('auth.available_user_login_fields');
+        $text = '';
+        foreach ($userLoginFields as $field) {
+            if ($field == 'username') {
+                $trans = $usernameLabel ?? ($availableUserLoginFields[$field] ?? $field);
+            } else {
+                $trans = $availableUserLoginFields[$field] ?? $field;
+            }
+            if (empty($text)) {
+                $text .= $trans;
+                continue;
+            }
+            $text .= " یا $trans";
+        }
+
+        return $text;
     }
 }
