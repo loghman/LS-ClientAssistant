@@ -2,8 +2,8 @@
 
 namespace Ls\ClientAssistant\Utilities\Modules;
 
+use Exception;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\RequestOptions;
 use Ls\ClientAssistant\Core\GuzzleClient;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Helpers\Response;
@@ -20,7 +20,7 @@ class TwoFaBasedAuth
                     'input' => $mobileOrEmail,
                 ],
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return array_merge(
                 json_decode($e->getResponse()->getBody()->getContents(), true),
                 ['status' => $e->getCode()]
@@ -52,7 +52,7 @@ class TwoFaBasedAuth
             return collect();
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return Response::parseException($exception);
         }
     }
@@ -75,7 +75,30 @@ class TwoFaBasedAuth
             return collect();
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
+    public static function resetPassword($barerToken, $password, $passwordConfirmation): Collection
+    {
+        try {
+            $response = GuzzleClient::self()->post('v1/auth/reset-password', [
+                'form_params' => [
+                    'password' => $password,
+                    'password_confirmation' => $passwordConfirmation
+                ],
+                'headers' => ['Authorization' => 'Bearer ' . $barerToken],
+            ]);
+
+            if (in_array($response->getStatusCode(), [200, 201])) {
+                return collect(json_decode($response->getBody()));
+            }
+
+            return collect();
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (Exception $exception) {
             return Response::parseException($exception);
         }
     }
@@ -95,7 +118,7 @@ class TwoFaBasedAuth
             return collect();
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return Response::parseException($exception);
         }
     }
