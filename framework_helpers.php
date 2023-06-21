@@ -226,3 +226,30 @@ if (! function_exists('setting')) {
         return $settings[$index]['value'] ?? $default;
     }
 }
+
+if (! function_exists('')) {
+    function authLabel()
+    {
+        $userLoginFields = json_decode(setting('user_login_fields', "[]"), true);
+        if (count($userLoginFields) == 0) {
+            return ' ';
+        }
+        $usernameLabel = setting('username_label');
+        $availableUserLoginFields = config('platform.available_user_login_fields');
+        $text = '';
+        foreach ($userLoginFields as $field) {
+            if ($field == 'username') {
+                $trans = $usernameLabel ?? ($availableUserLoginFields[$field] ?? $field);
+            } else {
+                $trans = $availableUserLoginFields[$field] ?? $field;
+            }
+            if (empty($text)) {
+                $text .= $trans;
+                continue;
+            }
+            $text .= " یا $trans";
+        }
+
+        return $text;
+    }
+}
