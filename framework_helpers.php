@@ -1,6 +1,7 @@
 <?php
 
 use Ls\ClientAssistant\Core\GuzzleClient;
+use Ls\ClientAssistant\Utilities\Modules\Setting;
 use Ls\ClientAssistant\Utilities\Modules\User;
 
 if (!function_exists('site_url')) {
@@ -202,5 +203,20 @@ if (! function_exists('get_cookie_domain')) {
         $domain = core_url();
 
         return parse_url($domain)['host'] ?? null;
+    }
+}
+
+if (! function_exists('setting')) {
+    function setting($key = null, $default = null)
+    {
+        $settings = Setting::all();
+
+        if (! $key) {
+            return $settings->pluck('value', 'name');
+        }
+
+        $setting = $settings->where('name', '=', $key)->first();
+
+        return $setting['value'] ?? $default;
     }
 }
