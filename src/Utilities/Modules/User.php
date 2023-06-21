@@ -5,11 +5,13 @@ namespace Ls\ClientAssistant\Utilities\Modules;
 use Exception;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\RequestOptions;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\GuzzleClient;
 use Ls\ClientAssistant\Core\Contracts\ModuleUtility;
 use Ls\ClientAssistant\Core\Enums\OrderByEnum;
 use Ls\ClientAssistant\Helpers\Response;
+use Ls\ClientAssistant\Utilities\Tools\Token;
 
 class User extends ModuleUtility
 {
@@ -95,19 +97,25 @@ class User extends ModuleUtility
         return self::$currentUser;
     }
 
-    public static function forgetCurrent()
+    public static function forgetCurrent(): void
     {
         self::$currentUser = null;
+        Token::token()->remove();
     }
 
-    public static function loggedIn(string $userToken): bool
+    public static function loggedIn(): bool
     {
-        try {
-            $user = self::getCurrent();
-            return (!is_null($user['data']) or !empty($user['data']));
-        } catch (Exception $exception) {
-            return false;
-        }
+        $user = self::getCurrent();
+
+        return !is_null($user['data']) or !empty($user['data']);
+    }
+
+    public static function canResetPassword()
+    {
+        $meta = self::getCurrent()['data']['meta'] ?? [];
+
+        return isset($meta['allow_to_password_reset']) && Carbon::parse($meta['allow_to_password_reset'])
+                ->gt(Carbon::now());
     }
 
     public static function updateUserInfo(array $data, string $userToken): Collection
@@ -138,6 +146,7 @@ class User extends ModuleUtility
     {
         try {
             $response = GuzzleClient::get('v1/auth/logout', [], ['Authorization' => 'Bearer ' . $userToken]);
+            self::forgetCurrent();
         } catch (Exception $e) {
             return false;
         }

@@ -9,7 +9,7 @@ use Ls\ClientAssistant\Helpers\Response;
 
 class PasswordBasedAuth
 {
-    public static function login(string $mobileOrEmail, string $password): array
+    public static function login(string $mobileOrEmail, string $password): Collection
     {
         $guzzle = GuzzleClient::self();
 
@@ -21,20 +21,20 @@ class PasswordBasedAuth
                     'password' => $password,
                 ],
             ]);
-        } catch (\Exception $e) {
-            return array_merge(
-                json_decode($e->getResponse()->getBody()->getContents(), true),
-                ['status' => $e->getCode()]
-            );
-        }
 
-        return array_merge(
-            json_decode($response->getBody()->getContents(), true),
-            ['status' => $response->getStatusCode()]
-        );
+            if (in_array($response->getStatusCode(), [200, 201])) {
+                return collect(json_decode($response->getBody()));
+            }
+
+            return collect();
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
     }
 
-    public static function register(string $mobileOrEmail, string $password, string $passwordConfirmation): array
+    public static function register(string $mobileOrEmail, string $password, string $passwordConfirmation): Collection
     {
         $guzzle = GuzzleClient::self();
         try {
@@ -46,17 +46,17 @@ class PasswordBasedAuth
                     'password_confirmation' => $passwordConfirmation,
                 ],
             ]);
-        } catch (\Exception $e) {
-            return array_merge(
-                json_decode($e->getResponse()->getBody()->getContents(), true),
-                ['status' => $e->getCode()]
-            );
-        }
 
-        return array_merge(
-            json_decode($response->getBody()->getContents(), true),
-            ['status' => $response->getStatusCode()]
-        );
+            if (in_array($response->getStatusCode(), [200, 201])) {
+                return collect(json_decode($response->getBody()));
+            }
+
+            return collect();
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
     }
 
     public static function verifyVerificationCode(string $mobileOrEmail, string $otp): Collection

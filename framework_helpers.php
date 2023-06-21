@@ -1,6 +1,8 @@
 <?php
 
 use Ls\ClientAssistant\Core\GuzzleClient;
+use Ls\ClientAssistant\Helpers\Config;
+use Ls\ClientAssistant\Utilities\Modules\Setting;
 use Ls\ClientAssistant\Utilities\Modules\User;
 
 if (!function_exists('site_url')) {
@@ -44,13 +46,17 @@ if (!function_exists('seo_meta')) {
     {
         // validation
         $class = sprintf("Ls\ClientAssistant\Services\Seo\%sSeoMeta", ucfirst($entity_type));
-        class_exists($class) || throw new \Exception("Class ($class) Not Found!");
+        if (!class_exists($class)) {
+            throw new \Exception("Class ($class) Not Found!");
+        }
 
         $seoMeta = new $class($entity);
 
         if (!empty($section)) {
             $methodName = sprintf('get%s', ucfirst($section));
-            method_exists($seoMeta, $methodName) || throw new \Exception("Section ($section) Not Found!");
+            if (!method_exists($seoMeta, $methodName)) {
+                throw new \Exception("Section ($section) Not Found!");
+            }
             return $seoMeta->$methodName();
         }
 
@@ -194,5 +200,57 @@ if (!function_exists('page_editor')) {
         $canEdit = in_array('pageeditor:update', ($user['data']['permissions'] ?? []), true);
 
         return compact('pageMeta', 'editMode', 'canEdit', 'routeName');
+    }
+}
+
+if (! function_exists('get_cookie_domain')) {
+    function get_cookie_domain() {
+        $domain = core_url();
+
+        return parse_url($domain)['host'] ?? null;
+    }
+}
+
+if (! function_exists('setting')) {
+    function setting($key = null, $default = null)
+    {
+        $settings = Setting::all()->toArray();
+
+        if (! $key) {
+            return $settings;
+        }
+
+        if (($index = array_search($key, array_column($settings, 'key'))) === false) {
+            return $default;
+        }
+
+        return $settings[$index]['value'] ?? $default;
+    }
+}
+
+if (! function_exists('auth_label')) {
+    function auth_label()
+    {
+        $userLoginFields = json_decode(setting('user_login_fields', "[]"), true);
+        if (count($userLoginFields ?? []) == 0) {
+            return ' ';
+        }
+        $usernameLabel = setting('username_label');
+        $availableUserLoginFields = Config::get('auth.available_user_login_fields');
+        $text = '';
+        foreach ($userLoginFields as $field) {
+            if ($field == 'username') {
+                $trans = $usernameLabel ?? ($availableUserLoginFields[$field] ?? $field);
+            } else {
+                $trans = $availableUserLoginFields[$field] ?? $field;
+            }
+            if (empty($text)) {
+                $text .= $trans;
+                continue;
+            }
+            $text .= " یا $trans";
+        }
+
+        return $text;
     }
 }
