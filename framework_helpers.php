@@ -213,14 +213,16 @@ if (! function_exists('get_cookie_domain')) {
 if (! function_exists('setting')) {
     function setting($key = null, $default = null)
     {
-        $settings = Setting::all();
+        $settings = Setting::all()->toArray();
 
         if (! $key) {
-            return $settings->pluck('value', 'name');
+            return $settings;
         }
 
-        $setting = $settings->where('name', '=', $key)->first();
+        if (($index = array_search($key, array_column($settings, 'key'))) === false) {
+            return $default;
+        }
 
-        return $setting['value'] ?? $default;
+        return $settings[$index]['value'] ?? $default;
     }
 }
