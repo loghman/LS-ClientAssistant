@@ -45,13 +45,17 @@ if (!function_exists('seo_meta')) {
     {
         // validation
         $class = sprintf("Ls\ClientAssistant\Services\Seo\%sSeoMeta", ucfirst($entity_type));
-        class_exists($class) || throw new \Exception("Class ($class) Not Found!");
+        if (!class_exists($class)) {
+            throw new \Exception("Class ($class) Not Found!");
+        }
 
         $seoMeta = new $class($entity);
 
         if (!empty($section)) {
             $methodName = sprintf('get%s', ucfirst($section));
-            method_exists($seoMeta, $methodName) || throw new \Exception("Section ($section) Not Found!");
+            if (!method_exists($seoMeta, $methodName)) {
+                throw new \Exception("Section ($section) Not Found!");
+            }
             return $seoMeta->$methodName();
         }
 

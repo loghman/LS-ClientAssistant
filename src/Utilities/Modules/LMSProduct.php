@@ -205,4 +205,31 @@ class LMSProduct extends ModuleUtility
             return Response::parseException($exception);
         }
     }
+
+    public static function count(int $count): Collection
+    {
+        try {
+            return GuzzleClient::get('v1/lms/product', [
+                'count' => $count,
+                'order_by' => OrderByEnum::LATEST,
+            ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
+    public static function bestSell($perPage = 12): Collection
+    {
+        try {
+            return GuzzleClient::get('v1/lms/product/best-sell', [
+                'per_page' => $perPage,
+            ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
 }
