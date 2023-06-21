@@ -33,7 +33,7 @@ class TwoFaBasedAuth
         );
     }
 
-    public static function verifyVerificationCode(string $mobileOrEmail, string $otp): Collection
+    public static function verifyVerificationCode(string $mobileOrEmail, string $otp, $passwordResetMode = 0): Collection
     {
         try {
             $guzzle = GuzzleClient::self();
@@ -42,6 +42,7 @@ class TwoFaBasedAuth
                     'auth_method' => 'OtpBased',
                     'input' => $mobileOrEmail,
                     'otp' => $otp,
+                    'password-reset' => $passwordResetMode,
                 ],
             ]);
 
