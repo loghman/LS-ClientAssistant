@@ -199,24 +199,25 @@ if (!function_exists('page_editor')) {
         $user = User::me($_COOKIE['token']);
         $canEdit = in_array('pageeditor:update', ($user['data']['permissions'] ?? []), true);
 
-        return compact('pageMeta', 'editMode', 'canEdit', 'routeName');
+        return compact('pageMeta', 'editMode', 'canEdit', 'routeName', 'entityType', 'entityId');
     }
 }
 
-if (! function_exists('get_cookie_domain')) {
-    function get_cookie_domain() {
+if (!function_exists('get_cookie_domain')) {
+    function get_cookie_domain()
+    {
         $domain = core_url();
 
         return parse_url($domain)['host'] ?? null;
     }
 }
 
-if (! function_exists('setting')) {
+if (!function_exists('setting')) {
     function setting($key = null, $default = null)
     {
         $settings = Setting::all()->toArray();
 
-        if (! $key) {
+        if (!$key) {
             return $settings;
         }
 
@@ -228,7 +229,7 @@ if (! function_exists('setting')) {
     }
 }
 
-if (! function_exists('auth_label')) {
+if (!function_exists('auth_label')) {
     function auth_label()
     {
         $userLoginFields = json_decode(setting('user_login_fields', "[]"), true);
