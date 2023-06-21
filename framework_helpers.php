@@ -1,6 +1,7 @@
 <?php
 
 use Ls\ClientAssistant\Core\GuzzleClient;
+use Ls\ClientAssistant\Helpers\Config;
 use Ls\ClientAssistant\Utilities\Modules\Setting;
 use Ls\ClientAssistant\Utilities\Modules\User;
 
@@ -235,7 +236,7 @@ if (! function_exists('')) {
             return ' ';
         }
         $usernameLabel = setting('username_label');
-        $availableUserLoginFields = config('platform.available_user_login_fields');
+        $availableUserLoginFields = Config::get('auth.available_user_login_fields');
         $text = '';
         foreach ($userLoginFields as $field) {
             if ($field == 'username') {
