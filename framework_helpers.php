@@ -232,7 +232,7 @@ if (! function_exists('auth_label')) {
     function auth_label()
     {
         $userLoginFields = json_decode(setting('user_login_fields', "[]"), true);
-        if (count($userLoginFields) == 0) {
+        if (count($userLoginFields ?? []) == 0) {
             return ' ';
         }
         $usernameLabel = setting('username_label');
