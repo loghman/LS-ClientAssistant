@@ -5,6 +5,7 @@ namespace Ls\ClientAssistant\Utilities\Modules;
 use Exception;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\RequestOptions;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\GuzzleClient;
 use Ls\ClientAssistant\Core\Contracts\ModuleUtility;
@@ -107,6 +108,14 @@ class User extends ModuleUtility
         $user = self::getCurrent();
 
         return !is_null($user['data']) or !empty($user['data']);
+    }
+
+    public static function canResetPassword()
+    {
+        $meta = self::getCurrent()['data']['meta'] ?? [];
+
+        return isset($meta['allow_to_password_reset']) && Carbon::parse($meta['allow_to_password_reset'])
+                ->gt(Carbon::now());
     }
 
     public static function updateUserInfo(array $data, string $userToken): Collection
