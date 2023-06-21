@@ -206,7 +206,7 @@ class LMSProduct extends ModuleUtility
         }
     }
 
-    public static function count(int $count): Collection
+    public static function latest(int $count): Collection
     {
         try {
             return GuzzleClient::get('v1/lms/product', [
@@ -220,10 +220,10 @@ class LMSProduct extends ModuleUtility
         }
     }
 
-    public static function bestSell($perPage = 12): Collection
+    public static function byHighestStudentAmount($perPage = 12): Collection
     {
         try {
-            return GuzzleClient::get('v1/lms/product/best-sell', [
+            return GuzzleClient::get('v1/lms/product/by-highest-student-amount', [
                 'per_page' => $perPage,
             ]);
         } catch (ClientException $exception) {
