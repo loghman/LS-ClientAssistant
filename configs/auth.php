@@ -12,6 +12,7 @@ return [
         'password' => 'رمز عبور',
     ],
     'default_registration_fields' => ['mobile', 'password'],
+    'default_required_registration_fields' => ['mobile', 'password'],
     'available_verification_fields' => [
         'national_code' => 'کد ملی', 'username' => 'نام کاربری',
         'email' => 'ایمیل', 'mobile' => 'شماره موبایل',
