@@ -2,6 +2,7 @@
 
 namespace Ls\ClientAssistant\Utilities\Modules;
 
+use Exception;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\GuzzleClient;
@@ -29,22 +30,17 @@ class PasswordBasedAuth
             return collect();
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return Response::parseException($exception);
         }
     }
 
-    public static function register(string $mobileOrEmail, string $password, string $passwordConfirmation): Collection
+    public static function register(array $data): Collection
     {
         $guzzle = GuzzleClient::self();
         try {
             $response = $guzzle->post('v1/auth/register', [
-                'form_params' => [
-                    'auth_method' => 'PasswordBased',
-                    'input' => $mobileOrEmail,
-                    'password' => $password,
-                    'password_confirmation' => $passwordConfirmation,
-                ],
+                'form_params' => $data,
             ]);
 
             if (in_array($response->getStatusCode(), [200, 201])) {
@@ -54,7 +50,7 @@ class PasswordBasedAuth
             return collect();
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return Response::parseException($exception);
         }
     }
@@ -78,7 +74,7 @@ class PasswordBasedAuth
             return collect();
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return Response::parseException($exception);
         }
     }
@@ -92,6 +88,52 @@ class PasswordBasedAuth
                     'auth_method' => 'PasswordBased',
                     'input' => $mobileOrEmail,
                 ],
+            ]);
+
+            if (in_array($response->getStatusCode(), [200, 201])) {
+                return collect(json_decode($response->getBody()));
+            }
+
+            return collect();
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
+    public static function updateEmail($userToken, $email): Collection
+    {
+        try {
+            $guzzle = GuzzleClient::self();
+            $response = $guzzle->post('v1/auth/email-update', [
+                'form_params' => [
+                    'input' => $email,
+                ],
+                'headers' => ['Authorization' => 'Bearer ' . $userToken],
+            ]);
+
+            if (in_array($response->getStatusCode(), [200, 201])) {
+                return collect(json_decode($response->getBody()));
+            }
+
+            return collect();
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
+    public static function updateMobile($userToken, $mobile): Collection
+    {
+        try {
+            $guzzle = GuzzleClient::self();
+            $response = $guzzle->post('v1/auth/mobile-update', [
+                'form_params' => [
+                    'input' => $mobile,
+                ],
+                'headers' => ['Authorization' => 'Bearer ' . $userToken],
             ]);
 
             if (in_array($response->getStatusCode(), [200, 201])) {
