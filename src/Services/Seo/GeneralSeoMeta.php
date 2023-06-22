@@ -12,19 +12,13 @@ class GeneralSeoMeta extends SeoMeta
     public bool $noIndex;
     public bool $noFollow;
 
-    public function __construct(
-        string $title = null,
-        string $description = null,
-        string $canonical = null,
-        bool   $noIndex = false,
-        bool   $noFollow = false
-    )
+    public function __construct(array $data)
     {
-        $this->title = $title;
-        $this->description = $description;
-        $this->canonical = $canonical;
-        $this->noIndex = $noIndex;
-        $this->noFollow = $noFollow;
+        $this->title = $data['title'] ?? null;
+        $this->description = $data['description'] ?? null;
+        $this->canonical = $data['canonical'] ?? null;
+        $this->noIndex = $data['noIndex'] ?? null;
+        $this->noFollow = $data['noFollow'] ?? null;
     }
 
     public function getTitle()
