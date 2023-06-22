@@ -6,9 +6,9 @@ use Ls\ClientAssistant\Services\Seo\SeoMeta;
 
 class GeneralSeoMeta extends SeoMeta
 {
-    public string $title;
-    public string $description;
-    public string $canonical;
+    public null|string $title;
+    public null|string $description;
+    public null|string $canonical;
     public bool $noIndex;
     public bool $noFollow;
 
@@ -17,8 +17,8 @@ class GeneralSeoMeta extends SeoMeta
         $this->title = $data['title'] ?? null;
         $this->description = $data['description'] ?? null;
         $this->canonical = $data['canonical'] ?? null;
-        $this->noIndex = $data['noIndex'] ?? null;
-        $this->noFollow = $data['noFollow'] ?? null;
+        $this->noIndex = $data['noIndex'] ?? false;
+        $this->noFollow = $data['noFollow'] ?? false;
     }
 
     public function getTitle()
