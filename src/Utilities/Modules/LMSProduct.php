@@ -163,10 +163,12 @@ class LMSProduct extends ModuleUtility
         }
     }
 
-    public static function demo(int $productId): Collection
+    public static function demo(int $productId, int $count = 7): Collection
     {
         try {
-            return GuzzleClient::get(sprintf('v1/lms/product/%s/demo', $productId));
+            return GuzzleClient::get(sprintf('v1/lms/product/%s/demo', $productId), [
+                'count' => $count,
+            ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
