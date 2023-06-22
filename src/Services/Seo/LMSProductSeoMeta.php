@@ -28,7 +28,7 @@ class LMSProductSeoMeta extends SeoMeta
 
     public function getCanonical()
     {
-        return "<link rel = 'canonical' href = '$this->currentUrl' />" . PHP_EOL;
+        return "<link rel='canonical' href='$this->currentUrl' />" . PHP_EOL;
     }
 
     public function getMetaTags()
@@ -36,15 +36,15 @@ class LMSProductSeoMeta extends SeoMeta
         $metaTags = '';
         // description
         if (!is_null($this->description)) {
-            $metaTags .= "<meta name = 'description' content = '$this->description' />" . PHP_EOL;
+            $metaTags .= "<meta name='description' content='$this->description' />" . PHP_EOL;
         }
 
         // dates
         $publishedTime = date('Y-m-d\TH:i:s+03:30', strtotime($this->product['created_at']));
-        $metaTags .= "<meta property = 'article:published_time' content = '$publishedTime' />" . PHP_EOL;
+        $metaTags .= "<meta property='article:published_time' content='$publishedTime' />" . PHP_EOL;
 
         $modifiedTime = date('Y-m-d\TH:i:s+03:30', strtotime($this->product['updated_at']));
-        $metaTags .= "<meta property = 'article:modified_time' content = '$modifiedTime' />" . PHP_EOL;
+        $metaTags .= "<meta property='article:modified_time' content='$modifiedTime' />" . PHP_EOL;
 
         return $metaTags;
 
@@ -55,25 +55,25 @@ class LMSProductSeoMeta extends SeoMeta
 
         $openGraph = '';
 
-        $openGraph .= "<meta property = 'og:title' content = '{$this->product['title']}' />" . PHP_EOL;
-        $openGraph .= "<meta property = 'og:image:alt' content = '{$this->product['title']}' />" . PHP_EOL;
-        $openGraph .= "<meta property = 'og:url' content = '$this->currentUrl' />" . PHP_EOL;
+        $openGraph .= "<meta property='og:title' content='{$this->product['title']}' />" . PHP_EOL;
+        $openGraph .= "<meta property='og:image:alt' content='{$this->product['title']}' />" . PHP_EOL;
+        $openGraph .= "<meta property='og:url' content='$this->currentUrl' />" . PHP_EOL;
         $updatedTime = date('Y-m-d\TH:i:s+03:30', strtotime($this->product['updated_at']));
-        $openGraph .= "<meta property = 'og:updated_time' content = '$updatedTime' />" . PHP_EOL;
+        $openGraph .= "<meta property='og:updated_time' content='$updatedTime' />" . PHP_EOL;
 
         if (!empty($this->meta['banner_url']))
-            $openGraph .= "<meta property = 'og:image' content = '{$this->meta['banner_url']}' />" . PHP_EOL;
+            $openGraph .= "<meta property='og:image' content='{$this->meta['banner_url']}' />" . PHP_EOL;
         if (!is_null($this->description))
-            $openGraph .= "<meta property = 'og:description' content = '$this->description' />" . PHP_EOL;
+            $openGraph .= "<meta property='og:description' content='$this->description' />" . PHP_EOL;
         if (!empty($this->product['main_teacher']['display_name']))
-            $openGraph .= "<meta property = 'og:article:author' content = '{$this->product['main_teacher']['display_name']}' />" . PHP_EOL;
+            $openGraph .= "<meta property='og:article:author' content='{$this->product['main_teacher']['display_name']}' />" . PHP_EOL;
 
-        $openGraph .= "<meta property = 'og:type' content = 'product' />" . PHP_EOL;
-        $openGraph .= "<meta property = 'og:locale' content = 'fa_IR' />" . PHP_EOL;
+        $openGraph .= "<meta property='og:type' content='product' />" . PHP_EOL;
+        $openGraph .= "<meta property='og:locale' content='fa_IR' />" . PHP_EOL;
 
-//        $openGraph .= "<meta property = 'og:image:type' content = '' />" . PHP_EOL;
-//        $openGraph .= "<meta property = 'og:image:width' content = '' />" . PHP_EOL;
-//        $openGraph .= "<meta property = 'og:image:height' content = '' />" . PHP_EOL;
+//        $openGraph .= "<meta property='og:image:type' content='' />" . PHP_EOL;
+//        $openGraph .= "<meta property='og:image:width' content='' />" . PHP_EOL;
+//        $openGraph .= "<meta property='og:image:height' content='' />" . PHP_EOL;
 
         return $openGraph;
     }
