@@ -251,6 +251,16 @@ if (! function_exists('get_user_login_fields')) {
     }
 }
 
+if (! function_exists('get_registration_fields')) {
+    function get_registration_fields()
+    {
+        $registrationFields = json_decode(setting('registration_fields'), true);
+
+        return ! is_array($registrationFields) || empty($registrationFields)
+            ? Config::get('auth.default_registration_fields') : $registrationFields;
+    }
+}
+
 if (! function_exists('auth_label')) {
     function auth_label()
     {
