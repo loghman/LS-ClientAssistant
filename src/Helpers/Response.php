@@ -48,4 +48,12 @@ class Response
             'data' => $data,
         ]);
     }
+
+    public static function unprocessableEntity(ResponseInterface $response, string $msg, array $data = []): ResponseInterface
+    {
+        $response->getBody()
+            ->write(json_encode(['message' => $msg, 'data' => $data], JSON_UNESCAPED_UNICODE));
+
+        return $response->withStatus(422)->withHeader('Content-Type', 'application/json');
+    }
 }
