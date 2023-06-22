@@ -274,6 +274,16 @@ if (! function_exists('get_required_registration_fields')) {
     }
 }
 
+if (! function_exists('get_verification_fields')) {
+    function get_verification_fields()
+    {
+        $verificationFields = json_decode(setting('verification_fields'), true);
+
+        return ! is_array($verificationFields) || empty($verificationFields)
+            ? Config::get('auth.default_verification_fields') : $verificationFields;
+    }
+}
+
 if (! function_exists('auth_label')) {
     function auth_label()
     {

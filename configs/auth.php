@@ -17,4 +17,5 @@ return [
         'national_code' => 'کد ملی', 'username' => 'نام کاربری',
         'email' => 'ایمیل', 'mobile' => 'شماره موبایل',
     ],
+    'default_verification_fields' => ['mobile', 'password'],
 ];
