@@ -14,7 +14,7 @@ class LMSProductSeoMeta extends SeoMeta
     public function __construct($product)
     {
         $this->product = $product;
-        $this->meta = json_decode($product['meta'], true);
+        $this->meta = json_decode($product['meta'] ?? '[]', true);
         $this->currentUrl = get_current_url(true);
         if (!empty($this->product['description']))
             $this->description = sub_words($this->product['description'], 165);
@@ -64,7 +64,7 @@ class LMSProductSeoMeta extends SeoMeta
         if (!empty($this->meta['banner_url']))
             $openGraph .= "<meta property = 'og:image' content = '{$this->meta['banner_url']}' />" . PHP_EOL;
         if (!is_null($this->description))
-            $openGraph .= "<meta name = 'og:description' content = '$this->description' />" . PHP_EOL;
+            $openGraph .= "<meta property = 'og:description' content = '$this->description' />" . PHP_EOL;
         if (!empty($this->product['main_teacher']['display_name']))
             $openGraph .= "<meta property = 'og:article:author' content = '{$this->product['main_teacher']['display_name']}' />" . PHP_EOL;
 
