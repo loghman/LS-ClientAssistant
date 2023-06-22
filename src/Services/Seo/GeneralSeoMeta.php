@@ -23,20 +23,20 @@ class GeneralSeoMeta extends SeoMeta
 
     public function getTitle()
     {
-        return empty($this->title) ? null : "<title>$this->title</title>";
+        return empty($this->title) ? null : "<title>$this->title</title>" . PHP_EOL;
     }
 
     public function getCanonical()
     {
         $url = $this->canonical ?? get_current_url(true);
-        return "<link rel='canonical' href='$url'/>";
+        return "<link rel='canonical' href='$url'/>" . PHP_EOL;
     }
 
     public function getMetaTags()
     {
         $metaTags = '';
         // description
-        $metaTags .= empty($this->description) ? null : "<meta name='description' content='$this->description'/>";
+        $metaTags .= empty($this->description) ? null : "<meta name='description' content='$this->description'/>" . PHP_EOL;
 
         // robots
         $robots = [
