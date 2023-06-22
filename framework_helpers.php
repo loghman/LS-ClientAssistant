@@ -216,11 +216,12 @@ if (! function_exists('page_editor')) {
 }
 
 if (! function_exists('get_cookie_domain')) {
-    function get_cookie_domain()
+    function get_cookie_domain(): string
     {
-        $domain = core_url();
+        $host = parse_url(core_url())['host'] ?? null;
+        $array = explode(".", $host);
 
-        return parse_url($domain)['host'] ?? null;
+        return (array_key_exists(count($array) - 2, $array) ? $array[count($array) - 2] : "").".".$array[count($array) - 1];
     }
 }
 
