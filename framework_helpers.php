@@ -255,9 +255,12 @@ if (! function_exists('get_registration_fields')) {
     function get_registration_fields()
     {
         $registrationFields = json_decode(setting('registration_fields'), true);
+        if (! is_array($registrationFields) || empty($registrationFields)) {
+            $registrationFields = Config::get('auth.default_registration_fields');
+        }
+        sort($registrationFields);
 
-        return ! is_array($registrationFields) || empty($registrationFields)
-            ? Config::get('auth.default_registration_fields') : $registrationFields;
+        return $registrationFields;
     }
 }
 
