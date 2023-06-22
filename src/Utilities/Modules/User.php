@@ -110,6 +110,16 @@ class User extends ModuleUtility
         return !is_null($user['data']) or !empty($user['data']);
     }
 
+    public static function mobileVerified(): bool
+    {
+        return self::getCurrent()['data']['meta']['mobile_verified'] ?? false;
+    }
+
+    public static function emailVerified(): bool
+    {
+        return self::getCurrent()['data']['meta']['email_verified'] ?? false;
+    }
+
     public static function canResetPassword()
     {
         $meta = self::getCurrent()['data']['meta'] ?? [];
