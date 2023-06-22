@@ -101,4 +101,50 @@ class PasswordBasedAuth
             return Response::parseException($exception);
         }
     }
+
+    public static function updateEmail($userToken, $email): Collection
+    {
+        try {
+            $guzzle = GuzzleClient::self();
+            $response = $guzzle->post('v1/auth/email-update', [
+                'form_params' => [
+                    'input' => $email,
+                ],
+                'headers' => ['Authorization' => 'Bearer ' . $userToken],
+            ]);
+
+            if (in_array($response->getStatusCode(), [200, 201])) {
+                return collect(json_decode($response->getBody()));
+            }
+
+            return collect();
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
+    public static function updateMobile($userToken, $mobile): Collection
+    {
+        try {
+            $guzzle = GuzzleClient::self();
+            $response = $guzzle->post('v1/auth/mobile-update', [
+                'form_params' => [
+                    'input' => $mobile,
+                ],
+                'headers' => ['Authorization' => 'Bearer ' . $userToken],
+            ]);
+
+            if (in_array($response->getStatusCode(), [200, 201])) {
+                return collect(json_decode($response->getBody()));
+            }
+
+            return collect();
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
 }
