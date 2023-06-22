@@ -76,7 +76,7 @@ class LMSProduct extends ModuleUtility
         }
     }
 
-    public static function chapters(int $productId, string $userToken = null): Collection
+    public static function chapters(int $productId, string $userToken = null, array $with = []): Collection
     {
         $headers = [];
         if (!is_null($userToken)) {
@@ -85,7 +85,9 @@ class LMSProduct extends ModuleUtility
             ];
         }
         try {
-            return GuzzleClient::get(sprintf('v1/lms/product/%s/chapters', $productId), [], $headers);
+            return GuzzleClient::get(sprintf('v1/lms/product/%s/chapters', $productId), [
+                'with' => json_encode($with),
+            ], $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
