@@ -228,13 +228,19 @@ if (! function_exists('setting')) {
     }
 }
 
+if (! function_exists('get_user_login_fields')){
+    function get_user_login_fields()
+    {
+        $userLoginFields = json_decode(setting('user_login_fields'), true);
+
+        return !$userLoginFields || empty($userLoginFields) ? Config::get('auth.default_user_login_fields') : $userLoginFields;
+    }
+}
+
 if (! function_exists('auth_label')) {
     function auth_label()
     {
-        $userLoginFields = json_decode(setting('user_login_fields', "[]"), true);
-        if (count($userLoginFields ?? []) == 0) {
-            return ' ';
-        }
+        $userLoginFields = get_user_login_fields();
         $usernameLabel = setting('username_label');
         $availableUserLoginFields = Config::get('auth.available_user_login_fields');
         $text = '';
