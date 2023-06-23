@@ -4,57 +4,51 @@ namespace Ls\ClientAssistant\Services\Seo;
 
 use Ls\ClientAssistant\Services\Seo\SeoMeta;
 
-class GeneralSeoMeta extends SeoMeta
+class IndexSeoMeta extends SeoMeta
 {
-    public null|string $title;
-    public null|string $description;
-    public null|string $canonical;
-    public bool $noIndex;
-    public bool $noFollow;
+    private $currentUrl;
+    private $title;
+    private $description;
 
-    public function __construct(array $data)
+    public function __construct()
     {
-        $this->title = $data['title'] ?? null;
-        $this->description = $data['description'] ?? null;
-        $this->canonical = $data['canonical'] ?? null;
-        $this->noIndex = $data['noIndex'] ?? false;
-        $this->noFollow = $data['noFollow'] ?? false;
+        $this->currentUrl = get_current_url(true);
+        $this->title = setting('site_title');
+        $this->description = sub_words(setting('site_description'), 165);
     }
 
     public function getTitle()
     {
-        return empty($this->title) ? null : "<title>$this->title</title>" . PHP_EOL;
+        return "<title>{$this->title}</title>" . PHP_EOL;
     }
 
     public function getCanonical()
     {
-        $url = $this->canonical ?? get_current_url(true);
-        return "<link rel='canonical' href='$url'/>" . PHP_EOL;
+        return "<link rel='canonical' href='$this->currentUrl' />" . PHP_EOL;
     }
 
     public function getMetaTags()
     {
         $metaTags = '';
         // description
-        $metaTags .= empty($this->description) ? null : "<meta name='description' content='$this->description'/>" . PHP_EOL;
-
-        // robots
-        $robots = [
-            'max-snippet:-1',
-            'max-video-preview:-1',
-            'max-image-preview:large'
-        ];
-        if ($this->noIndex) $robots[] = 'noindex';
-        if ($this->noFollow) $robots[] = 'nofollow';
-
-        $robots = implode(', ', $robots);
-        $metaTags .= "<meta name='robots' content='$robots'/>" . PHP_EOL;
+        $metaTags .= "<meta name='description' content='$this->description' />" . PHP_EOL;
 
         return $metaTags;
+
     }
 
     public function getOpenGraphTags()
     {
+
+        $openGraph = '';
+
+        $openGraph .= "<meta property='og:title' content='{$this->title}' />" . PHP_EOL;
+        $openGraph .= "<meta property='og:url' content='$this->currentUrl' />" . PHP_EOL;
+        $openGraph .= "<meta property='og:description' content='$this->description' />" . PHP_EOL;
+        $openGraph .= "<meta property='og:type' content='website' />" . PHP_EOL;
+        $openGraph .= "<meta property='og:locale' content='fa_IR' />" . PHP_EOL;
+
+        return $openGraph;
     }
 
     public function getSchema()
