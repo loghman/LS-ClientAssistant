@@ -308,3 +308,10 @@ if (! function_exists('auth_label')) {
         return $text;
     }
 }
+
+if (! function_exists('is_production_environment')) {
+    function is_production_environment(): bool
+    {
+        return isset($_ENV['APP_ENV']) && $_ENV['APP_ENV'] == 'production';
+    }
+}
