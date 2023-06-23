@@ -318,3 +318,10 @@ if (!function_exists('toggle_errors')) {
         error_reporting($status ? E_ALL : -1);
     }
 }
+
+if (!function_exists('is_production_environment')) {
+    function is_production_environment(): bool
+    {
+        return isset($_ENV['APP_ENV']) && $_ENV['APP_ENV'] == 'production';
+    }
+}
