@@ -76,7 +76,7 @@ class LMSProduct extends ModuleUtility
         }
     }
 
-    public static function chapters(int $productId, string $userToken = null): Collection
+    public static function chapters(int $productId, string $userToken = null, array $with = []): Collection
     {
         $headers = [];
         if (!is_null($userToken)) {
@@ -85,7 +85,9 @@ class LMSProduct extends ModuleUtility
             ];
         }
         try {
-            return GuzzleClient::get(sprintf('v1/lms/product/%s/chapters', $productId), [], $headers);
+            return GuzzleClient::get(sprintf('v1/lms/product/%s/chapters', $productId), [
+                'with' => json_encode($with),
+            ], $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -161,10 +163,12 @@ class LMSProduct extends ModuleUtility
         }
     }
 
-    public static function demo(int $productId): Collection
+    public static function demo(int $productId, int $count = 7): Collection
     {
         try {
-            return GuzzleClient::get(sprintf('v1/lms/product/%s/demo', $productId));
+            return GuzzleClient::get(sprintf('v1/lms/product/%s/demo', $productId), [
+                'count' => $count,
+            ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -206,7 +210,7 @@ class LMSProduct extends ModuleUtility
         }
     }
 
-    public static function count(int $count): Collection
+    public static function latest(int $count): Collection
     {
         try {
             return GuzzleClient::get('v1/lms/product', [
@@ -220,10 +224,10 @@ class LMSProduct extends ModuleUtility
         }
     }
 
-    public static function bestSell($perPage = 12): Collection
+    public static function byHighestStudentAmount($perPage = 12): Collection
     {
         try {
-            return GuzzleClient::get('v1/lms/product/best-sell', [
+            return GuzzleClient::get('v1/lms/product/by-highest-student-amount', [
                 'per_page' => $perPage,
             ]);
         } catch (ClientException $exception) {

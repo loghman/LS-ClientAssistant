@@ -6,43 +6,37 @@ use Ls\ClientAssistant\Services\Seo\SeoMeta;
 
 class GeneralSeoMeta extends SeoMeta
 {
-    public string $title;
-    public string $description;
-    public string $canonical;
+    public null|string $title;
+    public null|string $description;
+    public null|string $canonical;
     public bool $noIndex;
     public bool $noFollow;
 
-    public function __construct(
-        string $title = null,
-        string $description = null,
-        string $canonical = null,
-        bool   $noIndex = false,
-        bool   $noFollow = false
-    )
+    public function __construct(array $data)
     {
-        $this->title = $title;
-        $this->description = $description;
-        $this->canonical = $canonical;
-        $this->noIndex = $noIndex;
-        $this->noFollow = $noFollow;
+        $this->title = $data['title'] ?? null;
+        $this->description = $data['description'] ?? null;
+        $this->canonical = $data['canonical'] ?? null;
+        $this->noIndex = $data['noIndex'] ?? false;
+        $this->noFollow = $data['noFollow'] ?? false;
     }
 
     public function getTitle()
     {
-        return empty($this->title) ? null : "<title>$this->title</title>";
+        return empty($this->title) ? null : "<title>$this->title</title>" . PHP_EOL;
     }
 
     public function getCanonical()
     {
         $url = $this->canonical ?? get_current_url(true);
-        return "<link rel='canonical' href='$url'/>";
+        return "<link rel='canonical' href='$url'/>" . PHP_EOL;
     }
 
     public function getMetaTags()
     {
         $metaTags = '';
         // description
-        $metaTags .= empty($this->description) ? null : "<meta name='description' content='$this->description'/>";
+        $metaTags .= empty($this->description) ? null : "<meta name='description' content='$this->description'/>" . PHP_EOL;
 
         // robots
         $robots = [
