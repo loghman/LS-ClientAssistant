@@ -68,7 +68,7 @@ if (!function_exists('seo_meta')) {
 if (!function_exists('sitemap')) {
     function sitemap(string $sitemap, array $data): void
     {
-        $class = sprintf("Ls\ClientAssistant\Services\Seo\SiteMap\%sSiteMap", ucfirst($sitemap));
+        $class = sprintf("Ls\ClientAssistant\Services\Seo\SiteMaps\%sSiteMap", ucfirst($sitemap));
         if (!class_exists($class)) {
             throw new \Exception("Class ($class) Not Found!");
         }
