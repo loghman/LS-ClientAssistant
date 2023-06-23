@@ -1,6 +1,6 @@
 <?php
 
-namespace Ls\ClientAssistant\Services\Seo\SiteMap;
+namespace Ls\ClientAssistant\Services\Seo\SiteMaps;
 
 abstract class siteMap
 {
