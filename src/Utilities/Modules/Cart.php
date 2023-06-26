@@ -23,12 +23,13 @@ class Cart
         }
     }
 
-    public static function addItem($userToken)
+    public static function addItem($userToken, $entity_type, $entity_id, $ip): Collection
     {
         try {
-            return GuzzleClient::post('v1/cart/add', [], [
-                'Authorization' => 'Bearer '.$userToken,
-            ]);
+            return GuzzleClient::post(
+                'v1/cart/add', compact('entity_type', 'entity_id', 'ip'),
+                ['Authorization' => 'Bearer '.$userToken]
+            );
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -36,7 +37,7 @@ class Cart
         }
     }
 
-    public static function deleteItem($userToken, $itemId)
+    public static function deleteItem($userToken, $itemId): Collection
     {
         try {
             return GuzzleClient::delete("v1/cart/delete/$itemId", [], [
