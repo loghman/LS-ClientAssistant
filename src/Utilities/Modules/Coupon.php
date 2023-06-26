@@ -9,49 +9,30 @@ use Ls\ClientAssistant\Core\Enums\OrderByEnum;
 use Ls\ClientAssistant\Core\GuzzleClient;
 use Ls\ClientAssistant\Helpers\Response;
 
-class Coupon extends ModuleUtility
+class Coupon
 {
-    public static function get(string $id, array $with = []): Collection
+    public static function apply($userToken, $cartId, $coupon): Collection
     {
         try {
-            return GuzzleClient::get('v1/coupon/' . $id, [
-                'with' => json_encode($with),
-            ]);
-        }  catch (ClientException $exception) {
-            return Response::parseClientException($exception);
-        }catch (\Exception $exception){
-            return Response::parseException($exception);
-        }
-    }
-
-    public static function list(array $with = [], array $keyValues = [], int $perPage = 20, $orderBy = OrderByEnum::LATEST): Collection
-    {
-        try {
-            return GuzzleClient::get('v1/coupon/', [
-                'with' => json_encode($with),
-                'filter' => json_encode($keyValues),
-                'order_by' => $orderBy,
-                'per_page' => $perPage,
+            return GuzzleClient::post("v1/coupon/apply/$cartId", compact('coupon'), [
+                'Authorization' => 'Bearer '.$userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
-        }catch (\Exception $exception){
+        } catch (Exception $exception) {
             return Response::parseException($exception);
         }
     }
 
-    public static function search(string $keyword, array $columns = [], array $with = [], int $perPage = 20): Collection
+    public static function unapply($userToken, $cartId, $couponId): Collection
     {
         try {
-            return GuzzleClient::get('v1/coupon/', [
-                's' => $keyword,
-                'with' => json_encode($with),
-                'columns' => json_encode($columns),
-                'per_page' => $perPage,
+            return GuzzleClient::delete("v1/coupon/unapply/$cartId/$couponId", [], [
+                'Authorization' => 'Bearer '.$userToken,
             ]);
-        }  catch (ClientException $exception) {
+        } catch (ClientException $exception) {
             return Response::parseClientException($exception);
-        }catch (\Exception $exception){
+        } catch (Exception $exception) {
             return Response::parseException($exception);
         }
     }
