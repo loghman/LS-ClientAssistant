@@ -1,15 +1,14 @@
 <?php
 
-namespace Ls\ClientAssistant\Services\Seo;
+namespace Ls\ClientAssistant\Services\Seo\MetaTags;
 
-use Illuminate\Contracts\Support\Renderable;
-
-abstract class SeoMeta {
+abstract class SeoMeta
+{
 
     public function render($type = 'html')
     {
         $method = sprintf('get%sRendered', ucfirst($type));
-        method_exists($this,$method) || throw new \Exception('SEO render type is wrong!');
+        method_exists($this, $method) || throw new \Exception('SEO render type is wrong!');
         return $this->$method();
     }
 
@@ -50,8 +49,12 @@ abstract class SeoMeta {
     }
 
     abstract public function getTitle();
+
     abstract public function getCanonical();
+
     abstract public function getMetaTags();
+
     abstract public function getOpenGraphTags();
+
     abstract public function getSchema();
 }

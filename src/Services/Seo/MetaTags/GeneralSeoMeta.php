@@ -1,8 +1,6 @@
 <?php
 
-namespace Ls\ClientAssistant\Services\Seo;
-
-use Ls\ClientAssistant\Services\Seo\SeoMeta;
+namespace Ls\ClientAssistant\Services\Seo\MetaTags;
 
 class GeneralSeoMeta extends SeoMeta
 {

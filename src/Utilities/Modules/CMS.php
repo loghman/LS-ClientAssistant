@@ -79,15 +79,16 @@ class CMS extends ModuleUtility
         }
     }
 
-    public static function queryParams(array $params, array $with = [], int $perPage = 20): Collection
+    public static function queryParams(array $queryParams, array $customParams = [], array $with = [], int $perPage = 20): Collection
     {
         try {
             $data = [
                 'with' => $with,
                 'per_page' => $perPage,
+                'custom_params' => $customParams
             ];
 
-            foreach ($params as $key => $value) {
+            foreach ($queryParams as $key => $value) {
                 $data[$key] = $value;
             }
 

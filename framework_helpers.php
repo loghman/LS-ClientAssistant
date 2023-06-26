@@ -45,7 +45,7 @@ if (!function_exists('seo_meta')) {
     function seo_meta($entity_type = null, $entity = null, $section = null, $returnType = 'html')
     {
         // validation
-        $class = sprintf("Ls\ClientAssistant\Services\Seo\%sSeoMeta", ucfirst($entity_type));
+        $class = sprintf("Ls\ClientAssistant\Services\Seo\MetaTags\%sSeoMeta", ucfirst($entity_type));
         if (!class_exists($class)) {
             throw new \Exception("Class ($class) Not Found!");
         }
@@ -62,6 +62,18 @@ if (!function_exists('seo_meta')) {
         }
 
         return $seoMeta->render($returnType);
+    }
+}
+
+if (!function_exists('sitemap')) {
+    function sitemap(string $sitemap, array $data): void
+    {
+        $class = sprintf("Ls\ClientAssistant\Services\Seo\SiteMaps\%sSiteMap", ucfirst($sitemap));
+        if (!class_exists($class)) {
+            throw new \Exception("Class ($class) Not Found!");
+        }
+        $sitemap = new $class($data);
+        echo $sitemap->render();
     }
 }
 
