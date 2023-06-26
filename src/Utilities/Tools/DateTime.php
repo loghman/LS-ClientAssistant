@@ -40,7 +40,7 @@ class DateTime
         }
 
         if ($hours < 1) {
-            return sprintf("%s %s", Lang::persianNumbers($minutes), $minutes);
+            return sprintf("%s ساعت و %s دقیقه", Lang::persianNumbers($minutes), $minutes);
         }
 
         return sprintf("%s ساعت و %s دقیقه", Lang::persianNumbers($hours), Lang::persianNumbers($minutes));
