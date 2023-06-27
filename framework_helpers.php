@@ -187,14 +187,6 @@ if (!function_exists('core_url')) {
     }
 }
 
-if (!function_exists('redirect')) {
-    function redirect($url)
-    {
-        header("Location: $url");
-        exit();
-    }
-}
-
 if (!function_exists('generate_storage_jwt_token')) {
     function generate_storage_jwt_token($userId): string
     {
