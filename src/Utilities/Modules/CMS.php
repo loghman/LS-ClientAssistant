@@ -100,12 +100,13 @@ class CMS extends ModuleUtility
         }
     }
 
-    public static function categories(): Collection
+    public static function categories(array $keyValue = []): Collection
     {
         try {
             return GuzzleClient::get('v1/term', [
                 'type' => 'category',
                 'module' => 'cms',
+                'filter' => json_encode($keyValue),
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
