@@ -572,7 +572,7 @@ if (!function_exists('to_english_num')) {
 if (!function_exists('to_verta')) {
     function to_verta($date, $format = '%d %B %Y، H:i')
     {
-        return \Hekmatinasser\Verta\Verta::instance($date, $format);
+        return \Hekmatinasser\Verta\Verta::instance($date)->format($format);
     }
 }
 
