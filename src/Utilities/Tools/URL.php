@@ -6,15 +6,11 @@ class URL
 {
     public static function getReferer(): ?string
     {
-        return $_SERVER['HTTP_REFERER'] ?? null;
+        return get_referer();
     }
 
     public static function redirectJs($url = '', $delay_ms = 500): string
     {
-        return "<script>
-        setTimeout(function() {
-            location.href = '$url'
-        }, $delay_ms);
-        </script>";
+        return js_redirect_script($url, $delay_ms);
     }
 }

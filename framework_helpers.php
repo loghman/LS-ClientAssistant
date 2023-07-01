@@ -539,3 +539,136 @@ if (!function_exists('number_to_letter_persian')) {
         return $letters[$number];
     }
 }
+
+if (!function_exists('to_persian_date')) {
+    function to_persian_date($enDate, $format = '%d %B %Y، H:i')
+    {
+        if ($enDate instanceof \Carbon\Carbon) {
+            $enDate = $enDate->toDateTimeString();
+        }
+
+        return to_persian_num(to_verta($enDate, $format));
+    }
+}
+
+if (!function_exists('to_persian_num')) {
+    function to_persian_num($str): string
+    {
+        $faNum = array('۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹');
+        $enNum = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+        return str_replace($enNum, $faNum, (string)$str);
+    }
+}
+
+if (!function_exists('to_english_num')) {
+    function to_english_num($number)
+    {
+        $faNum = array('۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹');
+        $enNum = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+        return str_replace($faNum, $enNum, (string)$number);
+    }
+}
+
+if (!function_exists('to_verta')) {
+    function to_verta($date, $format = '%d %B %Y، H:i')
+    {
+        return \Hekmatinasser\Verta\Verta::instance($date, $format);
+    }
+}
+
+if (!function_exists('to_persian_price')) {
+    function to_persian_price($price, $no_span = 0, $round = 0, $postfix = null): string
+    {
+        $currencyStr = is_null($postfix) ? "تومان" : "تومان$postfix";
+        if ($round === 'hezar' || $round === 'thousand') {
+            $price = round($price / 1000) * 1000;
+        }
+
+        if ($round === 'million') {
+            $price = round($price / 1000000) * 1000000;
+        }
+
+        if ($price < 1000) {
+            $str = to_persian_num($price) . " $currencyStr";
+        } else if ($price < 1000000) {
+            $str = to_persian_num(round($price / 1000)) . " هزار $currencyStr";
+        } else {
+            $str = to_persian_num(round($price / 1000000, 3)) . " میلیون $currencyStr";
+        }
+
+        return $str;
+    }
+}
+
+if (!function_exists('get_referer')) {
+    function get_referer()
+    {
+        return $_SERVER['HTTP_REFERER'] ?? null;
+    }
+}
+
+if (!function_exists('js_redirect_script')) {
+    function js_redirect_script($url = '', $delay_ms = 500)
+    {
+        return "<script>
+        setTimeout(function() {
+            location.href = '$url'
+        }, $delay_ms);
+        </script>";
+    }
+}
+
+if (!function_exists('get_ip')) {
+    function get_ip()
+    {
+        $ipAddress = $_SERVER['REMOTE_ADDR'];
+        if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER)) {
+            $tmp = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+            $ipAddress = array_pop($tmp);
+        }
+        return trim($ipAddress);
+    }
+}
+
+if (!function_exists('geoip_infos')) {
+    function geoip_infos($ip = null)
+    {
+        $ip = $ip ?? self::get();
+        $json = file_get_contents("http://ip-api.ir/info/{$ip}");
+        return \Ls\ClientAssistant\Utilities\Tools\Validation::isValidJson($json) ? json_decode($json) : null;
+    }
+}
+
+if (!function_exists('convert_seconds_to_persian_time')) {
+    function convert_seconds_to_persian_time($seconds): string
+    {
+        $hours = floor($seconds / 3600);
+        $minutes = floor(($seconds % 3600) / 60);
+        $remainingSeconds = $seconds % 60;
+
+        if ($hours > 0) {
+            $time = \Carbon\Carbon::createFromTime($hours, $minutes, $remainingSeconds, 'Asia/Tehran')->isoFormat('HH:mm:ss');
+        } else {
+            $time = \Carbon\Carbon::createFromTime(0, $minutes, $remainingSeconds, 'Asia/Tehran')->isoFormat('mm:ss');
+        }
+
+        return to_persian_num($time);
+    }
+}
+
+if (!function_exists('convert_seconds_to_persian_in_line_time')) {
+    function convert_seconds_to_persian_in_line_time($seconds): string
+    {
+        $hours = floor($seconds / 3600);
+        $minutes = floor(($seconds % 3600) / 60);
+        if ($hours == 1 and $minutes == 0) {
+            return sprintf("%s %s", '۱', 'ساعت');
+        }
+
+        if ($hours < 1) {
+            return sprintf("%s دقیقه", to_persian_num(((int)$minutes)));
+        }
+
+        return sprintf("%s ساعت و %s دقیقه", to_persian_num($hours), to_persian_num($minutes));
+    }
+}
