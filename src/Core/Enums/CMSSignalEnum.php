@@ -4,9 +4,9 @@ namespace Ls\ClientAssistant\Core\Enums;
 
 class CMSSignalEnum
 {
-    public const VISIT = 'visit';
-    public const DISLIKE = 'dislike';
-    public const LIKE = 'like';
-    public const RATE = 'rate';
-    public const BOOKMARK = 'bookmark';
+    public const VIEWS = 'views';
+    public const DISLIKES = 'dislikes';
+    public const LIKES = 'likes';
+    public const RATES = 'rates';
+    public const BOOKMARKS = 'bookmarks';
 }

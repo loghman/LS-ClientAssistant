@@ -64,7 +64,7 @@ class CMS extends ModuleUtility
     public static function signal(int $postId, string $type, string $value): Collection
     {
         try {
-            if (!in_array($type, [CMSSignalEnum::VISIT, CMSSignalEnum::LIKE, CMSSignalEnum::DISLIKE, CMSSignalEnum::RATE, CMSSignalEnum::BOOKMARK])) {
+            if (!in_array($type, [CMSSignalEnum::VIEWS, CMSSignalEnum::LIKES, CMSSignalEnum::DISLIKES, CMSSignalEnum::RATES, CMSSignalEnum::BOOKMARKS])) {
                 throw new \InvalidArgumentException('Type must be in [visit, like, dislike, rate, bookmark]');
             }
 
