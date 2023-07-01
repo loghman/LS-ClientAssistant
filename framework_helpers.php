@@ -15,7 +15,7 @@ if (!function_exists('site_url')) {
 if (!function_exists('asset_url')) {
     function asset_url(string $path): string
     {
-        return ($GLOBALS['appUrl'] ?? '') . '/assets/' . $path;
+        return ($GLOBALS['appUrl'] ?? '') . 'assets/' . $path;
     }
 }
 
