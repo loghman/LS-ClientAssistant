@@ -633,7 +633,7 @@ if (!function_exists('get_ip')) {
 if (!function_exists('geoip_infos')) {
     function geoip_infos($ip = null)
     {
-        $ip = $ip ?? self::get();
+        $ip = $ip ?? get_ip();
         $json = file_get_contents("http://ip-api.ir/info/{$ip}");
         return \Ls\ClientAssistant\Utilities\Tools\Validation::isValidJson($json) ? json_decode($json) : null;
     }
