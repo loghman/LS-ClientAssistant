@@ -46,7 +46,9 @@ class SupportCommunity
     public static function rich(array $methods = []): Collection
     {
         try {
-            return GuzzleClient::get('v1/support/community/rich', $methods);
+            return GuzzleClient::get('v1/support/community/rich', [
+                'methods' => $methods,
+            ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
