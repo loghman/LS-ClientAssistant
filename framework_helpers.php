@@ -176,7 +176,7 @@ if (!function_exists('storage_url')) {
 if (!function_exists('base_storage_url')) {
     function base_storage_url()
     {
-        return str_replace('/s', '', storage_url());
+        return rtrim(storage_url(), '/s',);
     }
 }
 
