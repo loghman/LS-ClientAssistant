@@ -114,4 +114,22 @@ class CMS extends ModuleUtility
             return Response::parseException($exception);
         }
     }
+
+    public static function addComment($postId, array $data = []): Collection
+    {
+        try {
+            return GuzzleClient::post('v1/comment', [
+                'entity_id' => $postId,
+                'entity_type' => 'cms',
+                'author_name' => $data['name'] ?? null,
+                'author_email' => $data['email'] ?? null,
+                'content' => $data['content'] ?? null,
+                'ip' => $data['ip'] ?? get_ip(),
+            ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
 }

@@ -8,7 +8,9 @@ abstract class SeoMeta
     public function render($type = 'html')
     {
         $method = sprintf('get%sRendered', ucfirst($type));
-        method_exists($this, $method) || throw new \Exception('SEO render type is wrong!');
+        if (!method_exists($this, $method)) {
+            throw new \Exception('SEO render type is wrong!');
+        }
         return $this->$method();
     }
 
