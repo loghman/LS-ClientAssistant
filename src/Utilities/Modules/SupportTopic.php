@@ -85,6 +85,17 @@ class SupportTopic extends ModuleUtility
         }
     }
 
+    public static function participants($topicId): Collection
+    {
+        try {
+            return GuzzleClient::get(sprintf("v1/support/topic/%s/participants", $topicId));
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
     public static function create(array $data, string $userToken): Collection
     {
         try {
