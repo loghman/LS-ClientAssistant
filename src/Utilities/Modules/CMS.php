@@ -127,6 +127,7 @@ class CMS extends ModuleUtility
                 'ip' => $data['ip'] ?? get_ip(),
                 'rate' => $data['rate'] ?? null,
                 'user_code' => $data['code'] ?? null,
+                'parent_id' => $data['parent_id'] ?? null,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
