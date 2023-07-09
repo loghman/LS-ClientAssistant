@@ -13,7 +13,7 @@ class Comment
     {
         try {
             return GuzzleClient::get('v1/comment', [
-                'entity_type' => 'Product',
+                'entity_type' => 'lms_products',
                 'entity_id' => $id,
                 'per_page' => $perPage,
             ]);
@@ -28,7 +28,7 @@ class Comment
     {
         try {
             return GuzzleClient::get('v1/comment', [
-                'entity_type' => 'Post',
+                'entity_type' => 'cms_posts',
                 'entity_id' => $id,
                 'per_page' => $perPage,
             ]);
@@ -43,7 +43,7 @@ class Comment
     {
         try {
             return GuzzleClient::get('v1/comment', [
-                'entity_type' => 'Shop',
+                'entity_type' => 'shop_products',
                 'entity_id' => $id,
                 'per_page' => $perPage,
             ]);

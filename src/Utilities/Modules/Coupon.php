@@ -2,6 +2,7 @@
 
 namespace Ls\ClientAssistant\Utilities\Modules;
 
+use Exception;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\Contracts\ModuleUtility;

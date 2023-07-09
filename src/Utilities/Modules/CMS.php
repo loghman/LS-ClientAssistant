@@ -120,7 +120,7 @@ class CMS extends ModuleUtility
         try {
             return GuzzleClient::post('v1/comment', [
                 'entity_id' => $postId,
-                'entity_type' => 'post',
+                'entity_type' => 'cms_posts',
                 'author_name' => $data['name'] ?? null,
                 'author_email' => $data['email'] ?? null,
                 'content' => $data['content'] ?? null,
