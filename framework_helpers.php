@@ -130,22 +130,22 @@ if (!function_exists('is_active_uri_param')) {
 }
 
 if (!function_exists('abort')) {
-    function abort($code, $message = '', array $headers = [])
+    function abort($code, $message = '', $buttonText = null, $buttonUrl = null, array $headers = [])
     {
         http_response_code($code);
         foreach ($headers as $header) {
             header($header);
         }
-        view("errors.$code", compact('code', 'message'));
+        view("errors.$code", compact('code', 'message', 'buttonText', 'buttonUrl'));
         die();
     }
 }
 
 if (!function_exists('get_or_fail')) {
-    function get_or_fail($response, $message = null)
+    function get_or_fail($response, $message = null, $buttonText = null, $buttonUrl = null)
     {
         if (empty($response['data']) || empty($response)) {
-            abort(404, $message);
+            abort(404, $message, $buttonText, $buttonUrl);
         }
 
         return $response;
