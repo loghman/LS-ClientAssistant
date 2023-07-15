@@ -79,14 +79,9 @@ class Enrollment extends ModuleUtility
     public static function logs(int $enrollmentId, string $userToken): Collection
     {
         try {
-            $guzzle = API::self();
-            $response = $guzzle->get(('v1/lms/enrollment/' . $enrollmentId . '/logs'), [
-                RequestOptions::HEADERS => [
-                    'Authorization' => 'Bearer ' . $userToken,
-                ]
+            return API::get(('v1/lms/enrollment/' . $enrollmentId . '/logs'), [], [
+                'Authorization' => 'Bearer ' . $userToken,
             ]);
-
-            return collect(json_decode($response->getBody()->getContents()));
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {

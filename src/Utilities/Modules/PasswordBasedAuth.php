@@ -12,22 +12,12 @@ class PasswordBasedAuth
 {
     public static function login(string $mobileOrEmail, string $password): Collection
     {
-        $guzzle = API::self();
-
         try {
-            $response = $guzzle->post('v1/auth/login', [
-                'form_params' => [
-                    'auth_method' => 'PasswordBased',
-                    'input' => $mobileOrEmail,
-                    'password' => $password,
-                ],
+            return API::post('v1/auth/login', [
+                'auth_method' => 'PasswordBased',
+                'input' => $mobileOrEmail,
+                'password' => $password,
             ]);
-
-            if (in_array($response->getStatusCode(), [200, 201])) {
-                return collect(json_decode($response->getBody()));
-            }
-
-            return collect();
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -37,17 +27,8 @@ class PasswordBasedAuth
 
     public static function register(array $data): Collection
     {
-        $guzzle = API::self();
         try {
-            $response = $guzzle->post('v1/auth/register', [
-                'form_params' => $data,
-            ]);
-
-            if (in_array($response->getStatusCode(), [200, 201])) {
-                return collect(json_decode($response->getBody()));
-            }
-
-            return collect();
+            return API::post('v1/auth/register', $data);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -58,20 +39,11 @@ class PasswordBasedAuth
     public static function verifyVerificationCode(string $mobileOrEmail, string $otp): Collection
     {
         try {
-            $guzzle = API::self();
-            $response = $guzzle->post('v1/auth/verify-otp', [
-                'form_params' => [
-                    'auth_method' => 'PasswordBased',
-                    'input' => $mobileOrEmail,
-                    'otp' => $otp,
-                ],
+            return API::post('v1/auth/verify-otp', [
+                'auth_method' => 'PasswordBased',
+                'input' => $mobileOrEmail,
+                'otp' => $otp,
             ]);
-
-            if (in_array($response->getStatusCode(), [200, 201])) {
-                return collect(json_decode($response->getBody()));
-            }
-
-            return collect();
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -82,19 +54,10 @@ class PasswordBasedAuth
     public static function sendVerificationCode($mobileOrEmail): Collection
     {
         try {
-            $guzzle = API::self();
-            $response = $guzzle->post('v1/auth/send-otp', [
-                'form_params' => [
-                    'auth_method' => 'PasswordBased',
-                    'input' => $mobileOrEmail,
-                ],
+            return API::post('v1/auth/send-otp', [
+                'auth_method' => 'PasswordBased',
+                'input' => $mobileOrEmail,
             ]);
-
-            if (in_array($response->getStatusCode(), [200, 201])) {
-                return collect(json_decode($response->getBody()));
-            }
-
-            return collect();
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -105,19 +68,11 @@ class PasswordBasedAuth
     public static function updateEmail($userToken, $email): Collection
     {
         try {
-            $guzzle = API::self();
-            $response = $guzzle->post('v1/auth/email-update', [
-                'form_params' => [
-                    'input' => $email,
-                ],
-                'headers' => ['Authorization' => 'Bearer ' . $userToken],
+            return API::post('v1/auth/email-update', [
+                'input' => $email,
+            ], [
+                'Authorization' => 'Bearer ' . $userToken
             ]);
-
-            if (in_array($response->getStatusCode(), [200, 201])) {
-                return collect(json_decode($response->getBody()));
-            }
-
-            return collect();
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -128,19 +83,11 @@ class PasswordBasedAuth
     public static function updateMobile($userToken, $mobile): Collection
     {
         try {
-            $guzzle = API::self();
-            $response = $guzzle->post('v1/auth/mobile-update', [
-                'form_params' => [
-                    'input' => $mobile,
-                ],
-                'headers' => ['Authorization' => 'Bearer ' . $userToken],
-            ]);
-
-            if (in_array($response->getStatusCode(), [200, 201])) {
-                return collect(json_decode($response->getBody()));
-            }
-
-            return collect();
+            return API::post('v1/auth/mobile-update', [
+                'input' => $mobile,
+            ],
+                ['Authorization' => 'Bearer ' . $userToken],
+            );
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
