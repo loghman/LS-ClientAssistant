@@ -6,7 +6,7 @@ use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\Contracts\ModuleUtility;
 use Ls\ClientAssistant\Core\Enums\OrderByEnum;
-use Ls\ClientAssistant\Core\GuzzleClient;
+use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Helpers\Response;
 
 class CareerPath extends ModuleUtility
@@ -14,7 +14,7 @@ class CareerPath extends ModuleUtility
     public static function get(string $idOrSlug, array $with = []): Collection
     {
         try {
-            return GuzzleClient::get('v1/lms/career-path/' . $idOrSlug, [
+            return API::get('v1/lms/career-path/' . $idOrSlug, [
                 'with' => json_encode($with),
             ]);
         } catch (ClientException $exception) {
@@ -27,7 +27,7 @@ class CareerPath extends ModuleUtility
     public static function list(array $with = [], array $keyValues = [], int $perPage = 20, $orderBy = OrderByEnum::LATEST): Collection
     {
         try {
-            return GuzzleClient::get('v1/lms/career-path', [
+            return API::get('v1/lms/career-path', [
                 'with' => json_encode($with),
                 'filter' => json_encode($keyValues),
                 'order_by' => $orderBy,
@@ -43,7 +43,7 @@ class CareerPath extends ModuleUtility
     public static function search(string $keyword, array $columns = [], array $with = [], int $perPage = 20): Collection
     {
         try {
-            return GuzzleClient::get('v1/lms/career-path', [
+            return API::get('v1/lms/career-path', [
                 's' => $keyword,
                 'with' => json_encode($with),
                 'columns' => json_encode($columns),

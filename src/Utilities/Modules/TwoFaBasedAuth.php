@@ -4,7 +4,7 @@ namespace Ls\ClientAssistant\Utilities\Modules;
 
 use Exception;
 use GuzzleHttp\Exception\ClientException;
-use Ls\ClientAssistant\Core\GuzzleClient;
+use Ls\ClientAssistant\Core\API;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Helpers\Response;
 
@@ -12,7 +12,7 @@ class TwoFaBasedAuth
 {
     public static function login(string $mobileOrEmail): array
     {
-        $guzzle = GuzzleClient::self();
+        $guzzle = API::self();
         try {
             $response = $guzzle->post('v1/auth/login', [
                 'form_params' => [
@@ -36,7 +36,7 @@ class TwoFaBasedAuth
     public static function verifyVerificationCode(string $mobileOrEmail, string $otp, $passwordResetMode = 0): Collection
     {
         try {
-            $guzzle = GuzzleClient::self();
+            $guzzle = API::self();
             $response = $guzzle->post('v1/auth/verify-otp', [
                 'form_params' => [
                     'auth_method' => 'OtpBased',
@@ -61,7 +61,7 @@ class TwoFaBasedAuth
     public static function sendVerificationCode($mobileOrEmail): Collection
     {
         try {
-            $guzzle = GuzzleClient::self();
+            $guzzle = API::self();
             $response = $guzzle->post('v1/auth/send-otp', [
                 'form_params' => [
                     'auth_method' => 'OtpBased',
@@ -84,7 +84,7 @@ class TwoFaBasedAuth
     public static function resetPassword($barerToken, $password, $passwordConfirmation): Collection
     {
         try {
-            $response = GuzzleClient::self()->post('v1/auth/reset-password', [
+            $response = API::self()->post('v1/auth/reset-password', [
                 'form_params' => [
                     'password' => $password,
                     'password_confirmation' => $passwordConfirmation
@@ -107,7 +107,7 @@ class TwoFaBasedAuth
     public static function logout(string $barerToken): Collection
     {
         try {
-            $guzzle = GuzzleClient::self();
+            $guzzle = API::self();
             $response = $guzzle->get('v1/auth/logout', [
                 'headers' => ['Authorization' => 'Bearer ' . $barerToken],
             ]);

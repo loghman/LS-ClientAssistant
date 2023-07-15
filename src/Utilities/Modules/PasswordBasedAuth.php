@@ -5,14 +5,14 @@ namespace Ls\ClientAssistant\Utilities\Modules;
 use Exception;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
-use Ls\ClientAssistant\Core\GuzzleClient;
+use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Helpers\Response;
 
 class PasswordBasedAuth
 {
     public static function login(string $mobileOrEmail, string $password): Collection
     {
-        $guzzle = GuzzleClient::self();
+        $guzzle = API::self();
 
         try {
             $response = $guzzle->post('v1/auth/login', [
@@ -37,7 +37,7 @@ class PasswordBasedAuth
 
     public static function register(array $data): Collection
     {
-        $guzzle = GuzzleClient::self();
+        $guzzle = API::self();
         try {
             $response = $guzzle->post('v1/auth/register', [
                 'form_params' => $data,
@@ -58,7 +58,7 @@ class PasswordBasedAuth
     public static function verifyVerificationCode(string $mobileOrEmail, string $otp): Collection
     {
         try {
-            $guzzle = GuzzleClient::self();
+            $guzzle = API::self();
             $response = $guzzle->post('v1/auth/verify-otp', [
                 'form_params' => [
                     'auth_method' => 'PasswordBased',
@@ -82,7 +82,7 @@ class PasswordBasedAuth
     public static function sendVerificationCode($mobileOrEmail): Collection
     {
         try {
-            $guzzle = GuzzleClient::self();
+            $guzzle = API::self();
             $response = $guzzle->post('v1/auth/send-otp', [
                 'form_params' => [
                     'auth_method' => 'PasswordBased',
@@ -105,7 +105,7 @@ class PasswordBasedAuth
     public static function updateEmail($userToken, $email): Collection
     {
         try {
-            $guzzle = GuzzleClient::self();
+            $guzzle = API::self();
             $response = $guzzle->post('v1/auth/email-update', [
                 'form_params' => [
                     'input' => $email,
@@ -128,7 +128,7 @@ class PasswordBasedAuth
     public static function updateMobile($userToken, $mobile): Collection
     {
         try {
-            $guzzle = GuzzleClient::self();
+            $guzzle = API::self();
             $response = $guzzle->post('v1/auth/mobile-update', [
                 'form_params' => [
                     'input' => $mobile,

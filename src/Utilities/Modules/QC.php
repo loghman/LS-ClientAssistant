@@ -6,7 +6,7 @@ use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\Contracts\ModuleUtility;
 use Ls\ClientAssistant\Core\Enums\OrderByEnum;
-use Ls\ClientAssistant\Core\GuzzleClient;
+use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Helpers\Response;
 
 class QC extends ModuleUtility
@@ -14,7 +14,7 @@ class QC extends ModuleUtility
     public static function get(string $idOrSlug, array $with = []): Collection
     {
         try {
-            return GuzzleClient::get('v1/lms/review/' . $idOrSlug, [
+            return API::get('v1/lms/review/' . $idOrSlug, [
                 'with' => json_encode($with)
             ]);
         } catch (ClientException $exception) {
@@ -27,7 +27,7 @@ class QC extends ModuleUtility
     public static function list(array $with = [], array $keyValues = [], int $perPage = 20, $orderBy = OrderByEnum::LATEST): Collection
     {
         try {
-            return GuzzleClient::get('v1/lms/review', [
+            return API::get('v1/lms/review', [
                 'with' => json_encode($with),
                 'filter' => json_encode($keyValues),
                 'order_by' => $orderBy,
@@ -43,7 +43,7 @@ class QC extends ModuleUtility
     public static function search(string $keyword, array $columns = [], array $with = [], int $perPage = 20): Collection
     {
         try {
-            return GuzzleClient::get('v1/lms/review', [
+            return API::get('v1/lms/review', [
                 's' => $keyword,
                 'with' => json_encode($with),
                 'columns' => json_encode($columns),
@@ -59,7 +59,7 @@ class QC extends ModuleUtility
     public static function addReview(array $data, string $userToken): Collection
     {
         try {
-            return GuzzleClient::post('v1/lms/review', [
+            return API::post('v1/lms/review', [
                 'product_id' => $data['product_id'],
                 'item_id' => $data['item_id'],
                 'rate' => $data['rate'],
@@ -77,7 +77,7 @@ class QC extends ModuleUtility
     public static function getProductItemReviews(int $productItemId, array $with = []): Collection
     {
         try {
-            return GuzzleClient::get('v1/lms/review/' . $productItemId . '/item', [
+            return API::get('v1/lms/review/' . $productItemId . '/item', [
                 'with' => json_encode($with)
             ]);
         } catch (ClientException $exception) {
@@ -90,7 +90,7 @@ class QC extends ModuleUtility
     public static function getProductReviews(int $productId, array $with = []): Collection
     {
         try {
-            return GuzzleClient::get('v1/lms/review/' . $productId . '/product', [
+            return API::get('v1/lms/review/' . $productId . '/product', [
                 'with' => json_encode($with)
             ]);
         } catch (ClientException $exception) {

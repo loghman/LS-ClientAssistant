@@ -4,7 +4,7 @@ namespace Ls\ClientAssistant\Utilities\Modules;
 
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
-use Ls\ClientAssistant\Core\GuzzleClient;
+use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Helpers\Response;
 
 class Comment
@@ -12,7 +12,7 @@ class Comment
     public static function getLMSProductComments(int $id, int $perPage = 20): Collection
     {
         try {
-            return GuzzleClient::get('v1/comment', [
+            return API::get('v1/comment', [
                 'entity_type' => 'lms_products',
                 'entity_id' => $id,
                 'per_page' => $perPage,
@@ -27,7 +27,7 @@ class Comment
     public static function getPostComments(int $id, int $perPage = 20): Collection
     {
         try {
-            return GuzzleClient::get('v1/comment', [
+            return API::get('v1/comment', [
                 'entity_type' => 'cms_posts',
                 'entity_id' => $id,
                 'per_page' => $perPage,
@@ -42,7 +42,7 @@ class Comment
     public static function getShopProductComments(int $id, int $perPage = 20): Collection
     {
         try {
-            return GuzzleClient::get('v1/comment', [
+            return API::get('v1/comment', [
                 'entity_type' => 'shop_products',
                 'entity_id' => $id,
                 'per_page' => $perPage,

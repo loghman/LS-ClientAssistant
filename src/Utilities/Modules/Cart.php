@@ -5,7 +5,7 @@ namespace Ls\ClientAssistant\Utilities\Modules;
 use Exception;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
-use Ls\ClientAssistant\Core\GuzzleClient;
+use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Helpers\Response;
 
 class Cart
@@ -13,7 +13,7 @@ class Cart
     public static function screen($userToken): Collection
     {
         try {
-            return GuzzleClient::get('v1/cart/screen', [], [
+            return API::get('v1/cart/screen', [], [
                 'Authorization' => 'Bearer '.$userToken,
             ]);
         } catch (ClientException $exception) {
@@ -26,7 +26,7 @@ class Cart
     public static function addItem($userToken, $entity_type, $entity_id, $ip): Collection
     {
         try {
-            return GuzzleClient::post(
+            return API::post(
                 'v1/cart/add', compact('entity_type', 'entity_id', 'ip'),
                 ['Authorization' => 'Bearer '.$userToken]
             );
@@ -40,7 +40,7 @@ class Cart
     public static function deleteItem($userToken, $itemId): Collection
     {
         try {
-            return GuzzleClient::delete("v1/cart/delete/$itemId", [], [
+            return API::delete("v1/cart/delete/$itemId", [], [
                 'Authorization' => 'Bearer '.$userToken,
             ]);
         } catch (ClientException $exception) {

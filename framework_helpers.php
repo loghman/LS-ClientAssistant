@@ -1,6 +1,6 @@
 <?php
 
-use Ls\ClientAssistant\Core\GuzzleClient;
+use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Helpers\Config;
 use Ls\ClientAssistant\Utilities\Modules\Setting;
 use Ls\ClientAssistant\Utilities\Modules\User;
@@ -204,7 +204,7 @@ if (!function_exists('current_user')) {
 if (!function_exists('page_editor')) {
     function page_editor(string $routeName, string $entityType = null, string $entityId = null): array
     {
-        $pageMetaResult = GuzzleClient::get('v1/marketing/page-meta/getMetadata', [
+        $pageMetaResult = API::get('v1/marketing/page-meta/getMetadata', [
             'route_name' => $routeName,
             'entity_type' => $entityType,
             'entity_id' => $entityId,

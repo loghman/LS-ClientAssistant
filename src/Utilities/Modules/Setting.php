@@ -4,7 +4,7 @@ namespace Ls\ClientAssistant\Utilities\Modules;
 
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
-use Ls\ClientAssistant\Core\GuzzleClient;
+use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Helpers\Config;
 use Ls\ClientAssistant\Helpers\Response;
 use Exception;
@@ -20,7 +20,7 @@ class Setting
         }
 
         try {
-            $response = GuzzleClient::post('v1/platform/settings', ['keys' => Config::get('endpoints.required_settings')]);
+            $response = API::post('v1/platform/settings', ['keys' => Config::get('endpoints.required_settings')]);
             self::$settings = collect($response['data']);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);

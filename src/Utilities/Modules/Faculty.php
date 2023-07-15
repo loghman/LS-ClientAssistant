@@ -4,7 +4,7 @@ namespace Ls\ClientAssistant\Utilities\Modules;
 
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
-use Ls\ClientAssistant\Core\GuzzleClient;
+use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Helpers\Response;
 
 class Faculty
@@ -12,7 +12,7 @@ class Faculty
     public static function teachersStats(): Collection
     {
         try {
-            return GuzzleClient::get('v1/lms/faculty/teachers/stats');
+            return API::get('v1/lms/faculty/teachers/stats');
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -23,7 +23,7 @@ class Faculty
     public static function mentorsStats(): Collection
     {
         try {
-            return GuzzleClient::get('v1/lms/faculty/mentors/stats');
+            return API::get('v1/lms/faculty/mentors/stats');
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {

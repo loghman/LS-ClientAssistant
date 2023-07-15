@@ -4,13 +4,13 @@ namespace Ls\ClientAssistant\Utilities\Tools;
 
 use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Collection;
-use Ls\ClientAssistant\Core\GuzzleClient;
+use Ls\ClientAssistant\Core\API;
 
 class Storage
 {
     public static function generateJwtToken(string $userToken): ?string
     {
-        $guzzle = GuzzleClient::self();
+        $guzzle = API::self();
         $response = $guzzle->get('v1/storage-jwt-token', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer ' . $userToken,

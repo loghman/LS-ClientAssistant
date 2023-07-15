@@ -6,7 +6,7 @@ use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\Contracts\ModuleUtility;
 use Ls\ClientAssistant\Core\Enums\OrderByEnum;
-use Ls\ClientAssistant\Core\GuzzleClient;
+use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Helpers\Response;
 
 class SupportTopic extends ModuleUtility
@@ -14,7 +14,7 @@ class SupportTopic extends ModuleUtility
     public static function get(string $idOrSlug, array $with = []): Collection
     {
         try {
-            return GuzzleClient::get('v1/support/topic/' . $idOrSlug, [
+            return API::get('v1/support/topic/' . $idOrSlug, [
                 'with' => json_encode($with),
             ]);
         } catch (ClientException $exception) {
@@ -27,7 +27,7 @@ class SupportTopic extends ModuleUtility
     public static function list(array $with = [], array $keyValues = [], int $perPage = 20, $orderBy = OrderByEnum::LATEST): Collection
     {
         try {
-            return GuzzleClient::get('v1/support/topic', [
+            return API::get('v1/support/topic', [
                 'with' => json_encode($with),
                 'filter' => json_encode($keyValues),
                 'order_by' => $orderBy,
@@ -43,7 +43,7 @@ class SupportTopic extends ModuleUtility
     public static function search(string $keyword, array $columns = [], array $with = [], int $perPage = 20): Collection
     {
         try {
-            return GuzzleClient::get('v1/support/topic', [
+            return API::get('v1/support/topic', [
                 's' => $keyword,
                 'with' => json_encode($with),
                 'columns' => json_encode($columns),
@@ -59,7 +59,7 @@ class SupportTopic extends ModuleUtility
     public static function getProductItemTopics(int $productItemId, array $with = [], array $keyValues = [], int $perPage = 20, $orderBy = OrderByEnum::LATEST): Collection
     {
         try {
-            return GuzzleClient::get('v1/support/topic', [
+            return API::get('v1/support/topic', [
                 'with' => json_encode($with),
                 'filter' => json_encode($keyValues),
                 'order_by' => $orderBy,
@@ -77,7 +77,7 @@ class SupportTopic extends ModuleUtility
     public static function relatedTopics(string $id): Collection
     {
         try {
-            return GuzzleClient::get(sprintf("v1/support/topic/%s/related-topics", $id));
+            return API::get(sprintf("v1/support/topic/%s/related-topics", $id));
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -88,7 +88,7 @@ class SupportTopic extends ModuleUtility
     public static function participants($topicId): Collection
     {
         try {
-            return GuzzleClient::get(sprintf("v1/support/topic/%s/participants", $topicId));
+            return API::get(sprintf("v1/support/topic/%s/participants", $topicId));
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -99,7 +99,7 @@ class SupportTopic extends ModuleUtility
     public static function create(array $data, string $userToken): Collection
     {
         try {
-            return GuzzleClient::post('v1/support/topic', [
+            return API::post('v1/support/topic', [
                 'title' => $data['title'],
                 'content' => $data['content'],
                 'attachment' => $data['attachment'] ?? null,

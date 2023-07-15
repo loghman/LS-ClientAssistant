@@ -5,7 +5,7 @@ namespace Ls\ClientAssistant\Utilities\Modules;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\Contracts\ModuleUtility;
-use Ls\ClientAssistant\Core\GuzzleClient;
+use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Core\Enums\OrderByEnum;
 use Ls\ClientAssistant\Helpers\Response;
 
@@ -14,7 +14,7 @@ class Survey extends ModuleUtility
     public static function get(string $idOrSlug, array $with = []): Collection
     {
         try {
-            return GuzzleClient::get('v1/survey/' . $idOrSlug, [
+            return API::get('v1/survey/' . $idOrSlug, [
                 'with' => json_encode($with),
             ]);
         } catch (ClientException $exception) {
@@ -27,7 +27,7 @@ class Survey extends ModuleUtility
     public static function list(array $with = [], array $keyValues = [], int $perPage = 20, $orderBy = OrderByEnum::LATEST): Collection
     {
         try {
-            return GuzzleClient::get('v1/survey', [
+            return API::get('v1/survey', [
                 'filter' => json_encode($keyValues),
                 'with' => json_encode($with),
                 'order_by' => $orderBy,
@@ -43,7 +43,7 @@ class Survey extends ModuleUtility
     public static function search(string $keyword, array $columns = [], array $with = [], int $perPage = 20): Collection
     {
         try {
-            return GuzzleClient::get('v1/survey', [
+            return API::get('v1/survey', [
                 's' => $keyword,
                 'with' => json_encode($with),
                 'columns' => json_encode($columns),
