@@ -39,7 +39,7 @@ class API
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
-        if (in_array($httpCode, array(200, 201))) {
+        if (in_array($httpCode, [200, 201])) {
             return self::parseData($response);
         }
 
@@ -65,7 +65,7 @@ class API
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
-        if (in_array($httpCode, array(200, 201))) {
+        if (in_array($httpCode, [200, 201])) {
             return self::parseData($response);
         }
 
@@ -90,7 +90,7 @@ class API
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
-        if (in_array($httpCode, array(200, 201))) {
+        if (in_array($httpCode,[200, 201])) {
             return self::parseData($response);
         }
 
@@ -115,7 +115,7 @@ class API
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
-        if (in_array($httpCode, array(200, 201))) {
+        if (in_array($httpCode, [200, 201])) {
             return self::parseData($response);
         }
 
