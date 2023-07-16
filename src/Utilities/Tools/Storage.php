@@ -10,7 +10,7 @@ class Storage
 {
     public static function generateJwtToken(string $userToken): ?string
     {
-        $guzzle = API::self();
+        $guzzle = API::guzzle();
         $response = $guzzle->get('v1/storage-jwt-token', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer ' . $userToken,

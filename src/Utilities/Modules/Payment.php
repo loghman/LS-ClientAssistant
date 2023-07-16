@@ -14,7 +14,7 @@ class Payment
     {
         try {
             return API::post("v1/payment/request/$cartId", ['callbackUrl' => $callbackUrl], [
-                'Authorization' => 'Bearer '.$userToken,
+                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
@@ -27,7 +27,7 @@ class Payment
     {
         try {
             return API::post("v1/payment/response/$paymentId", [], [
-                'Authorization' => 'Bearer '.$userToken,
+                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);

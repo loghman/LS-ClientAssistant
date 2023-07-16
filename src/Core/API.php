@@ -36,6 +36,7 @@ class API
 
         $response = curl_exec($curl);
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        print_r(json_decode($response, true));
         curl_close($curl);
 
         if (in_array($httpCode, [200, 201])) {

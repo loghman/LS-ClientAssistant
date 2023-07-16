@@ -70,7 +70,7 @@ class User extends ModuleUtility
     {
         try {
             $response = API::get('v1/user/me', [], [
-                'Authorization' => 'Bearer ' . $userToken,
+                'Authorization: Bearer ' . $userToken,
             ]);
 
             return API::parseData($response);
@@ -135,7 +135,9 @@ class User extends ModuleUtility
                 'display_name' => $data['display_name'] ?? $user['data']->display_name,
                 'gender' => $data['gender'] ?? $user['data']->gender,
                 'birth_date' => $data['birth_date'] ?? $user['data']->birth_date,
-            ], ['Authorization' => 'Bearer ' . $userToken]);
+            ], [
+                'Authorization: Bearer ' . $userToken,
+            ]);
 
             if (!$response['success']) {
                 return $response;
@@ -152,7 +154,9 @@ class User extends ModuleUtility
     public static function logout(string $userToken): bool
     {
         try {
-            $response = API::get('v1/auth/logout', [], ['Authorization' => 'Bearer ' . $userToken]);
+            $response = API::get('v1/auth/logout', [], [
+                'Authorization: Bearer ' . $userToken,
+            ]);
             self::forgetCurrent();
         } catch (Exception $e) {
             return false;
@@ -165,7 +169,7 @@ class User extends ModuleUtility
     {
         try {
             return API::get('v1/user/enrollments', [], [
-                'Authorization' => 'Bearer ' . $userToken,
+                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
@@ -178,7 +182,7 @@ class User extends ModuleUtility
     {
         try {
             return API::get('v1/user/stats', [], [
-                'Authorization' => 'Bearer ' . $userToken,
+                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
@@ -195,7 +199,7 @@ class User extends ModuleUtility
                 'title' => $title,
                 'attachment_id' => $attachmentId,
             ], [
-                'Authorization' => 'Bearer ' . $userToken,
+                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
@@ -212,7 +216,7 @@ class User extends ModuleUtility
                 'password' => $password,
                 'password_confirmation' => $passwordConfirmation,
             ], [
-                'Authorization' => 'Bearer ' . $userToken,
+                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
@@ -229,7 +233,7 @@ class User extends ModuleUtility
                 'title' => $title,
                 'attachment_id' => $attachmentId,
             ], [
-                'Authorization' => 'Bearer ' . $userToken,
+                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
@@ -244,7 +248,7 @@ class User extends ModuleUtility
             return API::put('v1/user/send-otp-for-mobile-number', [
                 'input' => $mobile,
             ], [
-                'Authorization' => 'Bearer ' . $userToken,
+                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
@@ -260,7 +264,7 @@ class User extends ModuleUtility
                 'input' => $mobile,
                 'otp' => $otp,
             ], [
-                'Authorization' => 'Bearer ' . $userToken,
+                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);

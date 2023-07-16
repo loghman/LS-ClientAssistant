@@ -71,7 +71,7 @@ class PasswordBasedAuth
             return API::post('v1/auth/email-update', [
                 'input' => $email,
             ], [
-                'Authorization' => 'Bearer ' . $userToken
+                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
@@ -86,7 +86,9 @@ class PasswordBasedAuth
             return API::post('v1/auth/mobile-update', [
                 'input' => $mobile,
             ],
-                ['Authorization' => 'Bearer ' . $userToken],
+                [
+                    'Authorization: Bearer ' . $userToken,
+                ],
             );
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);

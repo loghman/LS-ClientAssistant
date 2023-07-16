@@ -70,7 +70,7 @@ class TwoFaBasedAuth
                 'password' => $password,
                 'password_confirmation' => $passwordConfirmation
             ], [
-                'Authorization' => 'Bearer ' . $barerToken
+                'Authorization: Bearer ' . $barerToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
