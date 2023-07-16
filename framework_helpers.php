@@ -111,6 +111,13 @@ if (!function_exists('route')) {
     }
 }
 
+if (!function_exists('routeIs')) {
+    function routeIs(string $path): bool
+    {
+        return route($path) == get_current_url(true);
+    }
+}
+
 if (!function_exists('is_active_uri')) {
     function is_active_uri(string $uri): bool
     {
