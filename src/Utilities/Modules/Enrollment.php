@@ -94,7 +94,7 @@ class Enrollment extends ModuleUtility
     public static function findByUserAndProduct(int $productId, string $userToken): Collection
     {
         try {
-            return API::get(('v1/lms/enrollment/' . $productId), [], [
+            return API::get(('v1/lms/enrollment/' . $productId . '/product'), [], [
                 'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
