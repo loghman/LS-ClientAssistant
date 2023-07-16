@@ -111,8 +111,8 @@ if (!function_exists('route')) {
     }
 }
 
-if (!function_exists('routeIs')) {
-    function routeIs(string $path): bool
+if (!function_exists('route_is')) {
+    function route_is(string $path): bool
     {
         return route($path) == get_current_url(true);
     }
