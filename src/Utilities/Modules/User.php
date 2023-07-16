@@ -69,11 +69,8 @@ class User extends ModuleUtility
     public static function me($userToken): Collection
     {
         try {
-            $guzzle = API::self();
-            $response = $guzzle->get('v1/user/me', [
-                RequestOptions::HEADERS => [
-                    'Authorization' => 'Bearer ' . $userToken,
-                ]
+            $response = API::get('v1/user/me', [], [
+                'Authorization' => 'Bearer ' . $userToken,
             ]);
 
             return API::parseData($response);
