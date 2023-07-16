@@ -5,7 +5,7 @@ namespace Ls\ClientAssistant\Utilities\Modules;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\Contracts\ModuleUtility;
-use Ls\ClientAssistant\Core\GuzzleClient;
+use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Core\Enums\OrderByEnum;
 use Ls\ClientAssistant\Helpers\Response;
 
@@ -14,7 +14,7 @@ class LMSProduct extends ModuleUtility
     public static function get(string $idOrSlug, array $with = []): Collection
     {
         try {
-            return GuzzleClient::get('v1/lms/product/' . $idOrSlug, [
+            return API::get('v1/lms/product/' . $idOrSlug, [
                 'with' => json_encode($with),
             ]);
         } catch (ClientException $exception) {
@@ -27,7 +27,7 @@ class LMSProduct extends ModuleUtility
     public static function list(array $with = [], array $keyValues = [], int $perPage = 20, $orderBy = OrderByEnum::LATEST): Collection
     {
         try {
-            return GuzzleClient::get('v1/lms/product', [
+            return API::get('v1/lms/product', [
                 'with' => json_encode($with),
                 'filter' => json_encode($keyValues),
                 'order_by' => $orderBy,
@@ -43,7 +43,7 @@ class LMSProduct extends ModuleUtility
     public static function search(string $keyword, array $columns = [], array $with = [], int $perPage = 20): Collection
     {
         try {
-            return GuzzleClient::get('v1/lms/product', [
+            return API::get('v1/lms/product', [
                 's' => $keyword,
                 'with' => json_encode($with),
                 'columns' => json_encode($columns),
@@ -68,7 +68,7 @@ class LMSProduct extends ModuleUtility
                 $data[$key] = $value;
             }
 
-            return GuzzleClient::get('v1/lms/product/param', $data);
+            return API::get('v1/lms/product/param', $data);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -85,7 +85,7 @@ class LMSProduct extends ModuleUtility
             ];
         }
         try {
-            return GuzzleClient::get(sprintf('v1/lms/product/%s/chapters', $productId), [
+            return API::get(sprintf('v1/lms/product/%s/chapters', $productId), [
                 'with' => json_encode($with),
             ], $headers);
         } catch (ClientException $exception) {
@@ -98,7 +98,7 @@ class LMSProduct extends ModuleUtility
     public static function chapterStats(int $productId, int $chapterId, string $userToken): Collection
     {
         try {
-            return GuzzleClient::get(sprintf('v1/lms/product/%s/chapter/%s/stats', $productId, $chapterId), [], [
+            return API::get(sprintf('v1/lms/product/%s/chapter/%s/stats', $productId, $chapterId), [], [
                 'Authorization' => 'Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
@@ -111,7 +111,7 @@ class LMSProduct extends ModuleUtility
     public static function nextItem(int $productId, int $itemId): Collection
     {
         try {
-            return GuzzleClient::get(sprintf('v1/lms/product/%s/item/%s/next', $productId, $itemId));
+            return API::get(sprintf('v1/lms/product/%s/item/%s/next', $productId, $itemId));
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -122,7 +122,7 @@ class LMSProduct extends ModuleUtility
     public static function prevItem(int $productId, int $itemId): Collection
     {
         try {
-            return GuzzleClient::get(sprintf('v1/lms/product/%s/item/%s/prev', $productId, $itemId));
+            return API::get(sprintf('v1/lms/product/%s/item/%s/prev', $productId, $itemId));
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -133,7 +133,7 @@ class LMSProduct extends ModuleUtility
     public static function nextChapter(int $productId, int $chapterId): Collection
     {
         try {
-            return GuzzleClient::get(sprintf('v1/lms/product/%s/item/%s/next', $productId, $chapterId));
+            return API::get(sprintf('v1/lms/product/%s/item/%s/next', $productId, $chapterId));
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -144,7 +144,7 @@ class LMSProduct extends ModuleUtility
     public static function prevChapter(int $productId, int $chapterId): Collection
     {
         try {
-            return GuzzleClient::get(sprintf('v1/lms/product/%s/item/%s/prev', $productId, $chapterId));
+            return API::get(sprintf('v1/lms/product/%s/item/%s/prev', $productId, $chapterId));
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -155,7 +155,7 @@ class LMSProduct extends ModuleUtility
     public static function faculty(int $productId): Collection
     {
         try {
-            return GuzzleClient::get(sprintf('v1/lms/product/%s/faculty', $productId));
+            return API::get(sprintf('v1/lms/product/%s/faculty', $productId));
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -166,7 +166,7 @@ class LMSProduct extends ModuleUtility
     public static function demo(int $productId, int $count = 7): Collection
     {
         try {
-            return GuzzleClient::get(sprintf('v1/lms/product/%s/demo', $productId), [
+            return API::get(sprintf('v1/lms/product/%s/demo', $productId), [
                 'count' => $count,
             ]);
         } catch (ClientException $exception) {
@@ -179,7 +179,7 @@ class LMSProduct extends ModuleUtility
     public static function createTopic(array $data, string $userToken): Collection
     {
         try {
-            return GuzzleClient::post('v1/support/topic', [
+            return API::post('v1/support/topic', [
                 'entity_type' => 'lms_product_items',
                 'entity_id' => $data['item_id'],
                 'title' => $data['title'],
@@ -202,7 +202,7 @@ class LMSProduct extends ModuleUtility
     public static function stats(): Collection
     {
         try {
-            return GuzzleClient::get('v1/lms/product/stats');
+            return API::get('v1/lms/product/stats');
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -213,7 +213,7 @@ class LMSProduct extends ModuleUtility
     public static function latest(int $count): Collection
     {
         try {
-            return GuzzleClient::get('v1/lms/product', [
+            return API::get('v1/lms/product', [
                 'count' => $count,
                 'order_by' => OrderByEnum::LATEST,
             ]);
@@ -227,7 +227,7 @@ class LMSProduct extends ModuleUtility
     public static function byHighestStudentAmount($perPage = 12): Collection
     {
         try {
-            return GuzzleClient::get('v1/lms/product/by-highest-student-amount', [
+            return API::get('v1/lms/product/by-highest-student-amount', [
                 'per_page' => $perPage,
             ]);
         } catch (ClientException $exception) {

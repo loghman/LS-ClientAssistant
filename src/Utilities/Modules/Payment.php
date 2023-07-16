@@ -5,7 +5,7 @@ namespace Ls\ClientAssistant\Utilities\Modules;
 use Exception;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
-use Ls\ClientAssistant\Core\GuzzleClient;
+use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Helpers\Response;
 
 class Payment
@@ -13,7 +13,7 @@ class Payment
     public static function request($userToken, $cartId, $callbackUrl): Collection
     {
         try {
-            return GuzzleClient::post("v1/payment/request/$cartId", ['callbackUrl' => $callbackUrl], [
+            return API::post("v1/payment/request/$cartId", ['callbackUrl' => $callbackUrl], [
                 'Authorization' => 'Bearer '.$userToken,
             ]);
         } catch (ClientException $exception) {
@@ -26,7 +26,7 @@ class Payment
     public static function response($userToken, $paymentId): Collection
     {
         try {
-            return GuzzleClient::post("v1/payment/response/$paymentId", [], [
+            return API::post("v1/payment/response/$paymentId", [], [
                 'Authorization' => 'Bearer '.$userToken,
             ]);
         } catch (ClientException $exception) {

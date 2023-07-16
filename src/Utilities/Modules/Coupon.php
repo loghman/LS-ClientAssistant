@@ -7,7 +7,7 @@ use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\Contracts\ModuleUtility;
 use Ls\ClientAssistant\Core\Enums\OrderByEnum;
-use Ls\ClientAssistant\Core\GuzzleClient;
+use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Helpers\Response;
 
 class Coupon
@@ -15,7 +15,7 @@ class Coupon
     public static function apply($userToken, $cartId, $coupon): Collection
     {
         try {
-            return GuzzleClient::post("v1/coupon/apply/$cartId", compact('coupon'), [
+            return API::post("v1/coupon/apply/$cartId", compact('coupon'), [
                 'Authorization' => 'Bearer '.$userToken,
             ]);
         } catch (ClientException $exception) {
@@ -28,7 +28,7 @@ class Coupon
     public static function unapply($userToken, $cartId, $couponId): Collection
     {
         try {
-            return GuzzleClient::delete("v1/coupon/unapply/$cartId/$couponId", [], [
+            return API::delete("v1/coupon/unapply/$cartId/$couponId", [], [
                 'Authorization' => 'Bearer '.$userToken,
             ]);
         } catch (ClientException $exception) {
