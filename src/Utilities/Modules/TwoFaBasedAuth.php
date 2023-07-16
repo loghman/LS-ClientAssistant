@@ -12,7 +12,7 @@ class TwoFaBasedAuth
 {
     public static function login(string $mobileOrEmail): array
     {
-        $guzzle = API::self();
+        $guzzle = API::guzzle();
         try {
             $response = $guzzle->post('v1/auth/login', [
                 'form_params' => [

@@ -10,7 +10,7 @@ use Ls\ClientAssistant\Utilities\Tools\Paginator;
 
 class API
 {
-    public static function self(): Client
+    public static function guzzle(): Client
     {
         return new Client([
             'base_uri' => Config::get('endpoints.base'),
