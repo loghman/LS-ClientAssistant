@@ -29,11 +29,10 @@ class API
         $mergedHeaders = array_merge($headerData, $headers);
 
         $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, Config::get('endpoints.base') . $uri);
+        curl_setopt($curl, CURLOPT_URL, (Config::get('endpoints.base') . $uri . '?' . http_build_query($queryParam)));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $mergedHeaders);
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
-        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($queryParam));
 
         $response = curl_exec($curl);
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
@@ -90,7 +89,7 @@ class API
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
-        if (in_array($httpCode,[200, 201])) {
+        if (in_array($httpCode, [200, 201])) {
             return self::parseData($response);
         }
 
@@ -121,7 +120,6 @@ class API
 
         return collect();
     }
-
 
     public static function parseData($response): Collection
     {
