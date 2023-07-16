@@ -13,7 +13,7 @@ class ChapterEnrollment
     {
         try {
             return API::get('v1/user/chapter-enrollments', [], [
-                'Authorization' => 'Bearer ' . $userToken,
+                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);

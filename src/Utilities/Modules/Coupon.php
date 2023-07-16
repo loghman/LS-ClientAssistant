@@ -16,7 +16,7 @@ class Coupon
     {
         try {
             return API::post("v1/coupon/apply/$cartId", compact('coupon'), [
-                'Authorization' => 'Bearer '.$userToken,
+                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
@@ -29,7 +29,7 @@ class Coupon
     {
         try {
             return API::delete("v1/coupon/unapply/$cartId/$couponId", [], [
-                'Authorization' => 'Bearer '.$userToken,
+                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);

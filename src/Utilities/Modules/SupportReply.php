@@ -16,7 +16,7 @@ class SupportReply
                 'content' => $data['content'],
                 'attachment' => $data['attachment'] ?? null,
             ], [
-                'Authorization' => 'Bearer ' . $userToken,
+                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
@@ -32,7 +32,7 @@ class SupportReply
                 'content' => $data['content'],
                 'attachment' => $data['attachment'] ?? null,
             ], [
-                'Authorization' => 'Bearer ' . $userToken,
+                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
@@ -45,7 +45,7 @@ class SupportReply
     {
         try {
             return API::post(sprintf("v1/support/topic/%s/reply/%s", $topicId, $replyId), [], [
-                'Authorization' => 'Bearer ' . $userToken,
+                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
@@ -58,7 +58,7 @@ class SupportReply
     {
         try {
             return API::delete(sprintf("v1/support/topic/%s/reply/%s", $topicId, $replyId), [], [
-                'Authorization' => 'Bearer ' . $userToken,
+                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);

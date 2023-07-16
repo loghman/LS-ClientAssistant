@@ -14,7 +14,7 @@ class Cart
     {
         try {
             return API::get('v1/cart/screen', [], [
-                'Authorization' => 'Bearer '.$userToken,
+                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
@@ -28,7 +28,9 @@ class Cart
         try {
             return API::post(
                 'v1/cart/add', compact('entity_type', 'entity_id', 'ip'),
-                ['Authorization' => 'Bearer '.$userToken]
+                [
+                    'Authorization: Bearer ' . $userToken,
+                ]
             );
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
@@ -41,7 +43,7 @@ class Cart
     {
         try {
             return API::delete("v1/cart/delete/$itemId", [], [
-                'Authorization' => 'Bearer '.$userToken,
+                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);

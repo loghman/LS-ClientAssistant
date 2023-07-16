@@ -108,7 +108,7 @@ class SupportTopic extends ModuleUtility
                 'community' => $data['community'] ?? null,
                 'department' => $data['department'] ?? null,
             ], [
-                'Authorization' => 'Bearer ' . $userToken,
+                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);

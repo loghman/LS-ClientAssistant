@@ -81,7 +81,7 @@ class LMSProduct extends ModuleUtility
         $headers = [];
         if (!is_null($userToken)) {
             $headers = [
-                'Authorization' => 'Bearer ' . $userToken,
+                'Authorization: Bearer ' . $userToken,
             ];
         }
         try {
@@ -99,7 +99,7 @@ class LMSProduct extends ModuleUtility
     {
         try {
             return API::get(sprintf('v1/lms/product/%s/chapter/%s/stats', $productId, $chapterId), [], [
-                'Authorization' => 'Bearer ' . $userToken,
+                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
@@ -190,7 +190,7 @@ class LMSProduct extends ModuleUtility
                 'community' => $data['community'] ?? null,
                 'department' => $data['department'] ?? null,
             ], [
-                'Authorization' => 'Bearer ' . $userToken,
+                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);

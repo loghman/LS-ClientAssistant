@@ -65,7 +65,7 @@ class QC extends ModuleUtility
                 'rate' => $data['rate'],
                 'comment' => $data['comment'] ?? null,
             ], [
-                'Authorization' => 'Bearer ' . $userToken,
+                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);

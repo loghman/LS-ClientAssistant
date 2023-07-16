@@ -66,7 +66,9 @@ class Enrollment extends ModuleUtility
 
             $response = API::put(sprintf('v1/lms/enrollment/%s/signal/%s', $enrollmentId, $productItem), [
                 'signal' => $type,
-            ], ['Authorization' => 'Bearer ' . $userToken]);
+            ], [
+                'Authorization: Bearer ' . $userToken,
+            ]);
 
             return Response::success();
         } catch (ClientException $exception) {
@@ -80,7 +82,7 @@ class Enrollment extends ModuleUtility
     {
         try {
             return API::get(('v1/lms/enrollment/' . $enrollmentId . '/logs'), [], [
-                'Authorization' => 'Bearer ' . $userToken,
+                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
