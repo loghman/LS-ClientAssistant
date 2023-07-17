@@ -701,3 +701,10 @@ if (!function_exists('convert_byte')) {
         ];
     }
 }
+
+if(!function_exists('convert_seconds_to_diff_human_readable')){
+    function convert_datetime_to_diff_human_readable($datetime)
+    {
+        return (new Hekmatinasser\Verta\Verta($datetime))->formatDifference();
+    }
+}
