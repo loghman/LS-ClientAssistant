@@ -672,3 +672,32 @@ if (!function_exists('convert_seconds_to_persian_in_line_time')) {
         return sprintf("%s ساعت و %s دقیقه", to_persian_num($hours), to_persian_num($minutes));
     }
 }
+
+if (!function_exists('convert_byte')) {
+    function convert_byte($bytes, $decimals = 2)
+    {
+        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+        $persianUnits = ['بایت', 'کیلوبایت', 'مگابایت', 'گیگابایت', 'ترابایت'];
+
+        $kilobytes = $bytes / 1024;
+        $megabytes = $kilobytes / 1024;
+
+        $selectedUnit = 0;
+        $formattedValue = $bytes;
+
+        if ($bytes >= 1024) {
+            while ($kilobytes >= 1024 && $selectedUnit < count($units) - 1) {
+                $kilobytes /= 1024;
+                $megabytes /= 1024;
+                $selectedUnit++;
+            }
+
+            $formattedValue = $selectedUnit === 1 ? round($kilobytes, $decimals) : round($megabytes, $decimals);
+        }
+
+        return [
+            'unit' => $persianUnits[$selectedUnit],
+            'size' => to_persian_num($formattedValue),
+        ];
+    }
+}
