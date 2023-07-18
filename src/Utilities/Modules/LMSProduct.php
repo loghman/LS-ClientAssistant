@@ -56,6 +56,19 @@ class LMSProduct extends ModuleUtility
         }
     }
 
+    public static function rich(array $methods = []): Collection
+    {
+        try {
+            return API::get('v1/lms/product/rich', [
+                'methods' => $methods,
+            ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
     public static function queryParams(array $params, array $with = [], int $perPage = 20): Collection
     {
         try {
