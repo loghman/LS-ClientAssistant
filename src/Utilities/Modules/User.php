@@ -131,10 +131,12 @@ class User extends ModuleUtility
             $user = self::me($userToken);
 
             $response = API::put('v1/user', [
-                'real_name' => $data['real_name'] ?? $user['data']->real_name,
-                'display_name' => $data['display_name'] ?? $user['data']->display_name,
-                'gender' => $data['gender'] ?? $user['data']->gender,
-                'birth_date' => $data['birth_date'] ?? $user['data']->birth_date,
+                'real_name' => $data['real_name'] ?? ($user['data']['real_name'] ?? null),
+                'display_name' => $data['display_name'] ?? ($user['data']['display_name'] ?? null),
+                'gender' => $data['gender'] ?? ($user['data']['gender'] ?? null),
+                'birth_date' => $data['birth_date'] ?? ($user['data']['birth_date'] ?? null),
+                'description' => $data['description'] ?? ($user['data']['meta']['description'] ?? ''),
+                'username' => $data['username'] ?? ($user['data']['username'] ?? null)
             ], [
                 'Authorization: Bearer ' . $userToken,
             ]);
