@@ -91,6 +91,19 @@ class Enrollment extends ModuleUtility
         }
     }
 
+    public static function getItemLog($enrollmentId, $productItemId, $userId): Collection
+    {
+        try {
+            return API::get(('v1/lms/enrollment/' . $enrollmentId . '/item/' . $productItemId . '/log'), [
+                'user_id' => $userId,
+            ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
     public static function findByUserAndProduct(int $productId, string $userToken): Collection
     {
         try {
