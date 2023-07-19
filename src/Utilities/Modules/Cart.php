@@ -27,10 +27,9 @@ class Cart
     {
         try {
             return API::post(
-                'v1/cart/add', compact('entity_type', 'entity_id', 'ip'),
-                [
-                    'Authorization: Bearer ' . $userToken,
-                ]
+                'v1/cart/add',
+                compact('entity_type', 'entity_id', 'ip'),
+                ['Authorization: Bearer ' . $userToken]
             );
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
