@@ -38,7 +38,11 @@ class API
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
-        return self::parseData($response);
+        if (in_array($httpCode, [200, 201])) {
+            return self::parseData($response);
+        }
+
+        return collect();
     }
 
     public static function put(string $uri, array $formParams = [], array $headers = []): Collection
@@ -60,7 +64,11 @@ class API
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
-        return self::parseData($response);
+        if (in_array($httpCode, [200, 201])) {
+            return self::parseData($response);
+        }
+
+        return collect();
     }
 
     public static function post(string $uri, array $formParams = [], array $headers = []): Collection
@@ -81,7 +89,11 @@ class API
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
-        return self::parseData($response);
+        if (in_array($httpCode, [200, 201])) {
+            return self::parseData($response);
+        }
+
+        return collect();
     }
 
     public static function delete(string $uri, array $formParams = [], array $headers = []): Collection
@@ -102,7 +114,11 @@ class API
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
-        return self::parseData($response);
+        if (in_array($httpCode, [200, 201])) {
+            return self::parseData($response);
+        }
+
+        return collect();
     }
 
     public static function parseData($response): Collection

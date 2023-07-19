@@ -69,9 +69,11 @@ class User extends ModuleUtility
     public static function me($userToken): Collection
     {
         try {
-            return API::get('v1/user/me', [], [
+            $response = API::get('v1/user/me', [], [
                 'Authorization: Bearer ' . $userToken,
             ]);
+
+            return API::parseData($response);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
