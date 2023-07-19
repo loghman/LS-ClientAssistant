@@ -56,11 +56,13 @@ class LMSProduct extends ModuleUtility
         }
     }
 
-    public static function rich(array $methods = []): Collection
+    public static function rich(array $methods = [], string $userToken = null): Collection
     {
         try {
             return API::get('v1/lms/product/rich', [
                 'methods' => $methods,
+            ], [
+                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
