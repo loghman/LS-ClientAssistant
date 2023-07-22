@@ -96,6 +96,25 @@ class SupportTopic extends ModuleUtility
         }
     }
 
+    public static function mine(string $userToken, array $with = [], array $keyValues = [], int $perPage = 20, $orderBy = OrderByEnum::LATEST): Collection
+    {
+        try {
+            return API::get('v1/support/topic', [
+                'with' => json_encode($with),
+                'filter' => json_encode($keyValues),
+                'order_by' => $orderBy,
+                'per_page' => $perPage,
+                'mine' => true,
+            ], [
+                'Authorization: Bearer ' . $userToken,
+            ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
     public static function create(array $data, string $userToken): Collection
     {
         try {
