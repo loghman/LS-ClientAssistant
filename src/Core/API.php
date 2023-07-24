@@ -31,7 +31,6 @@ class API
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, (Config::get('endpoints.base') . $uri . '?' . http_build_query($queryParam)));
-        curl_setopt($curl, CURLOPT_INTERFACE, get_ip());
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $mergedHeaders);
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
@@ -52,7 +51,6 @@ class API
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, Config::get('endpoints.base') . $uri);
-        curl_setopt($curl, CURLOPT_INTERFACE, get_ip());
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
         curl_setopt($curl, CURLOPT_HTTPHEADER, $mergedHeaders);
@@ -74,7 +72,6 @@ class API
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, Config::get('endpoints.base') . $uri);
-        curl_setopt($curl, CURLOPT_INTERFACE, get_ip());
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $mergedHeaders);
@@ -96,7 +93,6 @@ class API
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, Config::get('endpoints.base') . $uri);
-        curl_setopt($curl, CURLOPT_INTERFACE, get_ip());
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
         curl_setopt($curl, CURLOPT_HTTPHEADER, $mergedHeaders);
