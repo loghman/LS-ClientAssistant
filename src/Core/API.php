@@ -3,10 +3,8 @@
 namespace Ls\ClientAssistant\Core;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Helpers\Config;
-use Ls\ClientAssistant\Utilities\Tools\IP;
 use Ls\ClientAssistant\Utilities\Tools\Paginator;
 
 class API
@@ -24,7 +22,7 @@ class API
     public static function get(string $uri, array $queryParam = [], $headers = []): Collection
     {
         $headerData = array(
-            'Client-Api-Key: ' . $GLOBALS['apikey'],
+            'Api-Key: ' . $GLOBALS['apikey'],
             'Content-Type: application/json'
         );
         $mergedHeaders = array_merge($headerData, $headers);
@@ -45,7 +43,7 @@ class API
     public static function put(string $uri, array $formParams = [], array $headers = []): Collection
     {
         $headerData = array(
-            'Client-Api-Key: ' . $GLOBALS['apikey'],
+            'Api-Key: ' . $GLOBALS['apikey'],
             'Content-Type: application/json'
         );
         $mergedHeaders = array_merge($headerData, $headers);
@@ -68,7 +66,7 @@ class API
     public static function post(string $uri, array $formParams = [], array $headers = []): Collection
     {
         $headerData = array(
-            'Client-Api-Key: ' . $GLOBALS['apikey'],
+            'Api-Key: ' . $GLOBALS['apikey'],
         );
         $mergedHeaders = array_merge($headerData, $headers);
 
@@ -90,7 +88,7 @@ class API
     public static function delete(string $uri, array $formParams = [], array $headers = []): Collection
     {
         $headerData = array(
-            'Client-Api-Key: ' . $GLOBALS['apikey'],
+            'Api-Key: ' . $GLOBALS['apikey'],
         );
         $mergedHeaders = array_merge($headerData, $headers);
 
