@@ -56,14 +56,14 @@ class LMSProduct extends ModuleUtility
         }
     }
 
-    public static function rich(array $methods = [], string $userToken = null): Collection
+    public static function rich(array $methods = [], string $userToken = null, array $headers = []): Collection
     {
         try {
             return API::get('v1/lms/product/rich', [
                 'methods' => $methods,
             ], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -110,12 +110,12 @@ class LMSProduct extends ModuleUtility
         }
     }
 
-    public static function chapterStats(int $productId, int $chapterId, string $userToken): Collection
+    public static function chapterStats(int $productId, int $chapterId, string $userToken, array $headers = []): Collection
     {
         try {
             return API::get(sprintf('v1/lms/product/%s/chapter/%s/stats', $productId, $chapterId), [], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -191,7 +191,7 @@ class LMSProduct extends ModuleUtility
         }
     }
 
-    public static function createTopic(array $data, string $userToken): Collection
+    public static function createTopic(array $data, string $userToken, array $headers = []): Collection
     {
         try {
             return API::post('v1/support/topic', [
@@ -206,7 +206,7 @@ class LMSProduct extends ModuleUtility
                 'department' => $data['department'] ?? null,
             ], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {

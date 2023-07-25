@@ -66,12 +66,12 @@ class User extends ModuleUtility
         }
     }
 
-    public static function me($userToken): Collection
+    public static function me($userToken, array $headers = []): Collection
     {
         try {
             return API::get('v1/user/me', [], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -123,7 +123,7 @@ class User extends ModuleUtility
                 ->gt(Carbon::now());
     }
 
-    public static function updateUserInfo(array $data, string $userToken): Collection
+    public static function updateUserInfo(array $data, string $userToken, array $headers = []): Collection
     {
         try {
             $user = self::me($userToken);
@@ -137,7 +137,7 @@ class User extends ModuleUtility
                 'username' => $data['username'] ?? ($user['data']['username'] ?? null)
             ], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
 
             if (!$response['success']) {
                 return $response;
@@ -151,12 +151,12 @@ class User extends ModuleUtility
         }
     }
 
-    public static function logout(string $userToken): bool
+    public static function logout(string $userToken, array $headers = []): bool
     {
         try {
             $response = API::get('v1/auth/logout', [], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
             self::forgetCurrent();
         } catch (Exception $e) {
             return false;
@@ -165,12 +165,12 @@ class User extends ModuleUtility
         return $response['success'] ?? true;
     }
 
-    public static function courses(string $userToken): Collection
+    public static function courses(string $userToken, array $headers = []): Collection
     {
         try {
             return API::get('v1/user/enrollments', [], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -178,12 +178,12 @@ class User extends ModuleUtility
         }
     }
 
-    public static function stats(string $userToken): Collection
+    public static function stats(string $userToken, array $headers = []): Collection
     {
         try {
             return API::get('v1/user/stats', [], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -191,7 +191,7 @@ class User extends ModuleUtility
         }
     }
 
-    public static function uploadResumeBanner($file, string $userToken, string $title = null, int $attachmentId = null): Collection
+    public static function uploadResumeBanner($file, string $userToken, string $title = null, int $attachmentId = null, array $headers = []): Collection
     {
         try {
             return API::put('v1/user/resume-banner', [
@@ -200,7 +200,7 @@ class User extends ModuleUtility
                 'attachment_id' => $attachmentId,
             ], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -208,7 +208,7 @@ class User extends ModuleUtility
         }
     }
 
-    public static function updatePassword(string $currentPassword, string $password, string $passwordConfirmation, string $userToken): Collection
+    public static function updatePassword(string $currentPassword, string $password, string $passwordConfirmation, string $userToken, array $headers = []): Collection
     {
         try {
             return API::put('v1/user/update-password', [
@@ -217,7 +217,7 @@ class User extends ModuleUtility
                 'password_confirmation' => $passwordConfirmation,
             ], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -225,7 +225,7 @@ class User extends ModuleUtility
         }
     }
 
-    public static function uploadProfileImage($file, string $userToken, string $title = null, int $attachmentId = null): Collection
+    public static function uploadProfileImage($file, string $userToken, string $title = null, int $attachmentId = null, array $headers = []): Collection
     {
         try {
             return API::put('v1/user/upload-profile-image', [
@@ -234,7 +234,7 @@ class User extends ModuleUtility
                 'attachment_id' => $attachmentId,
             ], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -242,14 +242,14 @@ class User extends ModuleUtility
         }
     }
 
-    public static function sendOtpForMobileNumber(string $mobile, string $userToken): Collection
+    public static function sendOtpForMobileNumber(string $mobile, string $userToken, array $headers = []): Collection
     {
         try {
             return API::put('v1/user/send-otp-for-mobile-number', [
                 'input' => $mobile,
             ], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -257,7 +257,7 @@ class User extends ModuleUtility
         }
     }
 
-    public static function verifyCodeForUpdatingMobileNumber(string $mobile, string $otp, string $userToken): Collection
+    public static function verifyCodeForUpdatingMobileNumber(string $mobile, string $otp, string $userToken, array $headers = []): Collection
     {
         try {
             return API::put('v1/user/verify-mobile-verification-code', [
@@ -265,7 +265,7 @@ class User extends ModuleUtility
                 'otp' => $otp,
             ], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {

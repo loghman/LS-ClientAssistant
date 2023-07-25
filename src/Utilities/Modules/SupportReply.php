@@ -9,7 +9,7 @@ use Ls\ClientAssistant\Helpers\Response;
 
 class SupportReply
 {
-    public static function create(array $data, string $userToken): Collection
+    public static function create(array $data, string $userToken, array $headers = []): Collection
     {
         try {
             return API::post(sprintf("v1/support/topic/%s/reply", $data['topic_id']), [
@@ -17,7 +17,7 @@ class SupportReply
                 'attachment' => $data['attachment'] ?? null,
             ], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -25,7 +25,7 @@ class SupportReply
         }
     }
 
-    public static function update(array $data, string $userToken): Collection
+    public static function update(array $data, string $userToken, array $headers = []): Collection
     {
         try {
             return API::put(sprintf("v1/support/topic/%s/reply/%s", $data['topic_id'], $data['reply_id']), [
@@ -33,7 +33,7 @@ class SupportReply
                 'attachment' => $data['attachment'] ?? null,
             ], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -41,12 +41,12 @@ class SupportReply
         }
     }
 
-    public static function like(int $topicId, int $replyId, string $userToken): Collection
+    public static function like(int $topicId, int $replyId, string $userToken, array $headers = []): Collection
     {
         try {
             return API::post(sprintf("v1/support/topic/%s/reply/%s", $topicId, $replyId), [], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -54,12 +54,12 @@ class SupportReply
         }
     }
 
-    public static function delete(int $topicId, int $replyId, string $userToken): Collection
+    public static function delete(int $topicId, int $replyId, string $userToken, array $headers = []): Collection
     {
         try {
             return API::delete(sprintf("v1/support/topic/%s/reply/%s", $topicId, $replyId), [], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {

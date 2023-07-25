@@ -9,12 +9,12 @@ use Ls\ClientAssistant\Helpers\Response;
 
 class ChapterEnrollment
 {
-    public static function forUser(string $userToken): Collection
+    public static function forUser(string $userToken, array $headers = []): Collection
     {
         try {
             return API::get('v1/user/chapter-enrollments', [], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {

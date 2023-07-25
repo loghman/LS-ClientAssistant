@@ -65,14 +65,14 @@ class PasswordBasedAuth
         }
     }
 
-    public static function updateEmail($userToken, $email): Collection
+    public static function updateEmail($userToken, $email, array $headers = []): Collection
     {
         try {
             return API::post('v1/auth/email-update', [
                 'input' => $email,
             ], [
-                'Authorization: Bearer ' . $userToken,
-            ]);
+                    'Authorization: Bearer ' . $userToken,
+                ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -80,7 +80,7 @@ class PasswordBasedAuth
         }
     }
 
-    public static function updateMobile($userToken, $mobile): Collection
+    public static function updateMobile($userToken, $mobile, array $headers = []): Collection
     {
         try {
             return API::post('v1/auth/mobile-update', [
@@ -88,7 +88,7 @@ class PasswordBasedAuth
             ],
                 [
                     'Authorization: Bearer ' . $userToken,
-                ],
+                ] + $headers,
             );
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);

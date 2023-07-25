@@ -96,7 +96,7 @@ class SupportTopic extends ModuleUtility
         }
     }
 
-    public static function mine(string $userToken, array $with = [], array $keyValues = [], int $perPage = 20, $orderBy = OrderByEnum::LATEST): Collection
+    public static function mine(string $userToken, array $with = [], array $keyValues = [], int $perPage = 20, $orderBy = OrderByEnum::LATEST, array $headers = []): Collection
     {
         try {
             return API::get('v1/support/topic', [
@@ -107,7 +107,7 @@ class SupportTopic extends ModuleUtility
                 'mine' => true,
             ], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -115,7 +115,7 @@ class SupportTopic extends ModuleUtility
         }
     }
 
-    public static function create(array $data, string $userToken): Collection
+    public static function create(array $data, string $userToken, array $headers = []): Collection
     {
         try {
             return API::post('v1/support/topic', [
@@ -128,7 +128,7 @@ class SupportTopic extends ModuleUtility
                 'department' => $data['department'] ?? null,
             ], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
