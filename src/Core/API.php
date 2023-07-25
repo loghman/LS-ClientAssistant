@@ -107,7 +107,7 @@ class API
     private function handleHeaders(array $headers): array
     {
         $headerData = [
-            'Api-Key: ' . ($GLOBALS['apikey'] ?? '4YkN1bEaKrK8Xhc2OY9zB4f1N8TOicKp'),
+            'Api-Key: ' . $GLOBALS['apikey'],
             'Content-Type: application/json',
         ];
 
@@ -120,11 +120,11 @@ class API
 
     private static function generateJwt(array &$headers): string
     {
-        $key = $GLOBALS['apikey'] ?? '4YkN1bEaKrK8Xhc2OY9zB4f1N8TOicKp';
+        $key = $GLOBALS['apikey'];
 
         $payload = [
-            'iss' => $GLOBALS['appUrl'] ?? 'http://127.0.0.1:3300',
-            'aud' => $GLOBALS['appUrl'] ?? 'http://127.0.0.1:3300',
+            'iss' => $GLOBALS['appUrl'],
+            'aud' => $GLOBALS['appUrl'],
             'iat' => \Carbon\Carbon::now()->timestamp,
             'exp' => \Carbon\Carbon::now()->addHour()->timestamp,
             'ip' => $headers['ip'] ?? null,
