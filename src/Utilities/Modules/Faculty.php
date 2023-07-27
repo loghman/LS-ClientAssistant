@@ -30,4 +30,19 @@ class Faculty
             return Response::parseException($exception);
         }
     }
+
+    public static function rich(array $methods = [], string $userToken = null): Collection
+    {
+        try {
+            return API::get('v1/lms/faculty/rich', [
+                'methods' => $methods,
+            ], [
+                'Authorization: Bearer ' . $userToken,
+            ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
 }
