@@ -3,10 +3,9 @@
 namespace Ls\ClientAssistant\Core;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\RequestOptions;
+use Predis\Client as RedisClient;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Helpers\Config;
-use Ls\ClientAssistant\Utilities\Tools\IP;
 use Ls\ClientAssistant\Utilities\Tools\Paginator;
 
 class API
@@ -39,6 +38,32 @@ class API
         curl_close($curl);
 
         return self::parseData($response);
+    }
+
+    public static function getOrFromCache(string $cacheKey, array $config, string $uri, array $queryParam = [], $headers = []): Collection
+    {
+        if (!$config['is_active']) {
+            return self::get($uri, $queryParam, $headers);
+        }
+
+        $redisHost = '127.0.0.1';
+        $redisPort = 6379;
+
+        $redisClient = new RedisClient([
+            'scheme' => 'tcp',
+            'host' => $redisHost,
+            'port' => $redisPort,
+        ]);
+
+        if ($redisClient->exists($cacheKey)) {
+            return collect(json_decode($redisClient->get($cacheKey)));
+        }
+
+        $data = self::get($uri, $queryParam, $headers);
+        $redisClient->set($cacheKey, json_encode($data->toArray()), ($config['expiration_time'] * 60));
+        $redisClient->disconnect();
+
+        return $data;
     }
 
     public static function put(string $uri, array $formParams = [], array $headers = []): Collection

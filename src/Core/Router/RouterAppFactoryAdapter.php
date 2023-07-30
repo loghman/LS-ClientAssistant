@@ -15,6 +15,7 @@ class RouterAppFactoryAdapter extends AppFactory
 {
     public static function createWithApiKey(array $env, ?ResponseFactoryInterface $responseFactory = null, ?ContainerInterface $container = null, ?CallableResolverInterface $callableResolver = null, ?RouteCollectorInterface $routeCollector = null, ?RouteResolverInterface $routeResolver = null, ?MiddlewareDispatcherInterface $middlewareDispatcher = null): App
     {
+        $GLOBALS['appName'] = $env['APP_NAME'] ?? '7learn';
         $GLOBALS['apikey'] = $env['LS_API_KEY'];
         $GLOBALS['storageUrl'] = $env['STORAGE_URL'] ?? '';
         $GLOBALS['coreUrl'] = $env['CORE_URL'];
