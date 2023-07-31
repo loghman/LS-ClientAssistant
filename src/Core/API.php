@@ -3,7 +3,6 @@
 namespace Ls\ClientAssistant\Core;
 
 use GuzzleHttp\Client;
-use Predis\Client as RedisClient;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Helpers\Config;
 use Ls\ClientAssistant\Utilities\Tools\Paginator;
@@ -45,22 +44,16 @@ class API
         if (!$config['is_active']) {
             return self::get($uri, $queryParam, $headers);
         }
-
-        $redisHost = '127.0.0.1';
-        $redisPort = 6379;
-
-        $redisClient = new RedisClient([
-            'scheme' => 'tcp',
-            'host' => $redisHost,
-            'port' => $redisPort,
-        ]);
+        $redisClient = Cache::getRedisInstance();
 
         if ($redisClient->exists($cacheKey)) {
             return collect(json_decode($redisClient->get($cacheKey)));
         }
 
         $data = self::get($uri, $queryParam, $headers);
-        $redisClient->set($cacheKey, json_encode($data->toArray()), ($config['expiration_time'] * 60));
+        $expire = ((int)$config['expiration_time']) * 60;
+        $redisClient->set($cacheKey, json_encode($data->toArray()));
+        $redisClient->expire($cacheKey, $expire);
         $redisClient->disconnect();
 
         return $data;

@@ -20,6 +20,8 @@ class RouterAppFactoryAdapter extends AppFactory
         $GLOBALS['storageUrl'] = $env['STORAGE_URL'] ?? '';
         $GLOBALS['coreUrl'] = $env['CORE_URL'];
         $GLOBALS['appUrl'] = str_ends_with($env['APP_URL'], '/') ? $env['APP_URL'] : $env['APP_URL'] . '/';
+        $GLOBALS['redisHost'] = $env['REDIS_HOST'] ?? '127.0.0.1';
+        $GLOBALS['redisPort'] = $env['REDIS_PORT'] ?? 6379;
 
         return parent::create($responseFactory, $container, $callableResolver, $routeCollector, $routeResolver, $middlewareDispatcher);
     }
