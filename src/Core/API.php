@@ -47,7 +47,7 @@ class API
         $redisClient = Cache::getRedisInstance();
 
         if ($redisClient->exists($cacheKey)) {
-            return collect(json_decode($redisClient->get($cacheKey)));
+            return collect(json_decode($redisClient->get($cacheKey), true));
         }
 
         $data = self::get($uri, $queryParam, $headers);
