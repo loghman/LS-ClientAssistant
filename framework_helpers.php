@@ -709,9 +709,20 @@ if (!function_exists('convert_byte')) {
     }
 }
 
-if(!function_exists('convert_seconds_to_diff_human_readable')){
+if (!function_exists('convert_seconds_to_diff_human_readable')) {
     function convert_datetime_to_diff_human_readable($datetime)
     {
         return to_persian_num((new Hekmatinasser\Verta\Verta($datetime))->formatDifference());
+    }
+}
+
+if (!function_exists('make_cache_unique_key')) {
+    function make_cache_unique_key($appName, $class, $method, $params): string
+    {
+        $key = sprintf("%s_%s_%s_%s", $appName, $class, $method, serialize($params));
+
+        $key = preg_replace('/[^a-zA-Z0-9_]/', '', $key);
+
+        return str_replace(' ', '', $key);
     }
 }

@@ -20,6 +20,8 @@
         "hekmatinasser/verta": "^2.1",
         "illuminate/collections": "^8.83",
         "slim/slim": "^4.11",
-        "respect/validation": "^2.2"
+        "respect/validation": "^2.2",
+        "phpfastcache/phpfastcache": "^8.1",
+        "predis/predis": "^2.2"
     }
 }

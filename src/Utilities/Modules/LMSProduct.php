@@ -14,7 +14,13 @@ class LMSProduct extends ModuleUtility
     public static function get(string $idOrSlug, array $with = []): Collection
     {
         try {
-            return API::get('v1/lms/product/' . $idOrSlug, [
+            $cacheKey = make_cache_unique_key($GLOBALS['appName'], 'lms_product', 'get', $idOrSlug);
+            $cacheConfig = [
+                'is_active' => (bool)setting('client_cache_request_lms'),
+                'expiration_time' => (int)setting('client_cache_revalidation_time'),
+            ];
+
+            return API::getOrFromCache($cacheKey, $cacheConfig, 'v1/lms/product/' . $idOrSlug, [
                 'with' => json_encode($with),
             ]);
         } catch (ClientException $exception) {
@@ -27,7 +33,13 @@ class LMSProduct extends ModuleUtility
     public static function list(array $with = [], array $keyValues = [], int $perPage = 20, $orderBy = OrderByEnum::LATEST): Collection
     {
         try {
-            return API::get('v1/lms/product', [
+            $cacheKey = make_cache_unique_key($GLOBALS['appName'], 'lms_product', 'list', $keyValues);
+            $cacheConfig = [
+                'is_active' => (bool)setting('client_cache_request_lms'),
+                'expiration_time' => (int)setting('client_cache_revalidation_time'),
+            ];
+
+            return API::getOrFromCache($cacheKey, $cacheConfig, 'v1/lms/product', [
                 'with' => json_encode($with),
                 'filter' => json_encode($keyValues),
                 'order_by' => $orderBy,
@@ -59,7 +71,13 @@ class LMSProduct extends ModuleUtility
     public static function rich(array $methods = [], string $userToken = null): Collection
     {
         try {
-            return API::get('v1/lms/product/rich', [
+            $cacheKey = make_cache_unique_key($GLOBALS['appName'], 'lms_product', 'rich', $methods);
+            $cacheConfig = [
+                'is_active' => (bool)setting('client_cache_request_lms'),
+                'expiration_time' => (int)setting('client_cache_revalidation_time'),
+            ];
+
+            return API::getOrFromCache($cacheKey, $cacheConfig, 'v1/lms/product/rich', [
                 'methods' => $methods,
             ], [
                 'Authorization: Bearer ' . $userToken,
@@ -83,7 +101,12 @@ class LMSProduct extends ModuleUtility
                 $data[$key] = $value;
             }
 
-            return API::get('v1/lms/product/param', $data);
+            $cacheKey = make_cache_unique_key($GLOBALS['appName'], 'lms_product', 'queryParams', $data);
+            $cacheConfig = [
+                'is_active' => (bool)setting('client_cache_request_lms'),
+                'expiration_time' => (int)setting('client_cache_revalidation_time'),
+            ];
+            return API::getOrFromCache($cacheKey, $cacheConfig, 'v1/lms/product/param', $data);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {

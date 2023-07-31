@@ -15,7 +15,13 @@ class CMS extends ModuleUtility
     public static function get(string $idOrSlug, array $with = []): Collection
     {
         try {
-            return API::get('v1/cms/' . $idOrSlug, [
+            $cacheKey = make_cache_unique_key($GLOBALS['appName'], 'cms', 'get', $idOrSlug);
+            $cacheConfig = [
+                'is_active' => (bool)setting('client_cache_request_cms'),
+                'expiration_time' => (int)setting('client_cache_revalidation_time'),
+            ];
+
+            return API::getOrFromCache($cacheKey, $cacheConfig, 'v1/cms/' . $idOrSlug, [
                 'with' => json_encode($with),
             ]);
         } catch (ClientException $exception) {
@@ -32,7 +38,13 @@ class CMS extends ModuleUtility
                 throw new \InvalidArgumentException('Order by must be in [first, latest, most_commented, most_visited]');
             }
 
-            return API::get('v1/cms', [
+            $cacheKey = make_cache_unique_key($GLOBALS['appName'], 'cms', 'list', $keyValues);
+            $cacheConfig = [
+                'is_active' => (bool)setting('client_cache_request_cms'),
+                'expiration_time' => (int)setting('client_cache_revalidation_time'),
+            ];
+
+            return API::getOrFromCache($cacheKey, $cacheConfig, 'v1/cms', [
                 'filter' => json_encode($keyValues),
                 'with' => json_encode($with),
                 'per_page' => $perPage,
@@ -92,7 +104,34 @@ class CMS extends ModuleUtility
                 $data[$key] = $value;
             }
 
-            return API::get('v1/cms/param', $data);
+            $cacheKey = make_cache_unique_key($GLOBALS['appName'], 'cms', 'queryParams', $data);
+            $cacheConfig = [
+                'is_active' => (bool)setting('client_cache_request_cms'),
+                'expiration_time' => (int)setting('client_cache_revalidation_time'),
+            ];
+
+            return API::getOrFromCache($cacheKey, $cacheConfig, 'v1/cms/param', $data);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
+    public static function rich(array $methods = [], string $userToken = null): Collection
+    {
+        try {
+            $cacheKey = make_cache_unique_key($GLOBALS['appName'], 'cms', 'rich', $methods);
+            $cacheConfig = [
+                'is_active' => (bool)setting('client_cache_request_cms'),
+                'expiration_time' => (int)setting('client_cache_revalidation_time'),
+            ];
+
+            return API::getOrFromCache($cacheKey, $cacheConfig, 'v1/cms/rich', [
+                'methods' => $methods,
+            ], [
+                'Authorization: Bearer ' . $userToken,
+            ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -128,21 +167,6 @@ class CMS extends ModuleUtility
                 'rate' => $data['rate'] ?? null,
                 'user_code' => $data['code'] ?? null,
                 'parent_id' => $data['parent_id'] ?? null,
-            ]);
-        } catch (ClientException $exception) {
-            return Response::parseClientException($exception);
-        } catch (\Exception $exception) {
-            return Response::parseException($exception);
-        }
-    }
-
-    public static function rich(array $methods = [], string $userToken = null): Collection
-    {
-        try {
-            return API::get('v1/cms/rich', [
-                'methods' => $methods,
-            ], [
-                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
