@@ -10,12 +10,12 @@ use Ls\ClientAssistant\Helpers\Response;
 
 class Payment
 {
-    public static function request($userToken, $cartId, $callbackUrl): Collection
+    public static function request($userToken, $cartId, $callbackUrl, array $headers = []): Collection
     {
         try {
             return API::post("v1/payment/request/$cartId", ['callbackUrl' => $callbackUrl], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -23,12 +23,12 @@ class Payment
         }
     }
 
-    public static function response($userToken, $paymentId): Collection
+    public static function response($userToken, $paymentId, array $headers = []): Collection
     {
         try {
             return API::post("v1/payment/response/$paymentId", [], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {

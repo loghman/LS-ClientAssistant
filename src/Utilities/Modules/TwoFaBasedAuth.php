@@ -49,13 +49,13 @@ class TwoFaBasedAuth
         }
     }
 
-    public static function sendVerificationCode($mobileOrEmail): Collection
+    public static function sendVerificationCode($mobileOrEmail, array $headers = []): Collection
     {
         try {
             return API::post('v1/auth/send-otp', [
                 'auth_method' => 'OtpBased',
                 'input' => $mobileOrEmail,
-            ]);
+            ], $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -63,7 +63,7 @@ class TwoFaBasedAuth
         }
     }
 
-    public static function resetPassword($barerToken, $password, $passwordConfirmation): Collection
+    public static function resetPassword($barerToken, $password, $passwordConfirmation, array $headers = []): Collection
     {
         try {
             return API::post('v1/auth/reset-password', [
@@ -71,7 +71,7 @@ class TwoFaBasedAuth
                 'password_confirmation' => $passwordConfirmation
             ], [
                 'Authorization: Bearer ' . $barerToken,
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -79,12 +79,12 @@ class TwoFaBasedAuth
         }
     }
 
-    public static function logout(string $barerToken): Collection
+    public static function logout(string $barerToken, array $headers = []): Collection
     {
         try {
             return API::get('v1/auth/logout', [], [
                 'Authorization' => 'Bearer ' . $barerToken
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {

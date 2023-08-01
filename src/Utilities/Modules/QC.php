@@ -56,7 +56,7 @@ class QC extends ModuleUtility
         }
     }
 
-    public static function addReview(array $data, string $userToken): Collection
+    public static function addReview(array $data, string $userToken, array $headers = []): Collection
     {
         try {
             return API::post('v1/lms/review', [
@@ -66,7 +66,7 @@ class QC extends ModuleUtility
                 'comment' => $data['comment'] ?? null,
             ], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {

@@ -57,7 +57,7 @@ class Enrollment extends ModuleUtility
         }
     }
 
-    public static function signal(int $enrollmentId, int $productItem, string $type, string $userToken): Collection
+    public static function signal(int $enrollmentId, int $productItem, string $type, string $userToken, array $headers = []): Collection
     {
         try {
             if (!in_array($type, ['visited', 'completed', 'played'])) {
@@ -68,7 +68,7 @@ class Enrollment extends ModuleUtility
                 'signal' => $type,
             ], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
 
             return Response::success();
         } catch (ClientException $exception) {
@@ -78,12 +78,12 @@ class Enrollment extends ModuleUtility
         }
     }
 
-    public static function logs(int $enrollmentId, string $userToken): Collection
+    public static function logs(int $enrollmentId, string $userToken, array $headers = []): Collection
     {
         try {
             return API::get(('v1/lms/enrollment/' . $enrollmentId . '/logs'), [], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -117,12 +117,12 @@ class Enrollment extends ModuleUtility
         }
     }
 
-    public static function getLatestLog($enrollmentId, string $userToken): Collection
+    public static function getLatestLog($enrollmentId, string $userToken, array $headers = []): Collection
     {
         try {
             return API::get(('v1/lms/enrollment/' . $enrollmentId . '/latest-log'), [], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -130,12 +130,12 @@ class Enrollment extends ModuleUtility
         }
     }
 
-    public static function findByUserAndProduct(int $productId, string $userToken): Collection
+    public static function findByUserAndProduct(int $productId, string $userToken, array $headers = []): Collection
     {
         try {
             return API::get(('v1/lms/enrollment/' . $productId . '/product'), [], [
                 'Authorization: Bearer ' . $userToken,
-            ]);
+            ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
