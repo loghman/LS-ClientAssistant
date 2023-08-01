@@ -17,7 +17,6 @@ class RouterAppFactoryAdapter extends AppFactory
     {
         $GLOBALS['apikey'] = $env['CLIENT_KEY'];
         $GLOBALS['appName'] = $env['APP_NAME'];
-        $GLOBALS['apikey'] = $env['LS_API_KEY'];
         $GLOBALS['storageUrl'] = $env['STORAGE_URL'] ?? '';
         $GLOBALS['coreUrl'] = $env['CORE_URL'];
         $GLOBALS['appUrl'] = str_ends_with($env['APP_URL'], '/') ? $env['APP_URL'] : $env['APP_URL'] . '/';
