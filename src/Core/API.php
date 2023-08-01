@@ -120,7 +120,7 @@ class API
         }
     }
 
-    private function handleHeaders(array $headers): array
+    private static function handleHeaders(array $headers): array
     {
         $headerData = [
             'Api-Key: ' . $GLOBALS['apikey'],
