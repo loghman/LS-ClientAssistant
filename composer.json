@@ -21,6 +21,8 @@
         "illuminate/collections": "^8.83",
         "slim/slim": "^4.11",
         "respect/validation": "^2.2",
-        "firebase/php-jwt": "^6.8"
+        "firebase/php-jwt": "^6.8",
+        "phpfastcache/phpfastcache": "^8.1",
+        "predis/predis": "^2.2"
     }
 }

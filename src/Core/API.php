@@ -25,7 +25,6 @@ class API
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, (Config::get('endpoints.base') . $uri . '?' . http_build_query($queryParam)));
-        curl_setopt($curl, CURLOPT_INTERFACE, get_ip());
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
@@ -36,13 +35,32 @@ class API
         return self::parseData($response);
     }
 
+    public static function getOrFromCache(string $cacheKey, array $config, string $uri, array $queryParam = [], $headers = []): Collection
+    {
+        if (!$config['is_active']) {
+            return self::get($uri, $queryParam, $headers);
+        }
+        $redisClient = Cache::getRedisInstance();
+
+        if ($redisClient->exists($cacheKey)) {
+            return collect(json_decode($redisClient->get($cacheKey), true));
+        }
+
+        $data = self::get($uri, $queryParam, $headers);
+        $expire = ((int)$config['expiration_time']) * 60;
+        $redisClient->set($cacheKey, json_encode($data->toArray()));
+        $redisClient->expire($cacheKey, $expire);
+        $redisClient->disconnect();
+
+        return $data;
+    }
+
     public static function put(string $uri, array $formParams = [], array $headers = []): Collection
     {
         $headers = self::handleHeaders($headers);
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, Config::get('endpoints.base') . $uri);
-        curl_setopt($curl, CURLOPT_INTERFACE, get_ip());
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
@@ -61,7 +79,6 @@ class API
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, Config::get('endpoints.base') . $uri);
-        curl_setopt($curl, CURLOPT_INTERFACE, get_ip());
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
@@ -80,7 +97,6 @@ class API
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, Config::get('endpoints.base') . $uri);
-        curl_setopt($curl, CURLOPT_INTERFACE, get_ip());
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
