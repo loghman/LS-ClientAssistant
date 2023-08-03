@@ -20,7 +20,7 @@ class Setting
         }
 
         try {
-            $response = API::post('v1/platform/settings', ['keys' => Config::get('endpoints.required_settings')]);
+            $response = API::get('v1/platform/settings', ['keys' => Config::get('endpoints.required_settings')]);
             self::$settings = collect($response['data']);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
