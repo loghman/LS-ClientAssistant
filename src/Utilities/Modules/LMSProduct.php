@@ -133,6 +133,25 @@ class LMSProduct extends ModuleUtility
         }
     }
 
+    public static function chapter(int $productId, int $chapterId, array $with = []): Collection
+    {
+        try {
+            $cacheKey = make_cache_unique_key($GLOBALS['appName'], 'lms_product', 'chapter', ['product_id' => $productId, 'chapter_id' => $chapterId]);
+            $cacheConfig = [
+                'is_active' => (bool)setting('client_cache_request_lms'),
+                'expiration_time' => (int)setting('client_cache_revalidation_time'),
+            ];
+
+            return API::getOrFromCache($cacheKey, $cacheConfig, sprintf('v1/lms/product/%s/chapter/%s', $productId, $chapterId), [
+                'with' => json_encode($with),
+            ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
     public static function chapterStats(int $productId, int $chapterId, string $userToken, array $headers = []): Collection
     {
         try {
