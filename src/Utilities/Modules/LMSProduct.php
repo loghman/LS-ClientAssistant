@@ -80,8 +80,8 @@ class LMSProduct extends ModuleUtility
             return API::getOrFromCache($cacheKey, $cacheConfig, 'v1/lms/product/rich', [
                 'methods' => $methods,
             ], [
-                'Authorization: Bearer ' . $userToken,
-            ] + $headers);
+                    'Authorization: Bearer ' . $userToken,
+                ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -156,8 +156,22 @@ class LMSProduct extends ModuleUtility
     {
         try {
             return API::get(sprintf('v1/lms/product/%s/chapter/%s/stats', $productId, $chapterId), [], [
-                'Authorization: Bearer ' . $userToken,
-            ] + $headers);
+                    'Authorization: Bearer ' . $userToken,
+                ] + $headers);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
+    public static function chaptersWithUserProgressPercent(int $productId, string $userToken): Collection
+    {
+        $headers = [
+            'Authorization: Bearer ' . $userToken,
+        ];
+        try {
+            return API::get(sprintf('v1/lms/product/%s/just-chapters', $productId), [], $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -247,8 +261,8 @@ class LMSProduct extends ModuleUtility
                 'community' => $data['community'] ?? null,
                 'department' => $data['department'] ?? null,
             ], [
-                'Authorization: Bearer ' . $userToken,
-            ] + $headers);
+                    'Authorization: Bearer ' . $userToken,
+                ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
