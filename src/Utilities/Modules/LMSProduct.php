@@ -165,13 +165,13 @@ class LMSProduct extends ModuleUtility
         }
     }
 
-    public static function chaptersWithUserProgressPercent(int $productId, string $userToken): Collection
+    public static function chaptersWithUserData(int $productId, string $userToken): Collection
     {
         $headers = [
             'Authorization: Bearer ' . $userToken,
         ];
         try {
-            return API::get(sprintf('v1/lms/product/%s/just-chapters', $productId), [], $headers);
+            return API::get(sprintf('v1/lms/product/%s/chapters-with-user-data', $productId), [], $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
