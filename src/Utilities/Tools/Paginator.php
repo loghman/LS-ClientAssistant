@@ -27,6 +27,25 @@ class Paginator
             }
         }
 
+        if (isset($paginatedData['first_page_url'])) {
+            $actualLink = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            $actualLink = str_replace('?' . $_SERVER['QUERY_STRING'], '', $actualLink);
+            $firstPageUrl = $actualLink . ($paginatedData['first_page_url'] ? substr($paginatedData['first_page_url'], strpos($paginatedData['first_page_url'], '?')) : '');
+            $lastPageUrl = $actualLink . ($paginatedData['last_page_url'] ? substr($paginatedData['last_page_url'], strpos($paginatedData['last_page_url'], '?')) : '');
+            $nextPageUrl = $actualLink . ($paginatedData['next_page_url'] ? substr($paginatedData['next_page_url'], strpos($paginatedData['next_page_url'], '?')) : '');
+
+            $paginatedData['first_page_url'] = $firstPageUrl;
+            $paginatedData['last_page_url'] = $lastPageUrl;
+            $paginatedData['next_page_url'] = $nextPageUrl;
+            $paginatedData['path'] = $actualLink;
+
+            foreach ($paginatedData['links'] as $key => $link) {
+                if (!is_null($link['url'])) {
+                    $paginatedData['links'][$key]['url'] = $actualLink . substr($link['url'], strpos($link['url'], '?'));
+                }
+            }
+        }
+
         return $paginatedData;
     }
 }
