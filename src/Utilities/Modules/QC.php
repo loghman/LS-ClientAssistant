@@ -87,6 +87,17 @@ class QC extends ModuleUtility
         }
     }
 
+    public static function getProductItemReviewStats(int $productItemId): Collection
+    {
+        try {
+            return API::get('v1/lms/review/' . $productItemId . '/item/stats');
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
     public static function getProductReviews(int $productId, array $with = []): Collection
     {
         try {
