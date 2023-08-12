@@ -1,28 +1,32 @@
 {
-    "name": "ls/client-assistant",
-    "type": "library",
-    "autoload": {
-        "psr-4": {
-            "Ls\\ClientAssistant\\": "src/"
-        },
-        "files": [
-            "./framework_helpers.php"
-        ]
+  "name": "ls/client-assistant",
+  "type": "library",
+  "autoload": {
+    "psr-4": {
+      "Ls\\ClientAssistant\\": "sdk/"
     },
-    "authors": [
-        {
-            "name": "Amir Salehi",
-            "email": "iamamirsalehi@gmail.com"
-        }
-    ],
-    "require": {
-        "guzzlehttp/guzzle": "^7.0",
-        "hekmatinasser/verta": "^2.1",
-        "illuminate/collections": "^8.83",
-        "slim/slim": "^4.11",
-        "respect/validation": "^2.2",
-        "firebase/php-jwt": "^6.8",
-        "phpfastcache/phpfastcache": "^8.1",
-        "predis/predis": "^2.2"
+    "files": [
+      "./framework_helpers.php"
+    ]
+  },
+  "authors": [
+    {
+      "name": "Amir Salehi",
+      "email": "iamamirsalehi@gmail.com"
     }
+  ],
+  "require": {
+    "guzzlehttp/guzzle": "^7.0",
+    "hekmatinasser/verta": "^2.1",
+    "illuminate/collections": "^8.83",
+    "slim/slim": "^4.11",
+    "respect/validation": "^2.2",
+    "firebase/php-jwt": "^6.8",
+    "phpfastcache/phpfastcache": "^8.1",
+    "predis/predis": "^2.2",
+    "vlucas/phpdotenv": "^5.5",
+    "larapack/dd": "^1.1",
+    "symfony/http-foundation": "^5.4",
+    "illuminate/view": "^8.83"
+  }
 }
