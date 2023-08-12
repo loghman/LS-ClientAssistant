@@ -2,6 +2,7 @@
 
 namespace Ls\ClientAssistant\Core\Router;
 
+use Ls\ClientAssistant\Core\StaticCache;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use \Symfony\Component\HttpFoundation\Response as SymfonyResponse;
