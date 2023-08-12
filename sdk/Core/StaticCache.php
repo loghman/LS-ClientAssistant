@@ -1,6 +1,6 @@
 <?php
 
-namespace Ls\ClientAssistant\Core\Router;
+namespace Ls\ClientAssistant\Core;
 
 class StaticCache
 {
