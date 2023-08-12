@@ -726,3 +726,10 @@ if (!function_exists('make_cache_unique_key')) {
         return str_replace(' ', '', $key);
     }
 }
+
+if (!function_exists('client_assistant_routes')) {
+    function client_assistant_routes()
+    {
+        return glob(__DIR__ . DIRECTORY_SEPARATOR . 'routes' . DIRECTORY_SEPARATOR . '*.php');
+    }
+}
