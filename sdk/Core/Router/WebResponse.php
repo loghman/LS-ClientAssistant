@@ -25,7 +25,7 @@ class WebResponse
         return self::make($view, $data);
     }
 
-    public function redirect(string $toRoute = ''): RedirectResponse
+    public static function redirect(string $toRoute = ''): RedirectResponse
     {
         return new RedirectResponse(site_url($toRoute), 302, []);
     }
