@@ -13,8 +13,6 @@ use Illuminate\Events\Dispatcher;
 use Illuminate\Routing\Router;
 use Illuminate\Http\Request;
 use Illuminate\Container\Container;
-use Ls\ClientAssistant\Core\Middlewares\Auth as AuthMiddleware;
-use Ls\ClientAssistant\Core\Middlewares\Guess as GuessMiddleware;
 
 class Kernel
 {
@@ -37,8 +35,6 @@ class Kernel
         $container = new Container();
         $events = new Dispatcher($container);
         $router = new Router($events, $container);
-//        $router->middleware('guess', new GuessMiddleware());
-//        $router->middleware('auth', new AuthMiddleware());
 
         $routeFiles = glob($routesPath);
         $routeFiles = array_merge($routeFiles, client_assistant_routes());
