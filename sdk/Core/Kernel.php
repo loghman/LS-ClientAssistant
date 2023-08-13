@@ -53,8 +53,32 @@ class Kernel
 //        });
 
         $this->setGlobalVariablesFromEnv($_ENV);
-        $request = Request::capture();
+//        $request = Request::capture();
         $container = new Container();
+        $container->bind(
+            \Psr\Http\Message\ServerRequestInterface::class,
+            function () {
+                return (new \Nyholm\Psr7\Factory\Psr17Factory())->createServerRequest('GET', '/');
+            }
+        );
+        $container->bind(
+            \Psr\Http\Message\ResponseInterface::class,
+            function () {
+                return (new \Nyholm\Psr7\Factory\Psr17Factory())->createResponse();
+            }
+        );
+        $container->bind(
+            '\Ls\ClientAssistant\Core\Router\Response',
+            function ($app) {
+                $response =  new \Ls\ClientAssistant\Core\Router\Response($app->make(\Psr\Http\Message\ResponseInterface::class));
+                $viewsPath = dirname(__DIR__, 6) . DIRECTORY_SEPARATOR . 'views';
+                $cachePath = dirname(__DIR__, 6) . DIRECTORY_SEPARATOR . 'cache';
+                $response->setBlade($this->registerBlade($viewsPath, $cachePath));
+                return $response;
+            }
+        );
+        $response = $container->make('\Ls\ClientAssistant\Core\Router\Response');
+        $request = $container->make(Request::class);
         $events = new Dispatcher($container);
         $router = new Router($events, $container);
 
