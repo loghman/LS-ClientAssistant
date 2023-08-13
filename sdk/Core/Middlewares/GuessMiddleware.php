@@ -3,20 +3,15 @@
 namespace Ls\ClientAssistant\Core\Middlewares;
 
 use Ls\ClientAssistant\Utilities\Modules\User;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 
-class GuessMiddleware implements MiddlewareInterface
+class GuessMiddleware
 {
-
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function handle($request, $next)
     {
         if (User::loggedIn()) {
             redirect(site_url(''));
         }
 
-        return $handler->handle($request);
+        return $next($request);
     }
 }
