@@ -2,26 +2,24 @@
 
 namespace Ls\ClientAssistant\Core\Router;
 
-use Slim\App as SlimApp;
-
 class App
 {
-    private SlimApp $router;
-    private $routeParser;
+    private $router;
+    private $response;
 
-    public function __construct(SlimApp $router, $routeParser)
+    public function __construct($router, $response)
     {
         $this->router = $router;
-        $this->routeParser = $routeParser;
+        $this->response = $response;
     }
 
-    public function getRouter(): SlimApp
+    public function getRouter()
     {
         return $this->router;
     }
 
-    public function getRouteParser()
+    public function getResponse()
     {
-        return $this->routeParser;
+        return $this->response;
     }
 }
