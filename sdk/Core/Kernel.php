@@ -13,6 +13,8 @@ use Illuminate\Events\Dispatcher;
 use Illuminate\Routing\Router;
 use Illuminate\Http\Request;
 use Illuminate\Container\Container;
+use Ls\ClientAssistant\Core\Middlewares\Auth as AuthMiddleware;
+use Ls\ClientAssistant\Core\Middlewares\Guess as GuessMiddleware;
 
 class Kernel
 {
@@ -30,57 +32,13 @@ class Kernel
 
     private function bootRouter(string $routesPath): App
     {
-//        $router = RouterAppFactoryAdapter::createWithApiKey($_ENV);
-//
-//        $router->addErrorMiddleware(true, true, true);
-//        $routeCollector = $router->getRouteCollector();
-//        $routeCollector->setDefaultInvocationStrategy(new RequestResponseArgs());
-//
-//        $routeParser = $routeCollector->getRouteParser();
-//
-//        toggle_errors($_ENV['APP_DEBUG'] ?? false);
-//        date_default_timezone_set($_ENV['TIME_ZONE'] ?? 'Asia/Tehran');
-//
-//        $routeFiles = glob($routesPath);
-//        $routeFiles = array_merge($routeFiles, client_assistant_routes());
-//
-//        foreach ($routeFiles as $route) {
-//            include_once $route;
-//        }
-//
-//        $router->map(['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], '/{routes:.+}', function ($request, $response) {
-//            return $response->view('errors.404');
-//        });
-
         $this->setGlobalVariablesFromEnv($_ENV);
-//        $request = Request::capture();
+        $request = Request::capture();
         $container = new Container();
-        $container->bind(
-            \Psr\Http\Message\ServerRequestInterface::class,
-            function () {
-                return (new \Nyholm\Psr7\Factory\Psr17Factory())->createServerRequest('GET', '/');
-            }
-        );
-        $container->bind(
-            \Psr\Http\Message\ResponseInterface::class,
-            function () {
-                return (new \Nyholm\Psr7\Factory\Psr17Factory())->createResponse();
-            }
-        );
-        $container->bind(
-            '\Ls\ClientAssistant\Core\Router\Response',
-            function ($app) {
-                $response =  new \Ls\ClientAssistant\Core\Router\Response($app->make(\Psr\Http\Message\ResponseInterface::class));
-                $viewsPath = dirname(__DIR__, 6) . DIRECTORY_SEPARATOR . 'views';
-                $cachePath = dirname(__DIR__, 6) . DIRECTORY_SEPARATOR . 'cache';
-                $response->setBlade($this->registerBlade($viewsPath, $cachePath));
-                return $response;
-            }
-        );
-        $response = $container->make('\Ls\ClientAssistant\Core\Router\Response');
-        $request = $container->make(Request::class);
         $events = new Dispatcher($container);
         $router = new Router($events, $container);
+//        $router->middleware('guess', new GuessMiddleware());
+//        $router->middleware('auth', new AuthMiddleware());
 
         $routeFiles = glob($routesPath);
         $routeFiles = array_merge($routeFiles, client_assistant_routes());
@@ -90,7 +48,6 @@ class Kernel
         }
 
         $response = $router->dispatch($request);
-//        $response->send();
 
         return new App($router, $response);
     }

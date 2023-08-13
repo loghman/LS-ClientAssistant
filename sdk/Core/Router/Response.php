@@ -2,19 +2,19 @@
 
 namespace Ls\ClientAssistant\Core\Router;
 
+use Ls\ClientAssistant\Core\Kernel;
 use Ls\ClientAssistant\Core\StaticCache;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
 use \Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
-class Response implements ResponseInterface
+class Response
 {
-    public ResponseInterface $response;
     private $blade;
 
-    public function __construct(ResponseInterface $response)
+    public function __construct()
     {
-        $this->response = $response;
+        $viewsPath = dirname(__DIR__, 6) . DIRECTORY_SEPARATOR . 'views';
+        $cachePath = dirname(__DIR__, 6) . DIRECTORY_SEPARATOR . 'cache';
+        $this->blade = (new Kernel())->registerBlade($viewsPath, $cachePath);
     }
 
     public function setBlade($blade)
@@ -75,15 +75,14 @@ class Response implements ResponseInterface
     public function sitemap(string $sitemap, array $data)
     {
         sitemap($sitemap, $data);
-
-        return $this->response;
     }
 
-    public function view($view = null, $data = [])
+    public static function view($view = null, $data = [])
     {
-        echo $this->blade->make($view, $data)->render();
+        $response = new static();
 
-        return $this->response;
+        echo $response->blade->make($view, $data)->render();
+        exit;
     }
 
     public function viewEndStaticCache($view = null, $data = [])
@@ -95,11 +94,13 @@ class Response implements ResponseInterface
         return $this->response;
     }
 
-    public function viewAjax($view = null, $data = [], array $mergedData = [])
+    public static function viewAjax($view = null, $data = [], array $mergedData = [])
     {
-        $html =  $this->blade->make($view, $data)->render();
+        $response = new static();
 
-        return $this->success('', array_merge(['html' => $html], $mergedData));
+        $html = $response->blade->make($view, $data)->render();
+
+        return $response->success('', array_merge(['html' => $html], $mergedData));
     }
 
     public function redirect(string $toRoute = '')
@@ -107,61 +108,6 @@ class Response implements ResponseInterface
         redirect(site_url($toRoute));
 
         return $this->response;
-    }
-
-    public function getProtocolVersion(): string
-    {
-        return $this->response->getProtocolVersion();
-    }
-
-    public function withProtocolVersion(string $version)
-    {
-        return $this->response->withProtocolVersion($version);
-    }
-
-    public function getHeaders(): array
-    {
-        return $this->response->getHeaders();
-    }
-
-    public function hasHeader(string $name): bool
-    {
-        return $this->response->hasHeader($name);
-    }
-
-    public function getHeader(string $name): array
-    {
-        return $this->response->getHeader($name);
-    }
-
-    public function getHeaderLine(string $name): string
-    {
-        return $this->response->getHeaderLine($name);
-    }
-
-    public function withHeader(string $name, $value)
-    {
-        return $this->response->withHeader($name, $value);
-    }
-
-    public function withAddedHeader(string $name, $value)
-    {
-        return $this->response->withAddedHeader($name, $value);
-    }
-
-    public function withoutHeader(string $name)
-    {
-        return $this->response->withoutHeader($name);
-    }
-
-    public function getBody(): StreamInterface
-    {
-        return $this->response->getBody();
-    }
-
-    public function withBody(StreamInterface $body)
-    {
-        return $this->response->withBody($body);
     }
 
     public function getStatusCode(): int
