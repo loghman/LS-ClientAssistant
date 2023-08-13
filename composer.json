@@ -27,6 +27,7 @@
     "vlucas/phpdotenv": "^5.5",
     "larapack/dd": "^1.1",
     "symfony/http-foundation": "^5.4",
-    "illuminate/view": "^8.83"
+    "illuminate/view": "^8.83",
+    "illuminate/routing": "^8.83"
   }
 }
