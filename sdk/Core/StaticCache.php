@@ -20,7 +20,7 @@ class StaticCache
 
     public static function init()
     {
-        self::$cacheFolder = dirname((__DIR__), 2) . '/cache/';
+        self::$cacheFolder = dirname(__DIR__, 5) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'static/';
         self::$cacheSlug = strtok($_SERVER['REQUEST_URI'], '?');
         self::$cacheFile = self::$cacheFolder . md5(self::$cacheSlug) . ".php";
         if (!self::isCacheEnable())
@@ -65,7 +65,7 @@ class StaticCache
 
     public static function flush()
     {
-        $cacheFolder = dirname((__DIR__), 2) . '/cache/';
+        $cacheFolder = dirname(__DIR__, 5) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'static/';
         $files = glob($cacheFolder . "*"); // get all file names
         foreach ($files as $file) {         // iterate files
             if (is_file($file)) {
