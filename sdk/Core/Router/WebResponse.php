@@ -3,7 +3,7 @@
 namespace Ls\ClientAssistant\Core\Router;
 
 use Ls\ClientAssistant\Core\Kernel;
-use Ls\ClientAssistant\Core\StaticCache;
+use Symfony\Component\HttpFoundation\Response;
 
 class WebResponse
 {
@@ -19,23 +19,9 @@ class WebResponse
         sitemap($sitemap, $data);
     }
 
-    public static function view($view = null, $data = [])
+    public static function view($view = null, $data = []): Response
     {
-        $response = new static();
-
-        echo $response->blade->make($view, $data)->render();
-        exit;
-    }
-
-    public function viewEndStaticCache($view = null, $data = [])
-    {
-        $response = new static();
-
-        echo $response->blade->make($view, $data)->render();
-
-        StaticCache::end();
-
-        exit;
+        return self::make($view, $data);
     }
 
     public function redirect(string $toRoute = '')
@@ -50,5 +36,13 @@ class WebResponse
         $viewsPath = dirname(__DIR__, 6) . DIRECTORY_SEPARATOR . 'views';
         $cachePath = dirname(__DIR__, 6) . DIRECTORY_SEPARATOR . 'cache';
         return (new Kernel())->registerBlade($viewsPath, $cachePath);
+    }
+
+    private static function make($view, $data, int $status = 200, array $headers = []): Response
+    {
+        $response = new static();
+        $content = $response->blade->make($view, $data)->render();
+
+        return new Response($content, $status, $headers);
     }
 }
