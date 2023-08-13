@@ -12,7 +12,7 @@ class AuthMiddleware
             redirect(site_url('auth'));
         }
 
-        if (in_array($request->getUri()->getPath(), ['/auth/logout', '/auth/verify', '/auth/email/update', '/auth/mobile/update'])) {
+        if (in_array($request->getUri(), ['/auth/logout', '/auth/verify', '/auth/email/update', '/auth/mobile/update'])) {
             return $next($request);
         }
 
