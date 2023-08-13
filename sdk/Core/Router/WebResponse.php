@@ -3,6 +3,7 @@
 namespace Ls\ClientAssistant\Core\Router;
 
 use Ls\ClientAssistant\Core\Kernel;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class WebResponse
@@ -24,11 +25,9 @@ class WebResponse
         return self::make($view, $data);
     }
 
-    public function redirect(string $toRoute = '')
+    public function redirect(string $toRoute = ''): RedirectResponse
     {
-        redirect(site_url($toRoute));
-
-        exit();
+        return new RedirectResponse(site_url($toRoute), 302, []);
     }
 
     public function getBladeInstance()
