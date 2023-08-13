@@ -36,6 +36,10 @@ class Kernel
         $events = new Dispatcher($container);
         $router = new Router($events, $container);
 
+        $container->bind(Request::class, function ($app) {
+            return Request::capture();
+        });
+
         $routeFiles = glob($routesPath);
         $routeFiles = array_merge($routeFiles, client_assistant_routes());
 
