@@ -8,7 +8,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 
-class Auth implements MiddlewareInterface
+class AuthMiddleware implements MiddlewareInterface
 {
     public function process(Request $request, RequestHandler $handler): Response
     {
