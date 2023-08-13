@@ -13,6 +13,7 @@ use Illuminate\Events\Dispatcher;
 use Illuminate\Routing\Router;
 use Illuminate\Http\Request;
 use Illuminate\Container\Container;
+use Ls\ClientAssistant\Core\Router\WebResponse;
 
 class Kernel
 {
@@ -46,6 +47,10 @@ class Kernel
         foreach ($routeFiles as $route) {
             include_once $route;
         }
+
+        $router->fallback(function (){
+            return WebResponse::view('errors.404');
+        });
 
         $response = $router->dispatch($request);
 
