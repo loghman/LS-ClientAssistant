@@ -9,9 +9,9 @@ class StaticCacheMiddleware
 {
     public function handle(Request $request, $next)
     {
-        //        if (User::loggedIn()) {
-        //            return $next($request);
-        //        }
+        if (User::loggedIn()) {
+            return $next($request);
+        }
 
         $urlRegex = self::urlRegexPattern();
         foreach ($urlRegex as $regex => $isActive) {
@@ -44,10 +44,10 @@ class StaticCacheMiddleware
     {
         return [
             '#^/blog/([a-zA-Z0-9\-]+)$#' => setting('client_static_cache_single_blog'),
-//            setting('client_static_cache_list_topics') => '',
-//            setting('client_static_cache_single_topic') => '',
-//            setting('client_static_cache_single_course') => '',
-//            setting('client_static_cache_single_product') => '',
+            '/^\/community\/([\w-]+)(\/[\w-]+)*$/' => setting('client_static_cache_list_topics'),
+            '^/community(/[\w\-/]+)?$' => setting('client_static_cache_single_topic'),
+            '/^\/course\/[\w-]+$/' => setting('client_static_cache_single_course'),
+            '/^\/product\/[\w-]+$/' => setting('client_static_cache_single_product'),
         ];
     }
 }
