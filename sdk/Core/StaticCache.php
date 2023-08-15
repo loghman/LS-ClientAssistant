@@ -13,8 +13,6 @@ class StaticCache
 
     public static function isCacheEnable(): bool
     {
-//        if (!is_production() or env('STATIC_CACHE')==0 or is_user_logged_in() or sizeof($_GET))
-//            return false;
         return true;
     }
 
@@ -29,9 +27,6 @@ class StaticCache
 
     public static function start()
     {
-        if (!is_null(current_user())) {
-            return;
-        }
         self::init();
 
         if (!self::$cachable) {
