@@ -4,6 +4,7 @@ namespace Ls\ClientAssistant\Core\Middlewares;
 
 use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\StaticCache;
+use Ls\ClientAssistant\Utilities\Modules\User;
 
 class StaticCacheMiddleware
 {
