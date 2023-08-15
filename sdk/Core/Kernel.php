@@ -3,6 +3,7 @@
 namespace Ls\ClientAssistant\Core;
 
 use Illuminate\View\Engines\EngineResolver;
+use Ls\ClientAssistant\Core\Middlewares\StaticCacheMiddleware;
 use Ls\ClientAssistant\Core\Router\App;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\View\Compilers\BladeCompiler;
@@ -48,11 +49,15 @@ class Kernel
             include_once $route;
         }
 
-        $router->fallback(function (){
-            return WebResponse::view('errors.404');
+        $router->fallback(function () {
+            WebResponse::view('errors.404');
         });
 
-        $response = $router->dispatch($request);
+        $staticCacheMiddleware = new StaticCacheMiddleware();
+
+        $response = $staticCacheMiddleware->handle(Request::capture(), function ($request) use ($router) {
+            return $router->dispatch($request);
+        });
 
         return new App($router, $response);
     }

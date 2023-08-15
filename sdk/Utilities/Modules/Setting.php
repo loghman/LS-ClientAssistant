@@ -15,12 +15,17 @@ class Setting
 
     public static function all(): Collection
     {
-        if (! is_null(self::$settings)) {
+        if (!is_null(self::$settings)) {
             return self::$settings;
         }
 
         try {
-            $response = API::get('v1/platform/settings', ['keys' => Config::get('endpoints.required_settings')]);
+            $cacheKey = make_cache_unique_key($GLOBALS['appName'], 'setting', 'all', []);
+            $config = [
+                'is_active' => 1,
+                'expiration_time' => 60,
+            ];
+            $response = API::getOrFromCache($cacheKey, $config, 'v1/platform/settings', ['keys' => Config::get('endpoints.required_settings')]);
             self::$settings = collect($response['data']);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
