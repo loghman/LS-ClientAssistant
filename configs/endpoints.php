@@ -10,5 +10,9 @@ return [
         'client_cache_driver', 'client_cache_request_setting',
         'client_cache_request_cms', 'client_cache_request_lms', 'client_cache_request_hlms', 'client_cache_request_shop',
         'client_cache_revalidation_time', 'client_cache_active_for_logged_in_user',
+        'client_static_cache_driver', 'client_static_cache_index_page','client_static_cache_blog_page', 'client_static_cache_single_blog',
+        'client_static_cache_single_product', 'client_static_cache_single_course', 'client_static_cache_single_topic',
+        'client_static_cache_list_shop_products', 'client_static_cache_list_topics', 'client_static_cache_list_courses',
+        'client_static_cache_list_communities', 'client_static_cache_revalidation_time',
     ],
 ];

@@ -3,6 +3,7 @@
 namespace Ls\ClientAssistant\Core\Router;
 
 use Ls\ClientAssistant\Core\Kernel;
+use Ls\ClientAssistant\Core\StaticCache;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -20,9 +21,12 @@ class WebResponse
         sitemap($sitemap, $data);
     }
 
-    public static function view($view = null, $data = []): Response
+    public static function view($view = null, $data = [])
     {
-        return self::make($view, $data);
+        $content = self::make($view, $data);
+        echo $content;
+        StaticCache::end();
+        exit();
     }
 
     public static function redirect(string $toRoute = ''): RedirectResponse
@@ -37,11 +41,10 @@ class WebResponse
         return (new Kernel())->registerBlade($viewsPath, $cachePath);
     }
 
-    private static function make($view, $data, int $status = 200, array $headers = []): Response
+    private static function make($view, $data, int $status = 200, array $headers = [])
     {
         $response = new static();
-        $content = $response->blade->make($view, $data)->render();
 
-        return new Response($content, $status, $headers);
+        return $response->blade->make($view, $data)->render();
     }
 }
