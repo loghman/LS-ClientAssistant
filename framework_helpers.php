@@ -101,20 +101,10 @@ if (!function_exists('get_current_url')) {
     }
 }
 
-if (!function_exists('route')) {
-    function route(string $path, array $data = [], array $queryParams = [])
-    {
-        global $routeParser;
-        $route = $routeParser->urlFor($path, $data, $queryParams);
-
-        return ($_ENV['APP_URL'] ?? '') . $route;
-    }
-}
-
 if (!function_exists('route_is')) {
-    function route_is(string $path): bool
+    function route_is(string $uri): bool
     {
-        return route($path) == get_current_url(true);
+        return site_url($uri) == get_current_url(true);
     }
 }
 
