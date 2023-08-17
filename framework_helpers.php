@@ -723,3 +723,197 @@ if (!function_exists('client_assistant_routes')) {
         return glob(__DIR__ . DIRECTORY_SEPARATOR . 'routes' . DIRECTORY_SEPARATOR . '*.php');
     }
 }
+
+if (!function_exists('app')) {
+    function app($abstract = null, array $parameters = [])
+    {
+        if (is_null($abstract)) {
+            return Container::getInstance();
+        }
+
+        return Container::getInstance()->make($abstract, $parameters);
+    }
+}
+
+if (!function_exists('get_content_index')) {
+    function get_content_index($content, $just_featured = 0)
+    {
+        $tmpContent = strip_tags($content, '<h2><h3>');
+        $seperator = '#|||#';
+        $tmpContent = str_replace('<h2', "$seperator<h2", $tmpContent);
+        $tmpContentArr = explode($seperator, $tmpContent);
+        $dom = new domDocument();
+        // $dom->preserveWhiteSpace = false;
+        $indexs = [];
+        if (count($tmpContentArr) < 3) return [];
+        foreach ($tmpContentArr as $contentSegment) {
+            @$dom->loadHTML(mb_convert_encoding($contentSegment, 'HTML-ENTITIES', 'UTF-8'));
+            $h2 = $dom->getElementsByTagName('h2');
+            if (is_null($h2->item(0)) || strlen($h2->item(0)->nodeValue) < 5) {
+                continue;
+            }
+            $index = ['tag' => $h2->item(0)->tagName, 'text' => $h2->item(0)->nodeValue];
+
+            $index['childs'] = null;
+            $h3s = $dom->getElementsByTagName('h3');
+            for ($i = 0; $i < $h3s->length; $i++) {
+                $index['childs'][] = ['tag' => $h3s->item($i)->tagName, 'text' => $h3s->item($i)->nodeValue];
+            }
+            $indexs[] = $index;
+        }
+        return $indexs;
+    }
+}
+
+if (!function_exists('hex_transparencies')) {
+    function hex_transparencies($percent)
+    {
+        $arr = [
+            100 => 'FF',
+            99 => 'FC',
+            98 => 'FA',
+            97 => 'F7',
+            96 => 'F5',
+            95 => 'F2',
+            94 => 'F0',
+            93 => 'ED',
+            92 => 'EB',
+            91 => 'E8',
+            90 => 'E6',
+            89 => 'E3',
+            88 => 'E0',
+            87 => 'DE',
+            86 => 'DB',
+            85 => 'D9',
+            84 => 'D6',
+            83 => 'D4',
+            82 => 'D1',
+            81 => 'CF',
+            80 => 'CC',
+            79 => 'C9',
+            78 => 'C7',
+            77 => 'C4',
+            76 => 'C2',
+            75 => 'BF',
+            74 => 'BD',
+            73 => 'BA',
+            72 => 'B8',
+            71 => 'B5',
+            70 => 'B3',
+            69 => 'B0',
+            68 => 'AD',
+            67 => 'AB',
+            66 => 'A8',
+            65 => 'A6',
+            64 => 'A3',
+            63 => 'A1',
+            62 => '9E',
+            61 => '9C',
+            60 => '99',
+            59 => '96',
+            58 => '94',
+            57 => '91',
+            56 => '8F',
+            55 => '8C',
+            54 => '8A',
+            53 => '87',
+            52 => '85',
+            51 => '82',
+            50 => '80',
+            49 => '7D',
+            48 => '7A',
+            47 => '78',
+            46 => '75',
+            45 => '73',
+            44 => '70',
+            43 => '6E',
+            42 => '6B',
+            41 => '69',
+            40 => '66',
+            39 => '63',
+            38 => '61',
+            37 => '5E',
+            36 => '5C',
+            35 => '59',
+            34 => '57',
+            33 => '54',
+            32 => '52',
+            31 => '4F',
+            30 => '4D',
+            29 => '4A',
+            28 => '47',
+            27 => '45',
+            26 => '42',
+            25 => '40',
+            24 => '3D',
+            23 => '3B',
+            22 => '38',
+            21 => '36',
+            20 => '33',
+            19 => '30',
+            18 => '2E',
+            17 => '2B',
+            16 => '29',
+            15 => '26',
+            14 => '24',
+            13 => '21',
+            12 => '1F',
+            11 => '1C',
+            10 => '1A',
+            9 => '17',
+            8 => '14',
+            7 => '12',
+            6 => '0F',
+            5 => '0D',
+            4 => '0A',
+            3 => '08',
+            2 => '05',
+            1 => '03',
+            0 => '00'
+        ];
+
+        return $arr[$percent];
+    }
+}
+
+if (!function_exists('make_multi_uri_arguments_to_inline')) {
+    function make_multi_uri_arguments_to_inline(array $uri_arguments): string
+    {
+        $currentSlug = array_filter($uri_arguments, function ($value) {
+            return $value != null;
+        });
+
+        return implode('/', $currentSlug);
+    }
+}
+
+if (!function_exists('number_to_letter_persian')) {
+    function number_to_letter_persian($number)
+    {
+        $arr = [
+            'صفرم',
+            'اول',
+            'دوم',
+            'سوم',
+            'چهارم',
+            'پنجم',
+            'ششم',
+            'هفتم',
+            'هشتم',
+            'نهم',
+            'دهم',
+            'یازدهم',
+            'دوازدهم',
+            'سیزدهم',
+            'چهاردهم',
+            'پونزدهم',
+            'شانزدهم',
+            'هفدهم',
+            'هجدهم',
+            'نوزدهم',
+            'بیستم',
+        ];
+
+        return $arr[$number];
+    }
+}

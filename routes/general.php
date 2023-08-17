@@ -1,8 +1,7 @@
 <?php
 
 use Ls\ClientAssistant\Core\API;
-use Ls\ClientAssistant\Core\Router\WebResponse;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use Illuminate\Http\Request;
 use \Ls\ClientAssistant\Core\Router\JsonResponse;
 
 $router->post('/page-meta/updateForm', function (Request $request) {
