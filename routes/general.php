@@ -18,5 +18,5 @@ $router->post('/page-meta/updateForm', function (Request $request) {
         return JsonResponse::unprocessableEntity($pageMeta->get('message') ?? 'مشکلی رخ داده است.');
     }
 
-    return JsonResponse::json('', 200, $pageMeta->toArray()['data']);
+    return JsonResponse::json($pageMeta->toArray()['success'], 200, $pageMeta->toArray()['data']);
 });
