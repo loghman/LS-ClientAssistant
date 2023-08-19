@@ -35,6 +35,9 @@ class StaticCacheMiddleware
         return [
             site_url('') => setting('client_static_cache_index_page'),
             site_url('blog') => setting('client_static_cache_blog_page'),
+            site_url('articles') => setting('client_static_cache_blog_page'),
+            site_url('news') => setting('client_static_cache_blog_page'),
+            site_url('podcasts') => setting('client_static_cache_blog_page'),
             site_url('community') => setting('client_static_cache_list_communities'),
             site_url('courses') => setting('client_static_cache_list_courses'),
             site_url('shop') => setting('client_static_cache_list_shop_products'),
@@ -45,6 +48,9 @@ class StaticCacheMiddleware
     {
         return [
             '#^/blog/([a-zA-Z0-9\-]+)$#' => setting('client_static_cache_single_blog'),
+            '#^/news/([a-zA-Z0-9\-]+)$#' => setting('client_static_cache_single_blog'),
+            '#^/podcasts/([a-zA-Z0-9\-]+)$#' => setting('client_static_cache_single_blog'),
+            '#^/articles/([a-zA-Z0-9\-]+)$#' => setting('client_static_cache_single_blog'),
             '/^\/community\/([\w-]+)(\/[\w-]+)*$/' => setting('client_static_cache_list_topics'),
             '^/community(/[\w\-/]+)?$' => setting('client_static_cache_single_topic'),
             '/^\/course\/[\w-]+$/' => setting('client_static_cache_single_course'),
