@@ -39,7 +39,7 @@ class Shop extends ModuleUtility
                 'expiration_time' => (int)setting('client_cache_revalidation_time'),
             ];
 
-            return API::getOrFromCache($cacheKey, $cacheConfig, 'v1/shop/product', [
+            return API::getOrFromCache($cacheKey, $cacheConfig, 'v1/shop/product/list', [
                 'with' => json_encode($with),
                 'filter' => json_encode($keyValues),
                 'order_by' => $orderBy,
@@ -55,7 +55,7 @@ class Shop extends ModuleUtility
     public static function search(string $keyword, array $columns = [], array $with = [], int $perPage = 20): Collection
     {
         try {
-            return API::get('v1/shop/product', [
+            return API::get('v1/shop/product/list', [
                 's' => $keyword,
                 'with' => json_encode($with),
                 'columns' => json_encode($columns),
