@@ -67,4 +67,16 @@ class SupportReply
         }
     }
 
+    public static function verify(int $topicId, int $replyId, string $userToken, array $headers = []): Collection
+    {
+        try {
+            return API::put(sprintf("v1/support/topic/%s/reply/%s/verify", $topicId, $replyId), [], [
+                    'Authorization: Bearer ' . $userToken,
+                ] + $headers);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
 }
