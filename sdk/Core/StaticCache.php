@@ -50,10 +50,6 @@ class StaticCache
             return;
         }
 
-        if(!file_exists(self::$cacheFile)){
-            return;
-        }
-
         # Cache the contents to a cache file
         $cachedfile = fopen(self::$cacheFile, 'w');
         fwrite($cachedfile, "<!-- cached:" . date('Y-m-d H:i:s', filemtime(self::$cacheFile)) . " -->\n");
