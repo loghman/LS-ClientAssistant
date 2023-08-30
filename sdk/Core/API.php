@@ -143,7 +143,7 @@ class API
             'aud' => $GLOBALS['appUrl'],
             'iat' => \Carbon\Carbon::now()->timestamp,
             'exp' => \Carbon\Carbon::now()->addHour()->timestamp,
-            'ip' => $headers['ip'] ?? null,
+            'ip' => $headers['ip'] ?? $_SERVER['REMOTE_ADDR'],
             'token' => $headers['authorization'] ?? null,
         ];
 
