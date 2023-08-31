@@ -55,4 +55,22 @@ class OKBTopic extends ModuleUtility
             return Response::parseException($exception);
         }
     }
+
+    public static function lmsProduct($productId, array $with = [], array $keyValues = [], int $perPage = 20, $orderBy = OrderByEnum::LATEST): Collection
+    {
+        try {
+            return API::get('v1/okb', [
+                'with' => json_encode($with),
+                'filter' => json_encode($keyValues),
+                'order_by' => $orderBy,
+                'per_page' => $perPage,
+                'entity_type' => 'lms_products',
+                'entity_id' => $productId,
+            ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
 }
