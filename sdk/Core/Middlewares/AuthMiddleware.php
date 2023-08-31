@@ -12,7 +12,10 @@ class AuthMiddleware
             redirect(site_url('auth'));
         }
 
-        if (in_array($request->getUri(), ['/auth/logout', '/auth/verify', '/auth/email/update', '/auth/mobile/update'])) {
+        if (in_array($request->getUri(), [
+            site_url('auth/logout'), site_url('verification-fields/verify'),
+            site_url('auth/email/update'), site_url('auth/mobile/update')
+        ])) {
             return $next($request);
         }
 
@@ -21,7 +24,10 @@ class AuthMiddleware
             (in_array('email', $verificationFields) && !User::emailVerified()) ||
             (in_array('mobile', $verificationFields) && !User::mobileVerified())
         ) {
-            redirect(site_url('auth/verify'));
+            redirect(
+                setting('user_have_access_to_panel', false) ?
+                    core_url('verification-fields/verify') : site_url('verification-fields/verify')
+            );
         }
 
         return $next($request);

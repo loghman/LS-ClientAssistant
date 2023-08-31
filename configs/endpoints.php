@@ -13,6 +13,6 @@ return [
         'client_static_cache_driver', 'client_static_cache_index_page','client_static_cache_blog_page', 'client_static_cache_single_blog',
         'client_static_cache_single_product', 'client_static_cache_single_course', 'client_static_cache_single_topic',
         'client_static_cache_list_shop_products', 'client_static_cache_list_topics', 'client_static_cache_list_courses',
-        'client_static_cache_list_communities', 'client_static_cache_revalidation_time',
+        'client_static_cache_list_communities', 'client_static_cache_revalidation_time', 'user_have_access_to_panel'
     ],
 ];
