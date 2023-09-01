@@ -52,7 +52,7 @@ class Authentication
     {
         try {
             return API::get(
-                'v1/auth/logout', [], ['Authorization' => 'Bearer ' . $userToken]
+                'v1/auth/logout', [], ['Authorization: Bearer ' . $userToken]
             );
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
@@ -80,7 +80,7 @@ class Authentication
             return API::post(
                 'v1/auth/reset-password',
                 ['password' => $password, 'password_confirmation' => $confirmed],
-                ['Authorization' => 'Bearer ' . $userToken]
+                ['Authorization: Bearer ' . $userToken]
             );
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
@@ -108,7 +108,7 @@ class Authentication
             return API::post(
                 'v1/auth/verification-fields/verify',
                 compact('input', 'otp'),
-                ['Authorization' => 'Bearer ' . $userToken]
+                ['Authorization: Bearer ' . $userToken]
             );
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
@@ -123,7 +123,7 @@ class Authentication
             return API::post(
                 'v1/auth/mobile/update',
                 ['input' => $mobile],
-                ['Authorization' => 'Bearer ' . $userToken]
+                ['Authorization: Bearer ' . $userToken]
             );
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
@@ -138,7 +138,7 @@ class Authentication
             return API::post(
                 'v1/auth/email/update',
                 ['input' => $email],
-                ['Authorization' => 'Bearer ' . $userToken]
+                ['Authorization: Bearer ' . $userToken]
             );
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
