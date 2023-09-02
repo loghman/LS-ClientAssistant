@@ -23,8 +23,10 @@ class Paginator
 
             foreach ($paginatedData['data']['links'] as $key => $link) {
                 if (!is_null($link['url'])) {
-                    $restOfTheUri = str_replace('?', '&',  substr($currentLink, strpos($currentLink, '?')));
-                    preg_match_all('/&page=\d+/', $restOfTheUri, $matches);
+                    if ($currentLink != $actualLink) {
+                        $restOfTheUri = str_replace('?', '&', substr($currentLink, strpos($currentLink, '?')));
+                        preg_match_all('/&page=\d+/', $restOfTheUri, $matches);
+                    }
                     $paginatedData['data']['links'][$key]['url'] = $actualLink . substr($link['url'], strpos($link['url'], '?')) . str_replace($matches[0], '', $restOfTheUri);
                 }
             }
@@ -45,8 +47,10 @@ class Paginator
 
             foreach ($paginatedData['links'] as $key => $link) {
                 if (!is_null($link['url'])) {
-                    $restOfTheUri = str_replace('?', '&',  substr($currentLink, strpos($currentLink, '?')));
-                    preg_match_all('/&page=\d+/', $restOfTheUri, $matches);
+                    if ($currentLink != $actualLink) {
+                        $restOfTheUri = str_replace('?', '&', substr($currentLink, strpos($currentLink, '?')));
+                        preg_match_all('/&page=\d+/', $restOfTheUri, $matches);
+                    }
 
                     $paginatedData['links'][$key]['url'] = $actualLink . substr($link['url'], strpos($link['url'], '?')) . str_replace($matches[0], '', $restOfTheUri);
                 }
