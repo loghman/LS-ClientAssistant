@@ -101,7 +101,9 @@ class User extends ModuleUtility
     public static function loggedIn(): bool
     {
         $user = self::getCurrent();
-
+        if(!$user){
+            return false;
+        }
         return !is_null($user['data']) or !empty($user['data']);
     }
 
