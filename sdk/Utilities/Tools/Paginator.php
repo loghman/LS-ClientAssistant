@@ -19,10 +19,10 @@ class Paginator
             $paginatedData['data']['next_page_url'] = $nextPageUrl;
             $paginatedData['data']['path'] = $actualLink;
 
+            $matches = [];
+            $restOfTheUri = '';
             foreach ($paginatedData['data']['links'] as $key => $link) {
                 if (!is_null($link['url'])) {
-                    $matches = [];
-                    $restOfTheUri = '';
                     if ($currentLink != $actualLink) {
                         $restOfTheUri = str_replace('?', '&', substr($currentLink, strpos($currentLink, '?')));
                         preg_match_all('/&page=\d+/', $restOfTheUri, $matches);
@@ -45,10 +45,10 @@ class Paginator
             $paginatedData['next_page_url'] = $nextPageUrl;
             $paginatedData['path'] = $actualLink;
 
+            $matches = [];
+            $restOfTheUri = '';
             foreach ($paginatedData['links'] as $key => $link) {
                 if (!is_null($link['url'])) {
-                    $matches = [];
-                    $restOfTheUri = '';
                     if ($currentLink != $actualLink) {
                         $restOfTheUri = str_replace('?', '&', substr($currentLink, strpos($currentLink, '?')));
                         preg_match_all('/&page=\d+/', $restOfTheUri, $matches);
