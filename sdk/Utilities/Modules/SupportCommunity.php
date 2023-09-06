@@ -43,6 +43,22 @@ class SupportCommunity
         }
     }
 
+    public static function search(string $keyword, array $columns = [], array $with = [], int $perPage = 20): Collection
+    {
+        try {
+            return API::get('v1/support/community', [
+                's' => $keyword,
+                'with' => json_encode($with),
+                'columns' => json_encode($columns),
+                'per_page' => $perPage,
+            ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
     public static function rich(array $methods = []): Collection
     {
         try {
