@@ -133,7 +133,7 @@ if (!function_exists('abort')) {
         foreach ($headers as $header) {
             header($header);
         }
-        view("errors.$code", compact('code', 'message', 'buttonText', 'buttonUrl'));
+        \Ls\ClientAssistant\Core\Router\WebResponse::view("errors.$code", compact('code', 'message', 'buttonText', 'buttonUrl'));
         die();
     }
 }

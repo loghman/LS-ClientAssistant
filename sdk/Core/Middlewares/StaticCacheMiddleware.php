@@ -23,8 +23,13 @@ class StaticCacheMiddleware
             }
         }
 
-        if (in_array($request->getUri(), array_keys(self::usualUrls()))) {
-            StaticCache::start();
+        $urls = self::usualUrls();
+        if (in_array($request->getUri(), array_keys($urls))) {
+            if (($urls[$request->getUri()] ?? false)) {
+                StaticCache::start();
+
+                return $next($request);
+            }
         }
 
         return $next($request);

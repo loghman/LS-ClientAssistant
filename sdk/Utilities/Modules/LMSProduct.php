@@ -52,7 +52,7 @@ class LMSProduct extends ModuleUtility
         }
     }
 
-    public static function search(string $keyword, array $columns = [], array $with = [], int $perPage = 20): Collection
+    public static function search(string $keyword, array $columns = [], array $with = [], int $perPage = 20, array $condition = []): Collection
     {
         try {
             return API::get('v1/lms/product', [
@@ -60,6 +60,7 @@ class LMSProduct extends ModuleUtility
                 'with' => json_encode($with),
                 'columns' => json_encode($columns),
                 'per_page' => $perPage,
+                'condition' => $condition,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
