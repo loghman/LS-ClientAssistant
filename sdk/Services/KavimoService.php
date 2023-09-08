@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\General\Services\Kavimo;
+namespace Ls\ClientAssistant\Services;
 
 class KavimoService
 {
