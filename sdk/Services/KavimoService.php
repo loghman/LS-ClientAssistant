@@ -6,7 +6,7 @@ class KavimoService
 {
     public static function apiKey()
     {
-        return $GLOBALS['videoStreamingApiKey'];
+        return setting('_env_video_streaming_provider');
     }
 
     public static function auth()

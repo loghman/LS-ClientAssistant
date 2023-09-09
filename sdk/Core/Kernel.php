@@ -89,6 +89,5 @@ class Kernel
         $GLOBALS['appUrl'] = str_ends_with($env['APP_URL'], '/') ? $env['APP_URL'] : $env['APP_URL'] . '/';
         $GLOBALS['redisHost'] = $env['REDIS_HOST'];
         $GLOBALS['redisPort'] = $env['REDIS_PORT'];
-        $GLOBALS['videoStreamingApiKey'] = $env['VIDEO_STREAMING_API_KEY'];
     }
 }
