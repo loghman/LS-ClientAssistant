@@ -27,8 +27,8 @@
         }
         @font-face {
             font-family: 'iransansxv';
-            src: url('<?= storage_url('css/fonts/iransans/iransansxv.woff') ?>') format('woff-variations'),
-            url('<?= storage_url('css/fonts/iransans/iransansxv.woff') ?>') format('woff');
+            src: url('<?= core_url('css/fonts/iransans/iransansxv.woff') ?>') format('woff-variations'),
+            url('<?= core_url('css/fonts/iransans/iransansxv.woff') ?>') format('woff');
             font-weight: 100 900;
             font-display: fallback;
         }
@@ -83,7 +83,7 @@
     </style>
 </head>
 <body>
-<img src="<?= storage_url('img/icons/server.svg') ?>" alt="" class="icon">
+<img src="<?= core_url('img/icons/server.svg') ?>" alt="" class="icon">
 <span class="title">درحال بروزرسانی زیرساخت هستیم</span>
 <span class="subtitle">لطفا چند دقیقه دیگر مجددا تلاش کنید...</span>
 </body>
