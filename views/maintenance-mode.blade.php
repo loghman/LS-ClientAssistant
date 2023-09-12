@@ -86,5 +86,10 @@
 <img src="<?= core_url('img/icons/server.svg') ?>" alt="" class="icon">
 <span class="title">درحال بروزرسانی زیرساخت هستیم</span>
 <span class="subtitle">لطفا چند دقیقه دیگر مجددا تلاش کنید...</span>
+<script>
+    setTimeout(() => {
+        window.location.reload();
+    }, 60000);
+</script>
 </body>
 </html>
