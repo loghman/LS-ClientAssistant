@@ -2,6 +2,7 @@
 
 use Ls\ClientAssistant\Core\API;
 use Illuminate\Http\Request;
+use Ls\ClientAssistant\Core\Cache;
 use \Ls\ClientAssistant\Core\Router\JsonResponse;
 
 $router->post('/page-meta/updateForm', function (Request $request) {
@@ -19,4 +20,15 @@ $router->post('/page-meta/updateForm', function (Request $request) {
     }
 
     return JsonResponse::json($pageMeta->toArray()['success'], 200, $pageMeta->toArray()['data']);
+});
+
+$router->get('clearcache/{client_key}', function (Request $request, $clientKey) {
+    if ($clientKey == $GLOBALS['apikey']) {
+        clear_static_cache();
+        clear_redis_cache();
+
+        return JsonResponse::success('کش پاک شد');
+    }
+
+    return JsonResponse::unprocessableEntity('کلید نامعتبر');
 });

@@ -934,3 +934,27 @@ if (!function_exists('number_to_letter_persian')) {
         return $arr[$number];
     }
 }
+
+if (!function_exists('clear_static_cache')) {
+    function clear_static_cache(): void
+    {
+        $cacheFolder = dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'static/';
+        $cacheFiles = scandir($cacheFolder);
+
+        foreach ($cacheFiles as $file) {
+            $filePath = $cacheFolder . $file;
+            if (is_file($filePath)) {
+                unlink($filePath);
+            }
+        }
+    }
+}
+
+if (!function_exists('clear_redis_cache')) {
+    function clear_redis_cache(): void
+    {
+        $redisClient = \Ls\ClientAssistant\Core\Cache::getRedisInstance();
+        $redisClient->flushdb();
+        $redisClient->disconnect();
+    }
+}
