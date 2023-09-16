@@ -3,6 +3,7 @@
 use Ls\ClientAssistant\Core\API;
 use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\Cache;
+use Ls\ClientAssistant\Core\Middlewares\AuthMiddleware;
 use \Ls\ClientAssistant\Core\Router\JsonResponse;
 
 $router->post('/page-meta/updateForm', function (Request $request) {
@@ -31,4 +32,4 @@ $router->get('clearcache/{client_key}', function (Request $request, $clientKey) 
     }
 
     return JsonResponse::unprocessableEntity('کلید نامعتبر');
-});
+})->middleware(AuthMiddleware::class);
