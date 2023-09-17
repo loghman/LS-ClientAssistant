@@ -101,7 +101,9 @@ class User extends ModuleUtility
     public static function loggedIn(): bool
     {
         $user = self::getCurrent();
-
+        if(!$user){
+            return false;
+        }
         return !is_null($user['data']) or !empty($user['data']);
     }
 
@@ -168,7 +170,9 @@ class User extends ModuleUtility
     public static function courses(string $userToken, array $headers = []): Collection
     {
         try {
-            return API::get('v1/user/enrollments', [], [
+            return API::get('v1/user/enrollments', [
+                'per_page' => 1000,
+            ], [
                 'Authorization: Bearer ' . $userToken,
             ] + $headers);
         } catch (ClientException $exception) {

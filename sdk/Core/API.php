@@ -4,8 +4,10 @@ namespace Ls\ClientAssistant\Core;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Collection;
+use Ls\ClientAssistant\Core\Router\WebResponse;
 use Ls\ClientAssistant\Helpers\Config;
 use Ls\ClientAssistant\Utilities\Tools\Paginator;
+use Symfony\Component\HttpFoundation\Response;
 
 class API
 {
@@ -30,6 +32,10 @@ class API
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
         $response = curl_exec($curl);
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        if ($httpCode == Response::HTTP_SERVICE_UNAVAILABLE) {
+            include_once dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'maintenance-mode.blade.php';
+            die;
+        }
         curl_close($curl);
 
         return self::parseData($response);

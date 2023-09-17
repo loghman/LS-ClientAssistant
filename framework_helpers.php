@@ -653,6 +653,23 @@ if (!function_exists('convert_seconds_to_persian_time')) {
     }
 }
 
+if (!function_exists('convert_seconds_to_persian_time_without_seconds')) {
+    function convert_seconds_to_persian_time_without_seconds($seconds): string
+    {
+        $hours = floor($seconds / 3600);
+        $minutes = floor(($seconds % 3600) / 60);
+        $remainingSeconds = $seconds % 60;
+
+        if ($hours > 0) {
+            $time = \Carbon\Carbon::createFromTime($hours, $minutes, $remainingSeconds, 'Asia/Tehran')->isoFormat('HH:mm\"');
+        } else {
+            $time = \Carbon\Carbon::createFromTime(0, $minutes, $remainingSeconds, 'Asia/Tehran')->isoFormat('mm\"');
+        }
+
+        return to_persian_num($time);
+    }
+}
+
 if (!function_exists('convert_seconds_to_persian_in_line_time')) {
     function convert_seconds_to_persian_in_line_time($seconds): string
     {
@@ -915,5 +932,29 @@ if (!function_exists('number_to_letter_persian')) {
         ];
 
         return $arr[$number];
+    }
+}
+
+if (!function_exists('clear_static_cache')) {
+    function clear_static_cache(): void
+    {
+        $cacheFolder = dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'static/';
+        $cacheFiles = scandir($cacheFolder);
+
+        foreach ($cacheFiles as $file) {
+            $filePath = $cacheFolder . $file;
+            if (is_file($filePath)) {
+                unlink($filePath);
+            }
+        }
+    }
+}
+
+if (!function_exists('clear_redis_cache')) {
+    function clear_redis_cache(): void
+    {
+        $redisClient = \Ls\ClientAssistant\Core\Cache::getRedisInstance();
+        $redisClient->flushdb();
+        $redisClient->disconnect();
     }
 }

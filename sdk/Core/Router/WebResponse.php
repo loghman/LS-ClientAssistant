@@ -4,6 +4,7 @@ namespace Ls\ClientAssistant\Core\Router;
 
 use Ls\ClientAssistant\Core\Kernel;
 use Ls\ClientAssistant\Core\StaticCache;
+use Ls\ClientAssistant\Services\BladeLazyLoadService;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -24,6 +25,8 @@ class WebResponse
     public static function view($view = null, $data = [])
     {
         $content = self::make($view, $data);
+        $content = BladeLazyLoadService::filterContent($content);
+
         echo $content;
         StaticCache::end();
         exit();
