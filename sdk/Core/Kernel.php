@@ -21,6 +21,9 @@ class Kernel
     public function boot(string $envPath, string $routesPath)
     {
         $this->bootEnv($envPath);
+
+        ErrorHandler::register();
+        
         return $this->bootRouter($routesPath);
     }
 
