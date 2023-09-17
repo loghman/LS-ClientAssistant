@@ -38,7 +38,6 @@ return [
         'user_have_access_to_panel',
         '_env_video_streaming_provider',
         '_env_google_recaptcha_v3_site_key',
-        '_env_google_recaptcha_v3_secret_key',
         'google_recaptcha_v3_status',
     ],
 ];
