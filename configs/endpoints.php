@@ -36,6 +36,6 @@ return [
         'client_static_cache_list_communities',
         'client_static_cache_revalidation_time',
         'user_have_access_to_panel',
-        '_env_video_streaming_provider'
+        '_env_video_streaming_api_key'
     ],
 ];
