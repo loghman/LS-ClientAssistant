@@ -37,5 +37,7 @@ return [
         'client_static_cache_revalidation_time',
         'user_have_access_to_panel',
         '_env_video_streaming_api_key'
+        '_env_google_recaptcha_v3_site_key',
+        'google_recaptcha_v3_status',
     ],
 ];

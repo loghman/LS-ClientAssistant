@@ -17,6 +17,11 @@ class DateTime
         return convert_seconds_to_persian_time($seconds);
     }
 
+    public static function convertSecondsToPersianTimeWithoutSeconds($seconds): string
+    {
+        return convert_seconds_to_persian_time_without_seconds($seconds);
+    }
+
     public static function convertSecondsToPersianInLineTime($seconds): string
     {
         return convert_seconds_to_persian_in_line_time($seconds);

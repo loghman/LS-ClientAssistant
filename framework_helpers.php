@@ -653,6 +653,23 @@ if (!function_exists('convert_seconds_to_persian_time')) {
     }
 }
 
+if (!function_exists('convert_seconds_to_persian_time_without_seconds')) {
+    function convert_seconds_to_persian_time_without_seconds($seconds): string
+    {
+        $hours = floor($seconds / 3600);
+        $minutes = floor(($seconds % 3600) / 60);
+        $remainingSeconds = $seconds % 60;
+
+        if ($hours > 0) {
+            $time = \Carbon\Carbon::createFromTime($hours, $minutes, $remainingSeconds, 'Asia/Tehran')->isoFormat('HH:mm\"');
+        } else {
+            $time = \Carbon\Carbon::createFromTime(0, $minutes, $remainingSeconds, 'Asia/Tehran')->isoFormat('mm\"');
+        }
+
+        return to_persian_num($time);
+    }
+}
+
 if (!function_exists('convert_seconds_to_persian_in_line_time')) {
     function convert_seconds_to_persian_in_line_time($seconds): string
     {
