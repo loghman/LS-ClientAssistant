@@ -29,6 +29,12 @@
     "illuminate/view": "^8.83",
     "illuminate/routing": "^8.83",
     "nyholm/psr7": "^1.8",
-    "anhskohbo/no-captcha": "^3.5"
+    "anhskohbo/no-captcha": "^3.5",
+    "sentry/sdk": "^3.5"
+  },
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": true
+    }
   }
 }
