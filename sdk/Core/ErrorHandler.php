@@ -16,22 +16,27 @@ class ErrorHandler
     {
         $sentryStatus = false;
         if (!empty(env('SENTRY_DSN'))) {
-            \Sentry\init(['dsn' => env('SENTRY_DSN')]);
+            \Sentry\init([
+                'dsn'            => env('SENTRY_DSN'),
+                'environment'    => env('APP_ENV'),
+                'enable_tracing' => true,
+            ]);
+
             $sentryStatus = true;
         }
 
         set_error_handler(
             function ($level, $error, $file, $line) use ($sentryStatus) {
-                if (0 === error_reporting()) {
-                    return false;
-                }
                 $error = new ErrorException($error, -1, $level, $file, $line);
 
                 if ($sentryStatus) {
                     \Sentry\captureException($error);
                 }
 
-                throw $error;
+                // TODO: need check and improvement
+                // if (1 === error_reporting()) {
+                //     throw $error;
+                // }
             },
             E_ALL
         );
@@ -44,7 +49,10 @@ class ErrorHandler
                     \Sentry\captureException($error);
                 }
 
-                throw $error;
+                // TODO: need check and improvement
+                // if (1 === error_reporting()) {
+                //     throw $error;
+                // }
             }
         });
 
