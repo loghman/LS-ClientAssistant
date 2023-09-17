@@ -61,11 +61,12 @@ class Authentication
         }
     }
 
-    public static function verifyRequestResetPassword(string $input, string $otp)
+    public static function verifyRequestResetPassword(string $input, string $otp, array $data = [])
     {
         try {
             return API::post(
-                'v1/auth/reset-password/verify', compact('input', 'otp')
+                'v1/auth/reset-password/verify',
+                array_merge($data, compact('input', 'otp'))
             );
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
@@ -74,12 +75,12 @@ class Authentication
         }
     }
 
-    public static function resetPassword(string $userToken, string $password, string $confirmed)
+    public static function resetPassword(string $userToken, string $password, string $confirmed, array $data = [])
     {
         try {
             return API::post(
                 'v1/auth/reset-password',
-                ['password' => $password, 'password_confirmation' => $confirmed],
+                array_merge($data, ['password' => $password, 'password_confirmation' => $confirmed]),
                 ['Authorization: Bearer ' . $userToken]
             );
         } catch (ClientException $exception) {
@@ -89,11 +90,11 @@ class Authentication
         }
     }
 
-    public static function sendVerificationCode(string $input)
+    public static function sendVerificationCode(string $input, array $data = [])
     {
         try {
             return API::post(
-                'v1/auth/send/verification-code', compact('input')
+                'v1/auth/send/verification-code', array_merge($data, compact('input'))
             );
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
@@ -102,12 +103,12 @@ class Authentication
         }
     }
 
-    public static function verifyVerificationFields(string $userToken, string $input, string $otp)
+    public static function verifyVerificationFields(string $userToken, string $input, string $otp, array $data = [])
     {
         try {
             return API::post(
                 'v1/auth/verification-fields/verify',
-                compact('input', 'otp'),
+                array_merge($data, compact('input', 'otp')),
                 ['Authorization: Bearer ' . $userToken]
             );
         } catch (ClientException $exception) {
