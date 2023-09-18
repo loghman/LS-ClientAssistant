@@ -6,22 +6,25 @@ class LMSProductSeoMeta extends SeoMeta
 {
     private $product;
     private $meta;
+    private $seo;
     private $description = null;
+    private $title = null;
     private $currentUrl;
 
     public function __construct($product)
     {
         $this->product = $product;
         $this->meta = json_decode($product['meta'] ?? '[]', true);
+        $this->seo = json_decode($product['seo'] ?? '[]', true);
         $this->currentUrl = get_current_url(true);
-        if (!empty($this->product['description']))
-            $this->description = sub_words($this->product['description'], 165);
-
+        if (!empty($this->product['description']) or !empty($this->seo['description']))
+            $this->description = sub_words(strip_tags($this->seo['description'] ?? $this->product['description']), 165);
+        $this->title = $this->seo['title'] ?? $this->product['title'];
     }
 
     public function getTitle()
     {
-        return "<title>{$this->product['title']}</title>" . PHP_EOL;
+        return "<title>{$this->title}</title>" . PHP_EOL;
     }
 
     public function getCanonical()
@@ -53,8 +56,8 @@ class LMSProductSeoMeta extends SeoMeta
 
         $openGraph = '';
 
-        $openGraph .= "<meta property='og:title' content='{$this->product['title']}' />" . PHP_EOL;
-        $openGraph .= "<meta property='og:image:alt' content='{$this->product['title']}' />" . PHP_EOL;
+        $openGraph .= "<meta property='og:title' content='{$this->title}' />" . PHP_EOL;
+        $openGraph .= "<meta property='og:image:alt' content='{$this->title}' />" . PHP_EOL;
         $openGraph .= "<meta property='og:url' content='$this->currentUrl' />" . PHP_EOL;
         $updatedTime = date('Y-m-d\TH:i:s+03:30', strtotime($this->product['updated_at']));
         $openGraph .= "<meta property='og:updated_time' content='$updatedTime' />" . PHP_EOL;
@@ -62,7 +65,7 @@ class LMSProductSeoMeta extends SeoMeta
         if (!empty($this->meta['banner_url']))
             $openGraph .= "<meta property='og:image' content='{$this->meta['banner_url']}' />" . PHP_EOL;
         if (!is_null($this->description))
-            $openGraph .= "<meta property='og:description' content='$this->description' />" . PHP_EOL;
+            $openGraph .= "<meta property='og:description' content='{$this->description}' />" . PHP_EOL;
         if (!empty($this->product['main_teacher']['display_name']))
             $openGraph .= "<meta property='og:article:author' content='{$this->product['main_teacher']['display_name']}' />" . PHP_EOL;
 
