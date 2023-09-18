@@ -78,8 +78,7 @@ class QC extends ModuleUtility
     {
         try {
             return API::put('v1/lms/review', [
-                'product_id' => $data['product_id'],
-                'item_id' => $data['item_id'],
+                'review_id' => $data['review_id'],
                 'rate' => $data['rate'] ?? null,
                 'comment' => $data['comment'] ?? null,
             ], [
