@@ -74,6 +74,24 @@ class QC extends ModuleUtility
         }
     }
 
+    public static function updateReview(array $data, string $userToken, array $headers = []): Collection
+    {
+        try {
+            return API::put('v1/lms/review', [
+                'product_id' => $data['product_id'],
+                'item_id' => $data['item_id'],
+                'rate' => $data['rate'] ?? null,
+                'comment' => $data['comment'] ?? null,
+            ], [
+                    'Authorization: Bearer ' . $userToken,
+                ] + $headers);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
     public static function getProductItemReviews(int $productItemId, array $with = []): Collection
     {
         try {
