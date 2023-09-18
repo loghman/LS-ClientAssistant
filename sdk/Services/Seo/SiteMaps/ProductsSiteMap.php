@@ -19,9 +19,11 @@ class ProductsSiteMap extends SiteMap
             $item['meta'] = json_decode($item['meta'] ?? '[]', true);
             $item['changefreq'] = $item['changefreq'] ?? 'hourly';
             $item['priority'] = $item['priority'] ?? '0.8';
-            $item['caption'] = html_entity_decode(sub_words($item['title'], 165), ENT_COMPAT, 'UTF-8');
-            $item['loc'] = route('lms.course', ['slug' => $item['slug']]);
+            $item['caption'] = html_entity_decode(sub_words($item['description'], 165), ENT_COMPAT, 'UTF-8');
+            $item['loc'] = site_url('course' . $item['slug']);
             $item['lastmod'] = date('Y-m-d\TH:i:s+03:30', strtotime($item['updated_at']));
+
+            $item['caption'] = strip_tags($item['caption']);
 
             $items .= '<url>' . PHP_EOL;
             $items .= "<loc>{$item['loc']}</loc>" . PHP_EOL;
@@ -32,7 +34,8 @@ class ProductsSiteMap extends SiteMap
             if (!empty($item['meta']['banner_url']['url'])) {
                 $items .= "<image:image>" . PHP_EOL;
                 $items .= "<image:loc>{$item['meta']['banner_url']['url']}</image:loc>" . PHP_EOL;
-                $items .= "<image:caption>{$item['caption']}</image:caption>" . PHP_EOL;
+                if (!empty($item['caption']))
+                    $items .= "<image:caption>{$item['caption']}</image:caption>" . PHP_EOL;
                 $items .= "<image:title>{$item['title']}</image:title>" . PHP_EOL;
                 $items .= "</image:image>" . PHP_EOL;
             }
