@@ -18,8 +18,8 @@ class PostsSiteMap extends SiteMap
         foreach ($this->data as $item) {
             $item['changefreq'] = $item['changefreq'] ?? 'hourly';
             $item['priority'] = $item['priority'] ?? '0.8';
-            $item['caption'] = html_entity_decode(sub_words($item['content'], 165), ENT_COMPAT, 'UTF-8');
-            $item['loc'] = route('blog.single', ['slug' => $item['slug']]);
+//            $item['caption'] = html_entity_decode(sub_words($item['content'], 165), ENT_COMPAT, 'UTF-8');
+            $item['loc'] = site_url('blog/' . $item['slug']);
             $item['lastmod'] = date('Y-m-d\TH:i:s+03:30', strtotime($item['updated_at']));
 
             $items .= '<url>' . PHP_EOL;
@@ -31,7 +31,7 @@ class PostsSiteMap extends SiteMap
             if (!empty($item['thumbnail'])) {
                 $items .= "<image:image>" . PHP_EOL;
                 $items .= "<image:loc>{$item['thumbnail']}</image:loc>" . PHP_EOL;
-                $items .= "<image:caption>{$item['caption']}</image:caption>" . PHP_EOL;
+//                $items .= "<image:caption>{$item['caption']}</image:caption>" . PHP_EOL;
                 $items .= "<image:title>{$item['title']}</image:title>" . PHP_EOL;
                 $items .= "</image:image>" . PHP_EOL;
             }
