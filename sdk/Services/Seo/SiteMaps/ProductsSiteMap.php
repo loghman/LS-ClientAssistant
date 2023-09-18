@@ -1,47 +1,89 @@
 <?php
 
-namespace Ls\ClientAssistant\Services\Seo\SiteMaps;
+namespace Ls\ClientAssistant\Services\Seo\MetaTags;
 
-class ProductsSiteMap extends SiteMap
+class LMSProductSeoMeta extends SeoMeta
 {
-    public function tags(): string
+    private $product;
+    private $meta;
+    private $seo;
+    private $description = null;
+    private $title = null;
+    private $currentUrl;
+
+    public function __construct($product)
     {
-        $tags = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">' . PHP_EOL;
-        $tags .= $this->items();
-        $tags .= '</urlset>';
-        return $tags;
+        $this->product = $product;
+        $this->meta = json_decode($product['meta'] ?? '[]', true);
+        $this->seo = json_decode($product['seo'] ?? '[]', true);
+        $this->currentUrl = get_current_url(true);
+        if (!empty($this->product['description']) or !empty($this->seo['description']))
+            $this->description = sub_words(strip_tags($this->seo['description'] ?? $this->product['description']), 165);
+        $this->title = $this->seo['title'] ?? $this->product['title'];
     }
 
-    public function items(): string
+    public function getTitle()
     {
-        $items = '';
-        foreach ($this->data as $item) {
-            $item['meta'] = json_decode($item['meta'] ?? '[]', true);
-            $item['changefreq'] = $item['changefreq'] ?? 'hourly';
-            $item['priority'] = $item['priority'] ?? '0.8';
-            $item['caption'] = html_entity_decode(sub_words($item['description'], 165), ENT_COMPAT, 'UTF-8');
-            $item['loc'] = site_url('course' . $item['slug']);
-            $item['lastmod'] = date('Y-m-d\TH:i:s+03:30', strtotime($item['updated_at']));
+        return "<title>{$this->title}</title>" . PHP_EOL;
+    }
 
-            $item['caption'] = strip_tags($item['caption']);
+    public function getCanonical()
+    {
+        return "<link rel='canonical' href='$this->currentUrl' />" . PHP_EOL;
+    }
 
-            $items .= '<url>' . PHP_EOL;
-            $items .= "<loc>{$item['loc']}</loc>" . PHP_EOL;
-            $items .= "<changefreq>{$item['changefreq']}</changefreq>" . PHP_EOL;
-            $items .= "<priority>{$item['priority']}</priority>" . PHP_EOL;
-            $items .= "<lastmod>{$item['lastmod']}</lastmod>" . PHP_EOL;
-
-            if (!empty($item['meta']['banner_url']['url'])) {
-                $items .= "<image:image>" . PHP_EOL;
-                $items .= "<image:loc>{$item['meta']['banner_url']['url']}</image:loc>" . PHP_EOL;
-                if (!empty($item['caption']))
-                    $items .= "<image:caption>{$item['caption']}</image:caption>" . PHP_EOL;
-                $items .= "<image:title>{$item['title']}</image:title>" . PHP_EOL;
-                $items .= "</image:image>" . PHP_EOL;
-            }
-
-            $items .= '</url>' . PHP_EOL;
+    public function getMetaTags()
+    {
+        $metaTags = '';
+        // description
+        if (!is_null($this->description)) {
+            $metaTags .= "<meta name='description' content='$this->description' />" . PHP_EOL;
         }
-        return $items;
+
+        // dates
+        $publishedTime = date('Y-m-d\TH:i:s+03:30', strtotime($this->product['created_at']));
+        $metaTags .= "<meta property='article:published_time' content='$publishedTime' />" . PHP_EOL;
+
+        $modifiedTime = date('Y-m-d\TH:i:s+03:30', strtotime($this->product['updated_at']));
+        $metaTags .= "<meta property='article:modified_time' content='$modifiedTime' />" . PHP_EOL;
+
+        return $metaTags;
+
+    }
+
+    public function getOpenGraphTags()
+    {
+
+        $openGraph = '';
+
+        $openGraph .= "<meta property='og:title' content='{$this->title}' />" . PHP_EOL;
+        $openGraph .= "<meta property='og:image:alt' content='{$this->title}' />" . PHP_EOL;
+        $openGraph .= "<meta property='og:url' content='$this->currentUrl' />" . PHP_EOL;
+        $updatedTime = date('Y-m-d\TH:i:s+03:30', strtotime($this->product['updated_at']));
+        $openGraph .= "<meta property='og:updated_time' content='$updatedTime' />" . PHP_EOL;
+
+        if (!empty($this->meta['banner_url']))
+            $openGraph .= "<meta property='og:image' content='{$this->meta['banner_url']}' />" . PHP_EOL;
+        if (!is_null($this->description))
+            $openGraph .= "<meta property='og:description' content='{$this->description}' />" . PHP_EOL;
+        if (!empty($this->product['main_teacher']['display_name']))
+            $openGraph .= "<meta property='og:article:author' content='{$this->product['main_teacher']['display_name']}' />" . PHP_EOL;
+
+        $openGraph .= "<meta property='og:type' content='product' />" . PHP_EOL;
+        $openGraph .= "<meta property='og:locale' content='fa_IR' />" . PHP_EOL;
+
+//        $openGraph .= "<meta property='og:image:type' content='' />" . PHP_EOL;
+//        $openGraph .= "<meta property='og:image:width' content='' />" . PHP_EOL;
+//        $openGraph .= "<meta property='og:image:height' content='' />" . PHP_EOL;
+
+        return $openGraph;
+    }
+
+    public function getSchema()
+    {
+        // 2 status : seoColumn existed or not!
+        // if existed (like post): begiresh va be view pass bede
+        // if not (like blog,index): default schema template
+        // include schema.view
     }
 }
