@@ -17,7 +17,10 @@ class WebResponse
         $this->blade = $this->getBladeInstance();
     }
 
-    public function sitemap(string $sitemap, array $data)
+    /**
+     * @throws \Exception
+     */
+    public static function sitemap(string $sitemap, array $data): void
     {
         sitemap($sitemap, $data);
     }
