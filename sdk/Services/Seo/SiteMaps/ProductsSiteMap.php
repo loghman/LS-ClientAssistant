@@ -20,7 +20,7 @@ class ProductsSiteMap extends SiteMap
             $item['changefreq'] = $item['changefreq'] ?? 'hourly';
             $item['priority'] = $item['priority'] ?? '0.8';
             $item['caption'] = html_entity_decode(sub_words($item['description'], 165), ENT_COMPAT, 'UTF-8');
-            $item['loc'] = site_url('course' . $item['slug']);
+            $item['loc'] = site_url('course/' . $item['slug']);
             $item['lastmod'] = date('Y-m-d\TH:i:s+03:30', strtotime($item['updated_at']));
 
             $item['caption'] = strip_tags($item['caption']);
