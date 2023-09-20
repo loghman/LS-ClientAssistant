@@ -22,6 +22,19 @@ class Authentication
         }
     }
 
+    public static function preLogin(string $input, array $data)
+    {
+        try {
+            return API::post(
+                'v1/auth/pre/login', array_merge(['input' => $input], $data)
+            );
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
     public static function register(string $provider, array $data): Collection
     {
         try {
