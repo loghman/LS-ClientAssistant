@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\Router\WebResponse;
 use Ls\ClientAssistant\Helpers\Config;
+use Ls\ClientAssistant\Utilities\Tools\IP;
 use Ls\ClientAssistant\Utilities\Tools\Paginator;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -128,9 +129,13 @@ class API
 
     private static function handleHeaders(array $headers): array
     {
+        $ip = IP::get();
+
         $headerData = [
             'Api-Key: ' . $GLOBALS['apikey'],
             'Content-Type: application/json',
+            'REAL-HTTP-CLIENT-IP: ' . $ip,
+            'REAL-HTTP-CLIENT-AGENT: ' . $_SERVER['HTTP_USER_AGENT'] ?? '',
         ];
 
         if (!empty($headers)) {
