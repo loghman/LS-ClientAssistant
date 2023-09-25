@@ -157,14 +157,14 @@ if (!function_exists('send_abort_notification')) {
         }
 
         $redisClient->disconnect();
-
+        $referer = !empty($_SERVER['HTTP_REFERER']) ? "\n<b>REF:</b> " . $_SERVER['HTTP_REFERER'] : null;
         $gregorianDate = date('Y-m-d H:i:s');
         $jalaliTime = verta($gregorianDate);
         $telegramText = <<<TEXT
-            $code Abort Happened
-            $url
-            ⏰ ATG: $gregorianDate
-            ⏰ ATJ: $jalaliTime
+            <b>$code</b> Abort Happened
+            $url$referer
+            ⏰ <b>ATG:</b> $gregorianDate
+            ⏰ <b>ATJ:</b> $jalaliTime
             TEXT;
 
         telegram_simple_message($telegramText, topicID: $_ENV['TELEGRAM_ABORT_TOPIC_ID']);

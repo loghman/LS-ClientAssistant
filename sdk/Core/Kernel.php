@@ -53,7 +53,7 @@ class Kernel
         }
 
         $router->fallback(function () {
-            abort(404);
+            abort(404,'صفحه مورد نظر یافت نشد!');
         });
 
         $staticCacheMiddleware = new StaticCacheMiddleware();
