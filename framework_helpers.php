@@ -143,7 +143,7 @@ if (!function_exists('abort')) {
 if (!function_exists('send_abort_notification')) {
     function send_abort_notification($code): void
     {
-        if (!$_ENV['ABORT_NOTIFICATION']) return;
+        if (!filter_var($_ENV['ABORT_NOTIFICATION'], FILTER_VALIDATE_BOOLEAN)) return;
         $redisClient = Ls\ClientAssistant\Core\Cache::getRedisInstance();
         $url = get_current_url();
 
@@ -161,7 +161,8 @@ if (!function_exists('send_abort_notification')) {
         $gregorianDate = date('Y-m-d H:i:s');
         $jalaliTime = verta($gregorianDate);
         $telegramText = <<<TEXT
-            $code Abort Happened in $url
+            $code Abort Happened
+            $url
             ⏰ ATG: $gregorianDate
             ⏰ ATJ: $jalaliTime
             TEXT;
