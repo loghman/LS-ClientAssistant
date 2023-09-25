@@ -34,7 +34,7 @@ $router->get('clearcache/{client_key}', function (Request $request, $clientKey) 
     return JsonResponse::unprocessableEntity('کلید نامعتبر');
 })->middleware(AuthMiddleware::class);
 
-$router->get('robot.txt', function (Request $request) {
-    $setting = setting('client_robot_txt');
+$router->get('robots.txt', function (Request $request) {
+    $setting = setting('client_robots_txt');
     return empty($setting) ? abort(404, 'صفحه مورد نظر یافت نشد.') : $setting;
 });
