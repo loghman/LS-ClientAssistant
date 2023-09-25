@@ -31,6 +31,10 @@ class TopicSeoMeta extends SeoMeta
     public function getMetaTags()
     {
         $metaTags = '';
+
+        // robots
+        $metaTags .= "<meta name='robots' content='noindex' />" . PHP_EOL;
+
         // description
         $metaTags .= "<meta name='description' content='$this->description' />" . PHP_EOL;
 
