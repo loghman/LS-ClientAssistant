@@ -132,21 +132,41 @@ if (!function_exists('abort')) {
         http_response_code($code);
         foreach ($headers as $header) header($header);
 
-        if (env('ABORT_NOTIFICATION'))
-        {
-            $currentUrl = get_current_url();
-            $gregorianDate = date('Y-m-d H:i:s');
-            $jalaliTime = verta($gregorianDate);
-            $telegramText = <<<TEXT
-            $code Abort Happened in $currentUrl
-            ⏰ ATG: $gregorianDate
-            ⏰ ATJ: $jalaliTime
-            TEXT;
-            telegram_simple_message($telegramText, topicID: env('TELEGRAM_ABORT_TOPIC_ID'));
-        }
+        send_abort_notification($code);
 
         \Ls\ClientAssistant\Core\Router\WebResponse::view("errors.$code", compact('code', 'message', 'buttonText', 'buttonUrl'));
         die();
+    }
+
+}
+
+if (!function_exists('send_abort_notification')) {
+    function send_abort_notification($code): void
+    {
+        if (!$_ENV['ABORT_NOTIFICATION']) return;
+        $redisClient = Ls\ClientAssistant\Core\Cache::getRedisInstance();
+        $url = get_current_url();
+
+        $cacheKey = sprintf('abort_%s_%s', $code, urlencode($url));
+        if ($redisClient->exists($cacheKey)) return;
+
+        if (is_static_file($url)) {
+            $expire = 24 * 60 * 60;
+            $redisClient->set($cacheKey, $url);
+            $redisClient->expire($cacheKey, $expire);
+        }
+
+        $redisClient->disconnect();
+
+        $gregorianDate = date('Y-m-d H:i:s');
+        $jalaliTime = verta($gregorianDate);
+        $telegramText = <<<TEXT
+            $code Abort Happened in $url
+            ⏰ ATG: $gregorianDate
+            ⏰ ATJ: $jalaliTime
+            TEXT;
+
+        telegram_simple_message($telegramText, topicID: $_ENV['TELEGRAM_ABORT_TOPIC_ID']);
     }
 }
 
@@ -974,9 +994,9 @@ if (!function_exists('clear_redis_cache')) {
 if (!function_exists('telegram_simple_message')) {
     function telegram_simple_message(string $text, int $chatID = null, int $topicID = null): void
     {
-        $token = env('TELEGRAM_BOT_TOKEN');
-        $chatID = $chatID ?? env('TELEGRAM_CHAT_ID');
-        $domain = env('TELEGRAM_API_DOMAIN') ?? 'mg.solutions';
+        $token = $_ENV['TELEGRAM_BOT_TOKEN'];
+        $chatID = $chatID ?? $_ENV['TELEGRAM_CHAT_ID'];
+        $domain = $_ENV['TELEGRAM_API_DOMAIN'] ?? 'mg.solutions';
 
         if (empty($token) || empty($chatID)) return;
 
@@ -994,5 +1014,54 @@ if (!function_exists('telegram_simple_message')) {
         $response = curl_exec($curl);
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
+    }
+}
+if (!function_exists('is_static_file')) {
+    function is_static_file(string $url): bool
+    {
+        $staticExtensions = [
+            'jpg',
+            'jpeg',
+            'png',
+            'gif',
+            'bmp',
+            'ico',
+            'svg',
+            'css',
+            'js',
+            'woff',
+            'woff2',
+            'ttf',
+            'eot',
+            'otf',
+            'pdf',
+            'doc',
+            'docx',
+            'ppt',
+            'pptx',
+            'xls',
+            'xlsx',
+            'txt',
+            'mp3',
+            'wav',
+            'ogg',
+            'flac',
+            'mp4',
+            'avi',
+            'wmv',
+            'mov',
+            'flv',
+            'webm',
+            'zip',
+            'rar',
+            'tar',
+            'gz',
+            'csv',
+            'xml',
+            'json',
+        ];
+
+        $fileExtension = strtolower(pathinfo($url)['extension']);
+        return in_array($fileExtension, $staticExtensions);
     }
 }
