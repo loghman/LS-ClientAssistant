@@ -130,9 +130,18 @@ if (!function_exists('abort')) {
     function abort($code, $message = '', $buttonText = null, $buttonUrl = null, array $headers = [])
     {
         http_response_code($code);
-        foreach ($headers as $header) {
-            header($header);
-        }
+        foreach ($headers as $header) header($header);
+
+        $currentUrl = get_current_url();
+        $gregorianDate = date('Y-m-d H:i:s');
+        $jalaliTime = verta($gregorianDate);
+        $telegramText = <<<TEXT
+        $code Abort Happened in $currentUrl
+        ⏰ ATG: $gregorianDate
+        ⏰ ATJ: $jalaliTime
+        TEXT;
+
+        telegram_simple_message($telegramText, topicID: env('TELEGRAM_ABORT_TOPIC_ID'));
         \Ls\ClientAssistant\Core\Router\WebResponse::view("errors.$code", compact('code', 'message', 'buttonText', 'buttonUrl'));
         die();
     }
@@ -956,5 +965,31 @@ if (!function_exists('clear_redis_cache')) {
         $redisClient = \Ls\ClientAssistant\Core\Cache::getRedisInstance();
         $redisClient->flushdb();
         $redisClient->disconnect();
+    }
+}
+
+if (!function_exists('telegram_simple_message')) {
+    function telegram_simple_message(string $text, int $chatID = null, int $topicID = null): void
+    {
+        $token = env('TELEGRAM_BOT_TOKEN');
+        $chatID = $chatID ?? env('TELEGRAM_CHAT_ID');
+        $domain = env('TELEGRAM_API_DOMAIN') ?? 'mg.solutions';
+
+        if (empty($token) || empty($chatID)) return;
+
+        $curl = curl_init();
+        $url = sprintf('https://%s/api/v1/t/sendSimpleMessage/bot%s?message_thread_id=%s&chat_id=-100%s&text=%s',
+            $domain,
+            $token,
+            $topicID,
+            $chatID,
+            urlencode($text)
+        );
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+        $response = curl_exec($curl);
+        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        curl_close($curl);
     }
 }

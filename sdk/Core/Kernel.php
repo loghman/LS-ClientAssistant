@@ -53,7 +53,7 @@ class Kernel
         }
 
         $router->fallback(function () {
-            WebResponse::view('errors.404');
+            abort(404);
         });
 
         $staticCacheMiddleware = new StaticCacheMiddleware();
