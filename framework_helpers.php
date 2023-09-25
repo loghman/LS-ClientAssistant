@@ -132,16 +132,19 @@ if (!function_exists('abort')) {
         http_response_code($code);
         foreach ($headers as $header) header($header);
 
-        $currentUrl = get_current_url();
-        $gregorianDate = date('Y-m-d H:i:s');
-        $jalaliTime = verta($gregorianDate);
-        $telegramText = <<<TEXT
-        $code Abort Happened in $currentUrl
-        ⏰ ATG: $gregorianDate
-        ⏰ ATJ: $jalaliTime
-        TEXT;
+        if (env('ABORT_NOTIFICATION'))
+        {
+            $currentUrl = get_current_url();
+            $gregorianDate = date('Y-m-d H:i:s');
+            $jalaliTime = verta($gregorianDate);
+            $telegramText = <<<TEXT
+            $code Abort Happened in $currentUrl
+            ⏰ ATG: $gregorianDate
+            ⏰ ATJ: $jalaliTime
+            TEXT;
+            telegram_simple_message($telegramText, topicID: env('TELEGRAM_ABORT_TOPIC_ID'));
+        }
 
-        telegram_simple_message($telegramText, topicID: env('TELEGRAM_ABORT_TOPIC_ID'));
         \Ls\ClientAssistant\Core\Router\WebResponse::view("errors.$code", compact('code', 'message', 'buttonText', 'buttonUrl'));
         die();
     }
