@@ -148,7 +148,7 @@ if (!function_exists('send_abort_notification')) {
         $url = get_current_url();
         $referer = $_SERVER['HTTP_REFERER'];
         $filterDomains = $_ENV['TELEGRAM_ABORT_FILTER_BY_REFERER_DOMAINS'];
-        if (!empty($filterDomains) && in_array(parse_url($referer)['host'], explode(',', $filterDomains))) return;
+        if (!empty($filterDomains) && !in_array(parse_url($referer)['host'], explode(',', $filterDomains))) return;
         $cacheKey = sprintf('abort_%s_%s', $code, urlencode($url));
         if ($redisClient->exists($cacheKey)) return;
 
