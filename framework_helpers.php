@@ -146,7 +146,9 @@ if (!function_exists('send_abort_notification')) {
         if (!filter_var($_ENV['ABORT_NOTIFICATION'], FILTER_VALIDATE_BOOLEAN)) return;
         $redisClient = Ls\ClientAssistant\Core\Cache::getRedisInstance();
         $url = get_current_url();
-
+        $referer = $_SERVER['HTTP_REFERER'];
+        $filterDomains = $_ENV['TELEGRAM_ABORT_FILTER_BY_REFERER_DOMAINS'];
+        if (!empty($filterDomains) && in_array(parse_url($referer)['host'], explode(',', $filterDomains))) return;
         $cacheKey = sprintf('abort_%s_%s', $code, urlencode($url));
         if ($redisClient->exists($cacheKey)) return;
 
@@ -157,12 +159,12 @@ if (!function_exists('send_abort_notification')) {
         }
 
         $redisClient->disconnect();
-        $referer = !empty($_SERVER['HTTP_REFERER']) ? "\n<b>REF:</b> " . $_SERVER['HTTP_REFERER'] : null;
+        $refererText = !empty($referer) ? "\n<b>REF:</b> " . $_SERVER['HTTP_REFERER'] : null;
         $gregorianDate = date('Y-m-d H:i:s');
         $jalaliTime = verta($gregorianDate);
         $telegramText = <<<TEXT
             <b>$code</b> Abort Happened
-            $url$referer
+            $url$refererText
             ⏰ <b>ATG:</b> $gregorianDate
             ⏰ <b>ATJ:</b> $jalaliTime
             TEXT;
