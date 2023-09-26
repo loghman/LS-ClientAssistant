@@ -39,5 +39,6 @@ return [
         '_env_video_streaming_api_key',
         '_env_google_recaptcha_v3_site_key',
         'google_recaptcha_v3_status',
+        'client_robots_txt'
     ],
 ];
