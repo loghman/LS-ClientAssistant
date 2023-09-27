@@ -90,6 +90,21 @@ class LMSProduct extends ModuleUtility
         }
     }
 
+    public static function richWithNoCache(array $methods = [], string $userToken = null, array $headers = []): Collection
+    {
+        try {
+            return API::get('v1/lms/product/rich', [
+                'methods' => $methods,
+            ], [
+                    'Authorization: Bearer ' . $userToken,
+                ] + $headers);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
     public static function queryParams(array $params, array $with = [], int $perPage = 20): Collection
     {
         try {
