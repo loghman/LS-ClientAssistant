@@ -148,7 +148,7 @@ if (!function_exists('send_abort_notification')) {
         $url = get_current_url();
         $referer = $_SERVER['HTTP_REFERER'];
         $filterDomains = $_ENV['TELEGRAM_ABORT_FILTER_BY_REFERER_DOMAINS'];
-        if (!empty($filterDomains) && !in_array(parse_url($referer)['host'], explode(',', $filterDomains))) return;
+        if (!empty($filterDomains) && !in_array(get_main_domain($referer), explode(',', $filterDomains))) return;
         $cacheKey = sprintf('abort_%s_%s', $code, urlencode($url));
         if ($redisClient->exists($cacheKey)) return;
 
@@ -1066,5 +1066,17 @@ if (!function_exists('is_static_file')) {
 
         $fileExtension = strtolower(pathinfo($url)['extension']);
         return in_array($fileExtension, $staticExtensions);
+    }
+}
+
+
+if (!function_exists('get_main_domain')) {
+    function get_main_domain(string $url): ?string
+    {
+        $urlParts = parse_url($url);
+        $host = $urlParts['host'] ?? $url;
+        $host = preg_replace('/^www\./', '', $host);
+
+        return preg_match('/[a-z0-9-]+\.[a-z.]{2,6}$/i', $host, $matches) ? $matches[0] : null;
     }
 }
