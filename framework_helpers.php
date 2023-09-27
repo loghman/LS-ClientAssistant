@@ -1071,8 +1071,9 @@ if (!function_exists('is_static_file')) {
 
 
 if (!function_exists('get_main_domain')) {
-    function get_main_domain(string $url): ?string
+    function get_main_domain(?string $url = ''): ?string
     {
+        $url = $url ?? '';
         $urlParts = parse_url($url);
         $host = $urlParts['host'] ?? $url;
         $host = preg_replace('/^www\./', '', $host);
