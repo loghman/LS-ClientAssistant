@@ -70,8 +70,8 @@ class User extends ModuleUtility
     {
         try {
             return API::get('v1/user/me', [], [
-                'Authorization: Bearer ' . $userToken,
-            ] + $headers);
+                    'Authorization: Bearer ' . $userToken,
+                ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -101,7 +101,7 @@ class User extends ModuleUtility
     public static function loggedIn(): bool
     {
         $user = self::getCurrent();
-        if(!$user){
+        if (!$user) {
             return false;
         }
         return !is_null($user['data']) or !empty($user['data']);
@@ -138,8 +138,8 @@ class User extends ModuleUtility
                 'description' => $data['description'] ?? ($user['data']['meta']['description'] ?? ''),
                 'username' => $data['username'] ?? ($user['data']['username'] ?? null)
             ], [
-                'Authorization: Bearer ' . $userToken,
-            ] + $headers);
+                    'Authorization: Bearer ' . $userToken,
+                ] + $headers);
 
             if (!$response['success']) {
                 return $response;
@@ -157,8 +157,8 @@ class User extends ModuleUtility
     {
         try {
             $response = API::get('v1/auth/logout', [], [
-                'Authorization: Bearer ' . $userToken,
-            ] + $headers);
+                    'Authorization: Bearer ' . $userToken,
+                ] + $headers);
             self::forgetCurrent();
         } catch (Exception $e) {
             return false;
@@ -167,14 +167,15 @@ class User extends ModuleUtility
         return $response['success'] ?? true;
     }
 
-    public static function courses(string $userToken, array $headers = []): Collection
+    public static function courses(string $userToken, bool $withUserProgress = false, array $headers = []): Collection
     {
         try {
             return API::get('v1/user/enrollments', [
                 'per_page' => 1000,
+                'with-user-progress' => $withUserProgress,
             ], [
-                'Authorization: Bearer ' . $userToken,
-            ] + $headers);
+                    'Authorization: Bearer ' . $userToken,
+                ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -186,8 +187,8 @@ class User extends ModuleUtility
     {
         try {
             return API::get('v1/user/stats', [], [
-                'Authorization: Bearer ' . $userToken,
-            ] + $headers);
+                    'Authorization: Bearer ' . $userToken,
+                ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -203,8 +204,8 @@ class User extends ModuleUtility
                 'title' => $title,
                 'attachment_id' => $attachmentId,
             ], [
-                'Authorization: Bearer ' . $userToken,
-            ] + $headers);
+                    'Authorization: Bearer ' . $userToken,
+                ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -220,8 +221,8 @@ class User extends ModuleUtility
                 'password' => $password,
                 'password_confirmation' => $passwordConfirmation,
             ], [
-                'Authorization: Bearer ' . $userToken,
-            ] + $headers);
+                    'Authorization: Bearer ' . $userToken,
+                ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -237,8 +238,8 @@ class User extends ModuleUtility
                 'title' => $title,
                 'attachment_id' => $attachmentId,
             ], [
-                'Authorization: Bearer ' . $userToken,
-            ] + $headers);
+                    'Authorization: Bearer ' . $userToken,
+                ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -252,8 +253,8 @@ class User extends ModuleUtility
             return API::put('v1/user/send-otp-for-mobile-number', [
                 'input' => $mobile,
             ], [
-                'Authorization: Bearer ' . $userToken,
-            ] + $headers);
+                    'Authorization: Bearer ' . $userToken,
+                ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -268,8 +269,8 @@ class User extends ModuleUtility
                 'input' => $mobile,
                 'otp' => $otp,
             ], [
-                'Authorization: Bearer ' . $userToken,
-            ] + $headers);
+                    'Authorization: Bearer ' . $userToken,
+                ] + $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
