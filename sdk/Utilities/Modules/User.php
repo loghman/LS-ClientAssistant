@@ -292,4 +292,9 @@ class User extends ModuleUtility
             return Response::parseException($exception);
         }
     }
+
+    public static function getToken(): ?string
+    {
+        return $_COOKIE['token'] ?? null;
+    }
 }
