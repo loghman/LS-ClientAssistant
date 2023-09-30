@@ -19,7 +19,7 @@ class Token
 
     public function remove(): void
     {
-        setcookie('token', '', time() - 3600, '/', get_cookie_domain(), is_production_environment());
+        setcookie($this->cookieName, '', time() - 3600, '/', get_cookie_domain(), is_production_environment());
     }
 
     public function setCookie(): self

@@ -4,8 +4,8 @@ namespace Ls\ClientAssistant\Core;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Collection;
-use Ls\ClientAssistant\Core\Router\WebResponse;
 use Ls\ClientAssistant\Helpers\Config;
+use Ls\ClientAssistant\Utilities\Modules\User;
 use Ls\ClientAssistant\Utilities\Tools\IP;
 use Ls\ClientAssistant\Utilities\Tools\Paginator;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +24,9 @@ class API
 
     public static function get(string $uri, array $queryParam = [], $headers = []): Collection
     {
-        $headers = self::handleHeaders($headers);
+        $headers = self::handleHeaders(
+            array_merge(['Authorization: Bearer ' . User::getToken()], $headers)
+        );
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, (Config::get('endpoints.base') . $uri . '?' . http_build_query($queryParam)));
@@ -64,7 +66,9 @@ class API
 
     public static function put(string $uri, array $formParams = [], array $headers = []): Collection
     {
-        $headers = self::handleHeaders($headers);
+        $headers = self::handleHeaders(
+            array_merge(['Authorization: Bearer ' . User::getToken()], $headers)
+        );
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, Config::get('endpoints.base') . $uri);
@@ -82,7 +86,9 @@ class API
 
     public static function post(string $uri, array $formParams = [], array $headers = []): Collection
     {
-        $headers = self::handleHeaders($headers);
+        $headers = self::handleHeaders(
+            array_merge(['Authorization: Bearer ' . User::getToken()], $headers)
+        );
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, Config::get('endpoints.base') . $uri);
@@ -100,7 +106,9 @@ class API
 
     public static function delete(string $uri, array $formParams = [], array $headers = []): Collection
     {
-        $headers = self::handleHeaders($headers);
+        $headers = self::handleHeaders(
+            array_merge(['Authorization: Bearer ' . User::getToken()], $headers)
+        );
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, Config::get('endpoints.base') . $uri);
