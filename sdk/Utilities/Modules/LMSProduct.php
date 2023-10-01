@@ -330,7 +330,7 @@ class LMSProduct extends ModuleUtility
             'Authorization: Bearer ' . $userToken,
         ];
         try {
-            return API::get(sprintf('v1/lms/product-item/%s/locked', $itemId), [], $headers);
+            return API::get(sprintf('v1/lms/product-item/%s/is-locked', $itemId), [], $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
