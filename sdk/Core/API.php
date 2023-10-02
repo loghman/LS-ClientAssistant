@@ -24,9 +24,7 @@ class API
 
     public static function get(string $uri, array $queryParam = [], $headers = []): Collection
     {
-        $headers = self::handleHeaders(
-            array_unique(array_merge(['Authorization: Bearer ' . User::getToken()], $headers))
-        );
+        $headers = self::handleHeaders($headers);
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, (Config::get('endpoints.base') . $uri . '?' . http_build_query($queryParam)));
@@ -66,9 +64,7 @@ class API
 
     public static function put(string $uri, array $formParams = [], array $headers = []): Collection
     {
-        $headers = self::handleHeaders(
-            array_unique(array_merge(['Authorization: Bearer ' . User::getToken()], $headers))
-        );
+        $headers = self::handleHeaders($headers);
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, Config::get('endpoints.base') . $uri);
@@ -86,9 +82,7 @@ class API
 
     public static function post(string $uri, array $formParams = [], array $headers = []): Collection
     {
-        $headers = self::handleHeaders(
-            array_unique(array_merge(['Authorization: Bearer ' . User::getToken()], $headers))
-        );
+        $headers = self::handleHeaders($headers);
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, Config::get('endpoints.base') . $uri);
@@ -106,9 +100,7 @@ class API
 
     public static function delete(string $uri, array $formParams = [], array $headers = []): Collection
     {
-        $headers = self::handleHeaders(
-            array_unique(array_merge(['Authorization: Bearer ' . User::getToken()], $headers))
-        );
+        $headers = self::handleHeaders($headers);
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, Config::get('endpoints.base') . $uri);
@@ -139,11 +131,18 @@ class API
     {
         $ip = IP::get();
 
+        foreach ($headers as $key => $header) {
+            if (str_contains(strtolower($header), 'authorization: bearer')) {
+                unset($headers[$key]);
+            }
+        }
+
         $headerData = [
             'Api-Key: ' . $GLOBALS['apikey'],
             'Content-Type: application/json',
             'REAL-HTTP-CLIENT-IP: ' . $ip,
             'REAL-HTTP-CLIENT-AGENT: ' . $_SERVER['HTTP_USER_AGENT'] ?? '',
+            'Authorization: Bearer ' . User::getToken()
         ];
 
         if (!empty($headers)) {
