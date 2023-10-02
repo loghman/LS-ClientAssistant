@@ -2,9 +2,9 @@
 
 use Ls\ClientAssistant\Core\API;
 use Illuminate\Http\Request;
-use Ls\ClientAssistant\Core\Cache;
 use Ls\ClientAssistant\Core\Middlewares\AuthMiddleware;
 use \Ls\ClientAssistant\Core\Router\JsonResponse;
+use Ls\ClientAssistant\Utilities\Modules\TaskManager;
 
 $router->post('/page-meta/updateForm', function (Request $request) {
     $pageMeta = API::post('v1/marketing/page-meta/updateForm', [
@@ -38,3 +38,22 @@ $router->get('robots.txt', function (Request $request) {
     $setting = setting('client_robots_txt');
     return empty($setting) ? abort(404, 'صفحه مورد نظر یافت نشد.') : $setting;
 });
+
+$router->post('workflow/task-store', function (Request $request) {
+    $response = TaskManager::store($request->get('workflow'), [
+        'entity_type' => $request->get('entity_type'),
+        'entity_id' => $request->get('entity_id'),
+        'full_name' => $request->get('full_name'),
+        'mobile' => $request->get('mobile'),
+        'email' => $request->get('email'),
+        'variable_values' => $request->get('variable_values'),
+        'time2call' => $request->get('time2call'),
+    ]);
+
+    if (!$response->get('success')) {
+        return JsonResponse::unprocessableEntity($response->get('message') ?? 'مشکلی رخ داده است.');
+    }
+
+    return JsonResponse::success('درخواست شما با موفقیت ثبت شد، به زودی با شما تماس خواهیم گرفت.');
+})
+    ->name('workflow.task.store');
