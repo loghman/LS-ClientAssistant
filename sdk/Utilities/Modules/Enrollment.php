@@ -143,6 +143,19 @@ class Enrollment extends ModuleUtility
         }
     }
 
+    public static function findByUserAndProductItem(int $productItemId, string $userToken, array $headers = []): Collection
+    {
+        try {
+            return API::get(('v1/lms/enrollment/' . $productItemId . '/product-item'), [], [
+                    'Authorization: Bearer ' . $userToken,
+                ] + $headers);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
     public static function rich(array $methods = [], string $userToken = null): Collection
     {
         try {
