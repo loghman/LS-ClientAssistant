@@ -48,10 +48,13 @@ class WorkflowFormController
 
     public function store(Request $request)
     {
+        $name = $request->get('full_name');
+        $firstName = explode(' ', $name)[0];
+
         $response = TaskManager::store($request->get('workflow'), [
             'entity_type' => $request->get('entity_type'),
             'entity_id' => $request->get('entity_id'),
-            'full_name' => $request->get('full_name'),
+            'full_name' => $name,
             'mobile' => $request->get('mobile'),
             'email' => $request->get('email'),
             'variable_values' => $request->get('var'),
@@ -63,6 +66,9 @@ class WorkflowFormController
             return JsonResponse::unprocessableEntity($response->get('message') ?? 'مشکلی رخ داده است.');
         }
 
-        return JsonResponse::success('درخواست شما با موفقیت ثبت شد، به زودی با شما تماس خواهیم گرفت.');
+        return JsonResponse::success(
+            'درخواست شما با موفقیت ثبت شد، به زودی با شما تماس خواهیم گرفت.',
+            ['name' => $firstName]
+        );
     }
 }
