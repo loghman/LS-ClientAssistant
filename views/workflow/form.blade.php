@@ -21,7 +21,7 @@
                     <div class="flex-column gap-xxs">
                         @include('form-builder.select', [
                             'name' => 'entity_id',
-                            'choices' => ['' => 'برای چه دوره‌ای مشاوره میخوای؟'] + $courses,
+                            'choices' => ['' => $entityIdLabel] + $courses,
                             'classes' => 'sm fw-700',
                             'selected' => $entityId,
                         ])
@@ -55,18 +55,12 @@
 
                         <label class="fw-700 mt-xs">چه ساعتی با شما تماس بگیریم؟</label>
                         <div class="d-flex align-items-center gap-sm gap-xxs--sm mt-xxs-neg mt-0--sm">
-                            <label for="time2call-a">
-                                <input type="radio" id="time2call-a" name="time2call" value="10-13">
-                                <span>۱۰ تا ۱۳</span>
-                            </label>
-                            <label for="time2call-b">
-                                <input type="radio" id="time2call-b" name="time2call" value="13-15">
-                                <span>۱۳ تا ۱۵</span>
-                            </label>
-                            <label for="time2call-c">
-                                <input type="radio" id="time2call-c" name="time2call" value="15-17">
-                                <span>۱۵ تا ۱۷</span>
-                            </label>
+                            @foreach($timeToCallOptions as $value => $option)
+                                <label for="time2call-{{ $id = rand(1,999) }}">
+                                    <input type="radio" id="time2call-{{ $id }}" name="time2call" value="{{ $value }}">
+                                    <span>{{ $option }}</span>
+                                </label>
+                            @endforeach
                         </div>
 
                         <button type="submit" class="secondary w-100 mt-xs">

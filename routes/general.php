@@ -1,12 +1,10 @@
 <?php
 
+use Ls\ClientAssistant\Controllers\WorkflowFormController;
 use Ls\ClientAssistant\Core\API;
 use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\Middlewares\AuthMiddleware;
 use Ls\ClientAssistant\Core\Router\JsonResponse;
-use Ls\ClientAssistant\Core\Router\WebResponse;
-use Ls\ClientAssistant\Utilities\Modules\LMSProduct;
-use Ls\ClientAssistant\Utilities\Modules\TaskManager;
 
 $router->post('/page-meta/updateForm', function (Request $request) {
     $pageMeta = API::post('v1/marketing/page-meta/updateForm', [
@@ -41,47 +39,8 @@ $router->get('robots.txt', function (Request $request) {
     return empty($setting) ? abort(404, 'صفحه مورد نظر یافت نشد.') : $setting;
 });
 
-$router->post('workflow/task-store', function (Request $request) {
-    $response = TaskManager::store($request->get('workflow'), [
-        'entity_type' => $request->get('entity_type'),
-        'entity_id' => $request->get('entity_id'),
-        'full_name' => $request->get('full_name'),
-        'mobile' => $request->get('mobile'),
-        'email' => $request->get('email'),
-        'variable_values' => $request->get('var'),
-        'time2call' => $request->get('time2call'),
-        'source' => $request->get('source'),
-    ]);
+$router->get('/form/{workflow}', [WorkflowFormController::class, 'prepareForm'])
+    ->name('pages.consultation');
 
-    if (!$response->get('success')) {
-        return JsonResponse::unprocessableEntity($response->get('message') ?? 'مشکلی رخ داده است.');
-    }
-
-    return JsonResponse::success('درخواست شما با موفقیت ثبت شد، به زودی با شما تماس خواهیم گرفت.');
-})->name('workflow.task.store');
-
-$router->get('/form/{workflow}', function (string $workflow, Request $request) {
-    $response = TaskManager::formData($workflow);
-    if (!$response->get('success')) {
-        abort(404);
-    }
-
-    $courses = LMSProduct::search('', ['id', 'title', 'slug'], [], 5000);
-    if (!$courses->get('success')) {
-        $courses = [];
-    }
-    $courses = collect($courses->get('data')['data'])->pluck('title', 'id')->toArray();
-
-    return WebResponse::view(
-        'workflow.form',
-        [
-            'title' => $request->get('title'),
-            'entityType' => $request->get('et'),
-            'entityId' => $request->get('ei'),
-            'source' => $request->get('source'),
-            'workflowData' => $response->get('data'),
-            'courses' => $courses,
-            'backUrl' => $request->header('referer') ?? site_url('')
-        ]
-    );
-})->name('pages.consultation');
+$router->post('workflow/task-store', [WorkflowFormController::class, 'store'])
+    ->name('workflow.task.store');
