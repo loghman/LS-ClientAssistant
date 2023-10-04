@@ -3,7 +3,9 @@
 use Ls\ClientAssistant\Core\API;
 use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\Middlewares\AuthMiddleware;
-use \Ls\ClientAssistant\Core\Router\JsonResponse;
+use Ls\ClientAssistant\Core\Router\JsonResponse;
+use Ls\ClientAssistant\Core\Router\WebResponse;
+use Ls\ClientAssistant\Utilities\Modules\LMSProduct;
 use Ls\ClientAssistant\Utilities\Modules\TaskManager;
 
 $router->post('/page-meta/updateForm', function (Request $request) {
@@ -46,8 +48,9 @@ $router->post('workflow/task-store', function (Request $request) {
         'full_name' => $request->get('full_name'),
         'mobile' => $request->get('mobile'),
         'email' => $request->get('email'),
-        'variable_values' => $request->get('variable_values'),
+        'variable_values' => $request->get('var'),
         'time2call' => $request->get('time2call'),
+        'source' => $request->get('source'),
     ]);
 
     if (!$response->get('success')) {
@@ -55,5 +58,30 @@ $router->post('workflow/task-store', function (Request $request) {
     }
 
     return JsonResponse::success('درخواست شما با موفقیت ثبت شد، به زودی با شما تماس خواهیم گرفت.');
-})
-    ->name('workflow.task.store');
+})->name('workflow.task.store');
+
+$router->get('/form/{workflow}', function (string $workflow, Request $request) {
+    $response = TaskManager::formData($workflow);
+    if (!$response->get('success')) {
+        abort(404);
+    }
+
+    $courses = LMSProduct::search('', ['id', 'title', 'slug'], [], 5000);
+    if (!$courses->get('success')) {
+        $courses = [];
+    }
+    $courses = collect($courses->get('data')['data'])->pluck('title', 'id')->toArray();
+
+    return WebResponse::view(
+        'workflow.form',
+        [
+            'title' => $request->get('title'),
+            'entityType' => $request->get('et'),
+            'entityId' => $request->get('ei'),
+            'source' => $request->get('source'),
+            'workflowData' => $response->get('data'),
+            'courses' => $courses,
+            'backUrl' => $request->header('referer') ?? site_url('')
+        ]
+    );
+})->name('pages.consultation');
