@@ -25,6 +25,28 @@ class Enrollment extends ModuleUtility
         }
     }
 
+    public static function start(int $id): Collection
+    {
+        try {
+            return API::get('v1/lms/enrollment/' . $id . '/start');
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
+    public static function resume(int $id): Collection
+    {
+        try {
+            return API::get('v1/lms/enrollment/' . $id . '/resume');
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
     public static function list(array $with = [], array $keyValues = [], int $perPage = 20, $orderBy = OrderByEnum::LATEST): Collection
     {
         try {
