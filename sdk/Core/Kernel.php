@@ -69,7 +69,8 @@ class Kernel
     {
         $filesystem = new Filesystem;
 
-        $viewPaths = [$viewsPath]; // Add more paths if needed
+        $globalViews = dirname(__DIR__, 2) . DIRECTORY_SEPARATOR . 'views';
+        $viewPaths = [$viewsPath, $globalViews]; // Add more paths if needed
         $viewFinder = new FileViewFinder($filesystem, $viewPaths);
 
         $bladeCompiler = new BladeCompiler($filesystem, ($cachePath . DIRECTORY_SEPARATOR . 'static'));

@@ -1,10 +1,10 @@
 <?php
 
+use Ls\ClientAssistant\Controllers\WorkflowFormController;
 use Ls\ClientAssistant\Core\API;
 use Illuminate\Http\Request;
-use Ls\ClientAssistant\Core\Cache;
 use Ls\ClientAssistant\Core\Middlewares\AuthMiddleware;
-use \Ls\ClientAssistant\Core\Router\JsonResponse;
+use Ls\ClientAssistant\Core\Router\JsonResponse;
 
 $router->post('/page-meta/updateForm', function (Request $request) {
     $pageMeta = API::post('v1/marketing/page-meta/updateForm', [
@@ -38,3 +38,9 @@ $router->get('robots.txt', function (Request $request) {
     $setting = setting('client_robots_txt');
     return empty($setting) ? abort(404, 'صفحه مورد نظر یافت نشد.') : $setting;
 });
+
+$router->get('/form/{workflow}', [WorkflowFormController::class, 'prepareForm'])
+    ->name('pages.consultation');
+
+$router->post('workflow/task-store', [WorkflowFormController::class, 'store'])
+    ->name('workflow.task.store');
