@@ -51,11 +51,11 @@
     </div>
 </form>
 
-<div class="card p-xxs--sm" id="result-box" style="display: none">
-    <div class="justify-content-center">
-        <i class="icon si-checkbox-circle text-success" style="font-size: 12rem"></i>
-    </div>
+<div class="card p-xxs--sm" id="result-box" style="display: none;padding: 42px !important;">
     <h3 id="message"></h3>
+    <div class="justify-content-center">
+        <i class="icon si-checkbox-circle text-success" style="font-size: 8rem"></i>
+    </div>
 </div>
 
 @push('scripts')
