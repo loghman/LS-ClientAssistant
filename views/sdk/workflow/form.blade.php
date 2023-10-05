@@ -3,7 +3,7 @@
     <input type="hidden" name="workflow" value="{{ $workflowData['name_en'] }}">
     <input type="hidden" name="entity_type" value="{{ $entityType }}">
     <input type="hidden" name="entity_id" value="{{ $entityId }}">
-    @if($source)
+    @if(isset($source))
         <input type="hidden" name="source" value="{{ $source }}">
     @endif
     <div class="flex-column gap-xxs">
