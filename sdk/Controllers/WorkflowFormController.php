@@ -18,7 +18,7 @@ class WorkflowFormController
         }
 
         return WebResponse::view(
-            'sdk.workflow.form',
+            'sdk.workflow.index',
             [
                 'title' => $request->get('title'),
                 'entityType' => $request->get('et'),
@@ -56,8 +56,8 @@ class WorkflowFormController
         }
 
         return JsonResponse::success(
-            'درخواست شما با موفقیت ثبت شد، به زودی با شما تماس خواهیم گرفت.',
-            ['name' => $firstName]
+            '',
+            ['message' => sprintf('با تشکر %s عزیز درخواست شما ارسال شد و بدست ما رسید.',  $firstName)]
         );
     }
 }
