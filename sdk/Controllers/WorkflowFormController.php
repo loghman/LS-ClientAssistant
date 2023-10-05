@@ -25,7 +25,6 @@ class WorkflowFormController
                 'entityId' => $request->get('ei'),
                 'source' => $request->get('source'),
                 'workflowData' => $response->get('data'),
-                'backUrl' => $request->header('referer') ?? site_url(''),
                 'timeToCallOptions' => [
                     '10-13' => '۱۰ تا ۱۳',
                     '13-15' => '۱۳ تا ۱۵',
