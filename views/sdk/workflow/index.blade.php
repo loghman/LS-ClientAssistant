@@ -31,7 +31,9 @@
             @endif
         </div>
         <div class="col-lg-6 d-flex flex-column align-items-center gap-sm">
-            @include('sdk.workflow.form')
+            <div class="card p-xxs--sm">
+                @include('sdk.workflow.form', ['wrapper_classes' => 'd-flex flex-column gap-xs'])
+            </div>
 
             <img style="opacity: .15" height="35" src="{{ asset_url('img/icons/logo-white.svg') }}" alt="">
         </div>
@@ -40,6 +42,6 @@
 
 <script src="{{ asset_url('js/jquery.min.js') }}"></script>
 <script src="{{ core_url('js/jss.js?v=5') }}"></script>
-@stack('scripts')
+@stack('footer')
 </body>
 </html>
