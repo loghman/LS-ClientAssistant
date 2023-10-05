@@ -34,18 +34,13 @@
             <form class="card p-xxs--sm" action="{{ site_url('workflow/task-store') }}" method="post"
                   data-jsc="ajax-form" data-after-success="closure" data-fn="showSuccess">
                 <input type="hidden" name="workflow" value="{{ $workflowData['name_en'] }}">
-                <input type="hidden" name="entity_type" value="{{ $entityType ?? 'lms_products' }}">
+                <input type="hidden" name="entity_type" value="{{ $entityType }}">
+                <input type="hidden" name="entity_id" value="{{ $entityId }}">
                 <input type="hidden" name="backurl" value="{{ $backUrl }}">
                 @if($source)
                     <input type="hidden" name="source" value="{{ $source }}">
                 @endif
                 <div class="flex-column gap-xxs">
-                    @include('form-builder.select', [
-                        'name' => 'entity_id',
-                        'choices' => ['' => $entityIdLabel] + $courses,
-                        'classes' => 'sm fw-700',
-                        'selected' => $entityId,
-                    ])
                     <div class="input-group sm">
                         <label class="fw-700">نام شما</label>
                         <input type="text" name="full_name" required="required" placeholder="مثلا: لقمان آوند">
@@ -65,7 +60,7 @@
 
                     @if(count($workflowData['variables']) > 0)
                         @foreach($workflowData['variables'] as $variable)
-                            @include("form-builder.{$variable['type']}", [
+                            @include("sdk.form-builder.{$variable['type']}", [
                                 'placeholder' => $variable['name_fa'],
                                 'name' => "var[{$variable['name_en']}]",
                                 'choices' => isset($variable['payload']['choices']) ? array_merge(['' => $variable['name_fa']], $variable['payload']['choices']) : [],

@@ -5,12 +5,10 @@ namespace Ls\ClientAssistant\Controllers;
 use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\Router\JsonResponse;
 use Ls\ClientAssistant\Core\Router\WebResponse;
-use Ls\ClientAssistant\Utilities\Modules\LMSProduct;
 use Ls\ClientAssistant\Utilities\Modules\TaskManager;
 
 class WorkflowFormController
 {
-    private const maxCount = 5000;
 
     public function prepareForm($workflow, Request $request)
     {
@@ -19,23 +17,14 @@ class WorkflowFormController
             abort(404);
         }
 
-        $courses = LMSProduct::search('', ['id', 'title', 'slug'], [], self::maxCount);
-        if (!$courses->get('success')) {
-            $courses = [];
-        }
-        $courses = collect($courses->get('data')['data'])->pluck('title', 'id')->toArray();
-
         return WebResponse::view(
-            'workflow.form',
+            'sdk.workflow.form',
             [
-                // TODO: get label from workflow metadata.
-                'entityIdLabel' => 'برای چه دوره‌ای مشاوره میخوای؟',
                 'title' => $request->get('title'),
                 'entityType' => $request->get('et'),
                 'entityId' => $request->get('ei'),
                 'source' => $request->get('source'),
                 'workflowData' => $response->get('data'),
-                'courses' => $courses,
                 'backUrl' => $request->header('referer') ?? site_url(''),
                 'timeToCallOptions' => [
                     '10-13' => '۱۰ تا ۱۳',
