@@ -3,7 +3,6 @@
     <input type="hidden" name="workflow" value="{{ $workflowData['name_en'] }}">
     <input type="hidden" name="entity_type" value="{{ $entityType }}">
     <input type="hidden" name="entity_id" value="{{ $entityId }}">
-    <input type="hidden" name="backurl" value="{{ $backUrl }}">
     @if($source)
         <input type="hidden" name="source" value="{{ $source }}">
     @endif
