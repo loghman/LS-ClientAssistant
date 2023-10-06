@@ -31,6 +31,9 @@ class API
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
+        if (!empty($_ENV['APP_ENV']) and $_ENV['APP_ENV'] == 'local') {
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        }
         $response = curl_exec($curl);
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         if ($httpCode == Response::HTTP_SERVICE_UNAVAILABLE) {
@@ -72,6 +75,9 @@ class API
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($formParams));
+        if (!empty($_ENV['APP_ENV']) and $_ENV['APP_ENV'] == 'local') {
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        }
 
         $response = curl_exec($curl);
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
@@ -90,6 +96,9 @@ class API
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($formParams));
+        if (!empty($_ENV['APP_ENV']) and $_ENV['APP_ENV'] == 'local') {
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        }
 
         $response = curl_exec($curl);
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
@@ -108,6 +117,9 @@ class API
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($formParams));
+        if (!empty($_ENV['APP_ENV']) and $_ENV['APP_ENV'] == 'local') {
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        }
 
         $response = curl_exec($curl);
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
