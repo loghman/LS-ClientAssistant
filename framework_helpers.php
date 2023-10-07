@@ -252,12 +252,18 @@ if (!function_exists('page_editor')) {
 }
 
 if (!function_exists('get_cookie_domain')) {
-    function get_cookie_domain(): string
+    function get_cookie_domain(): ?string
     {
-        $host = parse_url(core_url())['host'] ?? null;
-        $array = explode(".", $host);
+        $parseCoreURL = parse_url(core_url());
+        $parseHostURL = parse_url(site_url(""));
 
-        return (array_key_exists(count($array) - 2, $array) ? $array[count($array) - 2] : "") . "." . $array[count($array) - 1];
+        if (is_null($parseCoreURL['host']) || $parseCoreURL['host'] != $parseHostURL['host']) {
+            return null;
+        }
+
+        $urlParts = explode(".", $parseCoreURL['host']);
+
+        return (array_key_exists(count($urlParts) - 2, $urlParts) ? $urlParts[count($urlParts) - 2] : "") . "." . $urlParts[count($urlParts) - 1];
     }
 }
 

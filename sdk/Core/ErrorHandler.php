@@ -61,6 +61,10 @@ class ErrorHandler
                 \Sentry\captureException($exception);
             }
 
+            if(env('APP_DEBUG') || env('APP_ENV') == 'local') {
+                dd($exception);
+            }
+            
             throw $exception;
         });
     }
