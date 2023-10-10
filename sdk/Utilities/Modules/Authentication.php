@@ -6,15 +6,26 @@ use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Helpers\Response;
+use Ls\ClientAssistant\Utilities\Tools\Token;
 
 class Authentication
 {
+    public const authReferer = 'auth_referer';
+    public const logoutReferer = 'logout_referer';
+
     public static function login(string $input, string $provider, array $data): Collection
     {
         try {
-            return API::post(
+            $response = API::post(
                 'v1/auth/login', array_merge(['input' => $input, 'auth_method' => $provider], $data)
             );
+
+            if ($response->get('success')) {
+                Token::token($response->get('data')['token'])->setCookie()->weeks(4);
+                Token::token('', self::authReferer)->remove();
+            }
+
+            return $response;
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -38,9 +49,15 @@ class Authentication
     public static function register(string $provider, array $data): Collection
     {
         try {
-            return API::post(
+            $response = API::post(
                 'v1/auth/register', array_merge(['auth_method' => $provider], $data)
             );
+
+            if ($response->get('success')) {
+                Token::token($response->get('data')['token'])->setCookie()->weeks(4);
+            }
+
+            return $response;
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -61,12 +78,16 @@ class Authentication
         }
     }
 
-    public static function logout(string $userToken)
+    public static function logout()
     {
         try {
-            return API::get(
-                'v1/auth/logout', [], ['Authorization: Bearer ' . $userToken]
-            );
+            $response = API::get('v1/auth/logout');
+
+            if ($response->get('success')) {
+                Token::token()->remove();
+            }
+
+            return $response;
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
