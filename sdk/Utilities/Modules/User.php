@@ -81,12 +81,13 @@ class User extends ModuleUtility
 
     public static function getCurrent()
     {
-        if (!isset($_COOKIE['token'])) {
+        $token = self::getToken();
+        if (!$token) {
             return;
         }
 
         if (is_null(self::$currentUser)) {
-            self::$currentUser = self::me($_COOKIE['token']);
+            self::$currentUser = self::me($token);
         }
 
         return self::$currentUser;

@@ -233,6 +233,20 @@ if (!function_exists('current_user')) {
     }
 }
 
+if (!function_exists('current_user_id')) {
+    function current_user_id(): ?int
+    {
+        return \Ls\ClientAssistant\Utilities\Modules\User::getCurrent()['data']['id'] ?? null;
+    }
+}
+
+if (!function_exists('current_user_token')) {
+    function current_user_token(): ?string
+    {
+        return \Ls\ClientAssistant\Utilities\Modules\User::getToken();
+    }
+}
+
 if (!function_exists('page_editor')) {
     function page_editor(string $routeName, string $entityType = null, string $entityId = null): array
     {
@@ -1025,6 +1039,7 @@ if (!function_exists('telegram_simple_message')) {
         curl_close($curl);
     }
 }
+
 if (!function_exists('is_static_file')) {
     function is_static_file(string $url): bool
     {
@@ -1074,7 +1089,6 @@ if (!function_exists('is_static_file')) {
         return in_array($fileExtension, $staticExtensions);
     }
 }
-
 
 if (!function_exists('get_main_domain')) {
     function get_main_domain(?string $url = ''): ?string
