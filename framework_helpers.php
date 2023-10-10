@@ -258,7 +258,7 @@ if (!function_exists('page_editor')) {
 
         $pageMeta = $pageMetaResult['data'] ?? [];
         $editMode = ($_GET['mode'] ?? '') == 'edit';
-        $user = User::me($_COOKIE['token']);
+        $user = User::getCurrent();
         $canEdit = in_array('pageeditor:update', ($user['data']['permissions'] ?? []), true);
 
         return compact('pageMeta', 'editMode', 'canEdit', 'routeName', 'entityType', 'entityId');
