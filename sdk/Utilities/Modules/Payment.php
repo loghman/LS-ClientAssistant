@@ -10,6 +10,9 @@ use Ls\ClientAssistant\Helpers\Response;
 
 class Payment
 {
+    const PAGE_SUCCESS = 'success';
+    const PAGE_FAILED = 'failed';
+
     public static function request($cartId, $callbackUrl, array $headers = []): Collection
     {
         try {
@@ -25,6 +28,17 @@ class Payment
     {
         try {
             return API::post("v1/payment/response/$paymentId", [], $headers);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
+    public static function check($paymentId, string $page): Collection
+    {
+        try {
+            return API::get("v1/payment/$paymentId", ['page' => $page]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
