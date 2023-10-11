@@ -24,10 +24,10 @@ class Payment
         }
     }
 
-    public static function response($paymentId, array $headers = []): Collection
+    public static function response($paymentId, array $data, array $headers = []): Collection
     {
         try {
-            return API::post("v1/payment/response/$paymentId", [], $headers);
+            return API::post("v1/payment/response/$paymentId", $data, $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
