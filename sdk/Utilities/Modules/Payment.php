@@ -35,6 +35,17 @@ class Payment
         }
     }
 
+    public static function requestLink($cartId, $callbackUrl): Collection
+    {
+        try {
+            return API::post("v1/payment/request-link/$cartId", ['redirect_url' => $callbackUrl]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
     public static function check($paymentId, string $page): Collection
     {
         try {
