@@ -14,8 +14,8 @@ class LMSProductSeoMeta extends SeoMeta
     public function __construct($product)
     {
         $this->product = $product;
-        $this->meta = json_decode($product['meta'] ?? '[]', true);
-        $this->seo = json_decode($product['seo'] ?? '[]', true);
+        $this->meta = $product['meta'];
+        $this->seo = $product['seo'];
         $this->currentUrl = get_current_url(true);
         if (!empty($this->product['description']) or !empty($this->seo['description']))
             $this->description = sub_words(strip_tags($this->seo['description'] ?? $this->product['description']), 165);

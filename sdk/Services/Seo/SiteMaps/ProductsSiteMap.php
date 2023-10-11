@@ -16,7 +16,6 @@ class ProductsSiteMap extends SiteMap
     {
         $items = '';
         foreach ($this->data as $item) {
-            $item['meta'] = json_decode($item['meta'] ?? '[]', true);
             $item['changefreq'] = $item['changefreq'] ?? 'hourly';
             $item['priority'] = $item['priority'] ?? '0.8';
             $item['caption'] = html_entity_decode(sub_words($item['description'], 165), ENT_COMPAT, 'UTF-8');
