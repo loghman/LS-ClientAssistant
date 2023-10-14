@@ -1,12 +1,14 @@
 <?php
 
+use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Helpers\Config;
 use Ls\ClientAssistant\Utilities\Modules\Setting;
 use Ls\ClientAssistant\Utilities\Modules\User;
+use Illuminate\Container\Container;
 
 if (!function_exists('site_url')) {
-    function site_url(string $uri): string
+    function site_url(string $uri = ''): string
     {
         return ($GLOBALS['appUrl'] ?? '') . $uri;
     }
@@ -98,13 +100,6 @@ if (!function_exists('get_current_url')) {
         }
 
         return (isset($_SERVER['HTTPS']) ? "https" : "http") . "://{$domain}{$uri}";
-    }
-}
-
-if (!function_exists('route_is')) {
-    function route_is(string $uri): bool
-    {
-        return site_url($uri) == get_current_url(true);
     }
 }
 
@@ -796,7 +791,7 @@ if (!function_exists('client_assistant_routes')) {
     }
 }
 
-if (!function_exists('app')) {
+if (! function_exists('app')) {
     function app($abstract = null, array $parameters = [])
     {
         if (is_null($abstract)) {
@@ -1099,5 +1094,19 @@ if (!function_exists('get_main_domain')) {
         $host = preg_replace('/^www\./', '', $host);
 
         return preg_match('/[a-z0-9-]+\.[a-z.]{2,6}$/i', $host, $matches) ? $matches[0] : null;
+    }
+}
+
+if (!function_exists('route')) {
+    function route($name, $parameters = [], $absolute = true)
+    {
+        return app('url')->route($name, $parameters, $absolute);
+    }
+}
+
+if (!function_exists('route_is')) {
+    function route_is(...$patterns)
+    {
+        return app(Request::class)->routeIs(...$patterns);
     }
 }

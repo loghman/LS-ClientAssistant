@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\Middlewares\AuthMiddleware;
 use Ls\ClientAssistant\Core\Router\JsonResponse;
 
-$router->post('/page-meta/updateForm', function (Request $request) {
+$router->name('pageEditor.store')->post('/page-meta/updateForm', function (Request $request) {
     $pageMeta = API::post('v1/marketing/page-meta/updateForm', [
         'route_name' => $request->request->get('route_name'),
         'entity_type' => $request->request->get('entity_type'),
@@ -23,7 +23,7 @@ $router->post('/page-meta/updateForm', function (Request $request) {
     return JsonResponse::json($pageMeta->toArray()['success'], 200, $pageMeta->toArray()['data']);
 });
 
-$router->get('clearcache/{client_key}', function (Request $request, $clientKey) {
+$router->name('cache.clear')->get('clearcache/{client_key}', function (Request $request, $clientKey) {
     if ($clientKey == $GLOBALS['apikey']) {
         clear_static_cache();
         clear_redis_cache();
@@ -34,13 +34,13 @@ $router->get('clearcache/{client_key}', function (Request $request, $clientKey) 
     return JsonResponse::unprocessableEntity('کلید نامعتبر');
 })->middleware(AuthMiddleware::class);
 
-$router->get('robots.txt', function (Request $request) {
+$router->name('robots')->get('robots.txt', function (Request $request) {
     $setting = setting('client_robots_txt');
     return empty($setting) ? abort(404, 'صفحه مورد نظر یافت نشد.') : $setting;
 });
 
-$router->get('/form/{workflow}', [WorkflowFormController::class, 'prepareForm'])
-    ->name('pages.consultation');
+$router->name('pages.consultation')
+    ->get('/form/{workflow}', [WorkflowFormController::class, 'prepareForm']);
 
-$router->post('workflow/task-store', [WorkflowFormController::class, 'store'])
-    ->name('workflow.task.store');
+$router->name('workflow.task.store')
+    ->post('workflow/task-store', [WorkflowFormController::class, 'store']);
