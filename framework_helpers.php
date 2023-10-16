@@ -272,7 +272,7 @@ if (!function_exists('get_cookie_domain')) {
 
         $urlParts = explode(".", $parseCoreURL['host']);
 
-        return (array_key_exists(count($urlParts) - 2, $urlParts) ? $urlParts[count($urlParts) - 2] : "") . "." . $urlParts[count($urlParts) - 1];
+        return (array_key_exists(count($urlParts) - 2, $urlParts) ? "." . $urlParts[count($urlParts) - 2] : "") . "." . $urlParts[count($urlParts) - 1];
     }
 }
 
