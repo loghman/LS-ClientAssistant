@@ -4,17 +4,26 @@ namespace Ls\ClientAssistant\Utilities\Tools;
 
 class Token
 {
-    private bool $setCookie = false;
     private string $token;
     private string $cookieName;
+    private int $ttl;
 
     public static function token(string $token = '', string $cookieName = 'token'): self
     {
         $self = new self();
         $self->token = $token;
         $self->cookieName = $cookieName;
+        $self->days();
 
         return $self;
+    }
+
+    public function save(): void
+    {
+        if ($this->token) {
+            $this->remove();
+            setcookie($this->cookieName, $this->token, time() + $this->ttl, '/', get_cookie_domain(), is_production_environment());
+        }
     }
 
     public function remove(): void
@@ -22,54 +31,37 @@ class Token
         setcookie($this->cookieName, '', time() - 3600, '/', get_cookie_domain(), is_production_environment());
     }
 
-    public function setCookie(): self
-    {
-        $this->setCookie = true;
-
-        return $this;
-    }
-
     public function seconds(int $seconds = 1): self
     {
-        if ($this->setCookie && $this->token) {
-            setcookie($this->cookieName, $this->token, time() + $seconds, '/', get_cookie_domain(), is_production_environment());
-        }
+        $this->ttl = $seconds;
 
         return $this;
     }
 
     public function minutes(int $minutes = 1): self
     {
-        if ($this->setCookie && $this->token) {
-            setcookie($this->cookieName, $this->token, time() + (60 * $minutes), '/', get_cookie_domain(), is_production_environment());
-        }
+        $this->ttl = 60 * $minutes;
 
         return $this;
     }
 
     public function hours(int $hours = 1): self
     {
-        if ($this->setCookie && $this->token) {
-            setcookie($this->cookieName, $this->token, time() + 60 * 60 * $hours, '/', get_cookie_domain(), is_production_environment());
-        }
+        $this->ttl = 60 * 60 * $hours;
 
         return $this;
     }
 
     public function days(int $days = 1): self
     {
-        if ($this->setCookie && $this->token) {
-            setcookie($this->cookieName, $this->token, time() + 60 * 60 * 24 * $days, '/', get_cookie_domain(), is_production_environment());
-        }
+        $this->ttl = 60 * 60 * 24 * $days;
 
         return $this;
     }
 
     public function weeks(int $weeks = 1): self
     {
-        if ($this->setCookie && $this->token) {
-            setcookie($this->cookieName, $this->token, time() + 60 * 60 * 24 * 7 * $weeks, '/', get_cookie_domain(), is_production_environment());
-        }
+        $this->ttl = 60 * 60 * 24 * 7;
 
         return $this;
     }

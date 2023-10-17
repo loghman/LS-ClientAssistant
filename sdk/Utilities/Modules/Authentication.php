@@ -21,7 +21,7 @@ class Authentication
             );
 
             if ($response->get('success')) {
-                Token::token($response->get('data')['token'])->setCookie()->weeks(4);
+                Token::token($response->get('data')['token'])->weeks(4)->save();
                 Token::token('', self::authReferer)->remove();
             }
 
@@ -54,7 +54,7 @@ class Authentication
             );
 
             if ($response->get('success')) {
-                Token::token($response->get('data')['token'])->setCookie()->weeks(4);
+                Token::token($response->get('data')['token'])->weeks(4)->save();
             }
 
             return $response;
