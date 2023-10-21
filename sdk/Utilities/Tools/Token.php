@@ -4,11 +4,11 @@ namespace Ls\ClientAssistant\Utilities\Tools;
 
 class Token
 {
-    private string $token;
+    private ?string $token;
     private string $cookieName;
     private int $ttl;
 
-    public static function token(string $token = '', string $cookieName = 'token'): self
+    public static function token(string $token = null, string $cookieName = 'token'): self
     {
         $self = new self();
         $self->token = $token;
