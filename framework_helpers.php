@@ -36,9 +36,9 @@ if (!function_exists('core_url')) {
 }
 
 if (!function_exists('redirect')) {
-    function redirect($url)
+    function redirect($url, int $responseCode = 0)
     {
-        header("Location: $url");
+        header("Location: $url", true, $responseCode);
         exit();
     }
 }
