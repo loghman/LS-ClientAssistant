@@ -298,4 +298,15 @@ class User extends ModuleUtility
     {
         return $_COOKIE['token'] ?? null;
     }
+
+    public static function resume($id): Collection
+    {
+        try {
+            return API::get('v1/user/resume/' . $id);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
 }

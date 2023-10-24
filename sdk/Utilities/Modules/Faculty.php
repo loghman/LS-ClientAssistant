@@ -45,15 +45,4 @@ class Faculty
             return Response::parseException($exception);
         }
     }
-
-    public static function member(int $userId): Collection
-    {
-        try {
-            return API::get(sprintf("v1/lms/faculty/%s/member", $userId));
-        } catch (ClientException $exception) {
-            return Response::parseClientException($exception);
-        } catch (\Exception $exception) {
-            return Response::parseException($exception);
-        }
-    }
 }
