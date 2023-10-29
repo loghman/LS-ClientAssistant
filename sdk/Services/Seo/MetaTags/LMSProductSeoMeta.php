@@ -63,8 +63,9 @@ class LMSProductSeoMeta extends SeoMeta
         $openGraph .= "<meta property='og:updated_time' content='$updatedTime' />" . PHP_EOL;
 
         if (!empty($this->meta['banner_url'])) {
-            list($width, $height, $type, $attr) = getimagesize($this->meta['banner_url']);
-            $openGraph .= "<meta property='og:image' content='{$this->meta['banner_url']}' />" . PHP_EOL;
+            $bannerUrl = is_array($this->meta['banner_url']) ? $this->meta['banner_url']['url'] : $this->meta['banner_url'];
+            list($width, $height, $type, $attr) = getimagesize($bannerUrl);
+            $openGraph .= "<meta property='og:image' content='{$bannerUrl}' />" . PHP_EOL;
             $openGraph .= "<meta property='og:image:width' content='$width' />" . PHP_EOL;
             $openGraph .= "<meta property='og:image:height' content='$height' />" . PHP_EOL;
         }
