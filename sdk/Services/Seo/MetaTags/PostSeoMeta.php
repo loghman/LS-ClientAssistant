@@ -102,6 +102,25 @@ class PostSeoMeta extends SeoMeta
         return $openGraph;
     }
 
+    public function getCommonMeta(): string
+    {
+        $commonMeta = parent::getCommonMeta();
+
+        $description = $this->post["seo"]["description"] ?? sub_words($this->post['content'], 165);
+
+        if (!empty($this->meta['banner_url'])) {
+            $commonMeta .= "<meta property='twitter:title' content='{$this->post['title']}' />" . PHP_EOL;
+            $commonMeta .= "<meta property='twitter:card' content='summary_large_image' />" . PHP_EOL;
+            $commonMeta .= "<meta property='twitter:image' content='{$this->post['thumbnail']}' />" . PHP_EOL;
+            if (!empty($description)) {
+                $commonMeta .= "<meta property='twitter:description' content='$description' />" . PHP_EOL;
+            }
+        }
+
+        return $commonMeta;
+
+    }
+
     public function getSchema()
     {
         // 2 status : seoColumn existed or not!

@@ -81,6 +81,23 @@ class LMSProductSeoMeta extends SeoMeta
         return $openGraph;
     }
 
+    public function getCommonMeta(): string
+    {
+        $commonMeta = parent::getCommonMeta();
+
+        if (!empty($this->meta['banner_url'])) {
+            $commonMeta .= "<meta property='twitter:title' content='$this->title' />" . PHP_EOL;
+            $commonMeta .= "<meta property='twitter:card' content='summary_large_image' />" . PHP_EOL;
+            $commonMeta .= "<meta property='twitter:image' content='{$this->meta['banner_url']}' />" . PHP_EOL;
+            if (!empty($this->description)) {
+                $commonMeta .= "<meta property='twitter:description' content='$this->description' />" . PHP_EOL;
+            }
+        }
+
+        return $commonMeta;
+
+    }
+
     public function getSchema()
     {
         // 2 status : seoColumn existed or not!

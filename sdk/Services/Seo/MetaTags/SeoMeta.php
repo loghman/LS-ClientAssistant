@@ -39,8 +39,9 @@ abstract class SeoMeta
         return $seoMeta;
     }
 
-    public function getCommonMeta()
+    public function getCommonMeta(): string
     {
+        $commonMeta = '';
         //TODO Social addresses
 
         //TODO DnsPrefetchDomains
@@ -48,6 +49,8 @@ abstract class SeoMeta
         //TODO FavIcons & Colors
 
         //TODO og:sit_ename
+
+        return $commonMeta;
     }
 
     abstract public function getTitle();
