@@ -62,8 +62,13 @@ class LMSProductSeoMeta extends SeoMeta
         $updatedTime = date('Y-m-d\TH:i:s+03:30', strtotime($this->product['updated_at']));
         $openGraph .= "<meta property='og:updated_time' content='$updatedTime' />" . PHP_EOL;
 
-        if (!empty($this->meta['banner_url']))
+        if (!empty($this->meta['banner_url'])) {
+            list($width, $height, $type, $attr) = getimagesize($this->meta['banner_url']);
             $openGraph .= "<meta property='og:image' content='{$this->meta['banner_url']}' />" . PHP_EOL;
+            $openGraph .= "<meta property='og:image:width' content='$width' />" . PHP_EOL;
+            $openGraph .= "<meta property='og:image:height' content='$height' />" . PHP_EOL;
+        }
+
         if (!is_null($this->description))
             $openGraph .= "<meta property='og:description' content='{$this->description}' />" . PHP_EOL;
         if (!empty($this->product['main_teacher']['display_name']))
@@ -72,9 +77,6 @@ class LMSProductSeoMeta extends SeoMeta
         $openGraph .= "<meta property='og:type' content='product' />" . PHP_EOL;
         $openGraph .= "<meta property='og:locale' content='fa_IR' />" . PHP_EOL;
 
-//        $openGraph .= "<meta property='og:image:type' content='' />" . PHP_EOL;
-//        $openGraph .= "<meta property='og:image:width' content='' />" . PHP_EOL;
-//        $openGraph .= "<meta property='og:image:height' content='' />" . PHP_EOL;
 
         return $openGraph;
     }
