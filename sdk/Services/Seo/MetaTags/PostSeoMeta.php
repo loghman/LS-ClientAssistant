@@ -68,8 +68,12 @@ class PostSeoMeta extends SeoMeta
         if (empty($this->post['seo']['og']['article:author']))
             $openGraph .= "<meta property='og:article:author' content='{$this->post['author']['display_name']}' />" . PHP_EOL;
 
-        if (empty($this->post['seo']['og']['image']))
+        if (empty($this->post['seo']['og']['image'])) {
+            list($width, $height, $type, $attr) = getimagesize($this->post['thumbnail']);
             $openGraph .= "<meta property='og:image' content='{$this->post['thumbnail']}' />" . PHP_EOL;
+            $openGraph .= "<meta property='og:image:width' content='$width' />" . PHP_EOL;
+            $openGraph .= "<meta property='og:image:height' content='$height' />" . PHP_EOL;
+        }
 
         if (empty($this->post['seo']['og']['locale']))
             $openGraph .= "<meta property='og:locale' content='fa_IR' />" . PHP_EOL;
@@ -96,6 +100,25 @@ class PostSeoMeta extends SeoMeta
             $openGraph .= "<meta property='og:article:section' content='{$this->post['mainCategory']['name_fa']}' />" . PHP_EOL;
 
         return $openGraph;
+    }
+
+    public function getTwitterTags(): string
+    {
+        $twitterTags = '';
+
+        $description = $this->post["seo"]["description"] ?? sub_words($this->post['content'], 165);
+
+        if (!is_null($this->post['thumbnail'])) {
+            $twitterTags .= "<meta property='twitter:title' content='{$this->post['title']}' />" . PHP_EOL;
+            $twitterTags .= "<meta property='twitter:card' content='summary_large_image' />" . PHP_EOL;
+            $twitterTags .= "<meta property='twitter:image' content='{$this->post['thumbnail']}' />" . PHP_EOL;
+            if (!empty($description)) {
+                $twitterTags .= "<meta property='twitter:description' content='$description' />" . PHP_EOL;
+            }
+        }
+
+        return $twitterTags;
+
     }
 
     public function getSchema()
