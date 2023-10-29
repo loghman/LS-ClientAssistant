@@ -81,20 +81,20 @@ class LMSProductSeoMeta extends SeoMeta
         return $openGraph;
     }
 
-    public function getCommonMeta(): string
+    public function getTwitterTags(): string
     {
-        $commonMeta = parent::getCommonMeta();
+        $twitterTags = '';
 
         if (!empty($this->meta['banner_url'])) {
-            $commonMeta .= "<meta property='twitter:title' content='$this->title' />" . PHP_EOL;
-            $commonMeta .= "<meta property='twitter:card' content='summary_large_image' />" . PHP_EOL;
-            $commonMeta .= "<meta property='twitter:image' content='{$this->meta['banner_url']}' />" . PHP_EOL;
+            $twitterTags .= "<meta property='twitter:title' content='$this->title' />" . PHP_EOL;
+            $twitterTags .= "<meta property='twitter:card' content='summary_large_image' />" . PHP_EOL;
+            $twitterTags .= "<meta property='twitter:image' content='{$this->meta['banner_url']}' />" . PHP_EOL;
             if (!empty($this->description)) {
-                $commonMeta .= "<meta property='twitter:description' content='$this->description' />" . PHP_EOL;
+                $twitterTags .= "<meta property='twitter:description' content='$this->description' />" . PHP_EOL;
             }
         }
 
-        return $commonMeta;
+        return $twitterTags;
 
     }
 

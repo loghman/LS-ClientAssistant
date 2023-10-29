@@ -22,6 +22,7 @@ abstract class SeoMeta
         $seoMeta->canonical = $this->getCanonical();
         $seoMeta->metaTags = $this->getMetaTags();
         $seoMeta->openGraph = $this->getOpenGraphTags();
+        $seoMeta->openGraph = $this->getTwitterTags();
         $seoMeta->schema = $this->getSchema();
         return $seoMeta;
     }
@@ -34,6 +35,7 @@ abstract class SeoMeta
         $seoMeta .= $this->getCanonical() . PHP_EOL;
         $seoMeta .= $this->getMetaTags() . PHP_EOL;
         $seoMeta .= $this->getOpenGraphTags() . PHP_EOL;
+        $seoMeta .= $this->getTwitterTags() . PHP_EOL;
         $seoMeta .= $this->getSchema() . PHP_EOL;
         $seoMeta .= '<!-- END LS Smart SEO Tags -->' . PHP_EOL;
         return $seoMeta;
@@ -60,6 +62,8 @@ abstract class SeoMeta
     abstract public function getMetaTags();
 
     abstract public function getOpenGraphTags();
+
+    abstract public function getTwitterTags();
 
     abstract public function getSchema();
 }
