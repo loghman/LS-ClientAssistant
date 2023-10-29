@@ -109,11 +109,11 @@ class PostSeoMeta extends SeoMeta
         $description = $this->post["seo"]["description"] ?? sub_words($this->post['content'], 165);
 
         if (!is_null($this->post['thumbnail'])) {
-            $twitterTags .= "<meta property='twitter:title' content='{$this->post['title']}' />" . PHP_EOL;
-            $twitterTags .= "<meta property='twitter:card' content='summary_large_image' />" . PHP_EOL;
-            $twitterTags .= "<meta property='twitter:image' content='{$this->post['thumbnail']}' />" . PHP_EOL;
+            $twitterTags .= "<meta name='twitter:title' content='{$this->post['title']}' />" . PHP_EOL;
+            $twitterTags .= "<meta name='twitter:card' content='summary_large_image' />" . PHP_EOL;
+            $twitterTags .= "<meta name='twitter:image' content='{$this->post['thumbnail']}' />" . PHP_EOL;
             if (!empty($description)) {
-                $twitterTags .= "<meta property='twitter:description' content='$description' />" . PHP_EOL;
+                $twitterTags .= "<meta name='twitter:description' content='$description' />" . PHP_EOL;
             }
         }
 
