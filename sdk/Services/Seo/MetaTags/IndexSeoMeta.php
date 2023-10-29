@@ -49,6 +49,10 @@ class IndexSeoMeta extends SeoMeta
         return $openGraph;
     }
 
+    public function getTwitterTags()
+    {
+    }
+
     public function getSchema()
     {
         // 2 status : seoColumn existed or not!

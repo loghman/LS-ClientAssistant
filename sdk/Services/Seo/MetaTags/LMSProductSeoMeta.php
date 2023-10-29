@@ -86,11 +86,11 @@ class LMSProductSeoMeta extends SeoMeta
         $twitterTags = '';
 
         if (!empty($this->meta['banner_url'])) {
-            $twitterTags .= "<meta property='twitter:title' content='$this->title' />" . PHP_EOL;
-            $twitterTags .= "<meta property='twitter:card' content='summary_large_image' />" . PHP_EOL;
-            $twitterTags .= "<meta property='twitter:image' content='{$this->meta['banner_url']}' />" . PHP_EOL;
+            $twitterTags .= "<meta name='twitter:title' content='$this->title' />" . PHP_EOL;
+            $twitterTags .= "<meta name='twitter:card' content='summary_large_image' />" . PHP_EOL;
+            $twitterTags .= "<meta name='twitter:image' content='{$this->meta['banner_url']}' />" . PHP_EOL;
             if (!empty($this->description)) {
-                $twitterTags .= "<meta property='twitter:description' content='$this->description' />" . PHP_EOL;
+                $twitterTags .= "<meta name='twitter:description' content='$this->description' />" . PHP_EOL;
             }
         }
 
