@@ -154,14 +154,25 @@ if (!function_exists('send_abort_notification')) {
         }
 
         $redisClient->disconnect();
+
+        $ip = get_ip();
+        $user = current_user();
+        $userData = null;
+        if (!is_null($user)) {
+            $name = $user['real_name'] ?? $user['display_name'];
+            $userData .= "\n👨 <b>User ID:</b> {$user['id']}";
+            $userData .= "\n👨 <b>User Name:</b> $name";
+        }
+
         $refererText = !empty($referer) ? "\n<b>REF:</b> " . $_SERVER['HTTP_REFERER'] : null;
         $gregorianDate = date('Y-m-d H:i:s');
         $jalaliTime = verta($gregorianDate);
         $telegramText = <<<TEXT
             <b>$code</b> Abort Happened
-            $url$refererText
-            ⏰ <b>ATG:</b> $gregorianDate
-            ⏰ <b>ATJ:</b> $jalaliTime
+            $url$refererText$userData
+            🌎 <b>IP:</b> $ip
+            ⏰ <b>TG:</b> $gregorianDate
+            ⏰ <b>TJ:</b> $jalaliTime
             TEXT;
 
         telegram_simple_message($telegramText, topicID: $_ENV['TELEGRAM_ABORT_TOPIC_ID']);
@@ -791,7 +802,7 @@ if (!function_exists('client_assistant_routes')) {
     }
 }
 
-if (! function_exists('app')) {
+if (!function_exists('app')) {
     function app($abstract = null, array $parameters = [])
     {
         if (is_null($abstract)) {
