@@ -2,9 +2,11 @@
 
 namespace Ls\ClientAssistant\Core;
 
+use Illuminate\Routing\Pipeline;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\View\Engines\EngineResolver;
 use Ls\ClientAssistant\Core\Middlewares\StaticCacheMiddleware;
+use Ls\ClientAssistant\Core\Middlewares\UtmLogMiddleware;
 use Ls\ClientAssistant\Core\Router\App;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\View\Compilers\BladeCompiler;
@@ -19,6 +21,11 @@ use Illuminate\Container\Container;
 class Kernel
 {
     private Container $container;
+
+    private array $globalMiddlewares = [
+        StaticCacheMiddleware::class,
+        UtmLogMiddleware::class
+    ];
 
     public function boot(string $envPath, string $routesPath)
     {
@@ -58,10 +65,7 @@ class Kernel
         }
 
         $router->fallback(fn() => abort(404, 'صفحه مورد نظر یافت نشد!'));
-        $staticCacheMiddleware = new StaticCacheMiddleware();
-        $response = $staticCacheMiddleware->handle($request, function ($request) use ($router) {
-            return $router->dispatch($request);
-        });
+        $response = $this->sendRequestThroughRouter($request);
 
         return new App($router, $response);
     }
@@ -112,5 +116,20 @@ class Kernel
                 site_url()
             );
         });
+    }
+
+    protected function sendRequestThroughRouter($request)
+    {
+        return (new Pipeline($this->container))
+            ->send($request)
+            ->through($this->globalMiddlewares)
+            ->then($this->dispatchToRouter());
+    }
+
+    protected function dispatchToRouter()
+    {
+        return function ($request) {
+            return $this->container->get('router')->dispatch($request);
+        };
     }
 }

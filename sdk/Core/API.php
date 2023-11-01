@@ -149,12 +149,14 @@ class API
             }
         }
 
+        $cookies = self::mergeCookies();
         $headerData = [
             'Api-Key: ' . $GLOBALS['apikey'],
             'Content-Type: application/json',
             'REAL-HTTP-CLIENT-IP: ' . $ip,
             'REAL-HTTP-CLIENT-AGENT: ' . $_SERVER['HTTP_USER_AGENT'] ?? '',
-            'Authorization: Bearer ' . User::getToken()
+            'Authorization: Bearer ' . User::getToken(),
+            "Cookie: $cookies"
         ];
 
         if (!empty($headers)) {
@@ -162,6 +164,15 @@ class API
         }
 
         return array_merge($headerData, $headers);
+    }
+
+    public static function mergeCookies(): string
+    {
+        $str = '';
+        foreach ($_COOKIE as $key => $value) {
+            $str .="$key=$value;";
+        }
+        return $str;
     }
 
     private static function generateJwt(array &$headers): string

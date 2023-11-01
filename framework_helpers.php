@@ -272,18 +272,23 @@ if (!function_exists('page_editor')) {
 }
 
 if (!function_exists('get_cookie_domain')) {
-    function get_cookie_domain(): ?string
+    function get_cookie_domain(): string
     {
-        $parseCoreURL = parse_url(core_url());
-        $parseHostURL = parse_url(site_url(""));
+        $coreHostUrl = parse_url(core_url(), PHP_URL_HOST);
+        $clientHostUrl = parse_url(site_url(), PHP_URL_HOST);
 
-        if (is_null($parseCoreURL['host']) || $parseCoreURL['host'] != $parseHostURL['host']) {
-            return null;
+        if (is_null($coreHostUrl) || $coreHostUrl == $clientHostUrl) {
+            return '';
         }
 
-        $urlParts = explode(".", $parseCoreURL['host']);
+        $urlParts = explode('.', $coreHostUrl);
+        $topLevelDomain = end($urlParts);
+        $secondLevelDomain = $urlParts[count($urlParts) - 2] ?? '';
+        if (empty($secondLevelDomain)) {
+            return '';
+        }
 
-        return (array_key_exists(count($urlParts) - 2, $urlParts) ? "." . $urlParts[count($urlParts) - 2] : "") . "." . $urlParts[count($urlParts) - 1];
+        return ".$secondLevelDomain.$topLevelDomain";
     }
 }
 

@@ -41,5 +41,6 @@ return [
         'google_recaptcha_v3_status',
         'client_robots_txt',
         'crm_has_email_field',
+        'utm_log_cookie_lifetime',
     ],
 ];

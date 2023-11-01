@@ -1,0 +1,31 @@
+<?php
+
+return [
+    'utm_log_cookie_name' => 'utm_log_data',
+    'search_engines' => [
+        'google.com',
+        'www.google.com',
+        'bing.com',
+        'www.bing.com',
+        'yahoo.com',
+        'www.yahoo.com',
+        'search.yahoo.com',
+        'www.search.yahoo.com',
+        'ask.com',
+        'www.ask.com',
+        'duckduckgo.com',
+        'www.duckduckgo.com',
+        'ecosia.org',
+        'www.ecosia.org',
+        'baidu.com',
+        'www.baidu.com',
+        'brave.com',
+        'www.brave.com',
+        'search.brave.com',
+        'www.search.brave.com',
+        'dogpile.com',
+        'www.dogpile.com',
+        'yandex.com',
+        'www.yandex.com',
+    ],
+];
