@@ -14,8 +14,8 @@ class UtmLogMiddleware
     public function handle(Request $request, $next)
     {
         $referer = $request->header('referer');
-        if ($request->has('utm_source') || $request->has('utm_source') || $request->has('utm_source')) {
-            $defaultSource = $referer ? parse_url($referer, PHP_URL_HOST) : 'direct';
+        if ($request->has('utm_source') || $request->has('utm_medium') || $request->has('utm_campaign')) {
+            $defaultSource = $referer ? $this->getSecondLevelDomainName($referer) : 'direct';
             $utmData = [
                 'source' => $request->get('utm_source', $defaultSource),
                 'medium' => $request->get('utm_medium'),
@@ -25,7 +25,7 @@ class UtmLogMiddleware
         } else if ($this->fromSearchEngine($referer)) {
             $utmData = [
                 'campaign' => 'seo',
-                'source' => parse_url($referer, PHP_URL_HOST),
+                'source' => $this->getSecondLevelDomainName($referer),
                 'medium' => parse_url($request->url(), PHP_URL_PATH),
             ];
             $this->storeCookie($utmData);
@@ -50,5 +50,13 @@ class UtmLogMiddleware
             json_encode($utmData),
             time() + ($lifetime * 60),
         );
+    }
+
+    private function getSecondLevelDomainName($url): string
+    {
+        $domain = parse_url($url, PHP_URL_HOST);
+        $domainParts = explode('.', $domain);
+
+        return $domainParts[count($domainParts) - 2];
     }
 }
