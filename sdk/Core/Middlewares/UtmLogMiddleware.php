@@ -24,6 +24,7 @@ class UtmLogMiddleware
             $this->storeCookie($utmData);
         } else if ($this->fromSearchEngine($referer)) {
             $utmData = [
+                'campaign' => 'seo',
                 'source' => parse_url($referer, PHP_URL_HOST),
                 'medium' => parse_url($request->url(), PHP_URL_PATH),
             ];
