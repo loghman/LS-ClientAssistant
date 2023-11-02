@@ -30,10 +30,15 @@ class Kernel
     public function boot(string $envPath, string $routesPath)
     {
         $this->bootEnv($envPath);
-
+        $this->init();
         ErrorHandler::register();
 
         return $this->bootRouter($routesPath);
+    }
+
+    private function init(): void
+    {
+        date_default_timezone_set($_ENV['TIME_ZONE'] ?? "Asia/Tehran");
     }
 
     private function bootEnv(string $envPath): void
