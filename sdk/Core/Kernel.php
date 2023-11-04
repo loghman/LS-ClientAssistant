@@ -103,6 +103,7 @@ class Kernel
         $GLOBALS['appUrl'] = str_ends_with($env['APP_URL'], '/') ? $env['APP_URL'] : $env['APP_URL'] . '/';
         $GLOBALS['redisHost'] = $env['REDIS_HOST'];
         $GLOBALS['redisPort'] = $env['REDIS_PORT'];
+        $GLOBALS['enableCartPayment'] = $env['ENABLE_CART_PAYMENT'] === 'true';
     }
 
     protected function registerUrlGenerator()

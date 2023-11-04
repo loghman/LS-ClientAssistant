@@ -1,10 +1,13 @@
 <?php
 
 use Ls\ClientAssistant\Controllers\WorkflowFormController;
+use Ls\ClientAssistant\Controllers\CartController;
+use Ls\ClientAssistant\Controllers\PaymentController;
 use Ls\ClientAssistant\Core\API;
 use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\Middlewares\AuthMiddleware;
 use Ls\ClientAssistant\Core\Router\JsonResponse;
+use Illuminate\Routing\Router;
 
 $router->name('pageEditor.store')->post('/page-meta/updateForm', function (Request $request) {
     $pageMeta = API::post('v1/marketing/page-meta/updateForm', [
@@ -44,3 +47,37 @@ $router->name('pages.consultation')
 
 $router->name('workflow.task.store')
     ->post('workflow/task-store', [WorkflowFormController::class, 'store']);
+
+$router->prefix('cart')->name('cart.')->group(function (Router $router) {
+    $router->name('checkout')
+        ->get('/checkout', [CartController::class, 'checkout'])
+        ->middleware(AuthMiddleware::class);
+
+    $router->name('add')->post('/add', [CartController::class, 'add']);
+
+    $router->name('delete')
+        ->post('/delete/{itemId}', [CartController::class, 'delete'])
+        ->middleware(AuthMiddleware::class);
+});
+
+$router->prefix('coupon')->name('coupon.')->middleware(AuthMiddleware::class)->group(function (Router $router) {
+    $router->name('apply')
+        ->post('/apply/{cart}', [CartController::class, 'applyCoupon']);
+
+    $router->name('unapply')
+        ->post('/unapply/{cart}/{coupon}', [CartController::class, 'unapplyCoupon']);
+});
+
+$router->prefix('payment')->name('payment.')->group(function (Router $router) {
+    $router->name('requestLink')
+        ->get('/request-link/{cart}', [PaymentController::class, 'requestLink']);
+
+    $router->name('callback')
+        ->get('/{paymentId}', [PaymentController::class, 'callback']);
+
+    $router->name('successForm')
+        ->get('/succeed/{paymentId}', [PaymentController::class, 'successForm']);
+
+    $router->name('failureForm')
+        ->get('/failed/{paymentId}', [PaymentController::class, 'failureForm']);
+});
