@@ -43,5 +43,5 @@ return [
         'crm_has_email_field',
         'utm_log_cookie_lifetime',
     ],
-    'enable_cart_payment' => $GLOBALS['enableCartPayment'] ?? false
+    'enable_cart_payment' => $GLOBALS['enableCartPayment'] === null || $GLOBALS['enableCartPayment'] === 'true'
 ];
