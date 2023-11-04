@@ -5,16 +5,27 @@ namespace Ls\ClientAssistant\Controllers;
 use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\Router\JsonResponse;
 use Ls\ClientAssistant\Core\Router\WebResponse;
+use Ls\ClientAssistant\Utilities\Modules\LMSProduct;
 use Ls\ClientAssistant\Utilities\Modules\TaskManager;
 
 class WorkflowFormController
 {
+    private const maxCount = 5000;
 
     public function prepareForm($workflow, Request $request)
     {
         $response = TaskManager::formData($workflow);
         if (!$response->get('success')) {
             abort(404);
+        }
+
+        $courses = [];
+        if (!$request->has('et') && !$request->has('ei')) {
+            $courses = LMSProduct::search('', ['id', 'title', 'slug'], [], self::maxCount);
+            if (!$courses->get('success')) {
+                $courses = [];
+            }
+            $courses = collect($courses->get('data')['data'])->pluck('title', 'id')->toArray();
         }
 
         return WebResponse::view(
@@ -25,6 +36,7 @@ class WorkflowFormController
                 'entityId' => $request->get('ei'),
                 'source' => $request->get('source'),
                 'workflowData' => $response->get('data'),
+                'courses' => $courses,
                 'timeToCallOptions' => [
                     '10-13' => '۱۰ تا ۱۳',
                     '13-15' => '۱۳ تا ۱۵',
