@@ -56,7 +56,7 @@ class WorkflowFormController
 
         return JsonResponse::success(
             '',
-            ['message' => sprintf('با تشکر %s عزیز درخواست شما ارسال شد و بدست ما رسید.',  $firstName)]
+            ['message' => sprintf('با تشکر %s عزیز درخواست شما ثبت شد. <br /> همکاران ما با شما تماس خواهند گرفت.',  $firstName)]
         );
     }
 }
