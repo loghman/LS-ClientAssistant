@@ -35,6 +35,11 @@ class WebResponse
         exit();
     }
 
+    public static function viewExist($view)
+    {
+        return (new self())->getBladeInstance()->exists($view);
+    }
+
     public static function redirect(string $toRoute = ''): RedirectResponse
     {
         return new RedirectResponse(site_url($toRoute), 302, []);
