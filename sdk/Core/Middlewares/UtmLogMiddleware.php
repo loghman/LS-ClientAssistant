@@ -14,7 +14,7 @@ class UtmLogMiddleware
     public function handle(Request $request, $next)
     {
         $referer = $request->header('referer');
-        if ($request->has('utm_source') || $request->has('utm_medium') || $request->has('utm_campaign')) {
+        if ($request->has('utm_campaign')) {
             $defaultSource = $referer ? $this->getSecondLevelDomainName($referer) : 'direct';
             $utmData = [
                 'source' => $request->get('utm_source', $defaultSource),
@@ -49,6 +49,7 @@ class UtmLogMiddleware
             Config::get('utmlog.utm_log_cookie_name'),
             json_encode($utmData),
             time() + ($lifetime * 60),
+            '/'
         );
     }
 
