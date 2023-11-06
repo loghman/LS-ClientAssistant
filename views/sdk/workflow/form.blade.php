@@ -1,10 +1,19 @@
 <form class="{{ $wrapper_classes }}" action="{{ site_url('workflow/task-store') }}" method="post"
       data-jsc="ajax-form" data-after-success="closure" data-fn="showSuccess">
     <input type="hidden" name="workflow" value="{{ $workflowData['name_en'] }}">
-    <input type="hidden" name="entity_type" value="{{ $entityType }}">
-    <input type="hidden" name="entity_id" value="{{ $entityId }}">
     @if(isset($source))
         <input type="hidden" name="source" value="{{ $source }}">
+    @endif
+    @if(!empty($courses))
+        <input type="hidden" name="entity_type" value="lms_products">
+        @include('sdk.form-builder.select', [
+            'name' => 'entity_id',
+            'choices' => $courses,
+            'classes' => 'sm fw-700',
+        ])
+    @else
+        <input type="hidden" name="entity_type" value="{{ $entityType }}">
+        <input type="hidden" name="entity_id" value="{{ $entityId }}">
     @endif
     <div class="input-group sm">
         <label class="fw-700">نام شما</label>
