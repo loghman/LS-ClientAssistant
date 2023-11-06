@@ -19,6 +19,7 @@
 @else
     @yield('content')
 @endif
+
 @yield('modals')
 @include('_common.layouts.footer')
 @include('sdk._common.scripts.base')
