@@ -5,13 +5,12 @@ namespace Ls\ClientAssistant\Controllers;
 use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\Router\JsonResponse;
 use Ls\ClientAssistant\Core\Router\WebResponse;
+use Ls\ClientAssistant\Helpers\Config;
 use Ls\ClientAssistant\Utilities\Modules\LMSProduct;
 use Ls\ClientAssistant\Utilities\Modules\TaskManager;
 
 class WorkflowFormController
 {
-    private const maxCount = 5000;
-
     public function prepareForm($workflow, Request $request)
     {
         $response = TaskManager::formData($workflow);
@@ -21,7 +20,12 @@ class WorkflowFormController
 
         $courses = [];
         if (!$request->has('et') && !$request->has('ei')) {
-            $courses = LMSProduct::search('', ['id', 'title', 'slug'], [], self::maxCount);
+            $courses = LMSProduct::search(
+                '',
+                ['id', 'title', 'slug'],
+                [],
+                Config::get('workflow_form.max_course_count_for_select')
+            );
             if (!$courses->get('success')) {
                 $courses = [];
             }
