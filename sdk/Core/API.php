@@ -134,9 +134,15 @@ class API
 
         if (isset($data['data']['data'])) {
             return collect(Paginator::setLink($data));
-        } else {
+        } else if(is_array($data)) {
             return collect($data);
         }
+
+        return collect([
+            'success' => false,
+            'data' => [],
+            'message' => $response
+        ]);
     }
 
     private static function handleHeaders(array $headers): array
@@ -149,14 +155,17 @@ class API
             }
         }
 
+        $version = \Composer\InstalledVersions::getVersion('ls/client-assistant');
         $cookies = self::mergeCookies();
+
         $headerData = [
             'Api-Key: ' . $GLOBALS['apikey'],
             'Content-Type: application/json',
             'REAL-HTTP-CLIENT-IP: ' . $ip,
             'REAL-HTTP-CLIENT-AGENT: ' . $_SERVER['HTTP_USER_AGENT'] ?? '',
             'Authorization: Bearer ' . User::getToken(),
-            "Cookie: $cookies"
+            "Cookie: $cookies",
+            'LSPWEB_SDK_VERSION: '. $version
         ];
 
         if (!empty($headers)) {
