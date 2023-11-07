@@ -165,7 +165,7 @@ class API
             'REAL-HTTP-CLIENT-AGENT: ' . $_SERVER['HTTP_USER_AGENT'] ?? '',
             'Authorization: Bearer ' . User::getToken(),
             "Cookie: $cookies",
-            'LSPWEB_SDK_VERSION: '. $version
+            'LSPWEB-SDK-VERSION: '. $version
         ];
 
         if (!empty($headers)) {
