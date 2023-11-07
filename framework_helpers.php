@@ -271,23 +271,53 @@ if (!function_exists('page_editor')) {
     }
 }
 
+if (!function_exists('request')) {
+    /**
+     * Get an instance of the current request or an input item from the request.
+     *
+     * @param array|string|null $key
+     * @param mixed|null $default
+     * @return mixed|Request|string|array|null
+     */
+    function request(array|string|null $key = null, mixed $default = null): mixed
+    {
+        if (is_null($key)) {
+            return app(Request::class);
+        }
+
+        if (is_array($key)) {
+            return app(Request::class)->only($key);
+        }
+
+        $value = app(Request::class)->__get($key);
+
+        return is_null($value) ? value($default) : $value;
+    }
+}
+
 if (!function_exists('get_cookie_domain')) {
     function get_cookie_domain(): string
     {
-        $coreHostUrl = parse_url(core_url(), PHP_URL_HOST);
-        $clientHostUrl = parse_url(site_url(), PHP_URL_HOST);
+        $currentHostUrl = parse_url(request()->url(), PHP_URL_HOST);
+        $foreignHostUrl = null;
+        if (isset($_ENV['CORE_URL'])) {
+            $foreignHostUrl = parse_url($_ENV['CORE_URL'], PHP_URL_HOST);
+        } elseif (!is_null(setting('client_url'))) {
+            $foreignHostUrl = parse_url(setting('client_url'), PHP_URL_HOST);
+        }
 
-        if (is_null($coreHostUrl) || $coreHostUrl == $clientHostUrl) {
+        if (is_null($currentHostUrl) || is_null($foreignHostUrl) || $currentHostUrl == $foreignHostUrl) {
             return '';
         }
 
-        $urlParts = explode('.', $coreHostUrl);
+        $urlParts = explode('.', $currentHostUrl);
         $topLevelDomain = end($urlParts);
         $secondLevelDomain = $urlParts[count($urlParts) - 2] ?? '';
         if (empty($secondLevelDomain)) {
             return '';
         }
 
+        // Example: .7learn.com
         return ".$secondLevelDomain.$topLevelDomain";
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Ls\ClientAssistant\Core;
 
+use Dotenv\Dotenv;
 use Illuminate\Routing\Pipeline;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\View\Engines\EngineResolver;
@@ -45,7 +46,7 @@ class Kernel
 
     private function bootEnv(string $envPath): void
     {
-        $dotenv = \Dotenv\Dotenv::createImmutable($envPath);
+        $dotenv = Dotenv::createImmutable($envPath);
         $dotenv->safeLoad();
     }
 
