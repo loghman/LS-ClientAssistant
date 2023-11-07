@@ -5,6 +5,7 @@ namespace Ls\ClientAssistant\Core;
 use Illuminate\Routing\Pipeline;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\View\Engines\EngineResolver;
+use Ls\ClientAssistant\Core\Middlewares\CorsMiddleware;
 use Ls\ClientAssistant\Core\Middlewares\StaticCacheMiddleware;
 use Ls\ClientAssistant\Core\Middlewares\UtmLogMiddleware;
 use Ls\ClientAssistant\Core\Router\App;
@@ -23,6 +24,7 @@ class Kernel
     private Container $container;
 
     private array $globalMiddlewares = [
+        CorsMiddleware::class,
         StaticCacheMiddleware::class,
         UtmLogMiddleware::class
     ];
