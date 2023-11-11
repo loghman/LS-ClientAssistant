@@ -105,7 +105,8 @@ class User extends ModuleUtility
         if (!$user) {
             return false;
         }
-        return !is_null($user['data']) or !empty($user['data']);
+        
+        return !is_null($user['data']) && !empty($user['data']) && $user['status'];
     }
 
     public static function mobileVerified(): bool
