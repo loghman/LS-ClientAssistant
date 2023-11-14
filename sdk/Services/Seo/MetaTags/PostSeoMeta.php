@@ -68,7 +68,7 @@ class PostSeoMeta extends SeoMeta
         if (empty($this->post['seo']['og']['article:author']))
             $openGraph .= "<meta property='og:article:author' content='{$this->post['author']['display_name']}' />" . PHP_EOL;
 
-        if (empty($this->post['seo']['og']['image'])) {
+        if (empty($this->post['seo']['og']['image']) and !empty($this->post['thumbnail'])) {
             list($width, $height, $type, $attr) = getimagesize($this->post['thumbnail']);
             $openGraph .= "<meta property='og:image' content='{$this->post['thumbnail']}' />" . PHP_EOL;
             $openGraph .= "<meta property='og:image:width' content='$width' />" . PHP_EOL;
