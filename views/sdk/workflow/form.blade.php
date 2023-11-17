@@ -59,7 +59,7 @@
 </form>
 
 <div class="{{ $wrapper_classes }}" id="result-box" style="display: none !important;padding: 8px !important;">
-    <h3 id="message" class="text-center"></h3>
+    <h3 id="message" class="text-center" style="line-height: 34px;"></h3>
     <div class="justify-content-center text-center">
         <i class="icon si-checkbox-circle text-success" style="font-size: 8rem"></i>
     </div>

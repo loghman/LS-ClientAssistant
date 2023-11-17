@@ -69,10 +69,22 @@ class WorkflowFormController
         if (!$response->get('success')) {
             return JsonResponse::unprocessableEntity($response->get('message') ?? 'مشکلی رخ داده است.');
         }
+        $nextFollowupDate = $response->get('data')['next_followup_date'] ?? null;
+        if (!is_null($nextFollowupDate)) {
+            $date = verta($nextFollowupDate);
+            $message = $firstName;
+            $message .= sprintf(
+                '  عزیز درخواست شما را با موفقیت دریافت کردیم و با شما در تاریخ %s در ساعت %s تماس خواهیم گرفت',
+                to_persian_num($date->format('%d %B Y')),
+                to_persian_num($date->format('H')),
+            );
+        } else {
+            $message = sprintf(
+                'با تشکر %s عزیز درخواست شما ثبت شد. <br /> همکاران ما با شما تماس خواهند گرفت.',
+                $firstName
+            );
+        }
 
-        return JsonResponse::success(
-            '',
-            ['message' => sprintf('با تشکر %s عزیز درخواست شما ثبت شد. <br /> همکاران ما با شما تماس خواهند گرفت.',  $firstName)]
-        );
+        return JsonResponse::success('', compact('message'));
     }
 }
