@@ -1084,6 +1084,8 @@ if (!function_exists('telegram_simple_message')) {
 if (!function_exists('is_static_file')) {
     function is_static_file(string $url): bool
     {
+        if (empty($url)) return false;
+
         $staticExtensions = [
             'jpg',
             'jpeg',
