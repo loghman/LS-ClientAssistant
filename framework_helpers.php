@@ -1128,7 +1128,7 @@ if (!function_exists('is_static_file')) {
             'json',
         ];
 
-        $fileExtension = strtolower(pathinfo($url)['extension']);
+        $fileExtension = strtolower(pathinfo($url)['extension'] ?? '');
         return in_array($fileExtension, $staticExtensions);
     }
 }
