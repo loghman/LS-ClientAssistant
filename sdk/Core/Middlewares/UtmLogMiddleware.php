@@ -36,6 +36,8 @@ class UtmLogMiddleware
 
     private function fromSearchEngine($referer): bool
     {
+        if (empty($referer)) return false;
+        
         $referrerHost = parse_url($referer, PHP_URL_HOST);
 
         return in_array($referrerHost, Config::get('utmlog.search_engines'));
