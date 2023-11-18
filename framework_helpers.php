@@ -141,7 +141,7 @@ if (!function_exists('send_abort_notification')) {
         if (!filter_var($_ENV['ABORT_NOTIFICATION'], FILTER_VALIDATE_BOOLEAN)) return;
         $redisClient = Ls\ClientAssistant\Core\Cache::getRedisInstance();
         $url = get_current_url();
-        $referer = $_SERVER['HTTP_REFERER'];
+        $referer = $_SERVER['HTTP_REFERER'] ?? null;
         $filterDomains = $_ENV['TELEGRAM_ABORT_FILTER_BY_REFERER_DOMAINS'];
         if (!empty($filterDomains) && !in_array(get_main_domain($referer), explode(',', $filterDomains))) return;
         $cacheKey = sprintf('abort_%s_%s', $code, urlencode($url));
