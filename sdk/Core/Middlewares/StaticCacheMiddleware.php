@@ -4,13 +4,12 @@ namespace Ls\ClientAssistant\Core\Middlewares;
 
 use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\StaticCache;
-use Ls\ClientAssistant\Utilities\Modules\User;
 
 class StaticCacheMiddleware
 {
     public function handle(Request $request, $next)
     {
-        if (User::loggedIn()) {
+        if (!empty(current_user())) {
             return $next($request);
         }
 

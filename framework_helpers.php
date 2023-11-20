@@ -1034,7 +1034,7 @@ if (!function_exists('number_to_letter_persian')) {
 if (!function_exists('clear_static_cache')) {
     function clear_static_cache(): void
     {
-        $cacheFolder = dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'static/';
+        $cacheFolder = dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'custom/';
         $cacheFiles = scandir($cacheFolder);
 
         foreach ($cacheFiles as $file) {
