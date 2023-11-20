@@ -33,6 +33,10 @@ class StaticCache
         }
 
         if (file_exists(self::$cacheFile) && (time() - self::EXPIRE_TIME) < filemtime(self::$cacheFile)) {
+            $fileContent = file_get_contents(self::$cacheFile);
+            if (strlen($fileContent) < 200) {
+                return;
+            }
             readfile(self::$cacheFile);
             exit;
         }
