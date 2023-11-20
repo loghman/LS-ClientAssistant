@@ -59,9 +59,14 @@ class StaticCache
         }
 
         # Cache the contents to a cache file
+        $cacheContent = ob_get_contents();
+        if(empty($cacheContent)){
+            return;
+        }
+
         $cachedfile = fopen(self::$cacheFile, 'w+');
         fwrite($cachedfile, "<!-- cached:" . date('Y-m-d H:i:s', filemtime(self::$cacheFile)) . " -->\n");
-        fwrite($cachedfile, ob_get_contents());
+        fwrite($cachedfile, $cacheContent);
         fclose($cachedfile);
         # Send the output to the browser
         ob_end_flush();
