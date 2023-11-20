@@ -18,9 +18,9 @@ class StaticCache
 
     public static function init()
     {
-        self::$cacheFolder = dirname(__DIR__, 5) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'static/';
+        self::$cacheFolder = dirname(__DIR__, 5) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'custom/';
         self::$cacheSlug = strtok($_SERVER['REQUEST_URI'], '?');
-        self::$cacheFile = self::$cacheFolder . md5(self::$cacheSlug) . ".php";
+        self::$cacheFile = self::$cacheFolder .  md5(self::$cacheSlug) . ".php";
         if (!self::isCacheEnable())
             self::$cachable = 0;
     }
@@ -28,7 +28,6 @@ class StaticCache
     public static function start()
     {
         self::init();
-
         if (!self::$cachable) {
             return;
         }
@@ -37,12 +36,13 @@ class StaticCache
             readfile(self::$cacheFile);
             exit;
         }
+
         ob_start();
     }
 
     public static function end()
     {
-        if (!is_null(current_user())) {
+        if (!empty(current_user())) {
             return;
         }
 
@@ -52,6 +52,10 @@ class StaticCache
 
         if(!self::$cacheFile){
             self::init();
+        }
+
+        if(!is_dir(self::$cacheFolder)){
+            mkdir(self::$cacheFolder);
         }
 
         # Cache the contents to a cache file
@@ -65,7 +69,7 @@ class StaticCache
 
     public static function flush()
     {
-        $cacheFolder = dirname(__DIR__, 5) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'static/';
+        $cacheFolder = dirname(__DIR__, 5) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'custom/';
         $files = glob($cacheFolder . "*"); // get all file names
         foreach ($files as $file) {         // iterate files
             if (is_file($file)) {
