@@ -1158,3 +1158,31 @@ if (!function_exists('route_is')) {
         return app(Request::class)->routeIs(...$patterns);
     }
 }
+
+if(!function_exists('config')){
+    function config(string $path){
+        $configFolder = dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . 'config/';
+        $explodedPath = explode('.', $path);
+        if(empty($explodedPath)){
+            return null;
+        }
+        $configFilePath = $configFolder . $explodedPath[0] . '.php';
+        if(!file_exists($configFilePath)){
+            return null;
+        }
+        unset($explodedPath[0]);
+
+        $configFileContent = include $configFilePath;
+
+        $contentOfKey = $configFileContent;
+        foreach ($explodedPath as $key){
+            if(isset($contentOfKey[$key])){
+                $contentOfKey = $contentOfKey[$key];
+            }
+        }
+        if($contentOfKey == $configFileContent){
+            return null;
+        }
+        return $contentOfKey;
+    }
+}
