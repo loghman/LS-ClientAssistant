@@ -55,10 +55,10 @@ class StaticCacheMiddleware
             '#^/news/([a-zA-Z0-9\-]+)$#' => setting('client_static_cache_single_blog'),
             '#^/podcasts/([a-zA-Z0-9\-]+)$#' => setting('client_static_cache_single_blog'),
             '#^/articles/([a-zA-Z0-9\-]+)$#' => setting('client_static_cache_single_blog'),
-            '/^\/community\/([\w-]+)(\/[\w-]+)*$/' => setting('client_static_cache_list_topics'),
-            '^/community(/[\w\-/]+)?$' => setting('client_static_cache_single_topic'),
-            '/^\/course\/[\w-]+$/' => setting('client_static_cache_single_course'),
-            '/^\/product\/[\w-]+$/' => setting('client_static_cache_single_product'),
+            '#^/community/([\w-]+)(/[\w-]+)*$#' => setting('client_static_cache_list_topics'),
+            '#^/community(/[\w\-/]+)?$#' => setting('client_static_cache_single_topic'),
+            '#^/course/[\w-]+$#' => setting('client_static_cache_single_course'),
+            '#^/product/[\w-]+$#' => setting('client_static_cache_single_product'),
         ];
     }
 }
