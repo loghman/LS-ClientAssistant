@@ -338,10 +338,12 @@ class LMSProduct extends ModuleUtility
         }
     }
 
-    public static function types(): Collection
+    public static function types(bool $onSale = false): Collection
     {
         try {
-            return API::get('v1/lms/product/types');
+            return API::get('v1/lms/product/types', [
+                'on_sale' => $onSale
+            ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
