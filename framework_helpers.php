@@ -1162,7 +1162,7 @@ if (!function_exists('route_is')) {
 if(!function_exists('config')){
     function config(string $path){
         $configFolder = dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . 'config/';
-        $explodedPath = explode('.', $path);
+        $explodedPath = array_filter(explode('.', $path));
         if(empty($explodedPath)){
             return null;
         }
