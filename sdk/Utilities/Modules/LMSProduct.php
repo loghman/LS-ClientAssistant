@@ -337,4 +337,15 @@ class LMSProduct extends ModuleUtility
             return Response::parseException($exception);
         }
     }
+
+    public static function types(): Collection
+    {
+        try {
+            return API::get('v1/lms/product/types');
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
 }
