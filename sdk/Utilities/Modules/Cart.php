@@ -21,12 +21,18 @@ class Cart
         }
     }
 
-    public static function addItem($entity_type, $entity_id, $ip, array $headers = []): Collection
+    public static function addItem(
+        string $entity_type,
+        int $entity_id,
+        ?string $coupon,
+        ?string $ip,
+        array $headers = []
+    ): Collection
     {
         try {
             return API::post(
                 'v1/cart/add',
-                compact('entity_type', 'entity_id', 'ip'),
+                compact('entity_type', 'entity_id', 'coupon', 'ip'),
                 $headers
             );
         } catch (ClientException $exception) {
