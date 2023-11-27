@@ -48,7 +48,7 @@ $router->name('pages.consultation')
 $router->name('workflow.task.store')
     ->post('workflow/task-store', [WorkflowFormController::class, 'store']);
 
-$router->prefix('cart')->name('cart.')->group(function (Router $router) {
+$router->name('cart.')->prefix('cart')->group(function (Router $router) {
     $router->name('checkout')
         ->get('/checkout', [CartController::class, 'checkout'])
         ->middleware(AuthMiddleware::class);
@@ -60,7 +60,7 @@ $router->prefix('cart')->name('cart.')->group(function (Router $router) {
         ->middleware(AuthMiddleware::class);
 });
 
-$router->prefix('coupon')->name('coupon.')->middleware(AuthMiddleware::class)->group(function (Router $router) {
+$router->name('coupon.')->prefix('coupon')->middleware(AuthMiddleware::class)->group(function (Router $router) {
     $router->name('apply')
         ->post('/apply/{cart}', [CartController::class, 'applyCoupon']);
 
@@ -68,7 +68,7 @@ $router->prefix('coupon')->name('coupon.')->middleware(AuthMiddleware::class)->g
         ->post('/unapply/{cart}/{coupon}', [CartController::class, 'unapplyCoupon']);
 });
 
-$router->prefix('payment')->name('payment.')->group(function (Router $router) {
+$router->name('payment.')->prefix('payment')->group(function (Router $router) {
     $router->name('requestLink')
         ->get('/request-link/{cart}', [PaymentController::class, 'requestLink']);
 
