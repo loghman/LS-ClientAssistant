@@ -6,6 +6,7 @@ use Ls\ClientAssistant\Helpers\Config;
 use Ls\ClientAssistant\Utilities\Modules\Setting;
 use Ls\ClientAssistant\Utilities\Modules\User;
 use Illuminate\Container\Container;
+use Ls\ClientAssistant\Utilities\Tools\CoreAsset;
 
 if (!function_exists('site_url')) {
     function site_url(string $uri = ''): string
@@ -1159,15 +1160,16 @@ if (!function_exists('route_is')) {
     }
 }
 
-if(!function_exists('config')){
-    function config(string $path){
+if (!function_exists('config')) {
+    function config(string $path)
+    {
         $configFolder = dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . 'config/';
         $explodedPath = array_filter(explode('.', $path));
-        if(empty($explodedPath)){
+        if (empty($explodedPath)) {
             return null;
         }
         $configFilePath = $configFolder . $explodedPath[0] . '.php';
-        if(!file_exists($configFilePath)){
+        if (!file_exists($configFilePath)) {
             return null;
         }
         unset($explodedPath[0]);
@@ -1175,14 +1177,29 @@ if(!function_exists('config')){
         $configFileContent = include $configFilePath;
 
         $contentOfKey = $configFileContent;
-        foreach ($explodedPath as $key){
-            if(isset($contentOfKey[$key])){
+        foreach ($explodedPath as $key) {
+            if (isset($contentOfKey[$key])) {
                 $contentOfKey = $contentOfKey[$key];
             }
         }
-        if($contentOfKey == $configFileContent){
+        if ($contentOfKey == $configFileContent) {
             return null;
         }
         return $contentOfKey;
+    }
+}
+
+if (!function_exists('core_asset')) {
+    /**
+     * Get the URL for an asset.
+     *
+     * @param string $asset
+     * @param string|null $buildDirectory
+     * @return string
+     * @throws Exception
+     */
+    function core_asset(string $asset, string $buildDirectory = null): string
+    {
+        return (new CoreAsset)->asset($asset, $buildDirectory);
     }
 }
