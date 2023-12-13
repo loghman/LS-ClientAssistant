@@ -860,6 +860,9 @@ if (!function_exists('get_content_index')) {
         $indexs = [];
         if (count($tmpContentArr) < 3) return [];
         foreach ($tmpContentArr as $contentSegment) {
+            if(empty($contentSegment)){
+                continue;
+            }
             @$dom->loadHTML(mb_convert_encoding($contentSegment, 'HTML-ENTITIES', 'UTF-8'));
             $h2 = $dom->getElementsByTagName('h2');
             if (is_null($h2->item(0)) || strlen($h2->item(0)->nodeValue) < 5) {
