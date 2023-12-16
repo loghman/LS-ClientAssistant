@@ -81,3 +81,5 @@ $router->prefix('payment')->name('payment.')->group(function (Router $router) {
     $router->name('failureForm')
         ->get('/failed/{paymentId}', [PaymentController::class, 'failureForm']);
 });
+
+$router->get('/{slug}', [\Ls\ClientAssistant\Controllers\PageController::class, 'find']);
