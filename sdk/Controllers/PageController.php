@@ -16,10 +16,10 @@ class PageController
             abort(404, 'برگه مورد نظر یافت نشد');
         }
 
-        if(!WebResponse::viewExist("pages.$slug.index")){
+        if(!WebResponse::viewExist("pages.page.single")){
             WebResponse::view('sdk.pages.common', compact('page'));
         }
 
-        WebResponse::view("pages.$slug.index", compact('page'));
+        WebResponse::view("pages.page.single", compact('page'));
     }
 }
