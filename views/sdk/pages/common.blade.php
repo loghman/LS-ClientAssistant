@@ -1,5 +1,5 @@
 @extends('_common.layouts.base')
-@section('title', $article['title'])
+@section('title', $page['title'])
 @push('head')
 @endpush
 @section('body-class', '')
