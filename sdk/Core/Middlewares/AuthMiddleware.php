@@ -26,17 +26,6 @@ class AuthMiddleware
             return $next($request);
         }
 
-        $verificationFields = get_verification_fields();
-        if (
-            (in_array('email', $verificationFields) && !User::emailVerified()) ||
-            (in_array('mobile', $verificationFields) && !User::mobileVerified())
-        ) {
-            redirect(
-                setting('user_have_access_to_panel', false) ?
-                    core_url('verification-fields/verify') : site_url('verification-fields/verify')
-            );
-        }
-
         return $next($request);
     }
 }

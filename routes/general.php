@@ -1,5 +1,6 @@
 <?php
 
+use Ls\ClientAssistant\Controllers\AuthVerificationController;
 use Ls\ClientAssistant\Controllers\WorkflowFormController;
 use Ls\ClientAssistant\Controllers\CartController;
 use Ls\ClientAssistant\Controllers\PaymentController;
@@ -8,6 +9,19 @@ use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\Middlewares\AuthMiddleware;
 use Ls\ClientAssistant\Core\Router\JsonResponse;
 use Illuminate\Routing\Router;
+
+$router->name('verification.')->group(function (Router $router) {
+    $router->name('send.code')
+        ->post('/send/verification-code', [AuthVerificationController::class, 'send']);
+
+    $router->name('fields.form')
+        ->get('/verification-fields/verify', [AuthVerificationController::class, 'form'])
+        ->middleware(AuthMiddleware::class);
+
+    $router->name('fields.verify')
+        ->post('/verification-fields/verify', [AuthVerificationController::class, 'verify'])
+        ->middleware(AuthMiddleware::class);
+});
 
 $router->name('pageEditor.store')->post('/page-meta/updateForm', function (Request $request) {
     $pageMeta = API::post('v1/marketing/page-meta/updateForm', [
