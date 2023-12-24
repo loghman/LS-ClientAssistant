@@ -673,6 +673,10 @@ if (!function_exists('to_verta')) {
 if (!function_exists('to_persian_price')) {
     function to_persian_price($price, $no_span = 0, $round = 0, $postfix = null): string
     {
+        if($price == 0){
+            return 'رایگان';
+        }
+
         $currencyStr = is_null($postfix) ? "تومان" : "تومان$postfix";
         if ($round === 'hezar' || $round === 'thousand') {
             $price = round($price / 1000) * 1000;
