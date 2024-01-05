@@ -2,7 +2,10 @@
 
 namespace Ls\ClientAssistant\Utilities\Modules;
 
+use Exception;
+use GuzzleHttp\Exception\ClientException;
 use Ls\ClientAssistant\Core\API;
+use Ls\ClientAssistant\Helpers\Response;
 
 class GloballySearch
 {
