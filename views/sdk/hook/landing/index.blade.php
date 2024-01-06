@@ -1,4 +1,4 @@
-@extends('sdk.hook.landing.index')
+@extends('sdk.hook.landing.base')
 @section('content')
     salammmmmmmm
 @endsection
