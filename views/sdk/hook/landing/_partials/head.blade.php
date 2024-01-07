@@ -8,7 +8,7 @@
     @hasSection('title')
         <title>@yield('title')</title>
     @endif
-    <link rel="stylesheet" href="{{ core_asset('resources/assets/css/clients/hook/landing.css') }}">
+    <link rel="stylesheet" href="{{ core_asset('resources/assets/css/clients/hook/landing.scss') }}">
     @stack('head')
 </head>
 <body>
