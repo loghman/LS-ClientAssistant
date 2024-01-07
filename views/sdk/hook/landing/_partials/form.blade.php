@@ -5,7 +5,7 @@
     برای دریافت <span class="text-primary">چیت شیت پایتون</span>
     فرم زیر رو پر کن
 </h3>
-<div class="shape left-vertical">
+<div class="shape-side left-vertical">
     <div class="card">
         <div class="input-group">
             <label>نام و نام خانوادگی</label>
