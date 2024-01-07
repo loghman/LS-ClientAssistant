@@ -1,4 +1,5 @@
 @extends('sdk.hook.landing._partials.base')
 @section('content')
-    salam
+    سلام میلاد
+    <h1>خوبی ؟؟</h1>
 @endsection
