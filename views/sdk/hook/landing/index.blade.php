@@ -2,5 +2,5 @@
 @section('content')
     سلام میلاد
     <h1>خوبی ؟؟</h1>
-    <button>سلام</button>
+    <button>ارسال و دریافت چیت شیت پایتون</button>
 @endsection
