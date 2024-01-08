@@ -6,7 +6,7 @@
                     <div class="ls-client-hook-shape-image">
                         <img src="logo" alt="">
                     </div>
-                    <h2 class="ls-client-hook-t-h2">
+                    <h2 class="ls-client-hook-t-h2 ls-client-hook-text-center">
                         برای دریافت <span class="text-primary">چیت شیت پایتون</span>
                         فرم زیر رو پر کن
                     </h2>
@@ -27,7 +27,7 @@
                             <button class="ls-client-hook-btn magnet-bottom" type="submit">ارسال و دریافت چیت شیت پایتون</button>
                         </div>
                     </div>
-                    <span class="ls-client-hook-t-title-sm">پس از اسال فرم، <span class="ls-client-hook-text-primary">چیت شیت</span> به ایمیل شما ارسال خواهد شد</span>
+                    <span class="ls-client-hook-t-title-sm ls-client-hook-text-center">پس از اسال فرم، <span class="ls-client-hook-text-primary">چیت شیت</span> به ایمیل شما ارسال خواهد شد</span>
                 </div>
             </div>
         </div>
