@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <header class="ls-client-hook-header">
+                <header class="ls-client-hook-section-header">
                     <span class="ls-client-hook-t-title">سون لرن</span>
                     <h1 class="ls-client-hook-t-h1">کتاب اصل گرایی</h1>
                     <div class="ls-client-hook-shape-side left-vertical">
