@@ -23,7 +23,7 @@
                             <label>ایمیل</label>
                             <input type="text" placeholder="ایمیل خود را وارد کنید ...">
                         </div>
-                        <button class="ls-client-hook-btn" type="submit">ارسال و دریافت چیت شیت پایتون</button>
+                        <button class="ls-client-hook-btn magnet-bottom" type="submit">ارسال و دریافت چیت شیت پایتون</button>
                     </div>
                 </div>
 
