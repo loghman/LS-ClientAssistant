@@ -1,13 +1,15 @@
-<div class="container-fluid">
+<div class="container-fluid ls-client-hook-section-footer">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-5">
                 <div class="ls-client-hook-section-form">
                     <div class="ls-client-hook-shape-image">
-                        <img src="logo" alt="">
+                        {!! $shapeImage !!}
+                        <img src="{{ core_asset('resources/assets/img/clients/hook/download.svg') }}" alt="سون‌لرن" class="icon">
                     </div>
                     <h2 class="ls-client-hook-t-h2 ls-client-hook-text-center">
-                        برای دریافت <span class="text-primary">چیت شیت پایتون</span>
+                        برای دریافت <span class="ls-client-hook-text-primary">چیت شیت پایتون</span>
+                        <br>
                         فرم زیر رو پر کن
                     </h2>
                     <div class="ls-client-hook-shape-side top-horizontal">
@@ -31,5 +33,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="ls-client-hook-shape-bg">
+        {!! $shapeFooter !!}
     </div>
 </div>

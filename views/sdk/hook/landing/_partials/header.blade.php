@@ -7,8 +7,9 @@
                     <h1 class="ls-client-hook-t-h1 ls-client-hook-text-center">کتاب اصل گرایی</h1>
                     <div class="ls-client-hook-shape-side top-vertical">
                         <img class="banner" src="{{ core_asset('resources/assets/img/demo/hook-landing-banner.png') }}" alt="">
-                        <div class="shape-image">
-                            <img src="logo" alt="">
+                        <div class="ls-client-hook-shape-image magnet-top shadow">
+                            {!! $shapeImage !!}
+                            <img src="{{ core_asset('resources/assets/img/logo-icon.svg') }}" alt="سون‌لرن" class="icon">
                         </div>
                     </div>
                     <div class="ls-client-hook-tabs">
