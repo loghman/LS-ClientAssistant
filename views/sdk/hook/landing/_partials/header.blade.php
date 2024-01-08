@@ -6,7 +6,7 @@
                     <span class="ls-client-hook-t-title ls-client-hook-text-center">سون لرن</span>
                     <h1 class="ls-client-hook-t-h1 ls-client-hook-text-center">کتاب اصل گرایی</h1>
                     <div class="ls-client-hook-shape-side left-vertical">
-                        <img src="banner" alt="">
+                        <img src="{{ core_asset('resources/assets/img/demo/hook-landing-banner.png') }}" alt="">
                         <div class="shape-image">
                             <img src="logo" alt="">
                         </div>
