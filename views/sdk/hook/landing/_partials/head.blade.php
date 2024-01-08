@@ -12,3 +12,18 @@
     @stack('head')
 </head>
 <body class="ls-client-hook-body">
+
+<?php
+    $shapeA = "data:image/svg+xml,%3Csvg width='746' height='875' viewBox='0 0 746 875' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23clip0_64_79)'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M13.2394 314.506L233.886 719.331C252.607 753.679 289.323 774.294 328.395 772.397L573.137 760.509C599.661 759.221 625.642 768.327 645.557 785.894L746 874.488V2.76913C744.919 1.82291 743.818 0.899656 742.698 0H159.878L133.288 96.8739C126.066 123.188 108.601 145.51 84.7982 158.852L52.9283 176.715C4.19931 204.028 -13.4944 265.457 13.2394 314.506Z' fill='%23F5F9FE'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_64_79'%3E%3Crect width='746' height='875' fill='white'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E";
+    ?>
+
+<svg class="ls-client-hook-header-shape" viewBox="0 0 746 875" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#clip0_64_79)">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M13.2394 314.506L233.886 719.331C252.607 753.679 289.323 774.294 328.395 772.397L573.137 760.509C599.661 759.221 625.642 768.327 645.557 785.894L746 874.488V2.76913C744.919 1.82291 743.818 0.899656 742.698 0H159.878L133.288 96.8739C126.066 123.188 108.601 145.51 84.7982 158.852L52.9283 176.715C4.19931 204.028 -13.4944 265.457 13.2394 314.506Z" fill="#F5F9FE"/>
+    </g>
+    <defs>
+        <clipPath id="clip0_64_79">
+            <rect width="746" height="875" fill="white"/>
+        </clipPath>
+    </defs>
+</svg>
