@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-7">
+            <div class="col-lg-5">
                 <div class="ls-client-hook-shape-image">
                     <img src="logo" alt="">
                 </div>
