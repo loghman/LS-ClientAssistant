@@ -11,4 +11,4 @@
     <link rel="stylesheet" href="{{ core_asset('resources/assets/css/clients/hook/landing.scss') }}">
     @stack('head')
 </head>
-<body>
+<body class="ls-client-hook-body">
