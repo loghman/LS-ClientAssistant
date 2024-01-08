@@ -1,4 +1,4 @@
-<header>
+<header class="ls-client-hook-header">
     <span class="t-title">سون لرن</span>
     <h1 class="t-h1">کتاب اصل گرایی</h1>
     <div class="shape-side left-vertical">
