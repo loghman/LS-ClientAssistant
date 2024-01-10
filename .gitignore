@@ -2,3 +2,10 @@
 idea
 .idea
 /.idea
+/.vscode
+.DS_Store
+
+# statics
+*.map*
+*.min.*
+.sass-cache
