@@ -9,6 +9,7 @@
         <title>@yield('title')</title>
     @endif
     <link rel="stylesheet" href="{{ core_asset('resources/assets/css/clients/hook/landing.scss') }}">
+    <script src="{{ core_asset('resources/assets/js/clients/hook/landing.js') }}" type="module"></script>
     @stack('head')
 </head>
 <body class="ls-client-hook-body">

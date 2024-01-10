@@ -2,33 +2,24 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-5 col-lg-7 col-10">
-                <div class="ls-client-hook-section-form">
+                <div class="ls-client-hook-section-form auto-download" data-redirect="/download" data-time="20" data-countdown=".ls-client-hook-countdown">
                     {!! $shapeArrow !!}
                     <div class="ls-client-hook-shape-image">
                         {!! $shapeImage !!}
                         <img src="{{ core_asset('resources/assets/img/clients/hook/download.svg') }}" alt="سون‌لرن" class="icon">
                     </div>
                     <h2 class="ls-client-hook-form-title ls-client-hook-t-h2 ls-client-hook-text-center">
-                        برای دریافت <span class="ls-client-hook-text-primary">چیت شیت پایتون</span>
-                        <br>
-                        فرم زیر رو پر کن
+                        دریافت <span class="ls-client-hook-text-primary">چیت شیت پایتون</span>
                     </h2>
                     <div class="ls-client-hook-shape-side top-horizontal ls-client-hook-w-100">
                         <div class="ls-client-hook-card">
-                            <div class="ls-client-hook-input-group sm-convert-to-input">
-                                <label>نام و نام خانوادگی</label>
-                                <input type="text" placeholder="نام خود را وارد کنید ...">
-                            </div>
-                            <div class="ls-client-hook-input-group sm-convert-to-input">
-                                <label>شماره موبایل</label>
-                                <input type="text" placeholder="شماره موبایل را وارد کنید ...">
-                            </div>
-                            <div class="ls-client-hook-input-group sm-convert-to-input">
-                                <label>ایمیل</label>
-                                <input type="text" placeholder="ایمیل خود را وارد کنید ...">
-                            </div>
+                            <span class="ls-client-hook-t-title">سلام میلاد عزیز</span>
+                            <p class="ls-client-hook-t-text">
+                                دانلود به صورت خودکار انجام میشه <br> اگر دانلود انجام نشد، برای دریافت <span class="ls-client-hook-t-title-sm ls-client-hook-text-primary">چیت شیت پایتون</span> روی دکمه زیر کلیک کنید
+                            </p>
+                            <span class="ls-client-hook-t-h2 ls-client-hook-text-center ls-client-hook-countdown"></span>
                             <button class="ls-client-hook-btn magnet-bottom ls-client-hook-mx-auto" type="submit">
-                                ارسال و دریافت <span class="ls-client-hook-d-flex ls-client-hook-d-none-md">چیت شیت پایتون</span>
+                                دانلود مجدد <span class="ls-client-hook-d-flex ls-client-hook-d-none-md">چیت شیت پایتون</span>
                                 {!! $iconArrowLeft !!}
                             </button>
                         </div>

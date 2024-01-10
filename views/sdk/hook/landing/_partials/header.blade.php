@@ -16,9 +16,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="ls-client-hook-tabs">
-                        <a href="#" class="active">توضیحات</a>
-                        <a href="#">دریافت چیت شیت</a>
+                    <div class="ls-client-hook-tabs" id="ls-client-hook-description">
+                        <a href="#ls-client-hook-description" class="active">توضیحات</a>
+                        <a href="#ls-client-hook-download">دریافت چیت شیت</a>
                     </div>
                 </header>
             </div>
