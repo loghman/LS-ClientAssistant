@@ -12,7 +12,7 @@ class HookController
 {
     public function landing(Request $request, $slug)
     {
-        $hook = Hook::get($slug)['result']['data'][0][0];
+        $hook = Hook::get($slug)['result'][0][0];
         $user = current_user();
 
         if(!$hook){
@@ -27,13 +27,16 @@ class HookController
             Token::token($hook['id'], 'from_hook')->remove();
         }
 
-        WebResponse::view('sdk.hook.landing', compact('hook', 'user'));
+        $brandName = setting('brand_name_fa');
+        $logoUrl = setting('logo_url');
+
+        WebResponse::view('sdk.hook.landing.index', compact('hook', 'user', 'brandName', 'logoUrl'));
     }
 
 
     public function download(Request $request, $slug)
     {
-        $hook = Hook::get($slug)['result']['data'][0][0];
+        $hook = Hook::get($slug)['result'][0][0];
         if (!$hook) {
             return JsonResponse::notFound('هوک پیدا نشد');
         }
@@ -46,7 +49,7 @@ class HookController
         }
 
         $data = [
-            'full_name' => $request->get('full_name'),
+            'full_name' => $request->get('fullname'),
             'mobile' => $request->get('mobile'),
             'email' => $request->get('email'),
         ];
@@ -54,9 +57,18 @@ class HookController
         $response = Hook::sendFile($hook['id'], $data);
 
         if (!$response['status']) {
-            return JsonResponse::badRequest('لطفا مجدد تلاش کنید');
+            return JsonResponse::badRequest($response['message']);
         }
 
-        return JsonResponse::success('لینک دانلود فایل برای شما ارسال شد');
+        $hookDownloadType = $hook['fields']['conditions']['hook_download_type'];
+        if($hookDownloadType == 'sendable'){
+            return JsonResponse::success('لینک دانلود فایل برای شما ارسال شد');
+        }
+
+        $shortLink = $response['result']['short_link'];
+        $redirectTime = 10;
+        $subClass = 'ls-client-hook-';
+
+        return JsonResponse::ajaxView('sdk.hook.landing._partials.download', compact('shortLink', 'redirectTime', 'hook', 'subClass'));
     }
 }

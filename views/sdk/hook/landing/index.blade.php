@@ -1,5 +1,7 @@
 @php
-    $shapeSvgHeaderBg = '<svg class="ls-client-hook-shape-svg-header-bg" viewBox="0 0 746 875" fill="none" xmlns="http://www.w3.org/2000/svg">
+    $subClass = 'ls-client-hook-';
+
+    $shapeSvgHeaderBg = '<svg class="'. $subClass .'shape-svg-header-bg" viewBox="0 0 746 875" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clip-path="url(#clip0_64_79)">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M13.2394 314.506L233.886 719.331C252.607 753.679 289.323 774.294 328.395 772.397L573.137 760.509C599.661 759.221 625.642 768.327 645.557 785.894L746 874.488V2.76913C744.919 1.82291 743.818 0.899656 742.698 0H159.878L133.288 96.8739C126.066 123.188 108.601 145.51 84.7982 158.852L52.9283 176.715C4.19931 204.028 -13.4944 265.457 13.2394 314.506Z" fill="var(--primary-5)"/>
         </g>
@@ -21,7 +23,7 @@
     $shapeFooter = '<svg width="1440" height="659" viewBox="0 0 1440 659" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path fill-rule="evenodd" clip-rule="evenodd" d="M1440 632.375V659H0V366.667L166.275 356.245C204.297 353.863 239.89 336.745 265.49 308.532L501.699 48.2034C539.41 6.64401 597.567 -9.68902 651.401 6.16318L1285.89 192.996C1362.76 215.633 1407.13 295.896 1385.4 373.034L1371.19 423.484C1360.58 461.164 1365.51 501.524 1384.88 535.544L1440 632.375Z" fill="var(--primary-5)"/>
     </svg>';
-    $shapeFooterLine = '<svg class="ls-client-hook-shape-footer-line" width="203" height="385" viewBox="0 0 203 385" fill="none" xmlns="http://www.w3.org/2000/svg">
+    $shapeFooterLine = '<svg class="'. $subClass .'shape-footer-line" width="203" height="385" viewBox="0 0 203 385" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M-1.38632e-05 384.395L98.7316 324.906L98.3481 205.619L200.02 144.595L200.48 88.0706L49.8771 0.639116L51.7178 -1.31974e-05L202.678 87.1759L202.678 145.873L99.8565 206.463L100.214 325.749L2.86325 384.421" fill="url(#paint0_linear_67_241)"/>
 <defs>
 <linearGradient id="paint0_linear_67_241" x1="101.339" y1="49.4147" x2="101.339" y2="384.414" gradientUnits="userSpaceOnUse">
@@ -88,7 +90,7 @@
 </linearGradient>
 </defs>
 </svg>';
-    $shapeArrow = '<svg class="ls-client-hook-shape-svg-arrow" width="217" height="217" viewBox="0 0 217 217" fill="none" xmlns="http://www.w3.org/2000/svg">
+    $shapeArrow = '<svg class="'. $subClass .'shape-svg-arrow" width="217" height="217" viewBox="0 0 217 217" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g clip-path="url(#clip0_55_230)">
     <mask id="mask0_55_230" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="217" height="217">
       <path d="M195.375 216.543L216.543 21.1673L21.1673 8.20337e-06L-3.23883e-05 195.375L195.375 216.543Z" fill="white"/>
@@ -105,7 +107,7 @@
     </clipPath>
   </defs>
 </svg>';
-    $shapeFooterPattern = '<svg class="ls-client-hook-shape-footer-pattern" width="512" height="524" viewBox="0 0 512 524" fill="none" xmlns="http://www.w3.org/2000/svg">
+    $shapeFooterPattern = '<svg class="'. $subClass .'shape-footer-pattern" width="512" height="524" viewBox="0 0 512 524" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M156.441 150.34L157.226 151.649L108.082 181.681L107.27 180.372L156.441 150.34Z" fill="var(--primary-5)"/>
 <path d="M358.492 271.042L358.885 271.278L511.319 362.655L511.319 426.907L509.801 426.907L509.801 363.519L358.492 272.822L258.867 334.77L258.867 394.152L207.942 424.289L207.942 485.556L156.807 517.682L156.389 517.42L107.453 486.996L56.5283 517.682L3.84894 486.053L3.84894 424.864L5.36754 424.864L5.36754 485.189L56.5283 515.875L107.453 485.189L107.846 485.451L156.807 515.875L206.423 484.692L206.423 423.398L257.322 393.288L257.322 333.932L358.492 271.042Z" fill="var(--primary-5)"/>
 <path d="M206.607 0.0261603L307.724 60.953L307.331 183.121L411.459 245.619L411.93 303.508L257.689 393.053L256.615 393.707L307.724 424.786L307.724 485.948L256.066 516.792L268.293 523.756L271.382 523.756L259.103 516.765L308.876 487.048L309.242 486.839L309.242 423.922L259.574 393.707L414.182 304.425L414.182 244.31L308.876 182.257L309.242 60.089L209.539 -1.56017e-05" fill="var(--primary-5)"/>
@@ -136,5 +138,5 @@
 @section('content')
     @include('sdk.hook.landing._partials.header')
     @include('sdk.hook.landing._partials.description')
-    @include('sdk.hook.landing._partials.download')
+    @include('sdk.hook.landing._partials.form')
 @endsection

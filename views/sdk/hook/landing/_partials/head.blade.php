@@ -10,10 +10,11 @@
     @endif
     <link rel="stylesheet" href="{{ core_asset('resources/assets/css/clients/hook/landing.scss') }}">
     <script src="{{ core_asset('resources/assets/js/clients/hook/landing.js') }}" type="module"></script>
+    <script src="{{ core_asset('resources/assets/js/jss.js') }}" type="module"></script>
     @stack('head')
 </head>
-<body class="ls-client-hook-body">
+<body class="{{ $subClass }}body">
 {!! $shapeSvgHeaderBg !!}
-<div class="ls-client-hook-shape-svg-pattern header">
+<div class="{{ $subClass }}shape-svg-pattern header">
     {!! $shapePatternA !!}
 </div>
