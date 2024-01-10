@@ -4,12 +4,18 @@ use Ls\ClientAssistant\Controllers\AuthVerificationController;
 use Ls\ClientAssistant\Controllers\WorkflowFormController;
 use Ls\ClientAssistant\Controllers\CartController;
 use Ls\ClientAssistant\Controllers\PaymentController;
+use Ls\ClientAssistant\Controllers\HookController;
 use Ls\ClientAssistant\Core\API;
 use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\Middlewares\AuthMiddleware;
 use Ls\ClientAssistant\Core\Router\JsonResponse;
 use Illuminate\Routing\Router;
 
+$router->name('hook.')->prefix('hook')->group(function (Router $router) {
+    $router->name('landing')->get('/{slug}', [HookController::class, 'landing']);
+
+    $router->name('download')->post('/{slug}/download', [HookController::class, 'download']);
+});
 $router->name('verification.')->group(function (Router $router) {
     $router->name('send.code')
         ->post('/send/verification-code', [AuthVerificationController::class, 'send']);
