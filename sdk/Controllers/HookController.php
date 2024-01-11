@@ -29,6 +29,7 @@ class HookController
 
         $brandName = setting('brand_name_fa');
         $logoUrl = setting('logo_url');
+        Hook::signal($hook['id'], 'view', 1);
 
         WebResponse::view('sdk.hook.landing.index', compact('hook', 'user', 'brandName', 'logoUrl'));
     }

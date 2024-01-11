@@ -36,4 +36,18 @@ class Hook
             return Response::parseException($exception);
         }
     }
+
+    public static function signal(int $id, string $type, int $value): Collection
+    {
+        try {
+            return API::patch(sprintf('client/v3/cms/hook/%s', $id), [
+                'type' => $type,
+                'value' => $value,
+            ]);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
 }
