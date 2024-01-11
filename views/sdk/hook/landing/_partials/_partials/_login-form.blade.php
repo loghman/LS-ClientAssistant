@@ -3,12 +3,12 @@
         class="{{ $subClass }}shape-side top-horizontal {{ $subClass }}w-100 ajax-form"
 >
     <div class="{{ $subClass }}card">
-        <span class="{{ $subClass }}t-title">سلام میلاد عزیز</span>
-        <p class="{{ $subClass }}t-text">
-            دانلود به صورت خودکار انجام میشه <br> اگر دانلود انجام نشد، برای دریافت <span class="{{ $subClass }}t-title-sm {{ $subClass }}text-primary">چیت شیت پایتون</span> روی دکمه زیر کلیک کنید
+        <span class="{{ $subClass }}t-title {{ $subClass }}text-center">ابتدا وارد سایت شوید</span>
+        <p class="{{ $subClass }}t-text {{ $subClass }}text-center">
+            برای  ورود به سایت از دکمه پایین استفاده کنید
         </p>
         <button class="{{ $subClass }}btn magnet-bottom {{ $subClass }}mx-auto" type="submit">
-            لاگین کنید <span class="{{ $subClass }}d-flex {{ $subClass }}d-none-md"></span>
+            ورود به سایت <span class="{{ $subClass }}d-flex {{ $subClass }}d-none-md"></span>
             {!! $iconArrowLeft !!}
         </button>
     </div>
