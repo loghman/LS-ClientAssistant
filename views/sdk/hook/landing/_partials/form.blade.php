@@ -13,30 +13,11 @@
                         <br>
                         فرم زیر رو پر کن
                     </h2>
-                    <form
-                            class="{{ $subClass }}shape-side top-horizontal {{ $subClass }}w-100 ajax-form"
-                            method="POST"
-                            data-jsc="ajax-form"
-                            data-after-success="replace"
-                            data-target="#section-form"
-                            action="{{ route('hook.download', $hook['slug']) }}"
-                            {{--                            data-ajax='{"route": "{{ route('hook.download', $hook['slug']) }}"}'--}}
-                    >
-                        <div class="{{ $subClass }}card">
-                            @foreach($hook['fields']['inputs'] as $input)
-                                @if($input['active'])
-                                    <div class="{{ $subClass }}input-group sm-convert-to-input">
-                                        <label>{{ $input['label'] }}</label>
-                                        <input type="{{ $input['type'] }}" placeholder="{{ $input['label'] }} خود را وارد کنید ..." name="{{ $input['name'] }}" value="{{ $user[$input['name']] ?? '' }}">
-                                    </div>
-                                @endif
-                            @endforeach
-                            <button class="{{ $subClass }}btn magnet-bottom {{ $subClass }}mx-auto" type="submit">
-                                ارسال و دریافت <span class="{{ $subClass }}d-flex {{ $subClass }}d-none-md">{{ $hook['title_fa'] }}</span>
-                                {!! $iconArrowLeft !!}
-                            </button>
-                        </div>
-                    </form>
+                    @if($hook['fields']['conditions']['required_login'] && !$user)
+                        @include('sdk.hook.landing._partials._partials._login-form')
+                    @else
+                        @include('sdk.hook.landing._partials._partials._form')
+                    @endif
                     <span class="{{ $subClass }}t-title-sm {{ $subClass }}text-center">پس از اسال فرم، <span class="{{ $subClass }}text-primary">{{ $hook['title_fa'] }}</span> به ایمیل شما
                         <br>
                         ارسال خواهد شد</span>
