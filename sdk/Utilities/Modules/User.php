@@ -4,7 +4,6 @@ namespace Ls\ClientAssistant\Utilities\Modules;
 
 use Exception;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\API;
