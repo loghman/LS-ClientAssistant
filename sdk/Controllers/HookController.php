@@ -66,7 +66,7 @@ class HookController
         }
 
         $shortLink = $response['result']['short_link'];
-        $redirectTime = 10;
+        $redirectTime = 3;
         $subClass = 'ls-client-hook-';
 
         return JsonResponse::ajaxView('sdk.hook.landing._partials.download', compact('shortLink', 'redirectTime', 'hook', 'subClass'));
