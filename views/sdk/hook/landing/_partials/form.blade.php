@@ -6,7 +6,7 @@
                     {!! $shapeArrow !!}
                     <div class="{{ $subClass }}shape-image" >
                         {!! $shapeImage !!}
-                        <img src="{{ core_asset('resources/assets/img/clients/hook/download.svg') }}" alt="سون‌لرن" class="icon">
+                        <img src="{{ core_asset('resources/assets/img/clients/hook/download.svg') }}" alt="{{ $brandName }}" class="icon">
                     </div>
                     <h2 class="{{ $subClass }}form-title {{ $subClass }}t-h2 {{ $subClass }}text-center">
                         برای دریافت <span class="{{ $subClass }}text-primary">{{ $hook['title_fa'] }}</span>
@@ -18,7 +18,7 @@
                     @else
                         @include('sdk.hook.landing._partials._partials._form')
                     @endif
-                    <span class="{{ $subClass }}t-title-sm {{ $subClass }}text-center">پس از اسال فرم، <span class="{{ $subClass }}text-primary">{{ $hook['title_fa'] }}</span> به ایمیل شما
+                    <span class="{{ $subClass }}t-title-sm {{ $subClass }}text-center">پس از اسال فرم، <span class="{{ $subClass }}text-primary">{{ $hook['title_fa'] }}</span> به {{ $hook['inputs']['email']['active'] ? 'ایمیل' : 'موبایل' }} شما
                         <br>
                         ارسال خواهد شد</span>
                     {!! $shapeFooterLine !!}
