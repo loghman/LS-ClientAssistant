@@ -20,7 +20,7 @@
             </button>
         </div>
     </div>
-    <span class="{{ $subClass }}t-title-sm {{ $subClass }}text-center">پس از اسال فرم، <span class="{{ $subClass }}text-primary">چیت شیت</span> به {{ $hook['inputs']['email']['active'] ? 'ایمیل' : 'موبایل' }} شما
+    <span class="{{ $subClass }}t-title-sm {{ $subClass }}text-center">پس از اسال فرم، <span class="{{ $subClass }}text-primary">چیت شیت</span> به {{ $hook['fields']['inputs']['email']['active'] ? 'ایمیل' : 'موبایل' }} شما
                         <br>
                         ارسال خواهد شد</span>
     {!! $shapeFooterLine !!}

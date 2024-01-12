@@ -18,7 +18,7 @@
                     @else
                         @include('sdk.hook.landing._partials._partials._form')
                     @endif
-                    <span class="{{ $subClass }}t-title-sm {{ $subClass }}text-center">پس از اسال فرم، <span class="{{ $subClass }}text-primary">{{ $hook['title_fa'] }}</span> به {{ $hook['inputs']['email']['active'] ? 'ایمیل' : 'موبایل' }} شما
+                    <span class="{{ $subClass }}t-title-sm {{ $subClass }}text-center">پس از اسال فرم، <span class="{{ $subClass }}text-primary">{{ $hook['title_fa'] }}</span> به {{ $hook['fields']['inputs']['email']['active'] ? 'ایمیل' : 'موبایل' }} شما
                         <br>
                         ارسال خواهد شد</span>
                     {!! $shapeFooterLine !!}
