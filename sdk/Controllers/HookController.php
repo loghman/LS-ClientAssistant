@@ -4,6 +4,7 @@ namespace Ls\ClientAssistant\Controllers;
 
 use Ls\ClientAssistant\Core\Router\JsonResponse;
 use Ls\ClientAssistant\Core\Router\WebResponse;
+use Ls\ClientAssistant\Helpers\Config;
 use Ls\ClientAssistant\Utilities\Modules\Hook;
 use Illuminate\Http\Request;
 use Ls\ClientAssistant\Utilities\Tools\Token;
@@ -19,12 +20,14 @@ class HookController
             abort(404, 'قلاب پیدا نشد');
         }
 
+        $hookCookieName = Config::get('endpoints.hook-cookie-name');
+
         if (empty($user) && $hook['fields']['conditions']['required_login']) {
-            Token::token($hook['id'], 'from_hook')->weeks()->save();
+            Token::token($hook['id'], $hookCookieName)->weeks()->save();
         }
 
-        if ($request->cookies->has('from_hook') && $hook['fields']['conditions']['required_login'] && !empty($user)) {
-            Token::token($hook['id'], 'from_hook')->remove();
+        if ($request->cookies->has($hookCookieName) && $hook['fields']['conditions']['required_login'] && !empty($user)) {
+            Token::token($hook['id'], $hookCookieName)->remove();
         }
 
         $brandName = setting('brand_name_fa');

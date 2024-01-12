@@ -5,6 +5,7 @@ namespace Ls\ClientAssistant\Utilities\Modules;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\API;
+use Ls\ClientAssistant\Helpers\Config;
 use Ls\ClientAssistant\Helpers\Response;
 use Ls\ClientAssistant\Utilities\Tools\Token;
 
@@ -49,8 +50,9 @@ class Authentication
     public static function register(string $provider, array $data): Collection
     {
         try {
-            if(request()->cookies->has('from_hook')){
-                $data['from_hook'] = request()->cookies->get('from_hook');
+            $hookCookieName = Config::get('endpoints.hook-cookie-name');
+            if(request()->cookies->has($hookCookieName)){
+                $data['from_hook'] = request()->cookies->get($hookCookieName);
             }
 
             $response = API::post(
