@@ -18,7 +18,7 @@
                     </div>
                     <div class="{{ $subClass }}tabs" id="{{ $subClass }}description">
                         <a href="#{{ $subClass }}description" class="active">توضیحات</a>
-                        <a href="#{{ $subClass }}download">دریافت چیت شیت</a>
+                        <a href="#{{ $subClass }}download">دریافت {{ $hook['title_fa'] }}</a>
                     </div>
                 </header>
             </div>
