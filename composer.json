@@ -36,5 +36,8 @@
     "allow-plugins": {
       "php-http/discovery": true
     }
+  },
+  "require-dev": {
+    "imanghafoori/php-imports-analyzer": "^1.0"
   }
 }
