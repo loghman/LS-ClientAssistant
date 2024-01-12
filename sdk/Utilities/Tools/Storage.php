@@ -3,7 +3,6 @@
 namespace Ls\ClientAssistant\Utilities\Tools;
 
 use GuzzleHttp\RequestOptions;
-use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\API;
 
 class Storage

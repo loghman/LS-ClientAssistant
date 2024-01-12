@@ -6,7 +6,6 @@ use Ls\ClientAssistant\Core\Kernel;
 use Ls\ClientAssistant\Core\StaticCache;
 use Ls\ClientAssistant\Services\BladeLazyLoadService;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 class WebResponse
 {

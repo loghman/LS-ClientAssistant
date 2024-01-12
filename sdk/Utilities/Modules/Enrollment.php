@@ -3,7 +3,6 @@
 namespace Ls\ClientAssistant\Utilities\Modules;
 
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\RequestOptions;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\Contracts\ModuleUtility;
 use Ls\ClientAssistant\Core\Enums\OrderByEnum;
