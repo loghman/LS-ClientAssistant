@@ -107,6 +107,28 @@ class API
         return self::parseData($response);
     }
 
+    public static function patch(string $uri, array $formParams = [], array $headers = []): Collection
+    {
+        $headers = self::handleHeaders($headers);
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, Config::get('endpoints.base') . $uri);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PATCH');
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($formParams));
+
+        if (!empty($_ENV['IGNORE_SSL']) and $_ENV['IGNORE_SSL'] == true) {
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        }
+
+        $response = curl_exec($curl);
+        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        curl_close($curl);
+
+        return self::parseData($response);
+    }
+
     public static function delete(string $uri, array $formParams = [], array $headers = []): Collection
     {
         $headers = self::handleHeaders($headers);
@@ -163,6 +185,7 @@ class API
             'Content-Type: application/json',
             'REAL-HTTP-CLIENT-IP: ' . $ip,
             'REAL-HTTP-CLIENT-AGENT: ' . $_SERVER['HTTP_USER_AGENT'] ?? '',
+            'REAL-HTTP-CLIENT-REFERRER' . $_SERVER['HTTP_REFERER'] ?? '',
             'Authorization: Bearer ' . User::getToken(),
             "Cookie: $cookies",
             'LSPWEB-SDK-VERSION: '. $version
