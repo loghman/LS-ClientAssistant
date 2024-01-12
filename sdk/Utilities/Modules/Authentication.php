@@ -49,6 +49,10 @@ class Authentication
     public static function register(string $provider, array $data): Collection
     {
         try {
+            if(request()->cookies->has('from_hook')){
+                $data['from_hook'] = request()->cookies->get('from_hook');
+            }
+
             $response = API::post(
                 'v1/auth/register', array_merge(['auth_method' => $provider], $data)
             );
