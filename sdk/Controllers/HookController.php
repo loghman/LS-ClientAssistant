@@ -17,24 +17,26 @@ class HookController
         $user = current_user();
 
         if(!$hook){
-            abort(404, 'قلاب پیدا نشد');
+            abort(404, 'صفحه مورد نظر پیدا نشد');
         }
 
         $hookCookieName = Config::get('endpoints.hook-cookie-name');
 
-        if (empty($user) && $hook['fields']['conditions']['required_login']) {
-            Token::token($hook['id'], $hookCookieName)->weeks()->save();
-        }
-
-        if ($request->cookies->has($hookCookieName) && $hook['fields']['conditions']['required_login'] && !empty($user)) {
+        $showLoginForm = false;
+        if(!empty($user)){
             Token::token($hook['id'], $hookCookieName)->remove();
+        }else{
+            if($hook['fields']['conditions']['required_login']){
+                Token::token($hook['id'], $hookCookieName)->weeks()->save();
+                $showLoginForm = true;
+            }
         }
 
         $brandName = setting('brand_name_fa');
         $logoUrl = setting('logo_url');
         Hook::signal($hook['id'], 'view', 1);
 
-        WebResponse::view('sdk.hook.landing.index', compact('hook', 'user', 'brandName', 'logoUrl'));
+        WebResponse::view('sdk.hook.landing.index', compact('hook', 'user', 'brandName', 'logoUrl', 'showLoginForm'));
     }
 
 
@@ -47,7 +49,7 @@ class HookController
 
         $user = current_user();
         if (empty($user) && $hook['fields']['conditions']['required_login']) {
-            return JsonResponse::badRequest('ابتدا وارد حساب کاربری خود شود', [
+            return JsonResponse::badRequest(sprintf("برای استفاده از‌ %s ابتدا باید در حساب کاربری خود لاگین کنید", $hook['title_fa']), [
                 'backUrl' => route('auth.index')
             ]);
         }

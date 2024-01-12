@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\Middlewares\AuthMiddleware;
 use Ls\ClientAssistant\Core\Router\JsonResponse;
 use Illuminate\Routing\Router;
-use Ls\ClientAssistant\Core\Router\WebResponse;
 
 $router->name('hook.')->prefix('hook')->group(function (Router $router) {
     $router->name('landing')->get('/{slug}', [HookController::class, 'landing']);
@@ -104,8 +103,3 @@ $router->name('payment.')->prefix('payment')->group(function (Router $router) {
 });
 
 $router->get('/{slug}', [\Ls\ClientAssistant\Controllers\PageController::class, 'find']);
-
-$router->name('hook.landing')
-    ->get('/hook/landing', function () {
-        return WebResponse::view('sdk.hook.landing.index');
-    });

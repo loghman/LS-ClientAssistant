@@ -13,7 +13,7 @@
                         <br>
                         فرم زیر رو پر کن
                     </h2>
-                    @if($hook['fields']['conditions']['required_login'] && !$user)
+                    @if($showLoginForm)
                         @include('sdk.hook.landing._partials._partials._login-form')
                     @else
                         @include('sdk.hook.landing._partials._partials._form')
