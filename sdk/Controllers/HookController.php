@@ -70,6 +70,6 @@ class HookController
         $redirectTime = 3;
         $subClass = 'ls-client-hook-';
 
-        return JsonResponse::ajaxView('sdk.hook.landing._partials.download', compact('shortLink', 'redirectTime', 'hook', 'subClass'));
+        return JsonResponse::ajaxView('sdk.hook.landing._partials.download', compact('shortLink', 'redirectTime', 'hook', 'subClass', 'user'));
     }
 }
