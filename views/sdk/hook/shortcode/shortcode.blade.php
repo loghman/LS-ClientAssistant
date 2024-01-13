@@ -1,3 +1,6 @@
+<?php
+$subClass = 'ls-client-hook-';
+?>
 <link rel="stylesheet" href="{{ core_asset('resources/assets/css/clients/hook/shortcode/style.scss') }}">
 <div class="{{ $subClass }}card">
     <div class="{{ $subClass }}-header">
