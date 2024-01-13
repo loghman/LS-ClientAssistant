@@ -4,7 +4,7 @@ $subClass = 'ls-client-hook-';
 <link rel="stylesheet" href="{{ core_asset('resources/assets/css/clients/hook/shortcode/style.scss') }}">
 <div class="{{ $subClass }}card">
     <div class="{{ $subClass }}header">
-        <img src="" alt="" class="{{ $subClass }}thumbnail">
+        <img src="{{ core_asset('resources/assets/img/demo/hook-landing-banner.png') }}" alt="" class="{{ $subClass }}thumbnail">
         <span class="{{ $subClass }}title"></span>
     </div>
     <p class="{{ $subClass }}text">اصل‌گرایی چگونگی انجام کارهای بیشتر نیست، بلکه به معنای انجام کارهای درست است. به معنای انجام کارهای کمتر فقط محض کمتر بودنشان هم نیست. بدین معناست که برای فعالیت در بالاترین سطح اثربخشی‌مان تا می‌توانیم عاقلانه زمان و انرژی‌مان را فقط روی انجام کارهای ضروری سرمایه‌گذاری کنیم. اصل‌گرایی یعنی خلق سیستمی برای رسیدگی به کمد زندگی‌مان. اصل‌گرایی فرآیندی نیست که مثل مرتب کردن کمد، یک‌بار در سال، یک‌بار در ماه یا حتی یک‌بار در هفته زیر بارش برویم.</p>
