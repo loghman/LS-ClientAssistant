@@ -51,9 +51,9 @@ class AuthVerificationController
         if (!$response->get('success')) {
             return JsonResponse::unprocessableEntity($response->get('message'));
         }
-        $referer = $request->cookie('auth_referer');
+        $backUrl = $request->cookie(Authentication::authReferer);
         setcookie('auth_referer', '', time() - 3600, '/', get_cookie_domain(), is_production_environment());
 
-        return JsonResponse::success($response->get('message'), ($referer ? ['backUrl' => $referer] : []));
+        return JsonResponse::success($response->get('message'), compact('backUrl'));
     }
 }
