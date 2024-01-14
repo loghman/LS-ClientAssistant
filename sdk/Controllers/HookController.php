@@ -77,8 +77,9 @@ class HookController
         return JsonResponse::ajaxView('sdk.hook.landing._partials.download', compact('shortLink', 'redirectTime', 'hook', 'subClass', 'user'));
     }
 
-    public function signal(Request $request, $slug, $type)
+    public function signal(Request $request, $slug)
     {
+        $type = $request->get('type');
         if (!in_array($type, ['view'])) {
             return JsonResponse::badRequest('type نامعتبر');
         }
