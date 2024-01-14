@@ -12,7 +12,6 @@ class AuthVerificationController
 {
     public function form()
     {
-        dd($request->cookie(Authentication::authReferer));
         $user = User::getCurrent()['data'];
         $verificationFields = get_verification_fields();
         $emailVerified = User::emailVerified();
