@@ -21,7 +21,7 @@
     </form>
     @if(!$emailVerified)
         <form action="{{ route('verification.fields.verify') }}" class="verify mt-3 d-none" id="email-form"
-              method="post" data-jsc="ajax-form" data-after-success="refresh" data-fn="verifyAction">
+              method="post" data-jsc="ajax-form" data-after-success="closure" data-fn="verifyAction">
 
             <div class="d-flex flex-column" style="gap: calc(var(--base-gutter));">
                 <input type="hidden" name="auth_method" value="OtpBased">

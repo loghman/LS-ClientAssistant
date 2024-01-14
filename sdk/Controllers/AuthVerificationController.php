@@ -54,6 +54,6 @@ class AuthVerificationController
         $backUrl = $request->cookie(Authentication::authReferer);
         setcookie('auth_referer', '', time() - 3600, '/', get_cookie_domain(), is_production_environment());
 
-        return JsonResponse::success($response->get('message'), compact('backUrl'));
+        return JsonResponse::success($response->get('message'), [($backUrl ? ['backUrl' => $backUrl] : [] )]);
     }
 }
