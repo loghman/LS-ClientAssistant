@@ -12,6 +12,7 @@ class AuthVerificationController
 {
     public function form()
     {
+        dd($request->cookie(Authentication::authReferer));
         $user = User::getCurrent()['data'];
         $verificationFields = get_verification_fields();
         $emailVerified = User::emailVerified();
@@ -53,7 +54,7 @@ class AuthVerificationController
         }
         $backUrl = $request->cookie(Authentication::authReferer);
         setcookie('auth_referer', '', time() - 3600, '/', get_cookie_domain(), is_production_environment());
-
+        file_put_contents(__DIR__.'/log.json',json_encode([($backUrl ? ['backUrl' => $backUrl] : [] )]));
         return JsonResponse::success($response->get('message'), [($backUrl ? ['backUrl' => $backUrl] : [] )]);
     }
 }
