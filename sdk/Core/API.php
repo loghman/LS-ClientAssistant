@@ -185,7 +185,7 @@ class API
             'Content-Type: application/json',
             'REAL-HTTP-CLIENT-IP: ' . $ip,
             'REAL-HTTP-CLIENT-AGENT: ' . $_SERVER['HTTP_USER_AGENT'] ?? '',
-            'REAL-HTTP-CLIENT-REFERRER' . $_SERVER['HTTP_REFERER'] ?? '',
+            'REAL-HTTP-CLIENT-REFERRER: ' . ($_SERVER['HTTP_REFERER'] ?? ''),
             'Authorization: Bearer ' . User::getToken(),
             "Cookie: $cookies",
             'LSPWEB-SDK-VERSION: '. $version

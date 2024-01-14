@@ -15,6 +15,8 @@ $router->name('hook.')->prefix('hook')->group(function (Router $router) {
     $router->name('landing')->get('/{slug}', [HookController::class, 'landing']);
 
     $router->name('download')->post('/{slug}/download', [HookController::class, 'download']);
+
+    $router->name('signal')->post('/{slug}/signal', [HookController::class, 'signal']);
 });
 $router->name('verification.')->group(function (Router $router) {
     $router->name('send.code')

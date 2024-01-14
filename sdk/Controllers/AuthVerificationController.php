@@ -10,7 +10,7 @@ use Ls\ClientAssistant\Utilities\Modules\User;
 
 class AuthVerificationController
 {
-    public function form()
+    public function form(Request $request)
     {
         $user = User::getCurrent()['data'];
         $verificationFields = get_verification_fields();
@@ -20,11 +20,16 @@ class AuthVerificationController
             (!in_array('email', $verificationFields) || $emailVerified) &&
             (!in_array('mobile', $verificationFields) || $mobileVerified)
         ) {
-            return WebResponse::redirect();
+            $backUrl = $request->cookie(Authentication::authReferer);
+            setcookie('auth_referer', '', time() - 3600, '/', get_cookie_domain(), is_production_environment());
+
+            return WebResponse::redirectToFullUrl($backUrl ?? site_url());
         }
 
-        return WebResponse::view('sdk.auth.verify',
-            compact('verificationFields', 'emailVerified', 'mobileVerified', 'user'));
+        return WebResponse::view(
+            'sdk.auth.verify',
+            compact('verificationFields', 'emailVerified', 'mobileVerified', 'user')
+        );
     }
 
     public function send(Request $request)
@@ -51,9 +56,7 @@ class AuthVerificationController
         if (!$response->get('success')) {
             return JsonResponse::unprocessableEntity($response->get('message'));
         }
-        $referer = $request->cookie('auth_referer');
-        setcookie('auth_referer', '', time() - 3600, '/', get_cookie_domain(), is_production_environment());
 
-        return JsonResponse::success($response->get('message'), ($referer ? ['backUrl' => $referer] : []));
+        return JsonResponse::success($response->get('message'));
     }
 }

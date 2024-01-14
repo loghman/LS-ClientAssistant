@@ -26,6 +26,7 @@
             <div class="d-flex flex-column" style="gap: calc(var(--base-gutter));">
                 <input type="hidden" name="auth_method" value="OtpBased">
                 <input type="hidden" name="input" value="{{ $user['email'] }}">
+                <input type="hidden" name="backurl" value="">
 
                 @include('sdk.auth._partials._verify-opt-section', ['userLogin' => $user['email']])
                 @include('sdk.auth._partials._submit-btn', ['content' => 'تایید', 'callback' => 'submitEmailForm'])

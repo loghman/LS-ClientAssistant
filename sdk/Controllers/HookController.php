@@ -16,17 +16,17 @@ class HookController
         $hook = Hook::get($slug)['result'][0][0];
         $user = current_user();
 
-        if(!$hook){
+        if (!$hook) {
             abort(404, 'صفحه مورد نظر پیدا نشد');
         }
 
         $hookCookieName = Config::get('endpoints.hook-cookie-name');
 
         $showLoginForm = false;
-        if(!empty($user)){
+        if (!empty($user)) {
             Token::token($hook['id'], $hookCookieName)->remove();
-        }else{
-            if($hook['fields']['conditions']['required_login']){
+        } else {
+            if ($hook['fields']['conditions']['required_login']) {
                 Token::token($hook['id'], $hookCookieName)->weeks()->save();
                 $showLoginForm = true;
             }
@@ -38,7 +38,6 @@ class HookController
 
         WebResponse::view('sdk.hook.landing.index', compact('hook', 'user', 'brandName', 'logoUrl', 'showLoginForm'));
     }
-
 
     public function download(Request $request, $slug)
     {
@@ -67,7 +66,7 @@ class HookController
         }
 
         $hookDownloadType = $hook['fields']['conditions']['hook_download_type'];
-        if($hookDownloadType == 'sendable'){
+        if ($hookDownloadType == 'sendable') {
             return JsonResponse::success('لینک دانلود فایل برای شما ارسال شد');
         }
 
@@ -76,5 +75,19 @@ class HookController
         $subClass = 'ls-client-hook-';
 
         return JsonResponse::ajaxView('sdk.hook.landing._partials.download', compact('shortLink', 'redirectTime', 'hook', 'subClass', 'user'));
+    }
+
+    public function signal(Request $request, $slug)
+    {
+        $type = $request->get('type');
+        if (!in_array($type, ['view'])) {
+            return JsonResponse::badRequest('type نامعتبر');
+        }
+
+        $hook = Hook::get($slug)['result'][0][0];
+
+        Hook::signal($hook['id'], 'view', 1);
+
+        return JsonResponse::success(sprintf("%s ثبت شد", $type));
     }
 }

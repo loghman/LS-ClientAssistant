@@ -44,6 +44,11 @@ class WebResponse
         return new RedirectResponse(site_url($toRoute), 302, []);
     }
 
+    public static function redirectToFullUrl(string $fullUrl): RedirectResponse
+    {
+        return new RedirectResponse($fullUrl, 302, []);
+    }
+
     public function getBladeInstance()
     {
         $viewsPath = dirname(__DIR__, 6) . DIRECTORY_SEPARATOR . 'views';
