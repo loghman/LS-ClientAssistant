@@ -79,6 +79,10 @@ class HookController
         $redirectTime = (int)setting('hook_showable_redirection_time');
         $subClass = 'ls-client-hook-';
 
+        if($request->get('type') == 'shortcode'){
+            return JsonResponse::ajaxView('sdk.hook.shortcode.download', compact('shortLink', 'redirectTime', 'hook', 'subClass', 'user'));
+        }
+
         return JsonResponse::ajaxView('sdk.hook.landing._partials.download', compact('shortLink', 'redirectTime', 'hook', 'subClass', 'user'));
     }
 
