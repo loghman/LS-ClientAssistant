@@ -1,9 +1,9 @@
 <form
     @if($hook['fields']['conditions']['hook_download_type'] == 'sendable')
         @include('sdk.hook.landing._partials._partials._form-sendable-attribute')
-            @else
+    @else
         @include('sdk.hook.landing._partials._partials._form-showable-attribute')
-            @endif
+    @endif
 >
     <div class="{{ $subClass }}card">
         @foreach($hook['fields']['inputs'] as $input)
