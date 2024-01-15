@@ -6,7 +6,7 @@
     @endif
 >
     <div class="{{ $subClass }}card">
-        @foreach($hook['fields']['inputs'] as $input)
+        @foreach(array_reverse($hook['fields']['inputs']) as $input)
             @if($input['active'])
                 <div class="{{ $subClass }}input-group sm-convert-to-input">
                     <label>{{ $input['label'] }}</label>
