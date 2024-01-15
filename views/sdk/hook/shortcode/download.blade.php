@@ -7,7 +7,7 @@
         دانلود به صورت خودکار انجام میشه <br> اگر دانلود انجام نشد، برای دریافت <span class="{{ $subClass }}t-title-sm {{ $subClass }}text-primary">{{ $hook['title_fa'] }}</span> روی دکمه زیر کلیک کنید
     </p>
     <span class="{{ $subClass }}t-h2 {{ $subClass }}text-center {{ $subClass }}countdown"></span>
-    <a href="" class="{{ $subClass }}btn magnet-bottom {{ $subClass }}mx-auto" type="submit">
+    <a href="" class="{{ $subClass }}btn {{ $subClass }}mx-auto" type="submit">
         دانلود مجدد <span class="{{ $subClass }}d-flex {{ $subClass }}d-none-md">{{ $hook['title_fa'] }}</span>
         {!! $iconArrowLeft !!}
     </a>
