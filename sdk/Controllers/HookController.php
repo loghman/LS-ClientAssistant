@@ -66,8 +66,8 @@ class HookController
 
         $response = Hook::sendFile($hook['id'], $data);
 
-        if (!$response['status']) {
-            return JsonResponse::badRequest($response['message']);
+        if (!empty($response['errors'])) {
+            return JsonResponse::badRequest($response['errors'][0]['message']);
         }
 
         $hookDownloadType = $hook['fields']['conditions']['hook_download_type'];
