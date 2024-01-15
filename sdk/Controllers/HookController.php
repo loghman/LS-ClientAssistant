@@ -11,6 +11,11 @@ use Ls\ClientAssistant\Utilities\Tools\Token;
 
 class HookController
 {
+    private string $hookCookieName;
+    public function __construct()
+    {
+        $this->hookCookieName = Config::get('endpoints.hook-cookie-name');
+    }
     public function landing(Request $request, $slug)
     {
         $hook = Hook::get($slug)['result'][0][0];
@@ -20,14 +25,12 @@ class HookController
             abort(404, 'صفحه مورد نظر پیدا نشد');
         }
 
-        $hookCookieName = Config::get('endpoints.hook-cookie-name');
-
         $showLoginForm = false;
         if (!empty($user)) {
-            Token::token($hook['id'], $hookCookieName)->remove();
+            Token::token($hook['id'], $this->hookCookieName)->remove();
         } else {
             if ($hook['fields']['conditions']['required_login']) {
-                Token::token($hook['id'], $hookCookieName)->weeks()->save();
+                Token::token($hook['id'], $this->hookCookieName)->weeks()->save();
                 $showLoginForm = true;
             }
         }
@@ -48,6 +51,8 @@ class HookController
 
         $user = current_user();
         if (empty($user) && $hook['fields']['conditions']['required_login']) {
+            Token::token($hook['id'], $this->hookCookieName)->weeks()->save();
+
             return JsonResponse::badRequest(sprintf("برای استفاده از‌ %s ابتدا باید در حساب کاربری خود لاگین کنید", $hook['title_fa']), [
                 'backUrl' => route('auth.index')
             ]);
