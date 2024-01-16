@@ -1,6 +1,7 @@
 <form
         action="{{ route('auth.index') }}"
         class="{{ $subClass }}shape-side top-horizontal {{ $subClass }}w-100 ajax-form"
+        data-stable="true"
 >
     <div class="{{ $subClass }}card">
         <span class="{{ $subClass }}t-title {{ $subClass }}text-center">ابتدا وارد سایت شوید</span>
