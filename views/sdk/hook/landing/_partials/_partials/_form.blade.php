@@ -10,7 +10,7 @@
             @if($input['active'])
                 <div class="{{ $subClass }}input-group sm-convert-to-input">
                     <label>{{ $input['label'] }}</label>
-                    <input type="{{ $input['type'] }}" class="{{ $input['class'] }}" placeholder="{{ $input['label'] }} خود را وارد کنید ..." name="{{ $input['name'] }}" value="{{ $user[$input['name']] ?? '' }}">
+                    <input type="{{ $input['type'] }}" required class="{{ $input['class'] }}" placeholder="{{ $input['label'] }} خود را وارد کنید ..." name="{{ $input['name'] }}" value="{{ $user[$input['name']] ?? '' }}">
                 </div>
             @endif
         @endforeach
