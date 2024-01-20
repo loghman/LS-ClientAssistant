@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8 col-sm-12 col-11">
-                <p class="{{ $subClass }}t-text">{!! $hook['description'] !!}</p>
+                <div class="{{ $subClass }}t-text">{!! $hook['description'] !!}</div>
             </div>
         </div>
     </div>
