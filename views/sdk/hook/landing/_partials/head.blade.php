@@ -12,7 +12,7 @@
     <script src="{{ core_asset('resources/assets/js/clients/hook/landing.js') }}" type="module"></script>
     @stack('head')
 </head>
-<body class="{{ $subClass }}body">
+<body class="{{ $subClass }}body hook-signal" data-hook-signal="{{ site_url('hook/'.$hook['slug'].'/signal?type=view') }}">
 {!! $shapeSvgHeaderBg !!}
 <div class="{{ $subClass }}shape-svg-pattern header">
     {!! $shapePatternA !!}
