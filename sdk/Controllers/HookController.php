@@ -18,7 +18,7 @@ class HookController
     }
     public function landing(Request $request, $slug)
     {
-        $hook = Hook::get($slug)['result'][0][0];
+        $hook = Hook::get($slug)['result'];
         $user = current_user();
 
         if (!$hook) {
@@ -36,15 +36,14 @@ class HookController
         }
 
         $brandName = setting('brand_name_fa');
-        $logoUrl = setting('logo_url') ?? setting('hook_landing_default_logo');
-        Hook::signal($hook['id'], 'view', 1);
+        $logoUrl = setting('logo_url') ?? $hook['default_hook_logo'];
 
         WebResponse::view('sdk.hook.landing.index', compact('hook', 'user', 'brandName', 'logoUrl', 'showLoginForm'));
     }
 
     public function download(Request $request, $slug)
     {
-        $hook = Hook::get($slug)['result'][0][0];
+        $hook = Hook::get($slug)['result'];
         if (!$hook) {
             return JsonResponse::notFound('هوک پیدا نشد');
         }
@@ -92,7 +91,7 @@ class HookController
             return JsonResponse::badRequest('type نامعتبر');
         }
 
-        $hook = Hook::get($slug)['result'][0][0];
+        $hook = Hook::get($slug)['result'];
 
         Hook::signal($hook['id'], 'view', 1);
 
