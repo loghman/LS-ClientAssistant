@@ -37,12 +37,13 @@ class Hook
         }
     }
 
-    public static function signal(int $id, string $type, int $value): Collection
+    public static function signal(int $id, array $data): Collection
     {
         try {
             return API::patch(sprintf('client/v3/cms/hook/%s', $id), [
-                'type' => $type,
-                'value' => $value,
+                'type' => $data['type'],
+                'value' => $data['value'],
+                'url' => $data['url'] ?? null
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);

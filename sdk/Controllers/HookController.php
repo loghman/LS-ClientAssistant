@@ -93,7 +93,11 @@ class HookController
 
         $hook = Hook::get($slug)['result'];
 
-        Hook::signal($hook['id'], 'view', 1);
+        Hook::signal($hook['id'], [
+            'type' => 'view',
+            'value' => 1,
+            'url' => $request->url(),
+        ]);
 
         return JsonResponse::success(sprintf("%s ثبت شد", $type));
     }
