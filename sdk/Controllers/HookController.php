@@ -36,7 +36,7 @@ class HookController
         }
 
         $brandName = setting('brand_name_fa');
-        $logoUrl = setting('logo_url') ?? $hook['default_hook_logo'];
+        $logoUrl = $hook['hook_logo'];
 
         WebResponse::view('sdk.hook.landing.index', compact('hook', 'user', 'brandName', 'logoUrl', 'showLoginForm'));
     }
@@ -92,6 +92,9 @@ class HookController
         }
 
         $hook = Hook::get($slug)['result'];
+        if(!$hook){
+            return JsonResponse::notFound('قلاب پیدا نشد');
+        }
 
         Hook::signal($hook['id'], [
             'type' => 'view',
