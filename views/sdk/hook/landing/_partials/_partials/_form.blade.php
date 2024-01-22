@@ -14,7 +14,7 @@
         @endif
     @endforeach
     <button class="{{ $subClass }}btn magnet-bottom {{ $subClass }}mx-auto" type="submit">
-        ارسال و دریافت <span class="{{ $subClass }}d-flex {{ $subClass }}d-none-md">{{ $hook['title_fa'] }}</span>
+        ارسال و دریافت
         {!! $iconArrowLeft !!}
     </button>
 </form>

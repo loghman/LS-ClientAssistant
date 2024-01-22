@@ -8,7 +8,7 @@
         برای ورود به سایت از دکمه پایین استفاده کنید
     </p>
     <button class="{{ $subClass }}btn magnet-bottom {{ $subClass }}mx-auto" type="submit">
-        ورود به سایت <span class="{{ $subClass }}d-flex {{ $subClass }}d-none-md"></span>
+        ورود به سایت
         {!! $iconArrowLeft !!}
     </button>
 </form>
