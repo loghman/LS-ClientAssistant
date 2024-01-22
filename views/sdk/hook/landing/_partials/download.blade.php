@@ -14,7 +14,7 @@
         </p>
         <span class="{{ $subClass }}t-h2 {{ $subClass }}text-center {{ $subClass }}countdown"></span>
         <button data-redirect="{{ $shortLink }}" class="link-redirect {{ $subClass }}btn magnet-bottom {{ $subClass }}mx-auto" type="submit">
-            دانلود مجدد <span class="{{ $subClass }}d-flex {{ $subClass }}d-none-md">{{ $hook['title_fa'] }}</span>
+            دانلود مجدد
             {!! $iconArrowLeft !!}
         </button>
     </div>
