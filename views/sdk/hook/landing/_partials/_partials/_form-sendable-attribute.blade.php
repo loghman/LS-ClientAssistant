@@ -1,4 +1,4 @@
-class="{{ $subClass }}shape-side top-horizontal {{ $subClass }}w-100 ajax-form"
+class="{{ $subClass }}card ajax-form {{ $subClass }}w-100"
 method="POST"
 data-jsc="ajax-form"
 data-stable="true"
