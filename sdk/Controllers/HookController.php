@@ -72,7 +72,11 @@ class HookController
 
         $hookDownloadType = $hook['fields']['conditions']['hook_download_type'];
         if ($hookDownloadType == 'sendable') {
-            return JsonResponse::success('لینک دانلود فایل برای شما ارسال شد');
+            $message = $hook['fields']['inputs']['mobile']['active']
+                ? 'با تشکر، لینک دانلود ظرف ۵ دقیقه آینده برای شما پیامک خواهد شد'
+                : 'لینک دانلود فایل برای شما ارسال شد';
+            ;
+            return JsonResponse::success($message);
         }
 
         $shortLink = $response['result']['short_link'];
