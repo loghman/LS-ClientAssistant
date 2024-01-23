@@ -208,7 +208,7 @@ if (!function_exists('asset_url')) {
 if (!function_exists('storage_url')) {
     function storage_url(string $path = null)
     {
-        return ($_ENV['STORAGE_URL'] ?? '') . '/' . $path;
+        return (\setting('_env_uploader_base_url') ?? '') . '/' . $path;
     }
 }
 

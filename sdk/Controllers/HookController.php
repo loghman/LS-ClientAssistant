@@ -12,10 +12,12 @@ use Ls\ClientAssistant\Utilities\Tools\Token;
 class HookController
 {
     private string $hookCookieName;
+
     public function __construct()
     {
         $this->hookCookieName = Config::get('endpoints.hook-cookie-name');
     }
+
     public function landing(Request $request, $slug)
     {
         $hook = Hook::get($slug)['result'];
@@ -98,7 +100,6 @@ class HookController
 
         Hook::signal($hook['id'], [
             'type' => 'view',
-            'value' => 1,
             'url' => $request->url(),
         ]);
 
