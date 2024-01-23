@@ -42,7 +42,10 @@ return [
         'client_robots_txt',
         'crm_has_email_field',
         'utm_log_cookie_lifetime',
-        'hook_showable_redirection_time'
+        'hook_showable_redirection_time',
+        'logo_url',
+        'hook_landing_default_logo',
+        '_env_uploader_base_url',
     ],
     'enable_cart_payment' => $GLOBALS['enableCartPayment'] === null || $GLOBALS['enableCartPayment'] === 'true',
     'hook-cookie-name' => 'from_hook',

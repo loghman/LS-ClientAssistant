@@ -12,13 +12,15 @@ use Ls\ClientAssistant\Utilities\Tools\Token;
 class HookController
 {
     private string $hookCookieName;
+
     public function __construct()
     {
         $this->hookCookieName = Config::get('endpoints.hook-cookie-name');
     }
+
     public function landing(Request $request, $slug)
     {
-        $hook = Hook::get($slug)['result'][0][0];
+        $hook = Hook::get($slug)['result'];
         $user = current_user();
 
         if (!$hook) {
@@ -36,14 +38,14 @@ class HookController
         }
 
         $brandName = setting('brand_name_fa');
-        $logoUrl = setting('logo_url');
+        $logoUrl = $hook['hook_logo'];
 
         WebResponse::view('sdk.hook.landing.index', compact('hook', 'user', 'brandName', 'logoUrl', 'showLoginForm'));
     }
 
     public function download(Request $request, $slug)
     {
-        $hook = Hook::get($slug)['result'][0][0];
+        $hook = Hook::get($slug)['result'];
         if (!$hook) {
             return JsonResponse::notFound('هوک پیدا نشد');
         }
@@ -70,7 +72,11 @@ class HookController
 
         $hookDownloadType = $hook['fields']['conditions']['hook_download_type'];
         if ($hookDownloadType == 'sendable') {
-            return JsonResponse::success('لینک دانلود فایل برای شما ارسال شد');
+            $message = $hook['fields']['inputs']['mobile']['active']
+                ? 'با تشکر، لینک دانلود ظرف ۵ دقیقه آینده برای شما پیامک خواهد شد'
+                : 'لینک دانلود فایل برای شما ارسال شد';
+            ;
+            return JsonResponse::success($message);
         }
 
         $shortLink = $response['result']['short_link'];
@@ -91,9 +97,15 @@ class HookController
             return JsonResponse::badRequest('type نامعتبر');
         }
 
-        $hook = Hook::get($slug)['result'][0][0];
+        $hook = Hook::get($slug)['result'];
+        if(!$hook){
+            return JsonResponse::notFound('قلاب پیدا نشد');
+        }
 
-        Hook::signal($hook['id'], 'view', 1);
+        Hook::signal($hook['id'], [
+            'type' => 'view',
+            'url' => $request->url(),
+        ]);
 
         return JsonResponse::success(sprintf("%s ثبت شد", $type));
     }
