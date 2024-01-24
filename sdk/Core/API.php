@@ -154,6 +154,24 @@ class API
     {
         $data = json_decode($response ?? '', true);
 
+        if(is_array($data) && !$data['status']){
+            if(isset($data['errors']) && is_array($data['errors'])){
+                return collect([
+                    'success' => false,
+                    'data' => [],
+                    'message' => ['text' => isset($data['errors'][0]) ? $data['errors'][0]['message'] : 'اطلاعات وارد شده نامعتبر است']
+                ]);
+            }
+
+            if(isset($data['message']) && !is_array($data['message'])){
+                return collect([
+                    'success' => false,
+                    'data' => [],
+                    'message' => ['text' => $data['message']]
+                ]);
+            }
+        }
+
         if (isset($data['data']['data'])) {
             return collect(Paginator::setLink($data));
         } else if(is_array($data)) {
@@ -163,7 +181,7 @@ class API
         return collect([
             'success' => false,
             'data' => [],
-            'message' => $response
+            'message' => ['text' => $response]
         ]);
     }
 
