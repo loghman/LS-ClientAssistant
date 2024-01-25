@@ -157,13 +157,23 @@ class API
         if (isset($data['data']['data'])) {
             return collect(Paginator::setLink($data));
         } else if(is_array($data)) {
+            if(!isset($data['success'])) {
+                $data['success'] = $data['status'] ?? false;
+            }
+            if(!isset($data['data'])) {
+                $data['data'] = $data['result'] ?? [];
+            }
+            if(!isset($data['message'])) {
+                $data['message'] = is_array($data['errors']) ? $data['errors'][0] : ($data['errors'] ?? '');
+            }
+
             return collect($data);
         }
 
         return collect([
             'success' => false,
             'data' => [],
-            'message' => $response
+            'message' => (string) $response
         ]);
     }
 
