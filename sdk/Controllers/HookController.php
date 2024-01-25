@@ -60,7 +60,7 @@ class HookController
         }
 
         $data = [
-            'full_name' => $request->get('fullname'),
+            'full_name' => $request->get('full_name'),
             'mobile' => $request->get('mobile'),
             'email' => $request->get('email'),
         ];
