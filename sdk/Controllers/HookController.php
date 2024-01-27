@@ -104,7 +104,7 @@ class HookController
 
         Hook::signal($hook['id'], [
             'type' => 'view',
-            'url' => $request->url(),
+            'url' => $request->headers->get('referer'),
         ]);
 
         return JsonResponse::success(sprintf("%s ثبت شد", $type));
