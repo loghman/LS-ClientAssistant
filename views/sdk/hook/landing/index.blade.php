@@ -1,5 +1,5 @@
 @php
-    require sdk_path('views/sdk/hook/landing/_partials/_partials/svg.php');
+    include sdk_path('views/sdk/hook/landing/_partials/_partials/svg.php');
 @endphp
 @extends('sdk.hook.landing._partials.base')
 @section('title', $hook['title_fa'])
