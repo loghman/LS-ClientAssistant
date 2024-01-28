@@ -1,3 +1,6 @@
+@php
+    require sdk_path('views/sdk/hook/landing/_partials/_partials/svg.php');
+@endphp
 <div class="{{ $subClass }}section-form auto-download">
     {!! $shapeArrow !!}
     <div class="{{ $subClass }}shape-image">

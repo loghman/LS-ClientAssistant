@@ -1203,3 +1203,9 @@ if (!function_exists('core_asset')) {
         return (new CoreAsset)->asset($asset, $buildDirectory);
     }
 }
+
+if(!function_exists('sdk_path')){
+    function sdk_path($path): string{
+        return __DIR__ . '/' . $path;
+    }
+}

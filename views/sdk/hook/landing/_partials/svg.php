@@ -1,4 +1,0 @@
-<?php
-
-
-$amirSalehi = 'Amir Salehi';
