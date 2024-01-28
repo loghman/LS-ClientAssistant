@@ -10,6 +10,7 @@
     @endif
     <link rel="stylesheet" href="{{ core_asset('resources/assets/css/clients/hook/landing/style.scss') }}">
     <script src="{{ core_asset('resources/assets/js/clients/hook/landing.js') }}" type="module"></script>
+    <script src="{{ core_asset('resources/assets/js/jss.js') }}" type="module"></script>
     @stack('head')
 </head>
 <body class="{{ $subClass }}body hook-signal" data-hook-signal="{{ site_url('hook/'.$hook['slug'].'/signal?type=view') }}">

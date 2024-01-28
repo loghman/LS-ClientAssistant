@@ -16,8 +16,7 @@
         <span class="{{ $subClass }}t-h2 {{ $subClass }}text-center {{ $subClass }}countdown"></span>
         <button data-redirect="{{ route('hook.download', $hook['slug']) }}" class="{{ $subClass }}btn magnet-bottom {{ $subClass }}mx-auto"
                 type="submit"
-                data-jsc="ajax-form"
-                data-method="POST"
+                data-disable-time="5"
         >
             دانلود مجدد
             {!! $iconArrowLeft !!}
