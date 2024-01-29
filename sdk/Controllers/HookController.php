@@ -70,6 +70,10 @@ class HookController
             return JsonResponse::badRequest($response['message']['text']);
         }
 
+        if($request->get('toast-message') && $request->get('toast-status-code')){
+            return JsonResponse::json($request->get('toast-message'), $request->get('toast-status-code'));
+        }
+
         $shortLink = $response['result']['short_link'] ?? '';
         $redirectTime = (int)setting('hook_showable_redirection_time');
         $subClass = 'ls-client-hook-';

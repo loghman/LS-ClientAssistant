@@ -18,7 +18,7 @@
                 data-jsc="ajax-request"
                 data-target="#section-form"
                 data-disable-time="5"
-                data-ajax='{"route": "{{ route('hook.download', $hook['slug']) }}", "full_name": "{{ $data['full_name'] ?? null }}", "mobile": "{{ $data['mobile'] ?? null }}", "email": "{{ $data['email']?? null }}"}'
+                data-ajax='{"route": "{{ route('hook.download', $hook['slug']) }}", "full_name": "{{ $data['full_name'] ?? null }}", "mobile": "{{ $data['mobile'] ?? null }}", "email": "{{ $data['email']?? null }}", "toast-message": "لینک دانلود فایل برای شما ارسال شد", "toast-status-code": "200"}'
         >
             دانلود مجدد
             <i class="timer-display"></i>
