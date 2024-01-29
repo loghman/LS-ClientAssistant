@@ -83,7 +83,7 @@ class HookController
             return JsonResponse::ajaxView('sdk.hook.shortcode.download', compact('shortLink', 'redirectTime', 'hook', 'subClass', 'user'));
         }
 
-        return JsonResponse::ajaxView(sprintf("sdk.hook.landing._partials.%s", $hookDownloadType), compact('hook', 'subClass', 'user', 'message','shortLink', 'redirectTime',));
+        return JsonResponse::ajaxView(sprintf("sdk.hook.landing._partials.%s", $hookDownloadType), compact('hook', 'subClass', 'user', 'message','shortLink', 'redirectTime', 'data'));
     }
 
     public function signal(Request $request, $slug)
