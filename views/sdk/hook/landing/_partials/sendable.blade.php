@@ -14,9 +14,11 @@
         <span class="{{ $subClass }}t-title">سلام {{ !empty($user) ? $user['full_name'] : 'دوست'}} عزیز</span>
         <p class="{{ $subClass }}t-text">{{ $message }}</p>
         <span class="{{ $subClass }}t-h2 {{ $subClass }}text-center {{ $subClass }}countdown"></span>
-        <button data-redirect="{{ route('hook.download', $hook['slug']) }}" class="{{ $subClass }}btn magnet-bottom {{ $subClass }}mx-auto"
-                type="submit"
-                data-disable-time="20"
+        <button class="{{ $subClass }}btn magnet-bottom {{ $subClass }}mx-auto"
+                data-jsc="ajax-request"
+                data-target="#section-form"
+                data-disable-time="5"
+                data-ajax='{"route": "{{ route('hook.download', $hook['slug']) }}", "full_name": "{{ $data['full_name'] ?? null }}", "mobile": "{{ $data['mobile'] ?? null }}", "email": "{{ $data['email']?? null }}"}'
         >
             دانلود مجدد
             <i class="timer-display"></i>
@@ -26,3 +28,9 @@
     @include('sdk.hook.landing._partials._partials._footer-text')
     {!! $shapeFooterLine !!}
 </div>
+
+<script>
+    $(function () {
+        window.startDisableTimer()
+    })
+</script>
