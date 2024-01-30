@@ -201,7 +201,7 @@ if (!function_exists('asset_url')) {
 if (!function_exists('storage_url')) {
     function storage_url(string $path = null)
     {
-        return (\setting('_env_statics_base_url') ?? '') . '/' . $path;
+        return build_full_url(\setting('_env_uploader_base_url'), $path);
     }
 }
 
@@ -1207,5 +1207,13 @@ if (!function_exists('core_asset')) {
 if(!function_exists('sdk_path')){
     function sdk_path($path): string{
         return __DIR__ . '/' . $path;
+    }
+}
+
+if(!function_exists('build_full_url')){
+    function build_full_url(string $baseUrl, string $path = null): string {
+        $baseUrl = rtrim($baseUrl, '/') . '/';
+        $path = ltrim($path, '/');
+        return $baseUrl . $path;
     }
 }
