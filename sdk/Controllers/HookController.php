@@ -70,24 +70,25 @@ class HookController
             return JsonResponse::badRequest($response['message']['text']);
         }
 
-        $hookDownloadType = $hook['fields']['conditions']['hook_download_type'];
-        if ($hookDownloadType == 'sendable') {
-            $message = $hook['fields']['inputs']['mobile']['active']
-                ? 'با تشکر، لینک دانلود ظرف ۵ دقیقه آینده برای شما پیامک خواهد شد'
-                : 'لینک دانلود فایل برای شما ارسال شد';
-            ;
-            return JsonResponse::success($message);
+        if($request->get('toast-message') && $request->get('toast-status-code')){
+            return JsonResponse::json($request->get('toast-message'), $request->get('toast-status-code'));
         }
 
-        $shortLink = $response['result']['short_link'];
+        $shortLink = $response['result']['short_link'] ?? '';
         $redirectTime = (int)setting('hook_showable_redirection_time');
         $subClass = 'ls-client-hook-';
+        $hookDownloadType = $hook['fields']['conditions']['hook_download_type'];
+        $message = $hook['fields']['inputs']['mobile']['active']
+            ? 'با تشکر، لینک دانلود ظرف ۵ دقیقه آینده برای شما پیامک خواهد شد'
+            : 'لینک دانلود فایل برای شما ارسال شد';
+        ;
+        $sendAgainDisableTime = (int)setting('hook_send_again_button_disable_time');
 
         if($request->get('from') == 'shortcode'){
             return JsonResponse::ajaxView('sdk.hook.shortcode.download', compact('shortLink', 'redirectTime', 'hook', 'subClass', 'user'));
         }
 
-        return JsonResponse::ajaxView('sdk.hook.landing._partials.download', compact('shortLink', 'redirectTime', 'hook', 'subClass', 'user'));
+        return JsonResponse::ajaxView(sprintf("sdk.hook.landing._partials.%s", $hookDownloadType), compact('hook', 'subClass', 'user', 'message','shortLink', 'redirectTime', 'data', 'sendAgainDisableTime'));
     }
 
     public function signal(Request $request, $slug)
@@ -104,7 +105,7 @@ class HookController
 
         Hook::signal($hook['id'], [
             'type' => 'view',
-            'url' => $request->url(),
+            'url' => $request->headers->get('referer'),
         ]);
 
         return JsonResponse::success(sprintf("%s ثبت شد", $type));

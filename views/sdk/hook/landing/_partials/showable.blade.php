@@ -1,3 +1,6 @@
+@php
+    include sdk_path('views/sdk/hook/landing/_partials/_partials/svg.php');
+@endphp
 <div class="{{ $subClass }}section-form auto-download" data-redirect="{{ $shortLink }}" data-time="{{ $redirectTime }}" data-countdown=".{{ $subClass }}countdown">
     {!! $shapeArrow !!}
     <div class="{{ $subClass }}shape-image">

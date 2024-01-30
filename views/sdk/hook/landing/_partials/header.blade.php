@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-12">
                 <header class="{{ $subClass }}section-header">
-                    <a href="" class="{{ $subClass }}brand-icon">
+                    <a href="{{ site_url('') }}" class="{{ $subClass }}brand-icon">
                         <img src="{{ $logoUrl }}" alt="{{ $brandName }}">
                     </a>
                     <h1 class="{{ $subClass }}t-h1 {{ $subClass }}text-center">{{ $hook['title_fa'] }}</h1>

@@ -14,7 +14,7 @@
         @endif
     @endforeach
     <button class="{{ $subClass }}btn magnet-bottom {{ $subClass }}mx-auto" type="submit">
-        ارسال و دریافت
+        ثبت اطلاعات و دانلود
         {!! $iconArrowLeft !!}
     </button>
 </form>
