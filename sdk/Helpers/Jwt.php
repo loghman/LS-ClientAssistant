@@ -4,7 +4,7 @@ namespace Ls\ClientAssistant\Helpers;
 
 class Jwt
 {
-    public static function generate($userId, $secret): string
+    public static function generate($userId, string $secret = ''): string
     {
         // Create token header as a JSON string
         $header = json_encode(['type' => 'JWT', 'alg' => 'SHA256']);

@@ -25,7 +25,7 @@ if (!function_exists('asset_url')) {
 if (!function_exists('core_url')) {
     function core_url(string $path = null)
     {
-        return rtrim($_ENV['CORE_URL'] ?? '', '/api/') . '/' . $path;
+        return rtrim(env('CORE_URL') ?? '', '/api/') . '/' . $path;
     }
 }
 
@@ -132,11 +132,11 @@ if (!function_exists('abort')) {
 if (!function_exists('send_abort_notification')) {
     function send_abort_notification($code): void
     {
-        if (!filter_var($_ENV['ABORT_NOTIFICATION'], FILTER_VALIDATE_BOOLEAN)) return;
+        if (!filter_var(env('ABORT_NOTIFICATION'), FILTER_VALIDATE_BOOLEAN)) return;
         $redisClient = Ls\ClientAssistant\Core\Cache::getRedisInstance();
         $url = get_current_url();
         $referer = $_SERVER['HTTP_REFERER'] ?? null;
-        $filterDomains = $_ENV['TELEGRAM_ABORT_FILTER_BY_REFERER_DOMAINS'];
+        $filterDomains = env('TELEGRAM_ABORT_FILTER_BY_REFERER_DOMAINS');
         if (!empty($filterDomains) && !in_array(get_main_domain($referer), explode(',', $filterDomains))) return;
         $cacheKey = sprintf('abort_%s_%s', $code, urlencode($url));
         if ($redisClient->exists($cacheKey)) return;
@@ -169,7 +169,7 @@ if (!function_exists('send_abort_notification')) {
             ⏰ <b>TJ:</b> $jalaliTime
             TEXT;
 
-        telegram_simple_message($telegramText, topicID: $_ENV['TELEGRAM_ABORT_TOPIC_ID']);
+        telegram_simple_message($telegramText, topicID: env('TELEGRAM_ABORT_TOPIC_ID'));
     }
 }
 
@@ -187,14 +187,14 @@ if (!function_exists('get_or_fail')) {
 if (!function_exists('site_url')) {
     function site_url(string $uri)
     {
-        return ($_ENV['APP_URL'] ?? '') . '/' . $uri;
+        return (env('APP_URL') ?? '') . '/' . $uri;
     }
 }
 
 if (!function_exists('asset_url')) {
     function asset_url(string $path)
     {
-        return ($_ENV['APP_URL'] ?? '') . '/assets/' . $path;
+        return (env('APP_URL') ?? '') . '/assets/' . $path;
     }
 }
 
@@ -215,14 +215,14 @@ if (!function_exists('base_storage_url')) {
 if (!function_exists('core_url')) {
     function core_url(string $path = null)
     {
-        return rtrim($_ENV['CORE_URL'] ?? '', '/api/') . '/' . $path;
+        return rtrim(env('CORE_URL') ?? '', '/api/') . '/' . $path;
     }
 }
 
 if (!function_exists('generate_storage_jwt_token')) {
     function generate_storage_jwt_token($userId): string
     {
-        return \Ls\ClientAssistant\Helpers\Jwt::generate($userId, $_ENV['JWT_SECRET']);
+        return \Ls\ClientAssistant\Helpers\Jwt::generate($userId, env('JWT_SECRET', ''));
     }
 }
 
@@ -294,8 +294,8 @@ if (!function_exists('get_cookie_domain')) {
     {
         $currentHostUrl = parse_url(request()->url(), PHP_URL_HOST);
         $foreignHostUrl = null;
-        if (isset($_ENV['CORE_URL'])) {
-            $foreignHostUrl = parse_url($_ENV['CORE_URL'], PHP_URL_HOST);
+        if (env('CORE_URL')) {
+            $foreignHostUrl = parse_url(env('CORE_URL'), PHP_URL_HOST);
         } elseif (!is_null(setting('client_url'))) {
             $foreignHostUrl = parse_url(setting('client_url'), PHP_URL_HOST);
         }
@@ -403,7 +403,7 @@ if (!function_exists('auth_label')) {
 if (!function_exists('toggle_errors')) {
     function toggle_errors(bool $status): void
     {
-        $status = filter_var($_ENV['APP_DEBUG'], FILTER_VALIDATE_BOOLEAN);
+        $status = filter_var(env('APP_DEBUG'), FILTER_VALIDATE_BOOLEAN);
         ini_set('display_errors', $status);
         ini_set('display_startup_errors', $status);
         error_reporting($status ? E_ALL : -1);
@@ -413,7 +413,7 @@ if (!function_exists('toggle_errors')) {
 if (!function_exists('is_production_environment')) {
     function is_production_environment(): bool
     {
-        return isset($_ENV['APP_ENV']) && $_ENV['APP_ENV'] == 'production';
+        return env('APP_ENV') && env('APP_ENV') == 'production';
     }
 }
 
@@ -1059,9 +1059,9 @@ if (!function_exists('clear_redis_cache')) {
 if (!function_exists('telegram_simple_message')) {
     function telegram_simple_message(string $text, int $chatID = null, int $topicID = null): void
     {
-        $token = $_ENV['TELEGRAM_BOT_TOKEN'];
-        $chatID = $chatID ?? $_ENV['TELEGRAM_CHAT_ID'];
-        $domain = $_ENV['TELEGRAM_API_DOMAIN'] ?? 'mg.solutions';
+        $token = env('TELEGRAM_BOT_TOKEN');
+        $chatID = $chatID ?? env('TELEGRAM_CHAT_ID');
+        $domain = env('TELEGRAM_API_DOMAIN') ?? 'mg.solutions';
 
         if (empty($token) || empty($chatID)) return;
 
@@ -1211,8 +1211,12 @@ if(!function_exists('sdk_path')){
 }
 
 if(!function_exists('build_full_url')){
-    function build_full_url(string $baseUrl, string $path = null): string {
+    function build_full_url(string $baseUrl, ?string $path = null): string {
         $baseUrl = rtrim($baseUrl, '/') . '/';
+        if(is_null($path)) {
+            return $baseUrl;
+        }
+
         $path = ltrim($path, '/');
         return $baseUrl . $path;
     }
