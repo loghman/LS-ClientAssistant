@@ -163,7 +163,7 @@ class API
             if(!isset($data['data'])) {
                 $data['data'] = $data['result'] ?? [];
             }
-            if(!isset($data['message'])) {
+            if(!isset($data['message']) && isset($data['errors'])) {
                 $data['message'] = is_array($data['errors']) ? $data['errors'][0] : ($data['errors'] ?? '');
             }
 

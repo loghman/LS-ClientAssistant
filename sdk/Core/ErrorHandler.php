@@ -34,9 +34,9 @@ class ErrorHandler
                 }
 
                 // TODO: need check and improvement
-                // if (1 === error_reporting()) {
-                //     throw $error;
-                // }
+                if (env('APP_DEBUG') || env('APP_ENV') == 'local') {
+                    dd($error);
+                }
             },
             E_ALL
         );
@@ -50,9 +50,9 @@ class ErrorHandler
                 }
 
                 // TODO: need check and improvement
-                // if (1 === error_reporting()) {
-                //     throw $error;
-                // }
+                if (env('APP_DEBUG') || env('APP_ENV') == 'local') {
+                    dd($error);
+                }
             }
         });
 
@@ -61,10 +61,10 @@ class ErrorHandler
                 \Sentry\captureException($exception);
             }
 
-            if(env('APP_DEBUG') || env('APP_ENV') == 'local') {
+            if (env('APP_DEBUG') || env('APP_ENV') == 'local') {
                 dd($exception);
             }
-            
+
             throw $exception;
         });
     }
