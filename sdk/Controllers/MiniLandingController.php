@@ -15,6 +15,8 @@ class MiniLandingController
             abort(404, 'محصول پیدا نشد');
         }
 
-        return WebResponse::view('sdk.mini-landing.index', compact('product'));
+        $brandNameEn = setting('brand_name_en');
+
+        return WebResponse::view('sdk.mini-landing.index', compact('product', 'brandNameEn'));
     }
 }
