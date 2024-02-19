@@ -10,8 +10,11 @@ class MiniLandingController
 {
     public function index(Request $request, string $slug)
     {
-        dd(LMSProduct::get($slug));
+        $product = LMSProduct::get($slug)['result'];
+        if(!$product){
+            abort(404, 'محصول پیدا نشد');
+        }
 
-        return WebResponse::view('sdk.mini-landing.index');
+        return WebResponse::view('sdk.mini-landing.index', compact('product'));
     }
 }
