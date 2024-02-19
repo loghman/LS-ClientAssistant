@@ -1,7 +1,7 @@
 <body class="container v2">
 <header>
-    <a href="https://7learn.com">
-        <img src="img/logo.svg" width="148" height="36" alt="7learn logo">
+    <a href="{{ site_url('') }}">
+        <img src="{{ $product['landing_logo'] }}" width="148" height="36" alt="7learn logo">
     </a>
 </header>
 <div class="main">
@@ -14,7 +14,7 @@
     <!--            </button>-->
     <!--        </section>-->
     <section class="middle">
-        <img class="img" src="img/cover-1.jpg" alt="img cover">
+        <img class="img" src="{{ core_asset('resources/assets/img/clients/mini-landing/cover-1.jpg') }}" alt="img cover">
         <h5>لورم <span>عنوان</span></h5>
         <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. لورم ایپسوم
             متن
@@ -91,7 +91,7 @@
 </div>
 <div class="buttons">
     <button id="nextSlide" class="btn primary-btn">
-        <img src="img/arrow.svg" class="arrow-right" width="20" height="20" alt="arrow">
+        <img src="{{ core_asset('resources/assets/img/clients/mini-landing/arrow.svg') }}" class="arrow-right" width="20" height="20" alt="arrow">
         بعد
     </button>
     <div class="steps">
