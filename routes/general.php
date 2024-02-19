@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\Middlewares\AuthMiddleware;
 use Ls\ClientAssistant\Core\Router\JsonResponse;
 use Illuminate\Routing\Router;
+use Ls\ClientAssistant\Controllers\MiniLandingController;
+
+$router->name('landing.mini')->prefix('course')->group(function (Router $router){
+    $router->name('index')->get('{slug}-ml', [MiniLandingController::class, 'index']);
+});
 
 $router->name('hook.')->prefix('hook')->group(function (Router $router) {
     $router->name('landing')->get('/{slug}', [HookController::class, 'landing']);
@@ -18,6 +23,7 @@ $router->name('hook.')->prefix('hook')->group(function (Router $router) {
 
     $router->name('signal')->post('/{slug}/signal', [HookController::class, 'signal']);
 });
+
 $router->name('verification.')->group(function (Router $router) {
     $router->name('send.code')
         ->post('/send/verification-code', [AuthVerificationController::class, 'send']);
