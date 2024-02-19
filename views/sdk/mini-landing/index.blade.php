@@ -24,20 +24,42 @@
             <video src="{{ $product['meta']['intro_video']['url']  ?? ''}}" ></video>
         </div>
         <h5>{{ $product['meta']['intro_video']['title']  ?? '' }}</h5>
-        <p>{{ $product['meta']['slogan'] ?? '' }}</p>
+        @if($currentUser)
+            <p>{{ $product['meta']['slogan'] ?? '' }}</p>
+            <p>طول دوره: {{ convert_seconds_to_persian_in_line_time($product['meta']['attachment_duration_sum']) }}</p>
+        @else
+            <p>ابتدا لاگین کنید</p>
+        @endif
     </section>
 </div>
 <div class="buttons">
-    <a  class="btn primary-btn">
-        <img src="{{ core_asset('resources/assets/img/clients/mini-landing/arrow.svg') }}" class="arrow-right" width="20" height="20" alt="arrow">
-        پرداخت
-    </a>
-    <div class="steps">
+
+    @if($currentUser)
+        <a class="btn primary-btn"
+           data-loading=".card-action"
+           data-jsc="ajax-request"
+           data-after-success="refresh"
+           data-stable="true"
+           data-ajax='{"route":"{{ route('cart.add') }}","et":"{{ base64_encode('lms_products') }}","ei":"{{ $product['id'] }}"}'
+           data-after-failed="planLoadingFailed"
+           data-loading-parent=".card-action"
+        >
+            <img src="{{ core_asset('resources/assets/img/clients/mini-landing/arrow.svg') }}" class="arrow-right" width="20" height="20" alt="arrow">
+            پرداخت
+        </a>
+    @else
+        <a href="{{ route('auth.index') }}" class="btn primary-btn">
+            <img src="{{ core_asset('resources/assets/img/clients/mini-landing/arrow.svg') }}" class="arrow-right" width="20" height="20" alt="arrow">
+            ابتدا لاگین کنید
+        </a>
+    @endif
+    <div>
         {{ to_persian_price($product['price']['main']) }}
     </div>
 </div>
 <footer>
     <script type="module" src="{{ core_asset('resources/assets/js/jquery.js') }}"></script>
+    <script type="module" src="{{ core_asset('resources/assets/js/jss.js') }}"></script>
     <script type="module" src="{{ core_asset('resources/assets/js/clients/mini-landing/scripts.js') }}"></script>
 </footer>
 
