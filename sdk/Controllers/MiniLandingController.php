@@ -18,6 +18,8 @@ class MiniLandingController
         $brandNameEn = setting('brand_name_en');
 
         $currentUser= current_user();
-        return WebResponse::view('sdk.mini-landing.index', compact('product', 'brandNameEn', 'currentUser'));
+
+        $introVideo = $product['meta']['intro_video']['url'] ?? '';
+        return WebResponse::view('sdk.mini-landing.index', compact('product', 'brandNameEn', 'currentUser', 'introVideo'));
     }
 }

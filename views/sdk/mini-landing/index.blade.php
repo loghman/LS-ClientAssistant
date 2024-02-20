@@ -21,36 +21,28 @@
             <div class="video-overlay">
                 <img src="{{ core_asset('resources/assets/img/clients/mini-landing/play-btn.svg') }}" class="playVideo" width="50" height="50" alt="play">
             </div>
-            <video src="{{ $product['meta']['intro_video']['url']  ?? ''}}" ></video>
+            <video src="{{ $introVideo }}" ></video>
         </div>
-        <h5>{{ $product['meta']['intro_video']['title']  ?? '' }}</h5>
+        <h5>{{ $product['title'] }}</h5>
         @if($currentUser)
             <p>{{ $product['meta']['slogan'] ?? '' }}</p>
             <p>طول دوره: {{ convert_seconds_to_persian_in_line_time($product['meta']['attachment_duration_sum']) }}</p>
         @else
-            <p>ابتدا لاگین کنید</p>
+            <p>شما برای ثبت نام و خرید باید ابتدا لاگین کنید.</p>
         @endif
     </section>
 </div>
 <div class="buttons">
 
     @if($currentUser)
-        <a class="btn primary-btn"
-           data-loading=".card-action"
-           data-jsc="ajax-request"
-           data-after-success="refresh"
-           data-stable="true"
-           data-ajax='{"route":"{{ route('cart.add') }}","et":"{{ base64_encode('lms_products') }}","ei":"{{ $product['id'] }}"}'
-           data-after-failed="planLoadingFailed"
-           data-loading-parent=".card-action"
-        >
+        <a class="btn primary-btn" href="">
             <img src="{{ core_asset('resources/assets/img/clients/mini-landing/arrow.svg') }}" class="arrow-right" width="20" height="20" alt="arrow">
-            پرداخت
+            پرداخت سریع
         </a>
     @else
         <a href="{{ route('auth.index') }}" class="btn primary-btn">
             <img src="{{ core_asset('resources/assets/img/clients/mini-landing/arrow.svg') }}" class="arrow-right" width="20" height="20" alt="arrow">
-            ابتدا لاگین کنید
+            ورود/عضویت
         </a>
     @endif
     <div>
