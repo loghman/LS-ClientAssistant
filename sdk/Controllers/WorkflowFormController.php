@@ -71,16 +71,22 @@ class WorkflowFormController
         }
         $nextFollowupDate = $response->get('data')['next_followup_date'] ?? null;
         if (!is_null($nextFollowupDate)) {
-            $date = verta($nextFollowupDate);
+            /*$date = verta($nextFollowupDate);
             $message = $firstName;
             $message .= sprintf(
                 '  عزیز درخواست شما را با موفقیت دریافت کردیم و با شما در تاریخ %s در ساعت %s تماس خواهیم گرفت',
                 to_persian_num($date->format('%d %B Y')),
                 to_persian_num($date->format('H')),
-            );
+            );*/
+
+            $message = sprintf("%s عزیز درخواست شما را با موفقیت دریافت کردیم و با شما به زودی تماس خواهیم گرفت", $firstName);
         } else {
-            $message = sprintf(
+            /*$message = sprintf(
                 'با تشکر %s عزیز درخواست شما ثبت شد. <br /> همکاران ما با شما تماس خواهند گرفت.',
+                $firstName
+            );*/
+            $message = sprintf(
+                'با تشکر %s عزیز درخواست شما ثبت شد. <br /> همکاران ما با شما به زودی تماس خواهند گرفت.',
                 $firstName
             );
         }
