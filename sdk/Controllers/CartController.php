@@ -40,8 +40,8 @@ class CartController
         }
 
         $res = Cart::addItem(
-            base64_decode($request->request->get('et')),
-            (int) $request->request->get('ei'),
+            base64_decode($request->get('et')),
+            (int) $request->get('ei'),
             $request->get('coupon'),
             $request->getClientIp()
         );

@@ -19,7 +19,8 @@
     <section >
         <div class="video-wrapper">
             <div class="video-overlay">
-                <img src="{{ core_asset('resources/assets/img/clients/mini-landing/play-btn.svg') }}" class="playVideo" width="50" height="50" alt="play">
+                <img src="{{ core_asset('resources/assets/img/clients/mini-landing/play-btn.svg') }}"
+                     class="playVideo" width="50" height="50" alt="play">
             </div>
             <video src="{{ $introVideo }}" ></video>
         </div>
@@ -35,13 +36,15 @@
 <div class="buttons">
 
     @if($currentUser)
-        <a class="btn primary-btn" href="">
-            <img src="{{ core_asset('resources/assets/img/clients/mini-landing/arrow.svg') }}" class="arrow-right" width="20" height="20" alt="arrow">
+        <a class="btn primary-btn" href="{{ route('payment.qPay', ['et' => base64_encode('lms_products'), 'ei' => $product['id'], 'slug' => $product['slug']]) }}">
+            <img src="{{ core_asset('resources/assets/img/clients/mini-landing/arrow.svg') }}"
+                 class="arrow-right" width="20" height="20" alt="arrow">
             پرداخت سریع
         </a>
     @else
         <a href="{{ route('auth.index') }}" class="btn primary-btn">
-            <img src="{{ core_asset('resources/assets/img/clients/mini-landing/arrow.svg') }}" class="arrow-right" width="20" height="20" alt="arrow">
+            <img src="{{ core_asset('resources/assets/img/clients/mini-landing/arrow.svg') }}"
+                 class="arrow-right" width="20" height="20" alt="arrow">
             ورود/عضویت
         </a>
     @endif
@@ -49,11 +52,11 @@
         {{ to_persian_price($product['price']['main']) }}
     </div>
 </div>
-<footer>
-    <script type="module" src="{{ core_asset('resources/assets/js/jquery.js') }}"></script>
-    <script type="module" src="{{ core_asset('resources/assets/js/jss.js') }}"></script>
-    <script type="module" src="{{ core_asset('resources/assets/js/clients/mini-landing/scripts.js') }}"></script>
-</footer>
+
+<script type="module" src="{{ core_asset('resources/assets/js/jquery.js') }}"></script>
+<script type="module" src="{{ core_asset('resources/assets/js/jss.js') }}"></script>
+<script type="module" src="{{ core_asset('resources/assets/js/clients/mini-landing/scripts.js') }}"></script>
+@include('sdk._common.components.error-messages')
 
 </body>
 

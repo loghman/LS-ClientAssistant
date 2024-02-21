@@ -12,7 +12,7 @@ class PaymentController
 {
     public function __construct()
     {
-        if (! Config::get('endpoints.enable_cart_payment')) {
+        if (!Config::get('endpoints.enable_cart_payment')) {
             abort(404);
         }
     }
@@ -21,8 +21,8 @@ class PaymentController
     {
         $res = Payment::requestLink($cart, site_url('payment/###payment_id###'));
 
-        if (! $res->get('success')) {
-            $_SESSION['error_messages'] = (array) $res->get('message');
+        if (!$res->get('success')) {
+            $_SESSION['error_messages'] = (array)$res->get('message');
 
             return WebResponse::redirect('cart/checkout');
         }
@@ -30,9 +30,27 @@ class PaymentController
         return new RedirectResponse($res['data']['link'], 302, []);
     }
 
+    public function qPay(Request $request)
+    {
+        $res = Payment::qPay(
+            base64_decode($request->get('et')),
+            (int)$request->get('ei'),
+            site_url('payment/###payment_id###'),
+            $request->get('coupon'),
+        );
+
+        if (!$res->get('success')) {
+            $_SESSION['error_messages'] = (array)$res->get('message');
+
+            return new RedirectResponse(route('landing.mini', $request->get('slug')), 302, []);
+        }
+
+        return new RedirectResponse($res['data']['link'], 302, []);
+    }
+
     public function callback(int $paymentId, Request $request)
     {
-        if ((int) $request->status === 0) {
+        if ((int)$request->status === 0) {
             return WebResponse::redirect("payment/failed/$paymentId");
         }
 
@@ -43,7 +61,7 @@ class PaymentController
     {
         $payment = Payment::check($paymentId, Payment::PAGE_SUCCESS);
 
-        if (! $payment['success']) {
+        if (!$payment['success']) {
             return WebResponse::redirect();
         }
 
@@ -58,7 +76,7 @@ class PaymentController
     {
         $payment = Payment::check($paymentId, Payment::PAGE_FAILED);
 
-        if (! $payment['success']) {
+        if (!$payment['success']) {
             return WebResponse::redirect();
         }
 
