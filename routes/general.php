@@ -13,7 +13,7 @@ use Illuminate\Routing\Router;
 use Ls\ClientAssistant\Controllers\MiniLandingController;
 
 $router->name('landing.mini')->prefix('course')->group(function (Router $router){
-    $router->name('index')->get('{slug}/ML', [MiniLandingController::class, 'index']);
+    $router->get('{slug}/ML', [MiniLandingController::class, 'index']);
 });
 
 $router->name('hook.')->prefix('hook')->group(function (Router $router) {
@@ -99,6 +99,11 @@ $router->name('coupon.')->prefix('coupon')->middleware(AuthMiddleware::class)->g
 $router->name('payment.')->prefix('payment')->group(function (Router $router) {
     $router->name('requestLink')
         ->get('/request-link/{cart}', [PaymentController::class, 'requestLink']);
+
+    $router->name('qPay')
+        ->get('/quick/pay', [PaymentController::class, 'qPay'])
+        ->middleware(AuthMiddleware::class)
+    ;
 
     $router->name('callback')
         ->get('/{paymentId}', [PaymentController::class, 'callback']);
