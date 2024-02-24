@@ -27,9 +27,9 @@
         <h5>{{ $product['title'] }}</h5>
         @if($currentUser)
             <p>{{ $product['meta']['slogan'] ?? '' }}</p>
-            <p>طول دوره: {{ convert_seconds_to_persian_in_line_time($product['meta']['attachment_duration_sum']) }}</p>
+            <p>طول دوره: {{ $productDuration }}</p>
         @else
-            <p>شما برای ثبت نام و خرید باید ابتدا لاگین کنید.</p>
+            <p>لازم است ابتدا وارد سایت شوید.</p>
         @endif
     </section>
 </div>
@@ -45,11 +45,19 @@
         <a href="{{ route('auth.index') }}" class="btn primary-btn">
             <img src="{{ core_asset('resources/assets/img/clients/mini-landing/arrow.svg') }}"
                  class="arrow-right" width="20" height="20" alt="arrow">
-            ورود/عضویت
+            ورود برای پرداخت
         </a>
     @endif
     <div>
-        {{ to_persian_price($product['price']['main']) }}
+        @if($product['price'] === 0)
+            <span>رایگان</span>
+        @elseif(isset($product['final_price']) && $product['price']['main'] != $product['final_price']['main'])
+            <span class="strike danger text-secondary-60 fa-number">{{ round($product['price'] / 1000000, 3) }}</span>
+            <span>{{ to_persian_price($product['final_price']['main']) }}</span>
+        @else
+            <span>{{ to_persian_price($product['price']['main']) }} </span>
+        @endif
+{{--        {{ to_persian_price($product['price']['main']) }}--}}
     </div>
 </div>
 

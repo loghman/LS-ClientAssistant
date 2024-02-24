@@ -1221,3 +1221,15 @@ if(!function_exists('build_full_url')){
         return $baseUrl . $path;
     }
 }
+
+if (!function_exists('convert_seconds_to_hour')) {
+    function convert_seconds_to_hour(int $seconds)
+    {
+        $hours = $seconds / 3600;
+        if ($hours <= 1) {
+            return 1;
+        }
+
+        return floor($hours);
+    }
+}

@@ -13,7 +13,7 @@ use Illuminate\Routing\Router;
 use Ls\ClientAssistant\Controllers\MiniLandingController;
 
 $router->name('landing.mini')->prefix('course')->group(function (Router $router){
-    $router->get('{slug}/ML', [MiniLandingController::class, 'index']);
+    $router->get('{slug}/m', [MiniLandingController::class, 'index']);
 });
 
 $router->name('hook.')->prefix('hook')->group(function (Router $router) {
