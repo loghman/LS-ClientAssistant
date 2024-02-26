@@ -13,6 +13,7 @@ class MiniLandingController
         if (empty($product)) {
             abort(404, 'محصول پیدا نشد');
         }
+
         $brandNameEn = setting('brand_name_en');
         $currentUser = current_user();
         $introVideo = $product['meta']['intro_video']['url'] ?? '';
