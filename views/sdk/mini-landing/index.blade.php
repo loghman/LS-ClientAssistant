@@ -18,11 +18,15 @@
 <div class="main">
     <section >
         <div class="video-wrapper">
+            {{-- @if(strlen($introVideo) > 0) --}}
             <div class="video-overlay">
                 <img src="{{ core_asset('resources/assets/img/clients/mini-landing/play-btn.svg') }}"
                      class="playVideo" width="50" height="50" alt="play">
             </div>
             <video src="{{ $introVideo }}" poster="{{$product['banner_url']['main']['url']}}" ></video>
+            {{-- @else
+            <img style="width: 100vh;" src={{$product['banner_url']['main']['url']}} alt={{$product['title']}} />
+            @endif --}}
         </div>
         <h5>{{ $product['title'] }}</h5>
         @if($currentUser)
