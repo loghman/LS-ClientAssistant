@@ -23,9 +23,4 @@
         </div>
         {!! $shapePatternA !!}
     </div>
-
-    <div class="{{ $subClass }}shape-bg">
-        {!! $shapeFooter !!}
-    </div>
-    {!! $shapeFooterPattern !!}
 </div>
