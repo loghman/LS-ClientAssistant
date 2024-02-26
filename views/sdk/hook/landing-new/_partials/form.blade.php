@@ -16,14 +16,11 @@
                     @else
                         @include('sdk.hook.landing._partials._partials._form')
                     @endif
+
                     @include('sdk.hook.landing._partials._partials._footer-text')
-                    {!! $shapeFooterLine !!}
                 </div>
             </div>
         </div>
+        {!! $shapePatternA !!}
     </div>
-    <div class="{{ $subClass }}shape-bg">
-        {!! $shapeFooter !!}
-    </div>
-    {!! $shapeFooterPattern !!}
 </div>

@@ -17,6 +17,7 @@
 </header>
 <div class="main">
     <section >
+        @if(strlen($introVideo) > 0)
         <div class="video-wrapper">
             <div class="video-overlay">
                 <img src="{{ core_asset('resources/assets/img/clients/mini-landing/play-btn.svg') }}"
@@ -24,6 +25,9 @@
             </div>
             <video src="{{ $introVideo }}" poster="{{$product['banner_url']['main']['url']}}" ></video>
         </div>
+        @else
+            <img style="max-width: 490px;" src={{$product['banner_url']['main']['url']}} alt={{$product['title']}} />
+        @endif
         <h5>{{ $product['title'] }}</h5>
         @if($currentUser)
             <p>{{ $product['meta']['slogan'] ?? '' }}</p>
