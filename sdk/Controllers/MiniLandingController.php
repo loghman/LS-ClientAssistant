@@ -18,10 +18,7 @@ class MiniLandingController
         $brandNameEn = setting('brand_name_en');
         $currentUser = current_user();
         $introVideo = $product['meta']['intro_video']['url'] ?? '';
-        $maxDurationHours = Config::get('lms.max-duration-hours-display');
-        $productDuration = $product['attachment_duration_sum']['hours'] > $maxDurationHours['en']
-            ? sprintf("بیش از %s ساعت", $maxDurationHours['fa'])
-            : to_persian_num($product['attachment_duration_sum']['hours']) . '  ساعت آموزش';
+        $productDuration = product_duration_to_string($product['attachment_duration_sum']['hours']);
 
         $hasCampaign = !empty($product['campaign_data']);
 

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'max-duration-hours-display' => [
+    'max_duration_hours_display' => [
         'en' => 70,
         'fa' => to_persian_num(70)
     ],
