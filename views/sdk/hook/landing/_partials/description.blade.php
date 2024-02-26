@@ -16,4 +16,6 @@
     <div class="{{ $subClass }}shape-svg-pattern description">
         {!! $shapePatternB !!}
     </div>
+
+    {!! $shapeFooterPattern !!}
 </div>
