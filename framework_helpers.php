@@ -1221,3 +1221,14 @@ if(!function_exists('build_full_url')){
         return $baseUrl . $path;
     }
 }
+
+if(! function_exists('product_duration_to_string')){
+    function product_duration_to_string(int $hours): string
+    {
+        $maxDurationHours = Config::get('lms.max_duration_hours_display');
+
+        return  $hours > $maxDurationHours['en']
+            ? sprintf("بیش از %s ساعت", $maxDurationHours['fa'])
+            : to_persian_num($hours) . '  ساعت آموزش';
+    }
+}

@@ -3,6 +3,7 @@
 namespace Ls\ClientAssistant\Controllers;
 
 use Ls\ClientAssistant\Core\Router\WebResponse;
+use Ls\ClientAssistant\Helpers\Config;
 use Ls\ClientAssistant\Utilities\Modules\V3\LMSProduct;
 
 class MiniLandingController
@@ -13,13 +14,17 @@ class MiniLandingController
         if (empty($product)) {
             abort(404, 'محصول پیدا نشد');
         }
+
         $brandNameEn = setting('brand_name_en');
         $currentUser = current_user();
         $introVideo = $product['meta']['intro_video']['url'] ?? '';
+        $productDuration = product_duration_to_string($product['attachment_duration_sum']['hours']);
+
+        $hasCampaign = !empty($product['campaign_data']);
 
         return WebResponse::view(
             'sdk.mini-landing.index',
-            compact('product', 'brandNameEn', 'currentUser', 'introVideo')
+            compact('product', 'brandNameEn', 'currentUser', 'introVideo', 'productDuration', 'hasCampaign')
         );
     }
 }
