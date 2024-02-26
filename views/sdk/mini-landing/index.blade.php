@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ core_asset('resources/assets/css/clients/mini-landing/style.css') }}">
     <title>{{ $product['title'] }}</title>
+    @if(get_current_theme() != null)
+        {!! get_current_theme()['rendered_css'] !!}
+    @endif
 </head>
 
 <body class="container v2">

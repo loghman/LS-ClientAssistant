@@ -7,6 +7,7 @@ use Ls\ClientAssistant\Utilities\Modules\Setting;
 use Ls\ClientAssistant\Utilities\Modules\User;
 use Illuminate\Container\Container;
 use Ls\ClientAssistant\Utilities\Tools\CoreAsset;
+use Ls\ClientAssistant\Utilities\Modules\V3\Theme;
 
 if (!function_exists('site_url')) {
     function site_url(string $uri = ''): string
@@ -1230,5 +1231,16 @@ if(! function_exists('product_duration_to_string')){
         return  $hours > $maxDurationHours['en']
             ? sprintf("بیش از %s ساعت", $maxDurationHours['fa'])
             : to_persian_num($hours) . '  ساعت آموزش';
+    }
+}
+
+if(! function_exists('get_current_theme')){
+    function get_current_theme()
+    {
+        $theme = null;
+        if(Theme::get_current_theme()['result'] != null) {
+            $theme = Theme::get_current_theme()['result'];
+        }
+        return $theme;
     }
 }
