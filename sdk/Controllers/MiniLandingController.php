@@ -3,7 +3,6 @@
 namespace Ls\ClientAssistant\Controllers;
 
 use Ls\ClientAssistant\Core\Router\WebResponse;
-use Ls\ClientAssistant\Helpers\Config;
 use Ls\ClientAssistant\Utilities\Modules\V3\LMSProduct;
 
 class MiniLandingController
