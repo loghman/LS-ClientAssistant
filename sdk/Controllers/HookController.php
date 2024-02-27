@@ -7,6 +7,7 @@ use Ls\ClientAssistant\Core\Router\WebResponse;
 use Ls\ClientAssistant\Helpers\Config;
 use Ls\ClientAssistant\Utilities\Modules\Hook;
 use Illuminate\Http\Request;
+use Ls\ClientAssistant\Utilities\Modules\V3\Theme;
 use Ls\ClientAssistant\Utilities\Tools\Token;
 
 class HookController
@@ -22,6 +23,11 @@ class HookController
     {
         $hook = Hook::get($slug)['result'];
         $user = current_user();
+
+        $theme = null;
+        if(Theme::get_current_theme()['result'] != null) {
+            $theme = Theme::get_current_theme()['result'];
+        }
 
         if (!$hook) {
             abort(404, 'صفحه مورد نظر پیدا نشد');
@@ -40,7 +46,7 @@ class HookController
         $brandName = setting('brand_name_fa');
         $logoUrl = $hook['hook_logo'];
 
-        WebResponse::view('sdk.hook.landing.index', compact('hook', 'user', 'brandName', 'logoUrl', 'showLoginForm'));
+        WebResponse::view('sdk.hook.landing.index', compact('hook', 'user', 'brandName', 'logoUrl', 'showLoginForm','theme'));
     }
 
     public function download(Request $request, $slug)

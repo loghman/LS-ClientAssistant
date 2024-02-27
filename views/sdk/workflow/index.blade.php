@@ -20,9 +20,6 @@
     <meta name="application-name" content="7Learn">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="theme-color" content="#ffffff">
-    @if(get_current_theme() != null)
-        {!! get_current_theme()['rendered_css'] !!}
-    @endif
 </head>
 
 <body class="bg-secondary page-form">
