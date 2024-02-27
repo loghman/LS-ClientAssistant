@@ -1,5 +1,6 @@
 @include('sdk._common.layouts.head')
 <body class="@yield('body-class')" @yield('body-props')>
+{{ setting('top_of_body_script') }}
 @include('sdk._common.noscript')
 @sectionMissing('without-tag-manager')
     <!-- Google Tag Manager (noscript) -->
@@ -21,5 +22,6 @@
 @yield('modals')
 @include('sdk._common.layouts.footer')
 @include('_common.components.error-messages')
+{{ setting('bottom_of_body_script') }}
 </body>
 </html>
