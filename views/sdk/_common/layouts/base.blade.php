@@ -1,8 +1,8 @@
 <!doctype html>
 <html dir="rtl" lang="fa">
 <head>
-@include('_common.layouts.head')
 @include('sdk._common.layouts.head')
+@include('_common.layouts.head')
 </head>
 <body class="@yield('body-class')" @yield('body-props')>
 {{ setting('top_of_body_script') }}
