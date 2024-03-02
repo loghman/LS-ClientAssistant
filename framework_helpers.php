@@ -320,17 +320,7 @@ if (!function_exists('get_cookie_domain')) {
 if (!function_exists('setting')) {
     function setting($key = null, $default = null)
     {
-        $settings = Setting::all()->toArray();
-
-        if (!$key) {
-            return $settings;
-        }
-
-        if (($index = array_search($key, array_column($settings, 'key'))) === false) {
-            return $default;
-        }
-
-        return $settings[$index]['value'] ?? $default;
+        return Setting::get($key, $default);
     }
 }
 
