@@ -1,20 +1,11 @@
 <!doctype html>
 <html dir="rtl" lang="fa">
 <head>
-@include('sdk._common.layouts.head')
+    @include('sdk._common.layouts.head')
 </head>
-<body class="@yield('body-class')" @yield('body-props')>
+<body @include('_common.layouts.body-class')>
 {{ setting('top_of_body_script') }}
-@include('sdk._common.noscript')
-@sectionMissing('without-tag-manager')
-    <!-- Google Tag Manager (noscript) -->
-    <noscript>
-        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5FBTZBV"
-                height="0" width="0" style="display:none;visibility:hidden"></iframe>
-    </noscript>
-    <!-- End Google Tag Manager (noscript) -->
-@endif
-@include('_common.components.promotion-banner')
+@include('_common.layouts.custom-body')
 @if(!isset($custom_base))
     @include('_common.layouts.header')
     <div class="base-content @yield('base-content-class')">
