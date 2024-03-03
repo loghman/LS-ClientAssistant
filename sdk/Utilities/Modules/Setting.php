@@ -30,7 +30,7 @@ class Setting
         }
     }
 
-    public static function get(string $key, mixed $default = null): mixed
+    public static function get(?string $key = null, mixed $default = null): mixed
     {
         self::fetch();
 
