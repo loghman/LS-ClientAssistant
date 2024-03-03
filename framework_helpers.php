@@ -1227,10 +1227,10 @@ if(! function_exists('product_duration_to_string')){
 if(! function_exists('get_current_theme')){
     function get_current_theme()
     {
-        $theme = null;
-        if(Theme::get_current_theme()['result'] != null) {
-            $theme = Theme::get_current_theme()['result'];
+        $theme =  Theme::get_current_theme();
+        if($theme != null){
+            return $theme['result'];
         }
-        return $theme;
+        return  null;
     }
 }

@@ -10,7 +10,6 @@
     <meta name="csrf-token" content="">
     <link rel="dns-prefetch" id="storage_url" href="{{ base_storage_url() }}"/>
     <link rel="preconnect" href="{{ base_storage_url() }}"/>
-
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -20,9 +19,6 @@
     <meta name="application-name" content="7Learn">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="theme-color" content="#ffffff">
-    @if(get_current_theme() != null)
-        {!! get_current_theme()['rendered_css'] !!}
-    @endif
 </head>
 
 <body class="bg-secondary page-form">

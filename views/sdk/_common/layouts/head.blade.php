@@ -1,8 +1,7 @@
-<!doctype html>
-<html dir="rtl" lang="fa">
-<head>
-    @include('_common.layouts.head')
-    @if(get_current_theme() != null)
-        {!! get_current_theme()['rendered_css'] !!}
-    @endif
-</head>
+{{ setting('top_of_head_script') }}
+@php $theme = get_current_theme(); @endphp
+@if($theme != null)
+    {!! $theme['rendered_css'] !!}
+@endif
+@include('_common.layouts.head')
+{{ setting('bottom_of_head_script') }}
