@@ -62,8 +62,8 @@ class LMSProductSeoMeta extends SeoMeta
         $updatedTime = date('Y-m-d\TH:i:s+03:30', strtotime($this->product['updated_at']));
         $openGraph .= "<meta property='og:updated_time' content='$updatedTime' />" . PHP_EOL;
 
-        if (!empty($this->meta['banner_url'])) {
-            $bannerUrl = is_array($this->meta['banner_url']) ? $this->meta['banner_url']['url'] : $this->meta['banner_url'];
+        if (!empty($this->banner_url)) {
+            $bannerUrl = $this->banner_url;
             list($width, $height, $type, $attr) = getimagesize($bannerUrl);
             $openGraph .= "<meta property='og:image' content='{$bannerUrl}' />" . PHP_EOL;
             $openGraph .= "<meta property='og:image:width' content='$width' />" . PHP_EOL;
@@ -86,10 +86,11 @@ class LMSProductSeoMeta extends SeoMeta
     {
         $twitterTags = '';
 
-        if (!empty($this->meta['banner_url'])) {
+        if (!empty($this->banner_url)) {
+            $bannerUrl = $this->banner_url;
             $twitterTags .= "<meta name='twitter:title' content='$this->title' />" . PHP_EOL;
             $twitterTags .= "<meta name='twitter:card' content='summary_large_image' />" . PHP_EOL;
-            $twitterTags .= "<meta name='twitter:image' content='{$this->meta['banner_url']}' />" . PHP_EOL;
+            $twitterTags .= "<meta name='twitter:image' content='{$bannerUrl}' />" . PHP_EOL;
             if (!empty($this->description)) {
                 $twitterTags .= "<meta name='twitter:description' content='$this->description' />" . PHP_EOL;
             }

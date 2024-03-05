@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  redishost:
+    image: redis
+    # command: redis-server --requirepass redispass
+    container_name: lsp-assistant_redis
+    ports:
+      - "6389:6379"
+    volumes:
+      - ~/.dockertmp/lsp-assistant/redis:/data
+    restart: unless-stopped
+  php-fpm:
+    image: mehrdadkhah/php-plus:8.1
+    container_name: lsp-assistant_app
+    environment:
+      - REDIS_HOST=redishost
+      - REDIS_PORT=6389
+      - APP_DEBUG=true
+    depends_on:
+      - redishost
+    volumes:
+      - ./:/var/www/html/
+    restart: unless-stopped

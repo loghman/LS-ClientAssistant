@@ -7,6 +7,7 @@ use Ls\ClientAssistant\Utilities\Modules\Setting;
 use Ls\ClientAssistant\Utilities\Modules\User;
 use Illuminate\Container\Container;
 use Ls\ClientAssistant\Utilities\Tools\CoreAsset;
+use Ls\ClientAssistant\Utilities\Modules\V3\Theme;
 
 if (!function_exists('site_url')) {
     function site_url(string $uri = ''): string
@@ -201,7 +202,7 @@ if (!function_exists('asset_url')) {
 if (!function_exists('storage_url')) {
     function storage_url(string $path = null)
     {
-        return build_full_url(\setting('_env_statics_base_url'), $path);
+        return build_full_url(\setting('_env_statics_base_url', ''), $path);
     }
 }
 
@@ -319,17 +320,7 @@ if (!function_exists('get_cookie_domain')) {
 if (!function_exists('setting')) {
     function setting($key = null, $default = null)
     {
-        $settings = Setting::all()->toArray();
-
-        if (!$key) {
-            return $settings;
-        }
-
-        if (($index = array_search($key, array_column($settings, 'key'))) === false) {
-            return $default;
-        }
-
-        return $settings[$index]['value'] ?? $default;
+        return Setting::get($key, $default);
     }
 }
 
@@ -1219,5 +1210,27 @@ if(!function_exists('build_full_url')){
 
         $path = ltrim($path, '/');
         return $baseUrl . $path;
+    }
+}
+
+if(! function_exists('product_duration_to_string')){
+    function product_duration_to_string(int $hours): string
+    {
+        $maxDurationHours = Config::get('lms.max_duration_hours_display');
+
+        return  $hours > $maxDurationHours['en']
+            ? sprintf("بیش از %s ساعت", $maxDurationHours['fa'])
+            : to_persian_num($hours) . '  ساعت آموزش';
+    }
+}
+
+if(! function_exists('get_current_theme')){
+    function get_current_theme()
+    {
+        $theme =  Theme::get_current_theme();
+        if($theme != null){
+            return $theme['result'];
+        }
+        return  null;
     }
 }

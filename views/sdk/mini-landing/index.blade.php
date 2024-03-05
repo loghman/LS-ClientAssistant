@@ -17,43 +17,58 @@
 </header>
 <div class="main">
     <section >
+        @if(strlen($introVideo) > 0)
         <div class="video-wrapper">
             <div class="video-overlay">
-                <img src="{{ core_asset('resources/assets/img/clients/mini-landing/play-btn.svg') }}" class="playVideo" width="50" height="50" alt="play">
+                <img src="{{ core_asset('resources/assets/img/clients/mini-landing/play-btn.svg') }}"
+                     class="playVideo" width="50" height="50" alt="play">
             </div>
-            <video src="{{ $introVideo }}" ></video>
+            <video src="{{ $introVideo }}" poster="{{$product['banner_url']['main']['url']}}" ></video>
         </div>
+        @else
+            <img style="max-width: 490px;" src={{$product['banner_url']['main']['url']}} alt={{$product['title']}} />
+        @endif
         <h5>{{ $product['title'] }}</h5>
         @if($currentUser)
             <p>{{ $product['meta']['slogan'] ?? '' }}</p>
-            <p>طول دوره: {{ convert_seconds_to_persian_in_line_time($product['meta']['attachment_duration_sum']) }}</p>
+            <p>طول دوره: {{ $productDuration }}</p>
         @else
-            <p>شما برای ثبت نام و خرید باید ابتدا لاگین کنید.</p>
+            <p>لازم است ابتدا وارد سایت شوید.</p>
         @endif
     </section>
 </div>
 <div class="buttons">
 
     @if($currentUser)
-        <a class="btn primary-btn" href="">
-            <img src="{{ core_asset('resources/assets/img/clients/mini-landing/arrow.svg') }}" class="arrow-right" width="20" height="20" alt="arrow">
+        <a class="btn primary-btn" href="{{ route('payment.qPay', ['et' => base64_encode('lms_products'), 'ei' => $product['id'], 'slug' => $product['slug']]) }}">
+            <img src="{{ core_asset('resources/assets/img/clients/mini-landing/arrow.svg') }}"
+                 class="arrow-right" width="20" height="20" alt="arrow">
             پرداخت سریع
         </a>
     @else
         <a href="{{ route('auth.index') }}" class="btn primary-btn">
-            <img src="{{ core_asset('resources/assets/img/clients/mini-landing/arrow.svg') }}" class="arrow-right" width="20" height="20" alt="arrow">
-            ورود/عضویت
+            <img src="{{ core_asset('resources/assets/img/clients/mini-landing/arrow.svg') }}"
+                 class="arrow-right" width="20" height="20" alt="arrow">
+            ورود برای پرداخت
         </a>
     @endif
     <div>
-        {{ to_persian_price($product['price']['main']) }}
+        @if($product['price'] === 0)
+            <span>رایگان</span>
+        @elseif(isset($product['final_price']) && $product['price']['main'] != $product['final_price']['main'])
+            <span class="strike danger text-secondary-60 fa-number">{{ round($product['price'] / 1000000, 3) }}</span>
+            <span>{{ to_persian_price($product['final_price']['main']) }}</span>
+        @else
+            <span>{{ to_persian_price($product['price']['main']) }} </span>
+        @endif
+{{--        {{ to_persian_price($product['price']['main']) }}--}}
     </div>
 </div>
-<footer>
-    <script type="module" src="{{ core_asset('resources/assets/js/jquery.js') }}"></script>
-    <script type="module" src="{{ core_asset('resources/assets/js/jss.js') }}"></script>
-    <script type="module" src="{{ core_asset('resources/assets/js/clients/mini-landing/scripts.js') }}"></script>
-</footer>
+
+<script type="module" src="{{ core_asset('resources/assets/js/jquery.js') }}"></script>
+<script type="module" src="{{ core_asset('resources/assets/js/jss.js') }}"></script>
+<script type="module" src="{{ core_asset('resources/assets/js/clients/mini-landing/scripts.js') }}"></script>
+@include('sdk._common.components.error-messages')
 
 </body>
 

@@ -2,24 +2,28 @@
 
 namespace Ls\ClientAssistant\Controllers;
 
-use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\Router\WebResponse;
 use Ls\ClientAssistant\Utilities\Modules\V3\LMSProduct;
 
 class MiniLandingController
 {
-    public function index(Request $request, string $slug)
+    public function index(string $slug)
     {
-        $product = LMSProduct::get($slug)['result'];
-        if(!$product){
+        $product = LMSProduct::get($slug)['result'] ?? null;
+        if (empty($product)) {
             abort(404, 'محصول پیدا نشد');
         }
 
         $brandNameEn = setting('brand_name_en');
+        $currentUser = current_user();
+        $introVideo = $product['meta']['intro_video']['url'] ?? $product['meta']['demo_video_urls'][0] ?? '';
+        $productDuration = product_duration_to_string($product['attachment_duration_sum']['hours']);
 
-        $currentUser= current_user();
+        $hasCampaign = !empty($product['campaign_data']);
 
-        $introVideo = $product['meta']['intro_video']['url'] ?? '';
-        return WebResponse::view('sdk.mini-landing.index', compact('product', 'brandNameEn', 'currentUser', 'introVideo'));
+        return WebResponse::view(
+            'sdk.mini-landing.index',
+            compact('product', 'brandNameEn', 'currentUser', 'introVideo', 'productDuration', 'hasCampaign')
+        );
     }
 }
