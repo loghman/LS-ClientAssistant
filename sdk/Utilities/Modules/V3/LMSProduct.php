@@ -19,4 +19,15 @@ class LMSProduct
             return Response::parseException($exception);
         }
     }
+
+    public static function stat(): Collection
+    {
+        try {
+            return API::get('client/v3/lms/stat/');
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
 }
