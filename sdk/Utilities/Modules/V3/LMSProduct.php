@@ -20,7 +20,7 @@ class LMSProduct
         }
     }
 
-    public static function static(): Collection
+    public static function stat(): Collection
     {
         try {
             return API::get('client/v3/lms/stat/');
