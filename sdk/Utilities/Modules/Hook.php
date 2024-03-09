@@ -23,12 +23,11 @@ class Hook
     public static function sendFile(int $id, array $data): Collection
     {
         try {
-            return API::post(sprintf('client/v3/cms/hook-download/%s/store', $id), [
+            return API::post(sprintf('client/v3/cms/hook-download/%s', $id), [
                 'full_name' => $data['full_name'] ?? null,
                 'mobile' => $data['mobile'] ?? null,
                 'email' => $data['email'] ?? null,
                 'new_user' => $data['new_user'] ?? null,
-                'page' => $data['page'] ?? null,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
