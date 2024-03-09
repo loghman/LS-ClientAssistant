@@ -23,7 +23,7 @@ class Hook
     public static function sendFile(int $id, array $data): Collection
     {
         try {
-            return API::post(sprintf('client/v3/cms/hook-download/%s/store', $id), [
+            return API::post(sprintf('client/v3/cms/hook-download/%s', $id), [
                 'full_name' => $data['full_name'] ?? null,
                 'mobile' => $data['mobile'] ?? null,
                 'email' => $data['email'] ?? null,
