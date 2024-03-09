@@ -28,7 +28,7 @@ class Hook
                 'mobile' => $data['mobile'] ?? null,
                 'email' => $data['email'] ?? null,
                 'new_user' => $data['new_user'] ?? null,
-                'page' => $data['page'],
+                'page' => $data['page'] ?? null,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
