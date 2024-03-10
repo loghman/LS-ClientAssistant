@@ -75,6 +75,7 @@ class HookController
         }
 
         $shortLink = $response['result']['short_link'] ?? '';
+        $brandName = setting('brand_name_fa');
         $redirectTime = (int)setting('hook_showable_redirection_time');
         $subClass = 'ls-client-hook-';
         $hookDownloadType = $hook['fields']['conditions']['hook_download_type'];
@@ -85,10 +86,10 @@ class HookController
         $sendAgainDisableTime = (int)setting('hook_send_again_button_disable_time');
 
         if($request->get('from') == 'shortcode'){
-            return JsonResponse::ajaxView('sdk.hook.shortcode.download', compact('shortLink', 'redirectTime', 'hook', 'subClass', 'user'));
+            return JsonResponse::ajaxView('sdk.hook.shortcode.download', compact('shortLink', 'redirectTime', 'hook', 'subClass', 'user', 'brandName'));
         }
 
-        return JsonResponse::ajaxView(sprintf("sdk.hook.landing._partials.%s", $hookDownloadType), compact('hook', 'subClass', 'user', 'message','shortLink', 'redirectTime', 'data', 'sendAgainDisableTime'));
+        return JsonResponse::ajaxView(sprintf("sdk.hook.landing._partials.%s", $hookDownloadType), compact('hook', 'subClass', 'user', 'message','shortLink', 'redirectTime', 'data', 'sendAgainDisableTime', 'brandName'));
     }
 
     public function signal(Request $request, $slug)
