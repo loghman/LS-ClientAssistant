@@ -12,9 +12,10 @@
     <script src="{{ core_asset('resources/assets/js/clients/hook/landing.js') }}" type="module"></script>
     @stack('head')
 
-  @if($theme!=null)
-      {!! $theme['rendered_css'] !!}
-  @endif
+    @php $theme = get_current_theme(); @endphp
+    @if($theme != null)
+        {!! $theme['rendered_css'] !!}
+    @endif
 </head>
 <body class="{{ $subClass }}body hook-signal" data-hook-signal="{{ site_url('hook/'.$hook['slug'].'/signal?type=view') }}">
 {!! $shapeSvgHeaderBg !!}
