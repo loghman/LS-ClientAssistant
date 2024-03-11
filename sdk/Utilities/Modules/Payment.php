@@ -13,10 +13,12 @@ class Payment
     const PAGE_SUCCESS = 'success';
     const PAGE_FAILED = 'failed';
 
-    public static function requestLink($cartId, $callbackUrl): Collection
+    public static function requestLink(int $cartId, int $gatewayId, string $callbackUrl): Collection
     {
         try {
-            return API::post("v1/payment/request-link/$cartId", ['redirect_url' => $callbackUrl]);
+            return API::post("v1/payment/request-link/$cartId/$gatewayId", [
+                'redirect_url' => $callbackUrl,
+            ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -24,7 +26,7 @@ class Payment
         }
     }
 
-    public static function check($paymentId, string $page): Collection
+    public static function check(int $paymentId, string $page): Collection
     {
         try {
             return API::get("v1/payment/$paymentId", ['page' => $page]);

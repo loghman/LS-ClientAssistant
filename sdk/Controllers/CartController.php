@@ -9,6 +9,7 @@ use Ls\ClientAssistant\Utilities\Modules\Cart;
 use Ls\ClientAssistant\Utilities\Modules\Coupon;
 use Ls\ClientAssistant\Utilities\Modules\User;
 use Illuminate\Http\Request;
+use Ls\ClientAssistant\Utilities\Modules\V3\Gateway;
 
 class CartController
 {
@@ -19,15 +20,16 @@ class CartController
         }
     }
 
-    public function checkout(Request $request)
+    public function checkout()
     {
         $cart = Cart::screen(['coupon', 'lmsProductItems.entity', 'lmsProductItems.coupon'])['data'] ?? [];
+        $defaultGateway = Gateway::getDefault();
 
         $view = WebResponse::viewExist('salesflow.cart.index') ?
             'salesflow.cart.index' :
             'sdk.salesflow.cart.index';
 
-        return WebResponse::view($view, compact('cart'));
+        return WebResponse::view($view, compact('cart', 'defaultGateway'));
     }
 
     public function add(Request $request)

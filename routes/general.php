@@ -1,6 +1,7 @@
 <?php
 
 use Ls\ClientAssistant\Controllers\AuthVerificationController;
+use Ls\ClientAssistant\Controllers\PageController;
 use Ls\ClientAssistant\Controllers\WorkflowFormController;
 use Ls\ClientAssistant\Controllers\CartController;
 use Ls\ClientAssistant\Controllers\PaymentController;
@@ -98,12 +99,11 @@ $router->name('coupon.')->prefix('coupon')->middleware(AuthMiddleware::class)->g
 
 $router->name('payment.')->prefix('payment')->group(function (Router $router) {
     $router->name('requestLink')
-        ->get('/request-link/{cart}', [PaymentController::class, 'requestLink']);
+        ->get('/request-link/{cart}/{gateway}', [PaymentController::class, 'requestLink']);
 
     $router->name('qPay')
         ->get('/quick/pay', [PaymentController::class, 'qPay'])
-        ->middleware(AuthMiddleware::class)
-    ;
+        ->middleware(AuthMiddleware::class);
 
     $router->name('callback')
         ->get('/{paymentId}', [PaymentController::class, 'callback']);
@@ -115,4 +115,4 @@ $router->name('payment.')->prefix('payment')->group(function (Router $router) {
         ->get('/failed/{paymentId}', [PaymentController::class, 'failureForm']);
 });
 
-$router->get('/{slug}', [\Ls\ClientAssistant\Controllers\PageController::class, 'find']);
+$router->get('/{slug}', [PageController::class, 'find']);
