@@ -1,4 +1,4 @@
-@extends('_common.layouts.base')
+@extends('sdk._common.layouts.base')
 @section('title', 'سبد خرید')
 @section('header-class', 'square md center')
 @section('base-content-class', 'lg over-header md')

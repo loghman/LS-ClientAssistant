@@ -1,4 +1,4 @@
-@extends('_common.layouts.base')
+@extends('sdk._common.layouts.base')
 @section('title', $page['title'])
 @push('head')
 @endpush
