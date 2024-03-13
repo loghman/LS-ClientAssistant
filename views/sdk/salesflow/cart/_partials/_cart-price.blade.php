@@ -43,4 +43,5 @@
     </div>
 </div>
 
-<a href="{{ site_url("payment/request-link/{$cart['id']}") }}" class="btn mt-4">پرداخت و تکمیل ثبت نام</a>
+<a href="{{ route('payment.requestLink', ['cart' => $cart['id'], 'gateway' => $defaultGateway['id']]) }}"
+   class="btn mt-4">پرداخت و تکمیل ثبت نام</a>

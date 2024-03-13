@@ -6,6 +6,7 @@ use Ls\ClientAssistant\Core\Router\WebResponse;
 use Ls\ClientAssistant\Helpers\Config;
 use Ls\ClientAssistant\Utilities\Modules\Payment;
 use Illuminate\Http\Request;
+use Ls\ClientAssistant\Utilities\Modules\V3\Gateway;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class PaymentController
@@ -17,9 +18,9 @@ class PaymentController
         }
     }
 
-    public function requestLink(Request $request, $cart)
+    public function requestLink(int $cart, int $gateway)
     {
-        $res = Payment::requestLink($cart, site_url('payment/###payment_id###'));
+        $res = Payment::requestLink($cart, $gateway, site_url('payment/###payment_id###'));
 
         if (!$res->get('success')) {
             $_SESSION['error_messages'] = (array)$res->get('message');
@@ -75,6 +76,7 @@ class PaymentController
     public function failureForm(int $paymentId, Request $request)
     {
         $payment = Payment::check($paymentId, Payment::PAGE_FAILED);
+        $defaultGateway = Gateway::default()['data'];
 
         if (!$payment['success']) {
             return WebResponse::redirect();
@@ -84,6 +86,9 @@ class PaymentController
             'salesflow.payment.payment-failed' :
             'sdk.salesflow.payment.payment-failed';
 
-        return WebResponse::view($view, ['cartId' => $payment['data']['cart_id']]);
+        return WebResponse::view($view, [
+            'cartId' => $payment['data']['cart_id'],
+            'defaultGateway' => $defaultGateway
+        ]);
     }
 }

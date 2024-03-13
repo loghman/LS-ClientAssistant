@@ -31,7 +31,8 @@
                             </a>
                         </div>
                         <div class="footer justify-content-center">
-                            <a href="{{ route('payment.requestLink', ['cart' => $cartId]) }}" class="btn success">پرداخت مجدد</a>
+                            <a href="{{ route('payment.requestLink', ['cart' => $cartId, 'gateway' => $defaultGateway['id']]) }}"
+                               class="btn success">پرداخت مجدد</a>
                             <a href="{{ route('cart.checkout') }}" class="btn success">بازگشت به سبد</a>
                         </div>
                     </div>
