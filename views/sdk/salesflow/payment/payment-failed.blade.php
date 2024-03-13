@@ -1,4 +1,4 @@
-@extends('_common.layouts.base')
+@extends('sdk._common.layouts.base')
 @section('title', 'پرداخت ناموفق')
 @section('body-class', 'bg-danger-5')
 @push('head')@endpush

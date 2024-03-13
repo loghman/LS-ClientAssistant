@@ -1,4 +1,4 @@
-@extends('_common.layouts.base')
+@extends('sdk._common.layouts.base')
 @section('title', $hook['name_fa'])
 
 @section('content')
