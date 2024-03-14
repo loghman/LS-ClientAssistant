@@ -76,7 +76,7 @@ class PaymentController
     public function failureForm(int $paymentId, Request $request)
     {
         $payment = Payment::check($paymentId, Payment::PAGE_FAILED);
-        $defaultGateway = Gateway::default()['data'];
+        $defaultGateway = Gateway::getDefault();
 
         if (!$payment['success']) {
             return WebResponse::redirect();
