@@ -102,7 +102,7 @@ $router->name('payment.')->prefix('payment')->group(function (Router $router) {
         ->get('/request-link/{cart}/{gateway}', [PaymentController::class, 'requestLink']);
 
     $router->name('qPay')
-        ->get('/quick/pay', [PaymentController::class, 'qPay'])
+        ->get('/quick/pay/{gateway}', [PaymentController::class, 'qPay'])
         ->middleware(AuthMiddleware::class);
 
     $router->name('callback')

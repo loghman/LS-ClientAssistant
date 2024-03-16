@@ -37,11 +37,16 @@ class Payment
         }
     }
 
-    public static function qPay(string $entityType, string $entityId, string $callback, ?string $couponLabel = null)
-    {
+    public static function qPay(
+        string  $entityType,
+        string  $entityId,
+        int  $gatewayId,
+        string  $callback,
+        ?string $couponLabel = null
+    ): Collection {
         try {
             return API::get(
-                "client/v3/salesflow/payment/quick/pay",
+                "client/v3/salesflow/payment/quick/pay/{$gatewayId}",
                 [
                     'entity_type' => $entityType,
                     'entity_id' => $entityId,
