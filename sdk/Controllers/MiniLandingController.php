@@ -3,6 +3,7 @@
 namespace Ls\ClientAssistant\Controllers;
 
 use Ls\ClientAssistant\Core\Router\WebResponse;
+use Ls\ClientAssistant\Utilities\Modules\V3\Gateway;
 use Ls\ClientAssistant\Utilities\Modules\V3\LMSProduct;
 
 class MiniLandingController
@@ -14,6 +15,7 @@ class MiniLandingController
             abort(404, 'محصول پیدا نشد');
         }
 
+        $defaultGateway = Gateway::getDefault();
         $brandNameEn = setting('brand_name_en');
         $currentUser = current_user();
         $introVideo = $product['meta']['intro_video']['url'] ?? $product['meta']['demo_video_urls'][0] ?? '';
@@ -23,7 +25,15 @@ class MiniLandingController
 
         return WebResponse::view(
             'sdk.mini-landing.index',
-            compact('product', 'brandNameEn', 'currentUser', 'introVideo', 'productDuration', 'hasCampaign')
+            compact(
+                'product',
+                'brandNameEn',
+                'currentUser',
+                'introVideo',
+                'productDuration',
+                'hasCampaign',
+                'defaultGateway',
+            )
         );
     }
 }

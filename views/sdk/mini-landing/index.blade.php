@@ -40,7 +40,8 @@
 <div class="buttons">
 
     @if($currentUser)
-        <a class="btn primary-btn" href="{{ route('payment.qPay', ['et' => base64_encode('lms_products'), 'ei' => $product['id'], 'slug' => $product['slug']]) }}">
+        <a class="btn primary-btn"
+           href="{{ route('payment.qPay', ['gateway' => $defaultGateway['id'], 'et' => base64_encode('lms_products'), 'ei' => $product['id'], 'slug' => $product['slug']]) }}">
             <img src="{{ core_asset('resources/assets/img/clients/mini-landing/arrow.svg') }}"
                  class="arrow-right" width="20" height="20" alt="arrow">
             پرداخت سریع

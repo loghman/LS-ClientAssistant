@@ -31,11 +31,12 @@ class PaymentController
         return new RedirectResponse($res['data']['link'], 302, []);
     }
 
-    public function qPay(Request $request)
+    public function qPay(Request $request, int $gateway)
     {
         $res = Payment::qPay(
             base64_decode($request->get('et')),
             (int)$request->get('ei'),
+            $gateway,
             site_url('payment/###payment_id###'),
             $request->get('coupon'),
         );
