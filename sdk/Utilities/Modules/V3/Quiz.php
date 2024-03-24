@@ -1,6 +1,6 @@
 <?php
 
-namespace Ls\ClientAssistant\Utilities\Modules;
+namespace Ls\ClientAssistant\Utilities\Modules\V3;
 
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
