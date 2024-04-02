@@ -9,15 +9,10 @@ use Ls\ClientAssistant\Helpers\Response;
 
 class Quiz
 {
-    public static function findByEntity(string $entityType, int $entityId): Collection
+    public static function find(ModuleFilter $filter = null): Collection
     {
         try {
-            return API::get('client/v3/core/quiz/show', [
-                'entity_type' => $entityType,
-                'entity_id' => $entityId,
-                'includes' => implode(',', ['questions.currentUserAnswer.user']),
-                'withCount' => implode(',', ['questions.currentUserAnswer.reactions']),
-            ]);
+            return API::get('client/v3/core/quiz/show', $filter ? $filter->all() : []);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -25,13 +20,10 @@ class Quiz
         }
     }
 
-    public static function getQuestionById(int $id, array $filters = []): Collection
+    public static function getQuestionById(int $id, ModuleFilter $filter = null): Collection
     {
         try {
-            return API::get('client/v3/core/question/'.$id, [
-                'includes' => implode(',', ['currentUserAnswer']),
-                'search' => implode(',', $filters)
-            ]);
+            return API::get('client/v3/core/question/'.$id, $filter ? $filter->all() : []);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -65,12 +57,10 @@ class Quiz
         }
     }
 
-    public static function listAnswer(int $questionId, array $data): Collection
+    public static function listAnswer(ModuleFilter $filter = null): Collection
     {
         try {
-            return API::get('client/v3/core/answer', [
-                    'search' => 'question_id:'.$questionId
-                ]+$data);
+            return API::get('client/v3/core/answer', $filter ? $filter->all() : []);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -82,6 +72,17 @@ class Quiz
     {
         try {
             return API::patch('client/v3/core/answer/'.$answerId, $data);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
+    public static function listAnswersheet(ModuleFilter $filter = null): Collection
+    {
+        try {
+            return API::get('client/v3/core/answersheet', $filter ? $filter->all() : []);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
