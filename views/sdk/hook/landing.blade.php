@@ -1,6 +1,11 @@
 @extends('sdk._common.layouts.base')
-@section('title', $hook['name_fa'])
-
+@if (isset($seoMeta) && $seoMeta != '')
+    @push('head')
+        {!! $seoMeta !!}
+    @endpush
+@else
+    @section('title', $hook['title_fa'])
+@endif
 @section('content')
 
     @if($hook['fields']['conditions']['required_login'] || $user)
@@ -12,5 +17,4 @@
             <button>ورود جهت دریافت فایل</button>
         </form>
     @endif
-
 @endsection

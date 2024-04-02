@@ -21,6 +21,7 @@ class HookController
     public function landing(Request $request, $slug)
     {
         $hook = Hook::get($slug)['result'];
+        $seoMeta = seo_meta('hook', $hook);
         $user = current_user();
 
         if (!$hook) {
@@ -40,7 +41,7 @@ class HookController
         $brandName = setting('brand_name_fa');
         $logoUrl = $hook['hook_logo'];
 
-        WebResponse::view('sdk.hook.landing.index', compact('hook', 'user', 'brandName', 'logoUrl', 'showLoginForm'));
+        WebResponse::view('sdk.hook.landing.index', compact('hook', 'user', 'brandName', 'logoUrl', 'showLoginForm','seoMeta'));
     }
 
     public function download(Request $request, $slug)
