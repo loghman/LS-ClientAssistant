@@ -9,6 +9,17 @@ use Ls\ClientAssistant\Helpers\Response;
 
 class LMSProduct
 {
+    public static function list(ModuleFilter $filter = null): Collection
+    {
+        try {
+            return API::get('client/v3/lms/product', $filter ? $filter->all() : []);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
     public static function get(string $slug, ModuleFilter $filter = null): Collection
     {
         try {
