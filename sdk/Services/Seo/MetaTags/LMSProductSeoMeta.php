@@ -64,10 +64,10 @@ class LMSProductSeoMeta extends SeoMeta
 
         if (!empty($this->banner_url)) {
             $bannerUrl = $this->banner_url;
-            list($width, $height, $type, $attr) = getimagesize($bannerUrl);
+//            list($width, $height, $type, $attr) = getimagesize($bannerUrl);
             $openGraph .= "<meta property='og:image' content='{$bannerUrl}' />" . PHP_EOL;
-            $openGraph .= "<meta property='og:image:width' content='$width' />" . PHP_EOL;
-            $openGraph .= "<meta property='og:image:height' content='$height' />" . PHP_EOL;
+            $openGraph .= "<meta property='og:image:width' content='768' />" . PHP_EOL;
+            $openGraph .= "<meta property='og:image:height' content='1024' />" . PHP_EOL;
         }
 
         if (!is_null($this->description))
