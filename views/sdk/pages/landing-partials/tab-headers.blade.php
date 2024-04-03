@@ -31,7 +31,7 @@
                             @foreach($chapter['publishedItems'] as $chapterItem)
                                 <li>
                                     <span class="title">{{ $chapterItem['title'] }}</span>
-                                    <span class="subtitle">{{ to_persian_num($chapterItem['attachment_duration_sum']['line_time']) }}</span>
+                                    <span class="subtitle">{{ to_persian_num($chapterItem['videos_duration']['line_time']) }}</span>
                                 </li>
                             @endforeach
                         </ul>
