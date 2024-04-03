@@ -13,6 +13,7 @@ class ModuleFilter
     private string $searchJoin = 'or';
     private string $orderBy;
     private string $sortedBy;
+    private int $page;
     private int $per_page;
 
     public static function new()
@@ -72,6 +73,13 @@ class ModuleFilter
     public function sortedBy(string $sortedBy): self
     {
         $this->sortedBy = $sortedBy;
+
+        return $this;
+    }
+
+    public function page(int $page): self
+    {
+        $this->page = $page;
 
         return $this;
     }
