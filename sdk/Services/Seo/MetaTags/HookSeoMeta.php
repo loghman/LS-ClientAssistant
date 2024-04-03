@@ -66,10 +66,10 @@ class HookSeoMeta extends SeoMeta
 
 
         if (!empty($this->hook['hook_logo'])) {
-            list($width, $height, $type, $attr) = getimagesize($this->hook['hook_logo']);
+//            list($width, $height, $type, $attr) = getimagesize($this->hook['hook_logo']);
             $openGraph .= "<meta property='og:image' content='{$this->hook['hook_logo']}' />" . PHP_EOL;
-            $openGraph .= "<meta property='og:image:width' content='$width' />" . PHP_EOL;
-            $openGraph .= "<meta property='og:image:height' content='$height' />" . PHP_EOL;
+            $openGraph .= "<meta property='og:image:width' content='768' />" . PHP_EOL;
+            $openGraph .= "<meta property='og:image:height' content='1024' />" . PHP_EOL;
         }
 
         $openGraph .= "<meta property='og:locale' content='fa_IR' />" . PHP_EOL;
