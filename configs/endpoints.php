@@ -51,8 +51,7 @@ return [
         'top_of_head_script',
         'bottom_of_head_script',
         'top_of_body_script',
-        'bottom_of_body_script',
-        'display_adviser_form'
+        'bottom_of_body_script'
     ],
     'enable_cart_payment' => $GLOBALS['enableCartPayment'] === null || $GLOBALS['enableCartPayment'] === 'true',
     'hook-cookie-name' => 'from_hook',
