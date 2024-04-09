@@ -1,7 +1,7 @@
 <div id="tab-gifts" class="tab-content">
     <span class="t-title d-block text-center mb-2">
         <span style="color: #ddb664">{{ count($product['productGifts']) }} هدیه ویژه</span>
-        به ارزش {{ $product['totalGiftsPrice']['human'] }}
+        به ارزش {{ $product['total_gifts_price']['human'] }}
     </span>
     <div class="gifts">
         @foreach($product['productGifts'] as $gift)

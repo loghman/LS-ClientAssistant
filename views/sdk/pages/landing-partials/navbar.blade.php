@@ -7,10 +7,5 @@
             <i class="i-log-in-2"></i>
             ورود به سایت
         </a>
-    @else
-        <a class="btn transparent" href="{{ route('panel.course.list') }}">
-            <i class="si-play-circle-r"></i>
-            دوره‌های من
-        </a>
     @endif
 </div>
