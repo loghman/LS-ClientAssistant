@@ -35,5 +35,5 @@
 @stack('head')
 
 {{ setting('bottom_of_head_script') }}
-<meta name='description' content='{{ $product['seo']['description'] }}' />
+<meta name='description' content='{{ $product['seo']['description'] ?? '' }}' />
 <link rel="stylesheet" href="{{ core_asset('resources/assets/minimal-landing/css/style.scss') }}">
