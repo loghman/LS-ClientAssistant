@@ -10,11 +10,11 @@
             @endif
         </div>
         <div>
-            <span class="title">{{ count($product['chapters']) }}</span>
+            <span class="title">{{ to_persian_num(count($product['chapters'])) }}</span>
             <small class="subtitle">سرفصل</small>
         </div>
         <div>
-            <span class="title">{{ $product['published_items_except_chapter_and_heading_count'] }}</span>
+            <span class="title">{{ to_persian_num($product['published_items_except_chapter_and_heading_count']) }}</span>
             <small class="subtitle">جلسه</small>
         </div>
     </div>
@@ -22,7 +22,7 @@
         @foreach($product['chapters'] as $i => $chapter)
             <div class="accordion">
                 <div class="header">
-                    <span class="number">{{ $i + 1 }}</span>
+                    <span class="number">{{ to_persian_num($i + 1) }}</span>
                     <span class="title">{{ $chapter['title'] }}</span>
                 </div>
                 @if(count($chapter['publishedItems']) > 0)

@@ -1,5 +1,5 @@
-@section('title', $product['seo']['title'])
-        <!doctype html>
+@section('title', $product['seo']['title'] ?? $product['title'])
+<!doctype html>
 <html lang="fa">
 <head>
     @include('sdk.pages.landing-partials.head')

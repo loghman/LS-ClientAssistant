@@ -5,7 +5,7 @@
         </video>
         <div class="cover">
             <img src="{{ $product['banner_url']['main']['url'] }}" alt="{{ $product['title'] }}">
-            <i class="i-play"></i>
+            <i class="i-target"></i>
             پخش ویدیو
         </div>
     </div>
