@@ -1,0 +1,43 @@
+{
+    "name": "imanghafoori/php-token-analyzer",
+    "description": "Token analyzer utility for PHP",
+    "keywords": [
+        "php-token-analyzer"
+    ],
+    "homepage": "https://github.com/imanghafoori1/php_token_analyzer",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Iman",
+            "email": "imanghafoori1@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "phpdocumentor/reflection-docblock": "4.*|5.*",
+        "php": "^7.2|8.0.*|8.1.*|8.2.*|8.3.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.0|^7.0|^8.0|^9.0",
+        "symfony/var-dumper": "3.*|4.*|5.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Imanghafoori\\TokenAnalyzer\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Imanghafoori\\TokenAnalyzer\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable"
+}
