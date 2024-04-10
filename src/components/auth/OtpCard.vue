@@ -4,6 +4,9 @@ import Cookies from "js-cookie";
 import { Form } from 'vee-validate';
 import { endLoading, startLoading } from '@/assets/js/utilities/loading';
 import { post } from '@/assets/js/utilities/httpClient/httpClient';
+import { toEnNumber } from '@/assets/js/utilities/common';
+import { useToast } from "vue-toastification";
+const toast = useToast();
 const props = defineProps({
     uniqueKey: String
 });
@@ -22,7 +25,7 @@ const handleInput = (value, index, e) => {
     if (index < otpInputs.length - 1) {
         otpInputs[index + 1].focus();
     } else {
-        const lastValue=$(otpInputs[otpInputs.length - 1]).val();
+        const lastValue=(otpInputs[otpInputs.length - 1]).value;
         if (!lastValue) {
             return; 
         }
@@ -65,12 +68,12 @@ const handleSubmit = async () => {
         if (response.status !== false) {
             Cookies.set("token", response.auth.token, { expires: 365 });
             endLoading(submitVerifFormBtn.value);
-            toast("شما با موفقیت لاگین شدین");
+            toast.success("شما با موفقیت لاگین شدین");
             const redirectPath = response.redirect_path;
             window.location.href = `${redirectPath}`;
         } else {
             endLoading(submitVerifFormBtn.value);
-            toast(response.message.text, "danger");
+            toast.error(response.message.text, "danger");
         }
     } catch (error) {
         console.log(error);
@@ -83,10 +86,10 @@ const resendCode = async () => {
         const response = await post("/v3/auth/send-token", { unique_key: props.uniqueKey });
         if (response.status !== false) {
             endLoading(reSendTokenBtnRef.value);
-            toast("کد مجددا ارسال شد");
+            toast.success("کد مجددا ارسال شد");
         } else {
             endLoading(reSendTokenBtnRef.value);
-            toast(response.message.text, "danger");
+            toast.error(response.message.text, "danger");
         }
     } catch (error) {
         console.log(error);

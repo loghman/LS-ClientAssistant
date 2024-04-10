@@ -5,23 +5,8 @@ import * as yup from 'yup';
 import { post } from "@/assets/js/utilities/httpClient/httpClient";
 import Cookies from "js-cookie";
 import { endLoading, startLoading } from '@/assets/js/utilities/loading';
-import { createToastInterface } from "vue-toastification";
-
-const pluginOptions = {
-  position: "top-left",
-  timeout: 7000,
-  closeOnClick: false,
-  pauseOnFocusLoss: true,
-  pauseOnHover: true,
-  draggable: true,
-  draggablePercent: 0.78,
-  showCloseButtonOnHover: false,
-  hideProgressBar: true,
-  closeButton: "button",
-  icon: true,
-  rtl: true
-};
-const toast = createToastInterface(pluginOptions);
+import { useToast } from "vue-toastification";
+const toast = useToast();
 const props = defineProps({
     uniqueKey: String,
     otpEnable: Boolean
@@ -55,13 +40,13 @@ const handleSubmit = async (values) => {
         if (response.status !== false) {
             Cookies.set("token", response.auth.token,{domain:"lsp.test"});
             endLoading(submitBtnRef.value);
-            toast("شما با موفقیت لاگین شدین");
+            toast.success("شما با موفقیت لاگین شدین");
             const redirectPath = response.redirect_path;
             window.location.href = `${redirectPath}`;
           
         } else {
             endLoading(submitBtnRef.value);
-            toast(response.message.text, "danger");
+            toast.error(response.message.text, "danger");
         }
     } catch (error) {
         console.error(error);

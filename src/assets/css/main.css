@@ -6638,8 +6638,8 @@ disabled:not(.btn-submit),
 }
 @font-face {
   font-family: iransansxv;
-  src: url(/build/assets/iransansxv-6bb0c25c.woff) format("woff-variations"),
-    url(/build/assets/iransansxv-6bb0c25c.woff) format("woff");
+  src: url(iransansxv-6bb0c25c.woff) format("woff-variations"),
+    url(iransansxv-6bb0c25c.woff) format("woff");
   font-weight: 100 900;
   font-display: fallback;
 }
@@ -6674,7 +6674,7 @@ body {
 }
 @font-face {
   font-family: sl-icon;
-  src: url(/build/assets/sl-icon-4db9079c.woff?4n7yz) format("woff");
+  src: url(sl-icon-4db9079c.woff) format("woff");
   font-weight: 400;
   font-style: normal;
   font-display: block;

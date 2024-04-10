@@ -1,7 +1,8 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+const baseURL=import.meta.env.VITE_BASE_URL;
 const instance = axios.create({
-  baseURL: 'http://lsp.test/api',
+  baseURL: baseURL,
   headers: {
     "Content-Type": "application/json",
   },
@@ -24,7 +25,6 @@ instance.interceptors.response.use(
       //  unexpected errors 
       return Promise.reject(error);
     }
-
     // expected errors
     return Promise.reject(error.response.data);
   }

@@ -1,6 +1,6 @@
 import '@/assets/css/main.css'
 
-import { createApp } from 'vue'
+import {createApp, defineAsyncComponent} from 'vue'
 import { createPinia } from 'pinia'
 
 import App from './App.vue'
@@ -22,7 +22,9 @@ const pluginOptions = {
   icon: true,
   rtl: true
 };
-const app = createApp(App)
+const app = createApp(App,{
+  'v-auth-page': defineAsyncComponent(() => import('./views/AuthPage.vue')),
+})
 
 app.use(createPinia())
 app.use(router)

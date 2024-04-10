@@ -2,7 +2,8 @@
 import { defineProps, defineEmits } from "vue";
 import { Form, Field, ErrorMessage } from 'vee-validate';
 import { createValidationSchema } from "./createValidation";
-
+import { useToast } from "vue-toastification";
+const toast = useToast();
 const props = defineProps({
     AuthLabel: String,
     loginFields: Array,
@@ -18,7 +19,7 @@ const onPreLoginSubmit = async (values) => {
     emit("goToCard", "loginCard");
 };
 function onInvalidSubmit({ values, errors, results }) {
-    toast("لطفا فرم را بادقت پر کنید.",'warrning')
+  toast.error("لطفا فرم را بادقت پر کنید.",'warrning')
 }
 </script>
 
