@@ -5,7 +5,8 @@ import Cookies from "js-cookie";
 import { endLoading, startLoading } from '@/assets/js/utilities/loading';
 import { post } from '@/assets/js/utilities/httpClient/httpClient';
 import { createValidationSchema } from './createValidation';
-
+import { useToast } from 'vue-toastification';
+const toast = useToast();
 defineComponent({
     components: {
     }
@@ -31,15 +32,15 @@ const handleSubmit=async (values)=>{
     try {
         startLoading(submitRegisRef.value);
         const response = await post("/v3/auth/register", data);
-        if (response.status !== false) {
+        if (response.status !== false && response.status !== undefined) {
             Cookies.set("token", response.auth.token);
             endLoading(submitRegisRef.value);
-            toast("شما با موفقیت ثبت نام شدین");
+            toast.success("شما با موفقیت ثبت نام شدین");
             const redirectPath = response.redirect_path;
             window.location.href = `${redirectPath}`;
         } else {
             endLoading(submitRegisRef.value);
-            toast(response.message.text, "danger");
+            toast.error(response.message.text);
         }
     } catch (error) {
         console.log(error);

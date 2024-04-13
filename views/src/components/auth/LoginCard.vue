@@ -37,7 +37,7 @@ const handleSubmit = async (values) => {
     try {
         startLoading(submitBtnRef.value);
         const response = await post("/v3/auth/auth", data);
-        if (response.status !== false) {
+        if (response.status !== false && response.status !== undefined) {
             Cookies.set("token", response.auth.token,{domain:"lsp.test"});
             endLoading(submitBtnRef.value);
             toast.success("شما با موفقیت لاگین شدین");
