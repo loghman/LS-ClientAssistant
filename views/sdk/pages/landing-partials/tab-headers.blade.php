@@ -10,7 +10,7 @@
             @endif
         </div>
         <div>
-            <span class="title">{{ $product['attachment_duration_sum']['line_time'] ?? '' }}</span>
+            <span class="title">{{ $productDuration }}</span>
             <small class="subtitle">طول دوره</small>
         </div>
         <div>
