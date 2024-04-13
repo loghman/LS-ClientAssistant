@@ -6,7 +6,7 @@
         <div class="cover">
             <img src="{{ $product['banner_url']['main']['url'] }}" alt="{{ $product['title'] }}">
             <i class="i-target"></i>
-            پخش ویدیو
+            {{ $product['title'] }}
         </div>
     </div>
 @else

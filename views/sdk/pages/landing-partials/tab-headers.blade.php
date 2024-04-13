@@ -10,8 +10,8 @@
             @endif
         </div>
         <div>
-            <span class="title">{{ to_persian_num(count($product['chapters'])) }}</span>
-            <small class="subtitle">سرفصل</small>
+            <span class="title">{{ $product['attachment_duration_sum']['line_time'] ?? '' }}</span>
+            <small class="subtitle">طول دوره</small>
         </div>
         <div>
             <span class="title">{{ to_persian_num($product['published_items_except_chapter_and_heading_count']) }}</span>
