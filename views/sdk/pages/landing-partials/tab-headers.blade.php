@@ -19,13 +19,15 @@
         </div>
     </div>
     <div class="accordions">
+        @php $index=0; @endphp
         @foreach($product['chapters'] as $i => $chapter)
-            <div class="accordion">
-                <div class="header">
-                    <span class="number">{{ to_persian_num($i + 1) }}</span>
-                    <span class="title">{{ $chapter['title'] }}</span>
-                </div>
-                @if(count($chapter['publishedItems']) > 0)
+            @if(count($chapter['publishedItems']) > 0)
+                <div class="accordion">
+                    <div class="header">
+                        <span class="number">{{ to_persian_num(++$index) }}</span>
+                        <span class="title">{{ $chapter['title'] }}</span>
+                    </div>
+
                     <div class="content">
                         <ul class="list">
                             @foreach($chapter['publishedItems'] as $chapterItem)
@@ -36,8 +38,8 @@
                             @endforeach
                         </ul>
                     </div>
-                @endif
-            </div>
+                </div>
+            @endif
         @endforeach
     </div>
 </div>

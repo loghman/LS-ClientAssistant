@@ -11,7 +11,7 @@ class ModuleFilter
     private string $search = '';
     private string $searchFields = '';
     private string $searchJoin = 'or';
-    private string $orderBy;
+    private string $orderBy = '';
     private string $sortedBy;
     private int $page;
     private int $per_page;
@@ -63,9 +63,11 @@ class ModuleFilter
         return $this;
     }
 
-    public function orderBy(string $orderBy): self
+    public function orderBy(... $orderBys): self
     {
-        $this->orderBy = $orderBy;
+        foreach ($orderBys as $orderBy) {
+            $this->orderBy = $this->concat($this->orderBy, $orderBy, ';');
+        }
 
         return $this;
     }
