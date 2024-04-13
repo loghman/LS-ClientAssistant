@@ -6638,8 +6638,8 @@ disabled:not(.btn-submit),
 }
 @font-face {
   font-family: iransansxv;
-  src: url(iransansxv-6bb0c25c.woff) format("woff-variations"),
-    url(iransansxv-6bb0c25c.woff) format("woff");
+  src: url(/build/assets/iransansxv-6bb0c25c.woff) format("woff-variations"),
+    url(/build/assets/iransansxv-6bb0c25c.woff) format("woff");
   font-weight: 100 900;
   font-display: fallback;
 }
@@ -6674,7 +6674,7 @@ body {
 }
 @font-face {
   font-family: sl-icon;
-  src: url(sl-icon-4db9079c.woff) format("woff");
+  src: url(/build/assets/sl-icon-4db9079c.woff?4n7yz) format("woff");
   font-weight: 400;
   font-style: normal;
   font-display: block;
@@ -12579,7 +12579,7 @@ button i.square,
   --border-focus: var(--secondary-20);
 }
 .card-enrollment {
-  background: var(--primary-5);
+  background: var(--primary-7);
   border: solid 1px var(--primary-20);
   border-radius: calc(var(--base-gutter) * 0.5);
   display: -webkit-flex;
@@ -12640,7 +12640,7 @@ button i.square,
   right: 0;
   bottom: 0;
   left: 0;
-  background: var(--primary);
+  background: var(--theme);
   mix-blend-mode: color;
   z-index: 2;
 }
@@ -14834,6 +14834,23 @@ input:not(input[type="radio"], input[type="checkbox"]).solid {
 .funnel > *:nth-child(4) .cta {
   right: 90px;
   --bg: rgb(94, 199, 151);
+}
+#features-content {
+  gap: 8px;
+}
+.feature-item {
+  position: relative;
+  margin-top: 12px;
+  padding: 8px;
+  border: solid 1px var(--input-border);
+  border-radius: 5px;
+}
+.feature-item .delete-feature {
+  position: absolute;
+  left: -24px;
+  z-index: 10;
+  top: 50%;
+  transform: translateY(-50%);
 }
 .list {
   display: -webkit-flex;
@@ -17479,9 +17496,6 @@ video {
   70% {
     transform: scale(1);
   }
-}
-.section-enrollment-screen > section {
-  min-height: calc(100vh - var(--navbar-height) - var(--base-gutter));
 }
 .section-enrollment-screen .section-chapters {
   max-height: calc(100vh - var(--navbar-height) - var(--base-gutter));

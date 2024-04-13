@@ -4,27 +4,10 @@ import PreLogin from "../components/auth/PreLogin.vue";
 import LoginCard from "../components/auth/LoginCard.vue";
 import OtpCard from "../components/auth/OtpCard.vue";
 import { defineComponent, ref, onBeforeMount } from "vue";
-import { createToastInterface } from "vue-toastification";
+import { useToast } from "vue-toastification";
 import { get } from "@/assets/js/utilities/httpClient/httpClient";
 import RegisterCard from "../components/auth/RegisterCard.vue";
-
-const pluginOptions = {
-  position: "top-left",
-  timeout: 7000,
-  closeOnClick: false,
-  pauseOnFocusLoss: true,
-  pauseOnHover: true,
-  draggable: true,
-  draggablePercent: 0.78,
-  showCloseButtonOnHover: false,
-  hideProgressBar: true,
-  closeButton: "button",
-  icon: true,
-  rtl: true
-};
-
-// Create the interface
-const toast = createToastInterface(pluginOptions);
+const toast = useToast();
 defineComponent({
     components: {
         Loading,
@@ -119,16 +102,15 @@ onBeforeMount(() => {
     </div>
 
 </template>
-<style lang="scss">
+<style >
 .auth-inputs {
     display: flex;
     flex-direction: column;
     gap: 0 !important;
-
-    .error-message {
+}
+.error-message {
         padding: 0;
         color: var(--danger);
         font-size: 14px;
     }
-}
 </style>

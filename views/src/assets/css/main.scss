@@ -1,0 +1,13 @@
+.password-input {
+    border-left: solid 1px var(--input-group-child-border) !important;
+}
+.auth-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 0 !important;
+}
+.error-message {
+        padding: 0;
+        color: var(--danger);
+        font-size: 14px;
+    }
