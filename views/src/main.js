@@ -3,7 +3,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import Toast from "vue-toastification";
 import "@/assets/css/custom-toast-style.scss";
-import "@/assets/css/auth-style.scss";
+// import "@/assets/css/auth-style.scss";
 const pluginOptions = {
   position: "top-center",
   timeout: 7000,
