@@ -3,10 +3,10 @@ import Cookies from "js-cookie";
 const baseURL=import.meta.env.VITE_CORE_URL;
 const instance = axios.create({
   baseURL: baseURL,
-  timeout: 50000,
-  // signal: newAbortSignal(20000),
   headers: {
     "Content-Type": "application/json",
+    // "Access-Control-Allow-Origin":"*",
+    // "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT"
   },
 });
 

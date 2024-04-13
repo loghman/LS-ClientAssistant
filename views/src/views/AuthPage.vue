@@ -7,6 +7,7 @@ import { defineComponent, ref, onBeforeMount } from "vue";
 import { useToast } from "vue-toastification";
 import { get } from "@/assets/js/utilities/httpClient/httpClient";
 import RegisterCard from "../components/auth/RegisterCard.vue";
+import { createIframe } from "../assets/js/utilities/common";
 const toast = useToast();
 defineComponent({
     components: {
@@ -49,6 +50,8 @@ const setActiveTab = (tab) => {
     activeTab.value = tab;
 }
 onBeforeMount(() => {
+    const target=document.getElementsByTagName('body');
+    createIframe(target,'http://lsp.test');
     getAuthSEtting();
 })
 </script>

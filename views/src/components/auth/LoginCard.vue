@@ -6,6 +6,8 @@ import { post } from "@/assets/js/utilities/httpClient/httpClient";
 import Cookies from "js-cookie";
 import { endLoading, startLoading } from '@/assets/js/utilities/loading';
 import { useToast } from "vue-toastification";
+import { postData } from '../../assets/js/utilities/common';
+const clientIframe=document.getElementById('client_iframe');
 const toast = useToast();
 const props = defineProps({
     uniqueKey: String,
@@ -37,9 +39,10 @@ const handleSubmit = async (values) => {
     try {
         startLoading(submitBtnRef.value);
         const response = await post("/v3/auth/auth", data);
-        if (response.status !== false && response.status !== undefined) {
+        if (response.status !== false) {
             Cookies.set("token", response.auth.token,{domain:"lsp.test"});
             endLoading(submitBtnRef.value);
+            postData(clientIframe,{token:response.auth.token,origin:"http://client.lsp.test"},'http://lsp.test')
             toast.success("شما با موفقیت لاگین شدین");
             const redirectPath = response.redirect_path;
             window.location.href = `${redirectPath}`;
