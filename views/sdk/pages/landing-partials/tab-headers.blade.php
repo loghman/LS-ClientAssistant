@@ -33,10 +33,12 @@
                     <div class="content">
                         <ul class="list">
                             @foreach($chapter['publishedItems'] as $chapterItem)
+                                @if($chapterItem['videos_duration']['line_time'] != '00:00:00')
                                 <li>
                                     <span class="title">{{ $chapterItem['title'] }}</span>
                                     <span class="subtitle">{{ to_persian_num($chapterItem['videos_duration']['line_time']) }}</span>
                                 </li>
+                                @endif
                             @endforeach
                         </ul>
                     </div>
