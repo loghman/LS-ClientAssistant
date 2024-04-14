@@ -9,14 +9,18 @@
                 </div>
             @endif
         </div>
-        <div>
-            <span class="title">{{ $productDuration }}</span>
-            <small class="subtitle">طول دوره</small>
-        </div>
-        <div>
-            <span class="title">{{ to_persian_num($product['published_items_except_chapter_and_heading_count']) }}</span>
-            <small class="subtitle">جلسه</small>
-        </div>
+        @if($productDuration!=0)
+            <div>
+                <span class="title">{{ $productDuration }}</span>
+                <small class="subtitle">طول دوره</small>
+            </div>
+        @endif
+        @if($product['published_items_except_chapter_and_heading_count']>0)
+            <div>
+                <span class="title">{{ to_persian_num($product['published_items_except_chapter_and_heading_count']) }}</span>
+                <small class="subtitle">جلسه</small>
+            </div>
+        @endif
     </div>
     <div class="accordions">
         @foreach($product['chapters'] as $i => $chapter)

@@ -6,7 +6,7 @@
         @if(isset($product['banner_url']['main']['url']))
             <div class="cover">
                 <img src="{{ $product['banner_url']['main']['url'] }}" alt="{{ $product['title'] }}">
-                <i class="i-target"></i>
+                <i class="i-play"></i>
                 {{ $product['title'] }}
             </div>
         @endif
@@ -15,8 +15,8 @@
     @if(isset($product['banner_url']['main']['url']))
         <div class="cover with-info">
             <img src="{{ $product['banner_url']['main']['url'] }}" alt="{{ $product['title'] }}" class="thumbnail">
-            <div class="cover-info">
-                {{ $product['title'] }}
+            <span class="cover-info">
+                <span class="title" {{ $product['title'] }}</span>
             </div>
         </div>
     @endif
