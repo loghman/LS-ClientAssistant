@@ -15,8 +15,8 @@
     @if(isset($product['banner_url']['main']['url']))
         <div class="cover with-info">
             <img src="{{ $product['banner_url']['main']['url'] }}" alt="{{ $product['title'] }}" class="thumbnail">
-            <span class="cover-info">
-                <span class="title" {{ $product['title'] }}</span>
+            <div class="cover-info">
+                <span class="title">{{ $product['title'] }}</span>
             </div>
         </div>
     @endif
