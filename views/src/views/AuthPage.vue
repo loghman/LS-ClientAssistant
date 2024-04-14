@@ -50,8 +50,8 @@ const setActiveTab = (tab) => {
     activeTab.value = tab;
 }
 onBeforeMount(() => {
-    const target=document.getElementsByTagName('body');
-    createIframe(target,'http://lsp.test');
+    const target=document.getElementById('app');
+    createIframe(target,'https://devteam.7learn.com');
     getAuthSEtting();
 })
 </script>
