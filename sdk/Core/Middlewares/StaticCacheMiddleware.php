@@ -59,7 +59,7 @@ class StaticCacheMiddleware
             '#^/community(/[\w\-/]+)?$#' => setting('client_static_cache_single_topic'),
             '#^/course/[\w-]+$#' => setting('client_static_cache_single_course'),
             '#^/product/[\w-]+$#' => setting('client_static_cache_single_product'),
-            '#^/course/[\w-]+$#/m' => setting('client_static_cache_minimal_landing'),
+            '#^/course/[\w-]+$/m#' => setting('client_static_cache_minimal_landing'),
         ];
     }
 }
