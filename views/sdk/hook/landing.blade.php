@@ -8,7 +8,7 @@
     @endif
 
     @if(!$user && $hook['fields']['conditions']['required_login'])
-        <form action="{{ route('auth.index') }}">
+        <form action="{{ setting('client_auth_index', route('auth.index')) . "?refer=" . request()->url() }}">
             <button>ورود جهت دریافت فایل</button>
         </form>
     @endif

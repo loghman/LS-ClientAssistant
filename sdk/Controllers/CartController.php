@@ -37,7 +37,7 @@ class CartController
         if (! User::loggedIn()) {
             return JsonResponse::unprocessableEntity(
                 'ابتدا وارد شوید.',
-                ['backUrl' => route('auth.index')]
+                ['backUrl' => setting('client_auth_index', route('auth.index')) . "?refer=" . request()->url()]
             );
         }
 
