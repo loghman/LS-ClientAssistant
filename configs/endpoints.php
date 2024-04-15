@@ -52,7 +52,8 @@ return [
         'bottom_of_head_script',
         'top_of_body_script',
         'bottom_of_body_script',
-        'client_static_cache_minimal_landing'
+        'client_static_cache_minimal_landing',
+        'client_auth_index'
     ],
     'enable_cart_payment' => $GLOBALS['enableCartPayment'] === null || $GLOBALS['enableCartPayment'] === 'true',
     'hook-cookie-name' => 'from_hook',
