@@ -51,15 +51,15 @@ class StaticCacheMiddleware
     public static function urlRegexPattern(): array
     {
         return [
-            '#^/blog/([a-zA-Z0-9\-]+)$#' => setting('client_static_cache_single_blog')=="1"? true : false,
-            '#^/news/([a-zA-Z0-9\-]+)$#' => setting('client_static_cache_single_blog')=="1"? true : false,
-            '#^/podcasts/([a-zA-Z0-9\-]+)$#' => setting('client_static_cache_single_blog')=="1"? true : false,
-            '#^/articles/([a-zA-Z0-9\-]+)$#' => setting('client_static_cache_single_blog')=="1"? true : false,
-            '#^/community/([\w-]+)(/[\w-]+)*$#' => setting('client_static_cache_list_topics')=="1"? true : false,
-            '#^/community(/[\w\-/]+)?$#' => setting('client_static_cache_single_topic')=="1"? true : false,
-            '#^/course/[\w-]+$#' => setting('client_static_cache_single_course')=="1"? true : false,
-            '#^/product/[\w-]+$#' => setting('client_static_cache_single_product')=="1"? true : false,
-            '#^\/course\/[\w-]+\/m$#' => setting('client_static_cache_minimal_landing')=="1"? true : false,
+            '#^\/blog\/([a-zA-Z0-9\-]+)$#' => setting('client_static_cache_single_blog')=="1",
+            '#^\/news/([a-zA-Z0-9\-]+)$#' => setting('client_static_cache_single_blog')=="1",
+            '#^\/podcasts\/([a-zA-Z0-9\-]+)$#' => setting('client_static_cache_single_blog')=="1",
+            '#^\/articles\/([a-zA-Z0-9\-]+)$#' => setting('client_static_cache_single_blog')=="1",
+            '#^/community\/([\w-]+)(/[\w-]+)*$#' => setting('client_static_cache_list_topics')=="1",
+            '#^\/community(/[\w\-/]+)?$#' => setting('client_static_cache_single_topic')=="1",
+            '#^\/product\/[\w-]+$#' => setting('client_static_cache_single_product')=="1",
+            '#^\/course/[\w-]+$#' => setting('client_static_cache_single_course')=="1",
+            '#^\/course\/[\w-]+\/m$#' => setting('client_static_cache_minimal_landing')=="1",
         ];
     }
 }
