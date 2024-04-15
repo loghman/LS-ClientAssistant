@@ -50,7 +50,7 @@
                 </a>
             @endif
         @else
-            <a href="{{ route('auth.index') }}" class="btn primary-btn" style="width: 100%">
+            <a href="{{ setting('client_auth_index', route('auth.index')) . "?refer=" . request()->url() }}" class="btn primary-btn" style="width: 100%">
                 <img src="{{ core_asset('resources/assets/img/clients/mini-landing/arrow.svg') }}"
                      class="arrow-right" width="20" height="20" alt="arrow">
                 {{ $product['price']['main']>0? "ورود برای پرداخت" : "ورود برای ثبت نام" }}

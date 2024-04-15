@@ -1,5 +1,5 @@
 <form
-        action="{{ route('auth.index') }}"
+        action="{{ setting('client_auth_index', route('auth.index')) . "?refer=" . request()->url() }}"
         class="{{ $subClass }}card ajax-form {{ $subClass }}w-100"
         data-stable="true"
 >

@@ -56,7 +56,7 @@ class HookController
             Token::token($hook['id'], $this->hookCookieName)->weeks()->save();
 
             return JsonResponse::badRequest(sprintf("برای استفاده از‌ %s ابتدا باید در حساب کاربری خود لاگین کنید", $hook['title_fa']), [
-                'backUrl' => route('auth.index')
+                'backUrl' => setting('client_auth_index', route('auth.index')) . "?refer=" . request()->url()
             ]);
         }
 
