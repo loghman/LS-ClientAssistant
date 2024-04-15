@@ -52,7 +52,7 @@ class StaticCacheMiddleware
     {
         return [
             '#^\/blog\/([a-zA-Z0-9\-]+)$#' => setting('client_static_cache_single_blog')=="1",
-            '#^\/news/([a-zA-Z0-9\-]+)$#' => setting('client_static_cache_single_blog')=="1",
+            '#^\/news\/([a-zA-Z0-9\-]+)$#' => setting('client_static_cache_single_blog')=="1",
             '#^\/podcasts\/([a-zA-Z0-9\-]+)$#' => setting('client_static_cache_single_blog')=="1",
             '#^\/articles\/([a-zA-Z0-9\-]+)$#' => setting('client_static_cache_single_blog')=="1",
             '#^\/community\/([\w-]+)(/[\w-]+)*$#' => setting('client_static_cache_list_topics')=="1",
