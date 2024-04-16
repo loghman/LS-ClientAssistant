@@ -70,7 +70,9 @@ if (!function_exists('sitemap')) {
             throw new \Exception("Class ($class) Not Found!");
         }
         $sitemap = new $class($data);
+        header('Content-Type: application/xml', true);
         echo $sitemap->render();
+        exit();
     }
 }
 
