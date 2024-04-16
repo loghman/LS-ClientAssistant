@@ -9,7 +9,8 @@ class StaticSiteMap extends SiteMap
         $tags = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL;
         $tags .= $this->items();
         $tags .= '</urlset>';
-        return $tags;
+        echo $tags;
+        die;
     }
 
     public function items(): string

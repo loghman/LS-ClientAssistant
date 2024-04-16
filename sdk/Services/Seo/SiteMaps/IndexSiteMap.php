@@ -9,7 +9,8 @@ class IndexSiteMap extends SiteMap
         $tags = '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL;
         $tags .= $this->items();
         $tags .= '</sitemapindex>';
-        return $tags;
+        echo $tags;
+        die;
     }
 
     public function items(): string
