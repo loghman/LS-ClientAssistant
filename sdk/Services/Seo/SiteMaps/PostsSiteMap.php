@@ -9,7 +9,8 @@ class PostsSiteMap extends SiteMap
         $tags = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">' . PHP_EOL;
         $tags .= $this->items();
         $tags .= '</urlset>';
-        return $tags;
+        echo $tags;
+        die;
     }
 
     public function items(): string
@@ -18,7 +19,7 @@ class PostsSiteMap extends SiteMap
         foreach ($this->data as $item) {
             $item['changefreq'] = $item['changefreq'] ?? 'hourly';
             $item['priority'] = $item['priority'] ?? '0.8';
-            $item['caption'] = html_entity_decode(sub_words($item['content'], 165), ENT_COMPAT, 'UTF-8');
+            $item['caption'] = html_entity_decode($item['content'], ENT_COMPAT, 'UTF-8');
             $item['loc'] = site_url('blog/' . $item['slug']);
             $item['lastmod'] = date('Y-m-d\TH:i:s+03:30', strtotime($item['updated_at']));
 

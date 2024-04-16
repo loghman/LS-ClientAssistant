@@ -13,7 +13,8 @@ abstract class siteMap
         header('Content-Type: text/xml');
         $siteMap = '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL;
         $siteMap .= $this->tags();
-        return $siteMap;
+        echo $siteMap;
+        die;
     }
 
     abstract public function tags(): string;
