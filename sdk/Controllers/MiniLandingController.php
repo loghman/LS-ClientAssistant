@@ -21,7 +21,7 @@ class MiniLandingController
         $brandNameEn = setting('brand_name_en');
         $currentUser = current_user();
         $introVideo = $product['meta']['intro_video']['url'] ?? $product['meta']['demo_video_urls'][0] ?? '';
-        $productDuration = $product['meta']['attachment_duration_sum']['hours']==0? 0: product_duration_to_string($product['meta']['attachment_duration_sum']['hours']);
+        $productDuration = $product['meta']['attachment_duration_sum']['hours'];
 
         return WebResponse::view(
             'sdk.pages.mini-landing',

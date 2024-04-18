@@ -11,8 +11,8 @@
         </div>
         @if($productDuration!=0)
             <div>
-                <span class="title">{{ $productDuration }}</span>
-                <small class="subtitle">طول دوره</small>
+                <span class="title">{{ to_persian_num($productDuration) }}</span>
+                <small class="subtitle">ساعت</small>
             </div>
         @endif
         @if($product['published_items_except_chapter_and_heading_count']>0)
@@ -26,7 +26,7 @@
         @foreach($product['chapters'] as $i => $chapter)
             <div class="accordion">
                 <div class="header">
-                    <span class="number">{{ to_persian_num($i + 1) }}</span>
+                    <span class="i-align-right-2 number"></span>
                     <span class="title">{{ $chapter['title'] }}</span>
                 </div>
                 @if(count($chapter['publishedItems']) > 0)
