@@ -12,7 +12,7 @@ class MiniLandingController
     public function index(string $slug)
     {
         $filter = ModuleFilter::new()
-            ->includes('productGifts', 'mainTeacherFaculty', 'chapters', 'chapters.publishedItems');
+            ->includes('productGifts', 'mainTeacherFaculty', 'chapters.log', 'chapters.publishedItems.log');
         $product = LMSProduct::get($slug, $filter)['result'] ?? null;
         if (empty($product)) {
             abort(404, 'محصول پیدا نشد');
