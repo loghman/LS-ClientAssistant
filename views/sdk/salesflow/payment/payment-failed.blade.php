@@ -1,11 +1,7 @@
 @extends('sdk._common.layouts.base')
 @section('title', 'پرداخت ناموفق')
 @section('body-class', 'bg-danger-5')
-@push('head')@endpush
 @section('header-class', 'square md center danger')
-@section('header')
-
-@endsection
 @section('base-content-class', 'lg')
 @section('content')
     <div class="container">
@@ -31,9 +27,11 @@
                             </a>
                         </div>
                         <div class="footer justify-content-center">
-                            <a href="{{ route('payment.requestLink', ['cart' => $cartId, 'gateway' => $defaultGateway['id']]) }}"
+                            <a href="{{ route('payment.requestLink', ['cart' => $payment['cart_id'], 'gateway' => $payment['gateway_id']]) }}"
                                class="btn success">پرداخت مجدد</a>
-                            <a href="{{ route('cart.checkout') }}" class="btn success">بازگشت به سبد</a>
+                            @if(!$payment['isQuickPay'])
+                                <a href="{{ route('cart.checkout') }}" class="btn success">بازگشت به سبد</a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -41,5 +39,3 @@
         </div>
     </div>
 @endsection
-@section('modals')@endsection
-@section('footer')@endsection

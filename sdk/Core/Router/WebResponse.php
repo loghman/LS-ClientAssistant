@@ -34,6 +34,13 @@ class WebResponse
         exit();
     }
 
+    public static function renderView($view = null, $data = []): string
+    {
+        $content = self::make($view, $data);
+
+        return BladeLazyLoadService::filterContent($content);
+    }
+
     public static function viewExist($view)
     {
         return (new self())->getBladeInstance()->exists($view);
