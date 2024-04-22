@@ -1,6 +1,6 @@
 <div class="navbar">
     <a href="{{ site_url('') }}" class="brand">
-        <img src="{{ $product['landing_logo'] }}" alt="{{ $brandNameEn }} logo" style="width:auto;height:50px;">
+        <img src="{{ $product['landing_logo'] }}" alt="{{ $brandNameEn }}">
     </a>
     @if(is_null(current_user_id()))
         <a href="{{ setting('client_auth_index', route('auth.index')) . "?refer=" . request()->url() }}" class="btn transparent">
