@@ -90,7 +90,7 @@ $shapePatternB = '<svg width="584" height="748" viewBox="0 0 584 748" fill="none
         </linearGradient>
     </defs>
 </svg>';
-$shapeArrow = '<svg class="'. $subClass .'shape-svg-arrow" width="217" height="217" viewBox="0 0 217 217" fill="none" xmlns="http://www.w3.org/2000/svg">
+$shapeArrow = '<svg class="'. $subClass .'shape-svg-arrow" width="160" height="160" viewBox="0 0 217 217" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g clip-path="url(#clip0_55_230)">
         <mask id="mask0_55_230" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="217" height="217">
             <path d="M195.375 216.543L216.543 21.1673L21.1673 8.20337e-06L-3.23883e-05 195.375L195.375 216.543Z" fill="white"/>
