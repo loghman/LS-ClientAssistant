@@ -12,6 +12,5 @@
 @section('content')
     @include('sdk.hook.landing._partials.header')
     @include('sdk.hook.landing._partials.description')
-    @include('sdk.hook.landing._partials.form')
     @include('sdk.hook.landing._partials.sticky-tabs')
 @endsection
