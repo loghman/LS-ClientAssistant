@@ -13,7 +13,7 @@
             </div>
         </div>
     </div>
-    <div class="{{ $subClass }}shape-svg-pattern description">
-        {!! $shapePatternB !!}
+    <div class="{{ $subClass }}shape-bg">
+        {!! $shapeFooter !!}
     </div>
 </div>

@@ -8,8 +8,8 @@
                         {!! $shapeImage !!}
                         <img src="{{ core_asset('resources/assets/img/clients/hook/download.svg') }}" alt="{{ $brandName }}" class="icon">
                     </div>
-                    <h2 class="{{ $subClass }}form-title {{ $subClass }}t-h2 {{ $subClass }}text-center">
-                        دانلود کنید
+                    <h2 class="{{ $subClass }}form-title {{ $subClass }}t-h4 {{ $subClass }}text-center">
+                        برای دانلود فرم زیر را تکمیل کنید
                     </h2>
                     @if($showLoginForm)
                         @include('sdk.hook.landing._partials._partials._login-form')
@@ -22,8 +22,8 @@
             </div>
         </div>
     </div>
-    <div class="{{ $subClass }}shape-bg">
-        {!! $shapeFooter !!}
+    <div class="{{ $subClass }}shape-svg-pattern description">
+        {!! $shapePatternB !!}
     </div>
     {!! $shapeFooterPattern !!}
 </div>

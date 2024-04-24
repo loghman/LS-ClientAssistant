@@ -39,7 +39,7 @@
     <div class="w-100 bb"></div>
     <div class="card-row justify-content-between">
         <small class="card-subtitle">قابل پرداخت</small>
-        <span class="card-title fa-number">{{ number_format($cart['final_price']) }} تومان</span>
+        <span class="card-title fa-number">{{ $cart['final_price']>0 ? number_format($cart['final_price']) : '' }} تومان</span>
     </div>
 </div>
 
