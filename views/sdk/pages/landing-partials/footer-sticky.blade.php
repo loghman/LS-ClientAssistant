@@ -30,7 +30,7 @@
                                 @if($product['price']['main'] > $product['final_price']['main'])
                                     <span class="strike">{{ to_persian_num($product['price']['human']) }}</span>
                                 @endif
-                                <span>{{ to_persian_num($product['final_price']) }}</span>
+                                <span>{{ to_persian_num($product['final_price']['human']) }}</span>
                             </span>
                             <span class="subtitle">پرداخت کن</span>
                         </span>
