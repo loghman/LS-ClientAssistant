@@ -11,7 +11,7 @@
                             {{--                                 alt="{{ $campaign['title'] }}">--}}
                             {!! $campaign['description'] !!}</span>
 
-                        @include('_common.components.countdown-box', [
+                        @include('sdk._common.components.countdown-box', [
                             'class'=>'sm mx-auto me-lg-auto ms-lg-0',
                             'date' => $campaign['ends_at'],
                             'bg' => '#F29425'
