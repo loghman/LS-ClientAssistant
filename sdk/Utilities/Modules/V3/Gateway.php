@@ -32,10 +32,21 @@ class Gateway
         return $gateways[0];
     }
 
-    public static function get(int $id): Collection
+    public static function existsSnapPay(array $gateways): bool
+    {
+        foreach ($gateways as $gateway) {
+            if (in_array($gateway['name_en'], ['Snap', 'snap', 'SnapPay', 'snappay'])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static function snapPayEligible(float $amount): Collection
     {
         try {
-            return API::get("client/v3/salesflow/gateway/$id");
+            return API::get('client/v3/salesflow/gateway/snap-pay-eligible', ['amount' => $amount]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {

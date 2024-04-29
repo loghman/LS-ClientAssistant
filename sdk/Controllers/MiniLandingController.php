@@ -2,6 +2,7 @@
 
 namespace Ls\ClientAssistant\Controllers;
 
+use Ls\ClientAssistant\Core\Router\JsonResponse;
 use Ls\ClientAssistant\Core\Router\WebResponse;
 use Ls\ClientAssistant\Utilities\Modules\V3\Gateway;
 use Ls\ClientAssistant\Utilities\Modules\V3\LMSProduct;
@@ -17,11 +18,11 @@ class MiniLandingController
         if (empty($product)) {
             abort(404, 'محصول پیدا نشد');
         }
-        $defaultGateway = Gateway::getDefault();
         $brandNameEn = setting('brand_name_en');
         $currentUser = current_user();
-        $introVideo = $product['meta']['intro_video']['url'] ?? $product['meta']['demo_video_urls'][0] ?? '';
-        $productDuration = $product['meta']['attachment_duration_sum']['hours'];
+        $introVideo = $product['meta']['intro_video']['url'] ?? ($product['meta']['demo_video_urls'][0] ?? '');
+        $productDuration = $product['meta']['attachment_duration_sum']['hours'] == 0 ? 0
+            : product_duration_to_string($product['meta']['attachment_duration_sum']['hours']);
 
         return WebResponse::view(
             'sdk.pages.mini-landing',
@@ -31,8 +32,27 @@ class MiniLandingController
                 'currentUser',
                 'introVideo',
                 'productDuration',
-                'defaultGateway',
             )
         );
+    }
+
+    public function payDetails(string $slug)
+    {
+        $product = LMSProduct::get($slug)['result'] ?? null;
+        if (empty($product)) {
+            abort(404, 'محصول پیدا نشد');
+        }
+        $gateways = Gateway::list();
+        $eligibleResponse = [];
+        if (Gateway::existsSnapPay($gateways->get('data'))) {
+            $eligibleResponse = Gateway::snapPayEligible($product['price']['main'])->get('data');
+        }
+
+        $view = WebResponse::renderView(
+            'sdk.pages.landing-partials.pay',
+            compact('gateways', 'eligibleResponse', 'product')
+        );
+
+        return JsonResponse::success('', ['html' => $view]);
     }
 }

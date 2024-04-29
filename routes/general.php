@@ -15,6 +15,9 @@ use Ls\ClientAssistant\Controllers\MiniLandingController;
 
 $router->name('landing.mini')->prefix('course')->group(function (Router $router){
     $router->get('{slug}/m', [MiniLandingController::class, 'index']);
+
+    $router->name('.payment.details')
+        ->post('{slug}/m/pay-details', [MiniLandingController::class, 'payDetails']);
 });
 
 $router->name('hook.')->prefix('hook')->group(function (Router $router) {
@@ -102,7 +105,7 @@ $router->name('payment.')->prefix('payment')->group(function (Router $router) {
         ->get('/request-link/{cart}/{gateway}', [PaymentController::class, 'requestLink']);
 
     $router->name('qPay')
-        ->get('/quick/pay/{gateway}', [PaymentController::class, 'qPay'])
+        ->get('/quick/pay/{gateway?}', [PaymentController::class, 'qPay'])
         ->middleware(AuthMiddleware::class);
 
     $router->name('callback')

@@ -31,8 +31,9 @@ class PaymentController
         return new RedirectResponse($res['data']['link'], 302, []);
     }
 
-    public function qPay(Request $request, int $gateway)
+    public function qPay(Request $request, ?int $gateway)
     {
+        $gateway = $gateway ?? Gateway::getDefault()['id'];
         $res = Payment::qPay(
             base64_decode($request->get('et')),
             (int)$request->get('ei'),
@@ -71,14 +72,15 @@ class PaymentController
             'salesflow.payment.payment-success' :
             'sdk.salesflow.payment.payment-success';
 
-        return WebResponse::view($view, ['message' => $request->get('message')]);
+        return WebResponse::view($view, [
+            'message' => $request->get('message'),
+            'payment' => $payment['data'],
+        ]);
     }
 
-    public function failureForm(int $paymentId, Request $request)
+    public function failureForm(int $paymentId)
     {
         $payment = Payment::check($paymentId, Payment::PAGE_FAILED);
-        $defaultGateway = Gateway::getDefault();
-
         if (!$payment['success']) {
             return WebResponse::redirect();
         }
@@ -87,9 +89,6 @@ class PaymentController
             'salesflow.payment.payment-failed' :
             'sdk.salesflow.payment.payment-failed';
 
-        return WebResponse::view($view, [
-            'cartId' => $payment['data']['cart_id'],
-            'defaultGateway' => $defaultGateway
-        ]);
+        return WebResponse::view($view, ['payment' => $payment['data']]);
     }
 }
