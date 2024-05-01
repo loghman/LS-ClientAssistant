@@ -1,7 +1,7 @@
 <div class="sticky">
     <div class="footer">
         @if($currentUser)
-            @if($product['price']['main']>0)
+            @if($product['final_price']['main']>0)
                 <button class="toggle-btn" data-jsc="ajax-request" style="z-index: 99;"
                         data-after-success="replace" data-target="#pay-content" data-stable="true"
                         data-ajax='{"route": "{{ route('landing.mini.payment.details', ['slug' => $product['slug']]) }}"}'>
@@ -26,7 +26,7 @@
             <a href="{{ setting('client_auth_index', route('auth.index')) . "?refer=" . request()->url() }}" class="btn primary-btn" style="width: 100%">
                 <img src="{{ core_asset('resources/assets/img/clients/mini-landing/arrow.svg') }}"
                      class="arrow-right" width="20" height="20" alt="arrow">
-                {{ $product['price']['main']>0? "ورود برای پرداخت" : "ورود برای ثبت نام" }}
+                {{ $product['final_price']['main']>0? "ورود برای پرداخت" : "ورود برای ثبت نام" }}
             </a>
         @endif
     </div>
