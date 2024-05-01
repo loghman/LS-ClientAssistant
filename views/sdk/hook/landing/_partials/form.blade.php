@@ -5,7 +5,7 @@
                 <div class="{{ $subClass }}section-form" id="section-form">
                     {!! $shapeArrow !!}
                     @if($hook['fields']['conditions']['hook_download_type'] == "displayable")
-                        <button onclick="showModal('{{$hook['download_short_url']}}')" class="{{ $subClass }}btn">
+                        <button onclick="showModal('{{$hook['download_short_url']}}')" class="{{ $subClass }}btn xs">
                             نمایش
                             <i class="si-chevron-left-r cta"></i>
                         </button>
@@ -13,7 +13,10 @@
                             <div class="card p-0 position-relative">
                                 <div class="close-btn-absolute close">
                                 </div>
-                                <iframe id="recruitment-iframe" width="100%" height="600px"></iframe>
+                                <iframe id="recruitment-iframe" width="100%" height="550px"></iframe>
+                                <div class="d-flex justify-content-center">
+                                    <a href="{{$hook['download_short_url']}}" target="_blanck" class="{{ $subClass }}btn xs flex-grow-1 mt-1">دانلود فایل</a>
+                                </div>
                             </div>
                         </div>
                     @else
