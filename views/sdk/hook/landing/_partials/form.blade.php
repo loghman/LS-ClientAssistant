@@ -13,7 +13,7 @@
                             <div class="card p-0 position-relative">
                                 <div class="close-btn-absolute close">
                                 </div>
-                                <iframe id="recruitment-iframe" width="100%" height="550px"></iframe>
+                                <iframe id="recruitment-iframe" width="100%"></iframe>
                                 <div class="d-flex justify-content-center">
                                     <a href="{{$hook['download_short_url']}}" target="_blanck" class="{{ $subClass }}btn xs flex-grow-1 mt-1">دانلود فایل</a>
                                 </div>
