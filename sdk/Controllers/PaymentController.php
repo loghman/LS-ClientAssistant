@@ -31,7 +31,7 @@ class PaymentController
         return new RedirectResponse($res['data']['link'], 302, []);
     }
 
-    public function qPay(Request $request, ?int $gateway)
+    public function qPay(Request $request, ?int $gateway = null)
     {
         $gateway = $gateway ?? Gateway::getDefault()['id'];
         $res = Payment::qPay(
