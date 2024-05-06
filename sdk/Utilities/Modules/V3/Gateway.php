@@ -35,7 +35,7 @@ class Gateway
     public static function existsSnapPay(array $gateways): bool
     {
         foreach ($gateways as $gateway) {
-            if (in_array($gateway['name_en'], ['Snap', 'snap', 'SnapPay', 'snappay'])) {
+            if (str_contains(strtolower($gateway['name_en']), 'snap')) {
                 return true;
             }
         }
