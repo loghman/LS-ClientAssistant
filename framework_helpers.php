@@ -1222,7 +1222,7 @@ if(! function_exists('product_duration_to_string')){
 
         return  $hours > $maxDurationHours['en']
             ? sprintf("بیش از %s ساعت", $maxDurationHours['fa'])
-            : to_persian_num($hours) . '  ساعت آموزش';
+            : to_persian_num($hours) . ' ساعت ';
     }
 }
 
