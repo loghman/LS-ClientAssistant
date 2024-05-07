@@ -6,7 +6,7 @@
                     data-target="#pay-content" data-stable="true"
                     data-ajax='{"route": "{{ route('landing.mini.payment.details', ['slug' => $product['slug']]) }}"}'>
                     @if ($product['final_price']['main'] > 0)
-                        پرداخت و ثبت نام در دوره
+                        مشاهده روش‌های پرداخت
                     @else
                         ثبت نام در دوره
                     @endif
