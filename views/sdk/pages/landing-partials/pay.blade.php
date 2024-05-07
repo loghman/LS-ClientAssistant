@@ -1,5 +1,5 @@
 <i class="toggle-icon i-bottom" style="cursor: pointer"></i>
-<span class="title justify-content-center text-center mb">روش پرداخت خود را انتخاب کنید</span>
+<span class="title justify-content-center text-center mb">درگاه و روش پرداخت خود را انتخاب کنید</span>
 @foreach ($gateways->get('data') as $gateway)
     @if (in_array($gateway['name_en'], ['snap', 'Snap', 'SnapPay', 'snappay']) &&
             (empty($eligibleResponse['successful']) ||

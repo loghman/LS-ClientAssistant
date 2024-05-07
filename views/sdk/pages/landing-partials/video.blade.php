@@ -5,7 +5,7 @@
         </video>
         @if(isset($product['banner_url']['main']['url']))
             <div class="overlay">
-                <img src="{{ $product['banner_url']['main']['url'] }}" alt="{{ $product['title'] }}">
+                <img src="{{ $product['banner_url']['main']['url'] }}" alt="{{ $product['title'] }}" class="thumbnail">
                 <i class="i-play-circle-fill"></i>
                 <span class="title">{{ $product['title'] }}</span>
             </div>
@@ -14,8 +14,11 @@
 @else
     @if(isset($product['banner_url']['main']['url']))
         <div class="cover-section">
+            <div class="aspect-16-9">
+                <img src="{{ $product['banner_url']['main']['url'] }}" alt="{{ $product['title'] }}">
+            </div>
             <div class="overlay">
-                <img src="{{ $product['banner_url']['main']['url'] }}" alt="{{ $product['title'] }}" class="thumbnail">
+{{--                <img src="" alt="" class="icon">--}}
                 <span class="title">{{ $product['title'] }}</span>
             </div>
         </div>
