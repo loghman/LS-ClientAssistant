@@ -28,7 +28,7 @@ class MiniLandingController
             $hours = $product['meta']['attachment_duration_sum']['hours'];
             $maxDurationHours = Config::get('lms.max_duration_hours_display');
             $productDuration =  $hours > $maxDurationHours['en']
-                ? sprintf("بیش از %s ساعت", $maxDurationHours['fa'])
+                ? sprintf("بیش از %s ", $maxDurationHours['fa'])
                 : to_persian_num($hours);
         }
 
