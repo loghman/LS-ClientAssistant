@@ -5,7 +5,7 @@
 </head>
 <body @include('_common.layouts.body-class')>
 {!! setting('top_of_body_script') !!}
-@include('sdk._common.components.promotion-banner')
+@includeWhen(! request()->is(array_map(fn ($item) => trim($item, '/'), setting('promotion_banner_bypass_routes', []))), 'sdk._common.components.promotion-banner')
 @include('_common.layouts.client-body')
 @yield('modals')
 @include('_common.layouts.footer')
