@@ -65,13 +65,31 @@ if (!function_exists('seo_meta')) {
 if (!function_exists('sitemap')) {
     function sitemap(string $sitemap, array $data): void
     {
+        $cache_file = __DIR__ . DIRECTORY_SEPARATOR . 'cache'. DIRECTORY_SEPARATOR . 'sitemap' . DIRECTORY_SEPARATOR . $sitemap . '.xml';
         $class = sprintf("Ls\ClientAssistant\Services\Seo\SiteMaps\%sSiteMap", ucfirst($sitemap));
         if (!class_exists($class)) {
             throw new \Exception("Class ($class) Not Found!");
         }
         $sitemap = new $class($data);
+        $sitemap_data = $sitemap->render();
+        file_put_contents($cache_file, $sitemap_data);
         header('Content-Type: application/xml', true);
-        echo $sitemap->render();
+        echo $sitemap_data;
+        exit();
+    }
+}
+
+if (!function_exists('sitemap_cache')) {
+    function sitemap_cache(string $sitemap)
+    {
+        $cache_file = __DIR__ . DIRECTORY_SEPARATOR . 'cache'. DIRECTORY_SEPARATOR . 'sitemap' . DIRECTORY_SEPARATOR . $sitemap . '.xml';
+        $cache_time = env('SITEMAP_CACHE_HOUR', 6) * 60 * 60;
+        if (!file_exists($cache_file) or (time() - filemtime($cache_file)) > $cache_time) {
+            return false;
+        }
+        $sitemap_data = file_get_contents($cache_file);
+        header('Content-Type: application/xml', true);
+        echo $sitemap_data;
         exit();
     }
 }
