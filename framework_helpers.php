@@ -1226,6 +1226,17 @@ if(! function_exists('product_duration_to_string')){
     }
 }
 
+if(! function_exists('product_duration_to_string_summary')){
+    function product_duration_to_string_summary(int $hours): string
+    {
+        $maxDurationHours = Config::get('lms.max_duration_hours_display');
+
+        return  $hours > $maxDurationHours['en']
+            ? sprintf("+%s", $maxDurationHours['fa'])
+            : to_persian_num($hours);
+    }
+}
+
 if(! function_exists('get_current_theme')){
     function get_current_theme()
     {

@@ -3,13 +3,6 @@
         <video controls>
             <source src="{{ $introVideo }}" type="video/mp4"/>
         </video>
-        @if(isset($product['banner_url']['main']['url']))
-            <div class="cover">
-                <img src="{{ $product['banner_url']['main']['url'] }}" alt="{{ $product['title'] }}">
-                <i class="i-play-circle-fill"></i>
-                <span class="title">{{ $product['title'] }}</span>
-            </div>
-        @endif
     </div>
 @else
     @if(isset($product['banner_url']['main']['url']))
