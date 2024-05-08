@@ -19,9 +19,9 @@ class WebResponse
     /**
      * @throws \Exception
      */
-    public static function sitemap(string $sitemap, array $data): void
+    public static function sitemap(string $sitemap, array $data, string $cache_name = null): void
     {
-        sitemap($sitemap, $data);
+        sitemap($sitemap, $data, $cache_name);
     }
 
     public static function view($view = null, $data = [])

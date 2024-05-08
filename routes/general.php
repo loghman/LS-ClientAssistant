@@ -12,6 +12,28 @@ use Ls\ClientAssistant\Core\Middlewares\AuthMiddleware;
 use Ls\ClientAssistant\Core\Router\JsonResponse;
 use Illuminate\Routing\Router;
 use Ls\ClientAssistant\Controllers\MiniLandingController;
+use Ls\ClientAssistant\Controllers\SiteMapController;
+
+$router->name('sitemap.')->group(function(Router $router) {
+    $router->name('index')
+    ->get('/sitemap.xml', [SiteMapController::class, 'sitemap']);
+    
+    $router->name('static')
+    ->get('/sitemap-static.xml', [SiteMapController::class, 'staticSiteMap']);
+    
+    $router->name('posts')
+    ->get('/sitemap-posts.xml', [SiteMapController::class, 'postsSiteMap']);
+    
+    $router->name('pages')
+    ->get('/sitemap-pages.xml', [SiteMapController::class, 'pagesSiteMap']);
+    
+    $router->name('products')
+    ->get('/sitemap-lms-products.xml', [SiteMapController::class, 'lmsProductsSiteMap']);
+
+    $router->name('hooks')
+    ->get('/sitemap-hooks.xml', [SiteMapController::class, 'siteMapHooks']);
+});
+
 
 $router->name('landing.mini')->prefix('course')->group(function (Router $router){
     $router->get('{slug}/m', [MiniLandingController::class, 'index']);
