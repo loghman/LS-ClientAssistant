@@ -7,11 +7,13 @@ use Ls\ClientAssistant\Utilities\Modules\V3\Hook;
 use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
 use Ls\ClientAssistant\Utilities\Modules\CMS;
 use Ls\ClientAssistant\Utilities\Modules\LMSProduct;
+use Ls\ClientAssistant\Utilities\Tools\Sitemap;
 
 class SiteMapController
 {
     public function sitemap()
     {
+        Sitemap::cache('index');
         $siteMaps = [
             [
                 'loc' => site_url('sitemap-static.xml'),
@@ -33,19 +35,19 @@ class SiteMapController
                 'loc' => site_url('sitemap-hooks.xml'),
                 'lastmod' => '2024-05-07T19:12:26+03:30'
             ],
-
         ];
         WebResponse::sitemap('index', $siteMaps);
     }
 
     public function staticSiteMap()
     {
+        Sitemap::cache('static');
         $statics = config('sitemaps.statics') ?? [];
         WebResponse::sitemap('static', $statics);
     }
     public function postsSiteMap()
     {
-        sitemap_cache('posts');
+        Sitemap::cache('posts');
         $filters = [
             'type' => ['post', 'qa', 'video', 'podcast', 'terminology'],
             'status' => 'published',
@@ -74,6 +76,7 @@ class SiteMapController
 
     public function pagesSiteMap()
     {
+        Sitemap::cache('pages');
         $filters = [
             'type' => ['page'],
             'status' => 'published',
@@ -97,19 +100,19 @@ class SiteMapController
             ]
         ], [], 1000)['data']['data'];
 
-        WebResponse::sitemap('posts', $posts);
+        WebResponse::sitemap('posts', $posts, 'pages');
     }
 
     public function lmsProductsSiteMap()
     {
-        sitemap_cache('products');
+        Sitemap::cache('products');
         $products = LMSProduct::list([], [], 1000)['data']['data'];
         WebResponse::sitemap('products', $products);
     }
 
     public function siteMapHooks()
     {
-        sitemap_cache('hooks');
+        Sitemap::cache('hooks');
         $hooks = Hook::list(
             ModuleFilter::new()
                 ->search('status', 'published')
