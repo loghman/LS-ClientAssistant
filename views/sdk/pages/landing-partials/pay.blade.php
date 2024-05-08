@@ -1,5 +1,5 @@
 <i class="toggle-icon i-bottom" style="cursor: pointer"></i>
-<span class="title justify-content-center text-center mb">{{$product['price'] > 0 ? 'روش پرداخت خود را انتخاب کنید' : 'همین الان ثبت نام کن'}}</span>
+<span class="title justify-content-center text-center mb">{{$product['price'] > 0 ? 'درگاه و روش پرداخت خود را انتخاب کنید' : 'همین الان ثبت نام کن'}}</span>
 @foreach ($gateways->get('data') as $gateway)
     @if (in_array($gateway['name_en'], ['snap', 'Snap', 'SnapPay', 'snappay']) &&
             (empty($eligibleResponse['successful']) ||
