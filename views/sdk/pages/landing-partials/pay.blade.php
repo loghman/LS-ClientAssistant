@@ -1,5 +1,5 @@
 <i class="toggle-icon i-bottom" style="cursor: pointer"></i>
-<span class="title justify-content-center text-center mb">همین الان ثبت نام کن</span>
+<span class="title justify-content-center text-center mb">{{$product['final_price']['main'] > 0 ? 'درگاه و روش پرداخت خود را انتخاب کنید' : 'همین الان ثبت نام کن'}}</span>
 @foreach ($gateways->get('data') as $gateway)
     @php($isSnap = str_contains(strtolower($gateway['name_en']), 'snap'))
     @if($isSnap && (empty($eligibleResponse['successful'])
@@ -17,8 +17,8 @@
         ]) }}">
         <span class="text">
             <span class="title">
-                @if($product['final_price']['main'] == 0)
-                    <img style="width: 50px;height: 50px;" class="icon"
+                @if ($product['final_price']['main'] == 0)
+                    <img style="width: 50px;height: 28px;" class="icon"
                         src="https://up.7learn.com/z/s/2024/05/hot-sale-qJP7.svg">
                     ثبت نام
                 @else
@@ -48,7 +48,9 @@
                     @if($product['price']['main'] > $product['final_price']['main'])
                         <span class="strike">{{ to_persian_num($product['price']['human']) }}</span>
                     @endif
-                    {{ to_persian_num($product['final_price']['human']) }}
+                    <span @if($product['final_price']['main'] == 0) style="color: green; font-weight: bolder;" @endif>
+                        {{ to_persian_num($product['final_price']['human']) }}
+                    </span>
                 </span>
             @else
                 {{ to_persian_num($product['price']['human']) }}

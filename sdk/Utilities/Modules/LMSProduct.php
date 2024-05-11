@@ -297,12 +297,13 @@ class LMSProduct extends ModuleUtility
         }
     }
 
-    public static function latest(int $count): Collection
+    public static function latest(int $count, array $filters = []): Collection
     {
         try {
             return API::get('v1/lms/product', [
                 'count' => $count,
                 'order_by' => OrderByEnum::LATEST,
+                'filter' => json_encode($filters),
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);

@@ -10,3 +10,4 @@ idea
 *.map*
 *.min.*
 .sass-cache
+cache/sitemap/*.xml

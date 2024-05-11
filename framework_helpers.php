@@ -63,15 +63,18 @@ if (!function_exists('seo_meta')) {
 }
 
 if (!function_exists('sitemap')) {
-    function sitemap(string $sitemap, array $data): void
+    function sitemap(string $sitemap, array $data, string $cache_name = null): void
     {
+        $cache_file = __DIR__ . DIRECTORY_SEPARATOR . 'cache'. DIRECTORY_SEPARATOR . 'sitemap' . DIRECTORY_SEPARATOR . ($cache_name ?? $sitemap) . '.xml';
         $class = sprintf("Ls\ClientAssistant\Services\Seo\SiteMaps\%sSiteMap", ucfirst($sitemap));
         if (!class_exists($class)) {
             throw new \Exception("Class ($class) Not Found!");
         }
         $sitemap = new $class($data);
+        $sitemap_data = $sitemap->render();
+        file_put_contents($cache_file, $sitemap_data);
         header('Content-Type: application/xml', true);
-        echo $sitemap->render();
+        echo $sitemap_data;
         exit();
     }
 }
@@ -1223,6 +1226,17 @@ if(! function_exists('product_duration_to_string')){
         return  $hours > $maxDurationHours['en']
             ? sprintf("بیش از %s ساعت", $maxDurationHours['fa'])
             : to_persian_num($hours) . '  ساعت آموزش';
+    }
+}
+
+if(! function_exists('product_duration_to_string_summary')){
+    function product_duration_to_string_summary(int $hours): string
+    {
+        $maxDurationHours = Config::get('lms.max_duration_hours_display');
+
+        return  $hours > $maxDurationHours['en']
+            ? sprintf("+%s", $maxDurationHours['fa'])
+            : to_persian_num($hours);
     }
 }
 
