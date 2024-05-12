@@ -39,7 +39,7 @@ class UtmLogMiddleware
         if (null === $referer) {
             return false;
         }
-        
+
         $referrerHost = parse_url($referer, PHP_URL_HOST);
 
         return in_array($referrerHost, Config::get('utmlog.search_engines'));
@@ -65,6 +65,6 @@ class UtmLogMiddleware
         $domain = parse_url($url, PHP_URL_HOST);
         $domainParts = explode('.', $domain);
 
-        return $domainParts[count($domainParts) - 2];
+        return $domainParts[count($domainParts) - 2] ?? null;
     }
 }
