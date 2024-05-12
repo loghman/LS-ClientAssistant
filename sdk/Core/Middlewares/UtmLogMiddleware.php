@@ -14,8 +14,8 @@ class UtmLogMiddleware
     public function handle(Request $request, $next)
     {
         $referer = $request->header('referer');
+        $defaultSource = $this->getSecondLevelDomainName($referer) ?? 'direct';
         if ($request->has('utm_campaign')) {
-            $defaultSource = $referer ? $this->getSecondLevelDomainName($referer) : 'direct';
             $utmData = [
                 'source' => $request->get('utm_source', $defaultSource),
                 'medium' => $request->get('utm_medium'),
@@ -25,7 +25,7 @@ class UtmLogMiddleware
         } else if ($this->fromSearchEngine($referer)) {
             $utmData = [
                 'campaign' => 'seo',
-                'source' => $this->getSecondLevelDomainName($referer),
+                'source' => $defaultSource,
                 'medium' => parse_url($request->url(), PHP_URL_PATH),
             ];
             $this->storeCookie($utmData);
@@ -34,9 +34,11 @@ class UtmLogMiddleware
         return $next($request);
     }
 
-    private function fromSearchEngine($referer): bool
+    private function fromSearchEngine(string|null $referer): bool
     {
-        if (empty($referer)) return false;
+        if (null === $referer) {
+            return false;
+        }
         
         $referrerHost = parse_url($referer, PHP_URL_HOST);
 
@@ -49,14 +51,17 @@ class UtmLogMiddleware
 
         setcookie(
             Config::get('utmlog.utm_log_cookie_name'),
-            json_encode($utmData),
+            json_encode($utmData, JSON_UNESCAPED_UNICODE),
             time() + ($lifetime * 60),
             '/'
         );
     }
 
-    private function getSecondLevelDomainName($url): string
+    private function getSecondLevelDomainName(string|null $url): ?string
     {
+        if (null === $url) {
+            return null;
+        }
         $domain = parse_url($url, PHP_URL_HOST);
         $domainParts = explode('.', $domain);
 
