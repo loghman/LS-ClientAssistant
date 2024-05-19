@@ -12,7 +12,9 @@
     <div class="content">
         @include('sdk.pages.landing-partials.tabs')
         @include('sdk.pages.landing-partials.tab-headers')
-        @include('sdk.pages.landing-partials.tab-description')
+        @if($product['description'])
+            @include('sdk.pages.landing-partials.tab-description')
+        @endif
         @if(count($product['productGifts']) > 0)
             @include('sdk.pages.landing-partials.tab-gifts')
         @endif
