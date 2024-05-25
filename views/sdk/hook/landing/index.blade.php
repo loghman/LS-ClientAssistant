@@ -14,6 +14,3 @@
     @include('sdk.hook.landing._partials.description')
     @include('sdk.hook.landing._partials.sticky-tabs')
 @endsection
-@section('footer')
-    <script src="{{ asset_url('js/pages/lms-course-new.js?v=2') }}"></script>
-@endsection
