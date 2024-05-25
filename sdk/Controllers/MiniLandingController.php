@@ -14,10 +14,12 @@ class MiniLandingController
     {
         $filter = ModuleFilter::new()
             ->includes('productGifts', 'mainTeacherFaculty', 'chapters.log', 'chapters.publishedItems.log');
-        $product = LMSProduct::get($slug, $filter)['result'] ?? null;
-        if (empty($product)) {
+        $response = LMSProduct::get($slug, $filter);
+        if (! $response->get('success')) {
             abort(404, 'محصول پیدا نشد');
         }
+        $product = $response->get('data');
+
         $brandNameEn = setting('brand_name_en');
         $currentUser = current_user();
         $introVideo = $product['meta']['intro_video']['url'] ?? ($product['meta']['demo_video_urls'][0] ?? '');
