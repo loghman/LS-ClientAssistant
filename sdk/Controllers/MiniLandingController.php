@@ -42,10 +42,15 @@ class MiniLandingController
 
     public function payDetails(string $slug)
     {
-        $product = LMSProduct::get($slug)['result'] ?? null;
-        if (empty($product)) {
-            abort(404, 'محصول پیدا نشد');
+        $response = LMSProduct::get($slug);
+        if (! $response->get('success')) {
+            return JsonResponse::notFound('محصول پیدا نشد.');
         }
+        $product = $response->get('data');
+        if (! $product['is_on_sale']) {
+            return JsonResponse::notFound('ثبت نام این دوره در حال حاضر متوقف شده است.');
+        }
+
         $gateways = Gateway::list();
         $eligibleResponse = [];
         if (Gateway::existsSnapPay($gateways->get('data'))) {
