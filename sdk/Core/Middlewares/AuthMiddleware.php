@@ -19,10 +19,12 @@ class AuthMiddleware
             redirect(site_url('auth'));
         }
 
-        if (in_array($request->getUri(), [
-            site_url('auth/logout'), site_url('verification-fields/verify'),
-            site_url('auth/email/update'), site_url('auth/mobile/update')
-        ])) {
+        if ($request->is(
+            'auth/logout',
+            'verification-fields/verify',
+            'auth/email/update',
+            'auth/mobile/update'
+        )) {
             return $next($request);
         }
 

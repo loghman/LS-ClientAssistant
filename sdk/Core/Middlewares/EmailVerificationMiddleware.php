@@ -12,6 +12,15 @@ class EmailVerificationMiddleware
             return $next($request);
         }
 
+        if ($request->is(
+            'auth/logout',
+            'verification-fields/verify',
+            'auth/email/update',
+            'auth/mobile/update'
+        )) {
+            return $next($request);
+        }
+
         $verificationFields = get_verification_fields();
         if (in_array('email', $verificationFields) && !User::emailVerified()) {
             $refer = $request->url();

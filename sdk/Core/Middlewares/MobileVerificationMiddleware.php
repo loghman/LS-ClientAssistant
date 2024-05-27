@@ -12,6 +12,15 @@ class MobileVerificationMiddleware
             return $next($request);
         }
 
+        if ($request->is(
+            'auth/logout',
+            'verification-fields/verify',
+            'auth/email/update',
+            'auth/mobile/update'
+        )) {
+            return $next($request);
+        }
+
         $verificationFields = get_verification_fields();
         if (in_array('mobile', $verificationFields) && !User::mobileVerified()) {
             $refer = $request->url();
