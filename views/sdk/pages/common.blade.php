@@ -8,7 +8,7 @@
 @endsection
 @section('base-content-class', '')
 @section('content')
-    <div class="container over-header">
+    <div class="container over-header my-4">
         <div class="row gx-lg gx-md--lg">
             <div class="col-xxxl-12 col-xxl-8-5 col-xl-8">
                 <div class="row g">
