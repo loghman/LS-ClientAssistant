@@ -1,4 +1,4 @@
-<button id="show-modal-iframe-btn" data-modal-id="hook-modal" data-iframe-src="{{ $shortLink }}" class="{{ $subClass }}btn xs">
+<button onclick="showModalWithIframe()" id="show-modal-iframe-btn" data-modal-id="hook-modal" data-iframe-src="{{ $shortLink }}" class="{{ $subClass }}btn xs">
     نمایش
     <i class="si-chevron-left-r cta"></i>
 </button>
