@@ -107,6 +107,10 @@ $router->name('cart.')->prefix('cart')->group(function (Router $router) {
         ->get('/checkout', [CartController::class, 'checkout'])
         ->middleware(AuthMiddleware::class);
 
+    $router->name('checkout.gateways')
+        ->post('/checkout/gateways', [CartController::class, 'gateways'])
+        ->middleware(AuthMiddleware::class);
+
     $router->name('add')->post('/add', [CartController::class, 'add']);
 
     $router->name('delete')

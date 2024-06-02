@@ -22,6 +22,13 @@
             @endif
         </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(function () {
+                jQuery('button.show-payment-content').trigger('click');
+            }, 10);
+        });
+    </script>
 @endsection
 
 @section('modals')

@@ -43,7 +43,7 @@
             @endif
         </span>
         <span class="text me-auto align-items-left text-left">
-            @if(!$gateway['isInstallmentPaymentAvailable'])
+            @if(!$gateway['isInstallmentPaymentAvailable'] || $gateway['isDiscountAvailable'])
                 <span class="title">
                     @if($product['price']['main'] > $product['final_price']['main'])
                         <span class="strike">{{ to_persian_num($product['price']['human']) }}</span>

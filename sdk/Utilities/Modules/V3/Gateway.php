@@ -20,9 +20,18 @@ class Gateway
         }
     }
 
-    public static function getDefault(): ?array
+    public static function getDefault(array $gateways = [], ?int $default = null): ?array
     {
-        $gateways = self::list()->get('result');
+        $gateways = empty($gateways) ? self::list()->get('result') : $gateways;
+
+        if (null !== $default) {
+            foreach ($gateways as $gateway) {
+                if ($gateway['id'] === $default) {
+                    return $gateway;
+                }
+            }
+        }
+
         foreach ($gateways as $gateway) {
             if ($gateway['is_default'] === true) {
                 return $gateway;
@@ -32,15 +41,15 @@ class Gateway
         return $gateways[0];
     }
 
-    public static function existsSnapPay(array $gateways): bool
+    public static function findSnapPay(array $gateways): ?array
     {
         foreach ($gateways as $gateway) {
             if (str_contains(strtolower($gateway['name_en']), 'snap')) {
-                return true;
+                return $gateway;
             }
         }
 
-        return false;
+        return null;
     }
 
     public static function snapPayEligible(float $amount): Collection
