@@ -5,7 +5,7 @@
         @else
             @if ($currentUser)
                 @if ($product['price']['main'] > 0)
-                    <button class="toggle-btn" data-jsc="ajax-request" style="z-index: 99;" data-after-success="replace"
+                    <button class="sticky-toggle-btn" data-jsc="ajax-request" style="z-index: 99;" data-after-success="replace"
                             data-target="#pay-content" data-stable="true"
                             data-ajax='{"route": "{{ route('landing.mini.payment.details', ['slug' => $product['slug']]) }}"}'>
                         @if ($product['final_price']['main'] > 0)
@@ -13,13 +13,14 @@
                         @else
                             ثبت نام در دوره
                         @endif
+                        <i class="i-arrow-left animation-move-x"></i>
                     </button>
                     <div id="pay-content" class="content">
                         <i class="spinner me-auto ms-auto"
                            style="--spinner-color: var(--primary); --spinner-size: 45px"></i>
                     </div>
                 @else
-                    <a class="btn btn-primary toggle-btn" role="button" aria-disabled="true"
+                    <a class="btn btn-primary sticky-toggle-btn" role="button" aria-disabled="true"
                        href="{{ route('payment.qPay', [
                             'et' => base64_encode('lms_products'),
                             'ei' => $product['id'],

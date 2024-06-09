@@ -11,7 +11,7 @@
         </div>
         @if($productDuration!=0)
             <div>
-                <span class="title">{{ to_persian_num($productDuration) }}</span>
+                <span class="title ltr">{{ to_persian_num($productDuration) }}</span>
                 <small class="subtitle">ساعت</small>
             </div>
         @endif

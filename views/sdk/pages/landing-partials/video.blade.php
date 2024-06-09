@@ -1,6 +1,6 @@
 @if(strlen($introVideo) > 0)
     <div class="video cover-section">
-        <video controls>
+        <video controls controlsList="nofullscreen noplaybackrate">
             <source src="{{ $introVideo }}" type="video/mp4"/>
         </video>
         @if(isset($product['banner_url']['main']['url']))

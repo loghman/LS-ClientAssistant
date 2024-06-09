@@ -1,4 +1,4 @@
-<i class="toggle-icon i-bottom" style="cursor: pointer"></i>
+<i class="sticky-toggle-icon i-bottom" style="cursor: pointer"></i>
 <span class="title justify-content-center text-center mb">{{$product['final_price']['main'] > 0 ? 'درگاه و روش پرداخت خود را انتخاب کنید' : 'همین الان ثبت نام کن'}}</span>
 @foreach ($gateways->get('data') as $gateway)
     @php($isSnap = str_contains(strtolower($gateway['name_en']), 'snap'))
