@@ -7,5 +7,10 @@
             <i class="i-log-in-2"></i>
             ورود به سایت
         </a>
+    @else
+        <a href="#sticky" class="btn sm gradient">
+            <i class="i-bag"></i>
+            <span class="typing">ثبت‌نام می‌کنم</span>
+        </a>
     @endif
 </div>

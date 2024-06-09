@@ -1,4 +1,4 @@
-<div class="sticky">
+<div class="sticky" id="sticky">
     <div class="footer">
         @if ($currentUser)
             @if ($product['price']['main'] > 0)
