@@ -9,7 +9,8 @@ class GuessMiddleware
     public function handle($request, $next)
     {
         if (User::loggedIn()) {
-            redirect(site_url(''));
+            $ref = $request->query('referer') ?? $request->header('referer') ?? site_url('');
+            redirect($ref);
         }
 
         return $next($request);
