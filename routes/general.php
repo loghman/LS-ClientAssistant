@@ -42,6 +42,10 @@ $router->name('landing.mini')->prefix('course')->group(function (Router $router)
         ->post('{slug}/m/pay-details', [MiniLandingController::class, 'payDetails']);
 });
 
+$router->name('landing.quick.pay')->prefix('course')->group(function (Router $router){
+    $router->get('{slug}/q', [MiniLandingController::class, 'quickPay']);
+});
+
 $router->name('hook.')->prefix('hook')->group(function (Router $router) {
     $router->name('landing')->get('/{slug}', [HookController::class, 'landing']);
 
