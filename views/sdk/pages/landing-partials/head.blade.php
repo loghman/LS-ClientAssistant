@@ -1,4 +1,4 @@
-{{ setting('top_of_head_script') }}
+{!! setting('top_of_head_script') !!}
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
@@ -20,7 +20,7 @@
 <meta name="theme-color" content="#ffffff">
 @stack('head')
 
-{{ setting('bottom_of_head_script') }}
+{!! setting('bottom_of_head_script') !!}
 <meta name='description' content='{{ $product['seo']['description'] ?? '' }}' />
 <link rel="stylesheet" href="{{ core_asset('resources/assets/minimal-landing/css/style.scss') }}">
 @php $theme = get_current_theme(); @endphp
