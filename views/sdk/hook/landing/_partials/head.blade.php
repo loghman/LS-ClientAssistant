@@ -1,6 +1,7 @@
 <!doctype html>
 <html dir="rtl" lang="fa">
 <head>
+    {!! setting('top_of_head_script') !!}
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -16,8 +17,11 @@
     @if($theme != null)
         {!! $theme['rendered_css'] !!}
     @endif
+    {!! setting('bottom_of_head_script') !!}
 </head>
-<body class="{{ $subClass }}body hook-signal" data-hook-signal="{{ site_url('hook/'.$hook['slug'].'/signal?type=view') }}">
+<body class="{{ $subClass }}body hook-signal"
+      data-hook-signal="{{ site_url('hook/'.$hook['slug'].'/signal?type=view') }}">
+{!! setting('top_of_body_script') !!}
 {!! $shapeSvgHeaderBg !!}
 <div class="{{ $subClass }}shape-svg-pattern header">
     {!! $shapeFooterLine !!}

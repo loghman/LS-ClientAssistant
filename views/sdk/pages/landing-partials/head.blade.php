@@ -1,4 +1,4 @@
-{{ setting('top_of_head_script') }}
+{!! setting('top_of_head_script') !!}
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
@@ -18,19 +18,9 @@
 <meta name="application-name" content="7Learn">
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="theme-color" content="#ffffff">
-
-@sectionMissing('without-tag-manager')
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-5FBTZBV');</script>
-    <!-- End Google Tag Manager -->
-@endif
 @stack('head')
 
-{{ setting('bottom_of_head_script') }}
+{!! setting('bottom_of_head_script') !!}
 <meta name='description' content='{{ $product['seo']['description'] ?? '' }}' />
 <link rel="stylesheet" href="{{ core_asset('resources/assets/minimal-landing/css/style.scss') }}">
 @php $theme = get_current_theme(); @endphp
