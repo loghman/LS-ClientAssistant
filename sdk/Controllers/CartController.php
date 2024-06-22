@@ -20,16 +20,34 @@ class CartController
         }
     }
 
-    public function checkout()
+    public function checkout(Request $request)
     {
         $cart = Cart::screen(['coupon', 'lmsProductItems.entity', 'lmsProductItems.coupon'])['data'] ?? [];
-        $defaultGateway = Gateway::getDefault();
-
+        $defaultGateway = Gateway::getDefault([], $request->get('gateway'));
         $view = WebResponse::viewExist('salesflow.cart.index') ?
             'salesflow.cart.index' :
             'sdk.salesflow.cart.index';
 
         return WebResponse::view($view, compact('cart', 'defaultGateway'));
+    }
+
+    public function gateways(Request $request)
+    {
+        $cart = Cart::screen(['coupon', 'lmsProductItems.entity', 'lmsProductItems.coupon'])['data'] ?? [];
+        $gateways = Gateway::list()->get('result');
+        $defaultGateway = Gateway::getDefault($gateways, $request->get('gateway'));
+        $eligibleResponse = [];
+        $snapPay = Gateway::findSnapPay($gateways);
+        if (null !== $snapPay) {
+            $price = $snapPay['isDiscountAvailable'] ? $cart['final_price'] : $cart['total_price'];
+            $eligibleResponse = Gateway::snapPayEligible($price)->get('data');
+        }
+        $html = WebResponse::renderView(
+            'sdk.salesflow.cart._partials._cart-pay',
+            compact('cart', 'gateways', 'snapPay', 'defaultGateway', 'eligibleResponse')
+        );
+
+        return JsonResponse::success('', compact('html'));
     }
 
     public function add(Request $request)

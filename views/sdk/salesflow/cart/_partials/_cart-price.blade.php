@@ -43,5 +43,12 @@
     </div>
 </div>
 
-<a href="{{ route('payment.requestLink', ['cart' => $cart['id'], 'gateway' => $defaultGateway['id']]) }}"
-   class="btn mt-4">پرداخت و تکمیل ثبت نام</a>
+<button class="d-none show-payment-content" data-jsc="ajax-request" type="button"
+        data-after-success="replace" data-target="#pay-content" data-stable="true"
+        data-ajax='{"route": "{{ route('cart.checkout.gateways') }}"}'>
+    پرداخت و تکمیل ثبت نام
+</button>
+
+<div id="pay-content" class="mt-4" style="flex-direction: column">
+    <i class="spinner me-auto ms-auto" style="--spinner-color: var(--primary); --spinner-size: 45px"></i>
+</div>
