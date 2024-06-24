@@ -18,12 +18,7 @@ class Setting
         }
 
         try {
-            $cacheKey = make_cache_unique_key($GLOBALS['appName'], 'setting', 'all', []);
-            $config = [
-                'is_active' => $cacheActive,
-                'expiration_time' => 60,
-            ];
-            $response = API::getOrFromCache($cacheKey, $config, 'v1/platform/settings', ['keys' => Config::get('endpoints.required_settings')]);
+            $response = API::get('v1/platform/settings', ['keys' => Config::get('endpoints.required_settings')]);
             self::$settings = collect($response['data']);
         } catch (Exception $exception) {
             self::$settings = collect();
