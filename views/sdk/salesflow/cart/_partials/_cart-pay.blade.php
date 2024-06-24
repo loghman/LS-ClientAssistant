@@ -25,21 +25,19 @@
    class="btn w-100" id="payment-btn">پرداخت و تکمیل ثبت نام</a>
 
 <script>
-    document.getElementById('gateway')
-        .addEventListener('change', function () {
-            let paymentUrlPattern = this.getAttribute('data-url_pattern'),
-                gatewayId = this.value,
-                target = this.options[this.selectedIndex].getAttribute('data-target');
+$(function () {
+    $('#gateway').on('change', function () {
+        let paymentUrlPattern = $(this).data('url_pattern'),
+            gatewayId = $(this).val(),
+            target = $(this).find('option:selected').data('target');
 
-            document.getElementById('payment-btn')
-                .setAttribute('href', paymentUrlPattern.replace('#gateway_id#', gatewayId));
+        $('#payment-btn').attr('href', paymentUrlPattern.replace('#gateway_id#', gatewayId));
 
-            document.querySelectorAll('.gateways-description p')
-                .forEach(function (elm) {
-                    elm.classList.add('d-none');
-                })
-
-            document.getElementById('gateway-' + target) &&
-            document.getElementById('gateway-' + target).classList.remove('d-none');
+        $('.gateways-description p').each(function () {
+            $(this).addClass('d-none');
         });
+
+        $('#gateway-' + target).removeClass('d-none');
+    });
+});
 </script>
