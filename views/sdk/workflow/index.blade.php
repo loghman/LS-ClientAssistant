@@ -40,7 +40,7 @@
 </div>
 
 <script src="{{ asset_url('js/jquery.min.js') }}"></script>
-<script src="{{ core_url('js/jss.js?v=5') }}"></script>
+<script type="module" src="{{ core_asset('resources/assets/js/jss.js') }}"></script>
 @stack('footer')
 </body>
 </html>
