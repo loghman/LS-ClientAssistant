@@ -13,7 +13,7 @@
             @if($cart && count($cart['items']) != 0)
                 <div class="col-lg-4">
                     <div class="sticky-sidebar gap-md gap-sm--lg transparent">
-                        <div class="card p-md p-sm--xl align-items-center text-center">
+                        <div class="card align-items-center text-center">
                             @include('sdk.salesflow.cart._partials._cart-price')
                         </div>
                         @include('sdk.salesflow.cart._partials._cart-coupon')

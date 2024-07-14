@@ -31,6 +31,13 @@
                     </div>
                 </div>
             @endforeach
+
+            <div id="pay-content">
+                <div class="mt-5">
+                    <i class="spinner me-auto ms-auto" style="--spinner-color: var(--primary); --spinner-size: 45px"></i>
+                </div>
+            </div>
+
         </div>
     </div>
 @else

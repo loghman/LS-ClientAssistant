@@ -49,6 +49,5 @@
     پرداخت و تکمیل ثبت نام
 </button>
 
-<div id="pay-content" class="mt-4" style="flex-direction: column">
-    <i class="spinner me-auto ms-auto" style="--spinner-color: var(--primary); --spinner-size: 45px"></i>
-</div>
+<a href="{{ route('payment.requestLink', ['cart' => $cart['id'], 'gateway' => $defaultGateway['id']]) }}"
+   class="btn w-100" id="payment-btn">پرداخت و تکمیل ثبت نام</a>
