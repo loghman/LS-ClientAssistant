@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\Router\JsonResponse;
 use Ls\ClientAssistant\Core\Router\WebResponse;
 use Ls\ClientAssistant\Helpers\Config;
-use Ls\ClientAssistant\Utilities\Modules\LMSProduct;
 use Ls\ClientAssistant\Utilities\Modules\TaskManager;
+use Ls\ClientAssistant\Utilities\Modules\V3\LMSProduct;
+use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
 
 class WorkflowFormController
 {
@@ -17,19 +18,17 @@ class WorkflowFormController
         if (!$response->get('success')) {
             abort(404);
         }
+        $workflowData = $response->get('data');
 
         $courses = [];
         if (!$request->has('et') && !$request->has('ei')) {
-            $courses = LMSProduct::search(
-                '',
-                ['id', 'title', 'slug'],
-                [],
-                Config::get('workflow_form.max_course_count_for_select')
+            $response = LMSProduct::cacheActive()->keyValList(
+                'title',
+                ModuleFilter::new()->perPage(Config::get('workflow_form.max_course_count_for_select'))
             );
-            if (!$courses->get('success')) {
-                $courses = [];
+            if ($response->get('success')) {
+                $courses = $response->get('data')['data'];
             }
-            $courses = collect($courses->get('data')['data'])->pluck('title', 'id')->toArray();
         }
 
         return WebResponse::view(
@@ -39,7 +38,7 @@ class WorkflowFormController
                 'entityType' => $request->get('et'),
                 'entityId' => $request->get('ei'),
                 'source' => $request->get('source'),
-                'workflowData' => $response->get('data'),
+                'workflowData' => $workflowData,
                 'courses' => $courses,
                 'timeToCallOptions' => [
                     '10-13' => '۱۰ تا ۱۳',

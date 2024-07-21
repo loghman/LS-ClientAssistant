@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Helpers\Response;
 
-class LMSProduct
+class LMSProduct extends Cacher
 {
     public static function list(ModuleFilter $filter = null): Collection
     {
@@ -24,6 +24,17 @@ class LMSProduct
     {
         try {
             return API::get('client/v3/lms/product/' . $slug, $filter ? $filter->all() : []);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
+    public static function keyValList(string $filed, ModuleFilter $filter = null): Collection
+    {
+        try {
+            return API::get('client/v3/lms/product/key-val-list/' . $filed, $filter ? $filter->all() : []);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
