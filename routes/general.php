@@ -2,6 +2,7 @@
 
 use Ls\ClientAssistant\Controllers\AuthVerificationController;
 use Ls\ClientAssistant\Controllers\PageController;
+use Ls\ClientAssistant\Controllers\PanelController;
 use Ls\ClientAssistant\Controllers\WorkflowFormController;
 use Ls\ClientAssistant\Controllers\CartController;
 use Ls\ClientAssistant\Controllers\PaymentController;
@@ -44,6 +45,11 @@ $router->name('landing.mini')->prefix('course')->group(function (Router $router)
 
 $router->name('landing.quick.pay')->prefix('course')->group(function (Router $router){
     $router->get('{slug}/q', [MiniLandingController::class, 'quickPay']);
+});
+
+$router->name('panel.')->prefix('sdk/panel')->group(function (Router $router){
+    $router->name('courses')->get('courses', [PanelController::class, 'panelCourses']);
+    $router->name('course')->get('course', [PanelController::class, 'panelCourse']);
 });
 
 $router->name('hook.')->prefix('hook')->group(function (Router $router) {
