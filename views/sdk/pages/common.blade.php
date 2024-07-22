@@ -3,16 +3,24 @@
 @push('head')
 @endpush
 @section('body-class', '')
-@section('header-class', 'square center min-h-fit--md pb-5 pb-lg-0')
+@section('header-class', 'square md center')
+
+@section('header-props', "style=background-color:var(--secondary)")
+@section('navbar_class', 'light')
 @section('header')
 @endsection
-@section('base-content-class', '')
+@section('base-content-class', 'lg')
 @section('content')
-    <div class="container over-header my-4">
-        <div class="row gx-lg gx-md--lg">
-            <div class="col-xxxl-12 col-xxl-8-5 col-xl-8">
-                <div class="row g">
-                    {!! $page['content'] !!}
+    <div class="container">
+        <div class="row gy gx justify-content-center">
+            <div class="col-xxl-10">
+                <div class="sticky-sidebar gap-md gap-sm--lg transparent over-header md">
+                    <h1 class="page-title text-center text-white lh-1">{{ $page['title'] }}</h1>
+                    <div class="card padding-md align-items-center text-center">
+                        <div class="content d-block t-tags compact">
+                            {!! $page['content'] !!}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
