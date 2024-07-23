@@ -42,7 +42,14 @@ class API
         }
         curl_close($curl);
 
-        return self::parseData($response);
+        $response = self::parseData($response);
+
+        if ($httpCode === Response::HTTP_MULTI_STATUS && isset($response['result']['redirect'])) {
+            header('Location: '.$response['result']['redirect'], true, $response['result']['code']);
+            exit;
+        }
+
+        return $response;
     }
 
     public static function getOrFromCache(string $cacheKey, array $config, string $uri, array $queryParam = [], $headers = []): Collection
