@@ -42,6 +42,15 @@ $router->name('landing.mini')->prefix('course')->group(function (Router $router)
         ->post('{slug}/m/pay-details', [MiniLandingController::class, 'payDetails']);
 });
 
+$router->name('auth.')->prefix('auth')->group(function (Router $router){
+    $router->get('/', [AuthController::class, 'index']);
+});
+
+$router->name('onboarding.')->prefix('onboarding')->group(function (Router $router){
+    $router->get('/', [OnboardingController::class, 'index']);
+
+});
+
 $router->name('hook.')->prefix('hook')->group(function (Router $router) {
     $router->name('landing')->get('/{slug}', [HookController::class, 'landing']);
 
