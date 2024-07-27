@@ -24,7 +24,10 @@ class WorkflowFormController
         if (!$request->has('et') && !$request->has('ei')) {
             $response = LMSProduct::cacheActive()->keyValList(
                 'title',
-                ModuleFilter::new()->perPage(Config::get('workflow_form.max_course_count_for_select'))
+                ModuleFilter::new()
+                    ->orderBy('id')
+                    ->sortedBy('asc')
+                    ->perPage(Config::get('workflow_form.max_course_count_for_select'))
             );
             if ($response->get('success')) {
                 $courses = $response->get('data')['data'];
