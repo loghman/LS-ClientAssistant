@@ -41,8 +41,8 @@ export default defineConfig({
     "import.meta.env.APP_URL": process.env.APP_URL ? JSON.stringify(
         process.env.APP_URL
     ):null,
-    "import.meta.env.API_BASE_URL": process.env.API_BASE_URL ? JSON.stringify(
-        process.env.API_BASE_URL
+    "import.meta.env.API_BASE_URL": process.env.CORE_URL ? JSON.stringify(
+        process.env.CORE_URL
     ):null,
     "import.meta.env.CLIENT_URL": process.env.CLIENT_URL ? JSON.stringify(
         process.env.CLIENT_URL
