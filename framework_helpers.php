@@ -15,6 +15,29 @@ if (!function_exists('site_url')) {
         return ($GLOBALS['appUrl'] ?? '') . $uri;
     }
 }
+if (!function_exists('getViteAssetUrl')) {
+    function getViteAssetUrl(string $assetName,?string  $manifestPath = null): string
+    {
+
+        if($manifestPath==null){
+            $manifestPath=sdk_path('../../../public/dist/.vite/manifest.json');
+        }
+
+        if (!file_exists($manifestPath)) {
+            throw new Exception("Manifest file not found: $manifestPath");
+        }
+    
+        $manifestContent = file_get_contents($manifestPath);
+        $manifest = json_decode($manifestContent, true);
+        
+        if (!isset($manifest[$assetName])) {
+            throw new Exception("Asset not found in manifest: $assetName");
+        }
+    
+        return 'dist/' . $manifest[$assetName]['file'];
+    }
+    
+}
 
 if (!function_exists('asset_url')) {
     function asset_url(string $path): string
