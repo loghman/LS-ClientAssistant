@@ -1,5 +1,5 @@
 <script setup>
-import { defineEmits, ref, watch } from 'vue';
+import { defineEmits, onMounted, ref, watch } from 'vue';
 
 const props = defineProps({
     otpCode: String,
@@ -7,17 +7,18 @@ const props = defineProps({
 });
 const emit= defineEmits(['setOtpcode']);
 const otpCode = ref(Array(6).fill(''));
+const otpInputsRef = ref([]);
+const otpInputsLength=ref(0);
 const handleSetOtp=()=>{
     emit("setOtpcode",otpCode.value)
 }
 
 const handleInput = (value, index, e) => {
-    const otpInputs = document.querySelectorAll('.jump-next');
     otpCode.value[index] = value;
-    if (index < otpInputs.length - 1) {
-        otpInputs[index + 1].focus();
+    if (index < otpInputsLength.value - 1) {
+        otpInputsRef.value[index + 1].focus();
     } else {
-        const lastValue = $(otpInputs[otpInputs.length - 1]).val();
+        const lastValue = $(otpInputsRef.value[otpInputsLength.value - 1]).val();
         if (!lastValue) {
             return;
         }
@@ -26,10 +27,9 @@ const handleInput = (value, index, e) => {
 
 }
 const handleBackspace = (value, index, e) => {
-    const otpInputs = document.querySelectorAll('.jump-next');
     if (e.which === 8 && index > 0) {
         otpCode.value[index] = '';
-        otpInputs[index - 1].focus();
+        otpInputsRef.value[index - 1].focus();
         return;
     }
 }
@@ -40,24 +40,30 @@ const handlePaste = (e) => {
     const pastedText = clipboardData.getData('text');
 
     const digits = (pastedText).replace(/\D/g, '').split('').slice(0, 6);
+    const minNum=Math.min(digits.length, otpInputsLength.value);
 
-    const otpInputs = document.querySelectorAll('.jump-next');
-
-    for (let i = 0; i < Math.min(digits.length, otpInputs.length); i++) {
+    for (let i = 0; i < minNum ; i++) {
         otpCode.value[i] = digits[i];
     }
 
-    otpInputs[Math.min(digits.length, otpInputs.length) - 1].focus();
+    otpInputsRef.value[minNum - 1].focus();
     handleSetOtp();
 }
 watch(()=>props.resetOtpInputs,(prev)=>{
     otpCode.value=Array(6).fill('');
 })
+// Focus on the first input field when the component mounts
+onMounted(() => {
+    if (otpInputsRef.value.length> 0) {
+        otpInputsRef.value[0].focus();
+        otpInputsLength.value=otpInputsRef.value.length;
+    }
+});
 </script>
 
 <template>
     <div class="inputs number ltr">
-        <input autocomplete="off" v-for="(input, index) in Array(6).fill('')" :key="index" v-model="otpCode[index]" type="text"
+        <input ref="otpInputsRef" autocomplete="off" v-for="(input, index) in Array(6).fill('')" :key="index" v-model="otpCode[index]" type="text"
             inputmode="numeric" maxlength="1" class="text-center jump-next en-number" placeholder="-"
             @input="(e) => handleInput(otpCode[index], index, e)" @paste="handlePaste"
             @keyup="(e) => handleBackspace(otpCode[index], index, e)" />
