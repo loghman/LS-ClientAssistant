@@ -14,7 +14,7 @@ class AjaxController
     public function item(Request $request)
     {
         $userToken = $request->cookies->get('token');
-        [$item_id, $product_id, $enrollment_id, $chapter_id, $log_type] = [$_GET['iid'] ?? null, $_GET['pid'] ?? null, $_GET['eid'] ?? null, $_GET['chid'] ?? null, $_GET['log_type'] ?? null];
+        [$item_id, $product_id, $chapter_id, $log_type] = [$_GET['iid'] ?? null, $_GET['pid'] ?? null, $_GET['chid'] ?? null, $_GET['log_type'] ?? null];
 
         // $start = microtime(true);
         $key = __FILE__.__LINE__.$chapter_id;
