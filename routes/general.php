@@ -1,6 +1,9 @@
 <?php
 
+use Ls\ClientAssistant\Controllers\AjaxController;
 use Ls\ClientAssistant\Controllers\AuthVerificationController;
+use Ls\ClientAssistant\Controllers\CoursePlayerController;
+use Ls\ClientAssistant\Controllers\MyCoursesController;
 use Ls\ClientAssistant\Controllers\PageController;
 use Ls\ClientAssistant\Controllers\PanelController;
 use Ls\ClientAssistant\Controllers\WorkflowFormController;
@@ -162,3 +165,13 @@ $router->name('payment.')->prefix('payment')->group(function (Router $router) {
 });
 
 $router->get('/{slug}', [PageController::class, 'find']);
+
+$router->name('pwa.')->prefix('pwa')->group(function (Router $router){
+    $router->name('coursePlayer')->get('course-{pid}/player', [CoursePlayerController::class, 'index']);
+    $router->name('myCourses')->get('my-courses', [MyCoursesController::class, 'index']);
+});
+
+$router->name('ajax.')->prefix('ajax')->group(function (Router $router){
+    $router->name('item')->get('item', [AjaxController::class, 'item']);
+    $router->name('item.signal')->get('item/signal', [AjaxController::class, 'itemSignal']);
+});
