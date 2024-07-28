@@ -43,7 +43,8 @@
         @endforeach
     @endif
 
-    <label class="fw-700 mt-xs w-100 justify-content-center">چه ساعتی با شما تماس بگیریم؟</label>
+    <input type="hidden" name="time2call" value="{{ array_keys($timeToCallOptions)[0] }}">
+    {{--<label class="fw-700 mt-xs w-100 justify-content-center">چه ساعتی با شما تماس بگیریم؟</label>
     <div class="d-flex align-items-center justify-content-center gap-sm gap-xxs--sm mt-xxs-neg mt-0--sm">
         @foreach($timeToCallOptions as $value => $option)
             <label for="time2call-{{ $id = rand(1,999) }}">
@@ -51,7 +52,7 @@
                 <span>{{ $option }}</span>
             </label>
         @endforeach
-    </div>
+    </div>--}}
 
     <button type="submit" class="w-100 mt-xs">
         <span>ثبت درخواست</span><i class="si-arrow-left-r"></i>
