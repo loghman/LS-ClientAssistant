@@ -10,7 +10,7 @@ class AuthController
     public function index(Request $request)
     {
         return WebResponse::view(
-            'src.views.vue-auth',
+            'vue-apps.views.vue-auth',
         );
 
     }
