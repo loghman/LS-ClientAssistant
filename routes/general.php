@@ -4,6 +4,7 @@ use Ls\ClientAssistant\Controllers\AjaxController;
 use Ls\ClientAssistant\Controllers\AuthVerificationController;
 use Ls\ClientAssistant\Controllers\CoursePlayerController;
 use Ls\ClientAssistant\Controllers\MyCoursesController;
+use Ls\ClientAssistant\Controllers\OnboardingController;
 use Ls\ClientAssistant\Controllers\PageController;
 use Ls\ClientAssistant\Controllers\PanelController;
 use Ls\ClientAssistant\Controllers\WorkflowFormController;
@@ -50,8 +51,9 @@ $router->name('auth.')->prefix('auth')->group(function (Router $router){
     $router->get('/', [AuthController::class, 'index']);
 });
 
-$router->name('onboarding.')->prefix('onboarding')->group(function (Router $router){
+$router->name('onboarding.')->prefix('onboarding')->group(function (Router $router) {
     $router->get('/', [OnboardingController::class, 'index']);
+});
 
 $router->name('landing.quick.pay')->prefix('course')->group(function (Router $router){
     $router->get('{slug}/q', [MiniLandingController::class, 'quickPay']);
