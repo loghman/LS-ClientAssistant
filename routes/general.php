@@ -1,6 +1,7 @@
 <?php
 
 use Ls\ClientAssistant\Controllers\AjaxController;
+use Ls\ClientAssistant\Controllers\AuthController;
 use Ls\ClientAssistant\Controllers\AuthVerificationController;
 use Ls\ClientAssistant\Controllers\CoursePlayerController;
 use Ls\ClientAssistant\Controllers\MyCoursesController;
