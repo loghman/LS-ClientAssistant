@@ -1,4 +1,4 @@
-@section('title', 'دوره‌های طراحی رابط کاربری')
+@section('title', '<?=$course['title']?>')
 <!doctype html>
 <html lang="fa">
 
