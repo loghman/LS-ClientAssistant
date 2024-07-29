@@ -48,14 +48,6 @@ $router->name('landing.mini')->prefix('course')->group(function (Router $router)
         ->post('{slug}/m/pay-details', [MiniLandingController::class, 'payDetails']);
 });
 
-$router->name('auth.')->prefix('auth')->group(function (Router $router){
-    $router->get('/', [AuthController::class, 'index']);
-});
-
-$router->name('onboarding.')->prefix('onboarding')->group(function (Router $router) {
-    $router->get('/', [OnboardingController::class, 'index']);
-});
-
 $router->name('landing.quick.pay')->prefix('course')->group(function (Router $router){
     $router->get('{slug}/q', [MiniLandingController::class, 'quickPay']);
 });
@@ -172,6 +164,8 @@ $router->get('/{slug}', [PageController::class, 'find']);
 $router->name('pwa.')->prefix('pwa')->group(function (Router $router){
     $router->name('coursePlayer')->get('course-{pid}/player', [CoursePlayerController::class, 'index']);
     $router->name('myCourses')->get('my-courses', [MyCoursesController::class, 'index']);
+    $router->name('auth')->prefix('auth')->get('/', [AuthController::class, 'index']);
+    $router->name('onboarding')->prefix('onboarding')->get('/', [OnboardingController::class, 'index']);
 });
 
 $router->name('ajax.')->prefix('ajax')->group(function (Router $router){
