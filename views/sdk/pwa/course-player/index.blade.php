@@ -1,8 +1,7 @@
-@section('title', '<?=$course['title']?>')
 <!doctype html>
 <html lang="fa">
-
 <head>
+    <title><?=$course['title']?></title>
     @include('sdk.pages.landing-partials.head')
 <style>
     button:hover, .btn:hover {
@@ -19,10 +18,10 @@
         text-align: center;
         font-size: 11px;
         padding-left: 11px;
-        line-height: 16px;
-        height:16px;
+        line-height: 20px;
+        height: 20px;
         margin-left: 15px;
-        width: 150px;
+        width: 100%;
     }
 
     .progress span {
@@ -34,6 +33,13 @@
 
     .fasl {
         color: var(--primary);
+    }
+
+    .truncate {
+        width: 320px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .accordions .accordion .header .picon {
@@ -55,6 +61,14 @@
     .accordions .accordion .header:after {
         margin-right: 10px;
         font-size: 12px;
+    }
+
+    .accordions .accordion .content{
+        padding: 0 !important;
+    }
+
+    .accordions{
+        margin-top: 10px;
     }
 
     .accordions .accordion {
@@ -168,6 +182,15 @@
         font-size: 14px;
         border-radius: 15px;
     }
+    @media (max-width:640px){
+        .signal-box {
+            display: block;
+            text-align: center;
+        }
+        .signal-box>* {
+            width: 100%;
+        }
+    }
 
     .signal-box button {
         padding: 0px 20px;
@@ -193,8 +216,13 @@
         line-height: 28px;
         text-align: justify;
         margin: 20px 0;
+        background-size: 
     }
-    
+    .bghead{
+        min-height: 100%;
+        background-size: cover !important;
+        background: linear-gradient(45deg, var(--primary-50), rgb(255 255 255 / 70%)), url(<?= $course['banner_url'] ?>);
+    }
     </style>
 </head>
 
@@ -210,26 +238,27 @@
             </a>
         </div>
 
-        <div class="card-status m-0 shadow-inset pt pb bg-secondary-3">
+        <div class="card-status bghead m-0 shadow-inset pt pb">
             <div class="card-product">
                 <span class="content">
-                    <img loading="lazy" style="height: 80px;" src="<?=$course['banner_url']?>" alt="تصویر دوره">
+                    {{-- <img loading="lazy" style="height: 80px;" src="" alt="تصویر دوره"> --}}
                     <span class="text">
                         <span class="title"><?=$course['title']?></span>
                         <span class="content">
-                            <small class="subtitle">{{ to_persian_num(count($chapters)) }} سرفصل،
-                                {{ to_persian_num($course['items_count']) }} جلسه</small>
-                            <span class="progress me-auto" style="--w: <?=$enrollment['progress_percent']?>%"><span><?=to_persian_num($enrollment['progress_percent'])?>٪</span></span>
+                            <small class="subtitle">{{ to_persian_num(count($chapters)) }} سرفصل، {{ to_persian_num($course['items_count']) }} جلسه</small>
+                            
                         </span>
                     </span>
                 </span>
             </div>
         </div>
         <div class="content">
+            <div class="progress me-auto" style="--w: <?=$enrollment['progress_percent']?>%"><span><?=to_persian_num($enrollment['progress_percent'])?>٪</span></div>
+
             @foreach($chapters as $ii => $ch)
             <div class="accordions" >
                 @if(count($chapters) > 1)
-                <span class="fw-700"><?= "<span class='fasl'>فصل " . to_persian_num($ii+1) . ":</span> " . $ch['title']?></span>
+                <div class="fw-700 truncate"><?= "<span class='fasl'>فصل " . to_persian_num($ii+1) . ":</span> " . $ch['title']?></div>
                 @endif
                 <?php $si=1;?>
                 @foreach($ch['items'] as $item)
@@ -238,7 +267,7 @@
                     <div class="header py-sm" id='<?=$item['id']?>'>
                         <span class="picon i-play-circle-fill <?=$item['log_type']?>"></span>
                         <span class="title sm">
-                            @if($course['items_count'] > 1)
+                            @if($course['items_count'] > 2)
                             <b>جلسه <?=to_persian_num($si++)?> :</b> 
                             @endif
                         <?=$item['title']?></span>
@@ -363,5 +392,4 @@
 </script>
 
 </body>
-
 </html>
