@@ -1,4 +1,4 @@
-@section('title', 'دوره‌های طراحی رابط کاربری')
+@section('title', '<?=$course['title']?>')
 <!doctype html>
 <html lang="fa">
 
@@ -219,7 +219,7 @@
                         <span class="content">
                             <small class="subtitle">{{ to_persian_num(count($chapters)) }} سرفصل،
                                 {{ to_persian_num($course['items_count']) }} جلسه</small>
-                            <span class="progress me-auto" style="--w: <?=$progress?>%"><span><?=to_persian_num($progress)?>٪</span></span>
+                            <span class="progress me-auto" style="--w: <?=$enrollment['progress_percent']?>%"><span><?=to_persian_num($enrollment['progress_percent'])?>٪</span></span>
                         </span>
                     </span>
                 </span>
