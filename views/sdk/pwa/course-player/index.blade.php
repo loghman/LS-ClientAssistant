@@ -199,9 +199,6 @@
 </head>
 
 <body>
-    <?php
-       $progress = $enrollment['progress_percent'];
-    ?>
     <div class="base-content">
         <div class="navbar shadow">
             <a href="{{ site_url('') }}" class="brand">
@@ -237,7 +234,7 @@
                 <?php $si=1;?>
                 @foreach($ch['items'] as $item)
                 <div class="accordion empty <?=($item['id'] == $_GET['i']??'*') ? 'default' : ''?>" data-iid="<?=$item['id']?>" data-pid="<?=$item['product_id']?>"
-                data-eid="<?=$enrollment['id']?>" data-chid="<?=$item['parent_id']?>" data-t="<?=$item['log_type']?>">
+                data-chid="<?=$item['parent_id']?>" data-t="<?=$item['log_type']?>">
                     <div class="header py-sm" id='<?=$item['id']?>'>
                         <span class="picon i-play-circle-fill <?=$item['log_type']?>"></span>
                         <span class="title sm">
@@ -291,13 +288,11 @@
             var element = event.target.closest('.accordion.empty');            
             var iid = element.getAttribute('data-iid');
             var pid = element.getAttribute('data-pid');
-            var eid = element.getAttribute('data-eid');
             var chid = element.getAttribute('data-chid');
             var log_type = element.getAttribute('data-t');
 
             var url = '<?=site_url('ajax/item')?>';
-            var params = 'iid=' + encodeURIComponent(iid) + '&pid=' + encodeURIComponent(pid) + 
-            '&eid=' + encodeURIComponent(eid) + '&chid=' + encodeURIComponent(chid) + '&log_type=' + encodeURIComponent(log_type);
+            var params = 'iid=' + encodeURIComponent(iid) + '&pid=' + encodeURIComponent(pid) +  '&chid=' + encodeURIComponent(chid) + '&log_type=' + encodeURIComponent(log_type);
 
             var xhr = new XMLHttpRequest();
             xhr.open('GET', url + '?' + params, true);
