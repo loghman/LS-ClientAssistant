@@ -164,8 +164,8 @@ $router->get('/{slug}', [PageController::class, 'find']);
 $router->name('pwa.')->prefix('pwa')->group(function (Router $router){
     $router->name('coursePlayer')->get('course-{pid}/player', [CoursePlayerController::class, 'index']);
     $router->name('myCourses')->get('my-courses', [MyCoursesController::class, 'index']);
-    $router->name('auth')->prefix('auth')->get('/', [AuthController::class, 'index']);
-    $router->name('onboarding')->prefix('onboarding')->get('/', [OnboardingController::class, 'index']);
+    $router->name('auth')->get('/auth', [AuthController::class, 'index']);
+    $router->name('onboarding')->get('/onboarding', [OnboardingController::class, 'index']);
 });
 
 $router->name('ajax.')->prefix('ajax')->group(function (Router $router){
