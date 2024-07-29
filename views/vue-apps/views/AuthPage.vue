@@ -12,6 +12,7 @@ import RetriveCard from "../components/auth/RetriveCard.vue";
 import { useAuthStore } from "../stores/authStore";
 import Cookies from "js-cookie";
 import { authApi } from "@/assets/js/utilities/apiPath";
+import ErrorMsg from "../components/auth/common/ErrorMsg.vue";
 
 
 defineComponent({
@@ -20,12 +21,14 @@ defineComponent({
         OtpCard,
         PriorityOneCard,
         PriorityTwoCard,
+        ErrorMsg
     },
 });
 
 const authStore = useAuthStore();
 ////refs////
 const isLoading = ref(false);
+const showErrorMsg = ref(false);
 const clientUrl=ref(URLS.CLIENT_URL)
 const authSetting = ref({
     loginFields: {
@@ -89,10 +92,10 @@ const getAuthSetting = async () => {
             const err = response.message.text ? response.message.text : defaultError;
             toast(err, 'danger');
             isLoading.value = false;
+            showErrorMsg.value=true;
         }
     } catch (error) {
         isLoading.value = false;
-        toast(defaultError);
         console.log(error);
     }
 };
@@ -126,8 +129,9 @@ onBeforeMount(() => {
                             </div>
                         </a>
                     </div>
+                    <ErrorMsg v-if="showErrorMsg"></ErrorMsg>
                     <!-- /////login cards -->
-                    <div class="content align-items-center">
+                    <div v-else class="content align-items-center">
                         <Loading v-model:active="isLoading" :can-cancel="false" :is-full-page="true"
                             :backgroundColor="'var(--primary)'" :color="'var(--primary)'" />
                         <div v-if="!isLoading">
