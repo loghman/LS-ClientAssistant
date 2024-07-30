@@ -26,7 +26,7 @@ function formatSizeUnits($bytes) {
         <script src="https://stream.7learn.com/<?=$item['main_video']['stream_id']?>/embed"></script>
     @else
         @if(filter_var($item['main_video']['full_url'], FILTER_VALIDATE_URL))
-        <video controls autoplay class="w-100 base-radius overflow-hidden" onclick="this.paused ? this.play() : this.pause();">
+        <video controls autoplay class="w-100 base-radius overflow-hidden">
             <source src="{{ $item['main_video']['full_url'] }}" type="video/mp4"/>
         </video>
         @else

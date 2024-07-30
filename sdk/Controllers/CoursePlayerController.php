@@ -23,7 +23,7 @@ class CoursePlayerController
         ];
 
         // $start = microtime(true);
-        $key = __FILE__.__LINE__;
+        $key = __FILE__.__LINE__.$product_id;
         if(ObjectCache::exists($key)){
             $course = ObjectCache::get($key);
         }else{

@@ -34,7 +34,7 @@ if (!function_exists('getViteAssetUrl')) {
             throw new Exception("Asset not found in manifest: $assetName");
         }
     
-        return 'dist/' . $manifest[$assetName]['file'];
+        return '/dist/' . $manifest[$assetName]['file'];
     }
     
 }
