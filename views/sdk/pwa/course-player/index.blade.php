@@ -339,6 +339,29 @@
             xhr.send();
         }
 
+        // just single video in playing 
+        document.addEventListener('play', function(e){
+            var videos = document.getElementsByTagName('video');
+            for(var i = 0; i < videos.length; i++) {
+                if(videos[i] != e.target) {
+                    videos[i].pause();
+                }
+            }
+        }, true);
+        document.addEventListener('DOMContentLoaded', function() {
+            var videos = document.getElementsByTagName('video');
+            for(var i = 0; i < videos.length; i++) {
+                videos[i].addEventListener('click', function() {
+                    if (this.paused) {
+                        this.play();
+                    } else {
+                        this.pause();
+                    }
+                });
+            }
+        });
+
+
         var accordionElements = document.querySelectorAll('.accordion .header');
         accordionElements.forEach(function(element) {
             element.addEventListener('click', sendAjaxRequest);
@@ -389,7 +412,9 @@
         xhr.send();
     }
 
+
 </script>
 
 </body>
+
 </html>
