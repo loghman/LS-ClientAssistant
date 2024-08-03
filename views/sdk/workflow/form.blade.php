@@ -1,9 +1,7 @@
 <form class="{{ $wrapper_classes }}" action="{{ site_url('workflow/task-store') }}" method="post"
       data-jsc="ajax-form" data-after-success="closure" data-fn="showSuccess">
     <input type="hidden" name="workflow" value="{{ $workflowData['name_en'] }}">
-    @if(isset($source))
-        <input type="hidden" name="source" value="{{ $source }}">
-    @endif
+    <input type="hidden" name="source" value="{{ $source ?? 'فرم فرایند در سایت' }}">
     @if(!empty($courses))
         <input type="hidden" name="entity_type" value="lms_products">
         @include('sdk.form-builder.select', [
