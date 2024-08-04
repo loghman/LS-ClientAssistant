@@ -25,16 +25,16 @@ class CKEditorUploadAdapter {
         const formData = new FormData();
         formData.append("file", file);
         formData.append("collection_name", "ckeditor");
-
+         
         let url;
         if (this.options.entity_type) {
             url = uploadApi(
-                'core.media.api.admin.v3.media.store',
+                'store',
                 { entityType: this.options.entity_type, entityId: this.options.entity_id }
             );
             formData.append("clear_media", 0);
         } else if (this.options.unique_id) {
-            url = uploadApi('core.media.api.admin.v3.media.fake_store');
+            url = uploadApi('fake_store');
             formData.append("unique_id", this.options.unique_id);
         } else {
             console.error("media upload payload not set correctly!");
@@ -58,20 +58,18 @@ class CKEditorUploadAdapter {
             });
 
             const responseData = response.data;
-            if (!responseData || responseData.error) {
-                throw new Error(responseData?.error?.message || "آپلود انجام نشد!");
+            if (response.status) {
+                console.log("uploaded");
+                return responseData;   
+            } else {
+                console.log("upload failed"); 
             }
-            return responseData;
+           
         } catch (error) {
-            throw new Error(error.response?.data?.error?.message || "آپلود انجام نشد!");
+            throw new Error(error.response?.data?.error?.message || "..آپلود انجام نشد!");
         }
     }
 
-    abort() {
-        if (this.xhr) {
-            this.xhr.abort();
-        }
-    }
 }
 
 export function CKEditorUploadAdapterPlugin(editor) {
