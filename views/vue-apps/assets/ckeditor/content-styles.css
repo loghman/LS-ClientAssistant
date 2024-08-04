@@ -1,0 +1,22 @@
+.ck-editor .ck-content a {
+    color: #1273EB;
+}
+
+.ck-editor .ck-content h1 {
+    font-size: 24px;
+}
+
+.ck-editor .ck-content h2 {
+    font-size: 19px;
+}
+
+.ck.ck-dropdown.ck-heading-dropdown .ck-dropdown__button .ck-button__label {
+    width: 5em;
+}
+
+.ck-button_with-text:is(.ck.ck-button, a.ck.ck-button) {
+    padding: var(--ck-spacing-tiny) 5px;
+}
+.ck-powered-by-balloon{
+    display: none!important;
+}
