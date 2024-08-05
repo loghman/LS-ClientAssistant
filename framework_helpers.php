@@ -8,6 +8,7 @@ use Ls\ClientAssistant\Utilities\Modules\User;
 use Illuminate\Container\Container;
 use Ls\ClientAssistant\Utilities\Tools\CoreAsset;
 use Ls\ClientAssistant\Utilities\Modules\V3\Theme;
+use Illuminate\Support\Str;
 
 if (!function_exists('site_url')) {
     function site_url(string $uri = ''): string
@@ -1271,5 +1272,12 @@ if(! function_exists('get_current_theme')){
             return $theme['result'];
         }
         return  null;
+    }
+}
+
+if (! function_exists('create_unique_id')) {
+    function create_unique_id(): string
+    {
+        return Str::random(32);
     }
 }
