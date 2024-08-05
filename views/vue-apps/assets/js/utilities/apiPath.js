@@ -16,6 +16,11 @@ export const authApi = {
 export const publicApi={
     GETCITIES:'core/city/get-for-select'
 }
-export const uploadApi=(apiName,parameters)=>{
-    return `client/v3/core/media/store/${parameters.entityType}/${parameters.entityId}`
+export const uploadApi = (apiName, parameters) => {
+    if (apiName === 'store') {
+        return `client/v3/core/media/store/${parameters.entityType}/${parameters.entityId}`
+
+    } else if (apiName === 'fake_store') {
+        return 'client/v3/core/media/store-fake'
+    }
 }

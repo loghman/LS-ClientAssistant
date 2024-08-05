@@ -3,6 +3,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import dotenv from "dotenv";
 import path from "path";
+import ckeditor5 from '@ckeditor/vite-plugin-ckeditor5';
 // Specify the path to your .env file
 const envPath = path.resolve(__dirname, '../../../.env');
 // Load environment variables from .env file and put them in proccess.env
@@ -10,6 +11,9 @@ dotenv.config({ path: envPath });
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+      ckeditor5({
+          theme: path.resolve("@ckeditor/ckeditor5-theme-lark"),
+      }),
     vue()
   ],
   build: {
@@ -26,6 +30,18 @@ export default defineConfig({
         onboarding: path.resolve(
           __dirname,
           "./views/vue-apps/onboarding.js"
+        ),
+        ckeditor: path.resolve(
+          __dirname,
+          "./views/vue-apps/assets/ckeditor/ckeditor.js"
+        ),
+        ck_style: path.resolve(
+          __dirname,
+          "./views/vue-apps/assets/ckeditor/ckeditor.css"
+        ),
+        content_styles: path.resolve(
+          __dirname,
+          "./views/vue-apps/assets/ckeditor/content-styles.css"
         ),
       },
     },

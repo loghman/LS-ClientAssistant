@@ -41,7 +41,7 @@ export const useOnboardingManagment = () => {
         }
         const formData = new FormData();
         formData.append("file", file);
-         const  uploadUrl = uploadApi("core.media.api.admin.v3.media.store", {
+         const  uploadUrl = uploadApi("store", {
             entityType:entityType,
             entityId:entityId,
         });
