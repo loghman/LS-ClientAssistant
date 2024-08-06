@@ -43,6 +43,10 @@ export default defineConfig({
           __dirname,
           "./views/vue-apps/assets/ckeditor/content-styles.css"
         ),
+        uploader: path.resolve(
+          __dirname,
+          "./views/vue-apps/assets/js/utilities/uploader.js"
+        ),
       },
     },
     // Disable generating HTML files
