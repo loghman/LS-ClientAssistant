@@ -3,10 +3,10 @@ import Loading from "vue-loading-overlay";
 import { defineComponent, ref, onBeforeMount } from "vue";
 import {
     authApi,
-} from "@/assets/js/utilities/apiPath";
+} from "@/js/utilities/apiPath";
 import {
     get,
-} from "@/assets/js/utilities/httpClient/httpClient";
+} from "@/js/utilities/httpClient/httpClient";
 import { useAuthStore } from "../stores/authStore"; 
 import OnboardingForm from "../components/auth/OnboardingForm.vue";
 import OtpCard from "../components/auth/OtpCard.vue";

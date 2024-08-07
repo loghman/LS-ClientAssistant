@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { messages } from "../static-messages";
-import { exposedEnvVariables } from "../../../../components/auth/useAuth";
+import { exposedEnvVariables } from "../../../../views/vue-apps/components/auth/useAuth";
 const instance = axios.create({
   baseURL:exposedEnvVariables.API_BASE_URL,
   headers: {

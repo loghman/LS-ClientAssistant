@@ -1,7 +1,7 @@
 // useAuth.js
 import { ref } from "vue";
-import { uploadApi } from "@/assets/js/utilities/apiPath";
-import { post } from "@/assets/js/utilities/httpClient/httpClient";
+import { uploadApi } from "@/js/utilities/apiPath";
+import { post } from "@/js/utilities/httpClient/httpClient";
 
 export const useOnboardingManagment = () => {
     const uploadPercent = ref(0);
