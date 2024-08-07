@@ -4,14 +4,14 @@ import OtpCard from "../components/auth/OtpCard.vue";
 import PriorityOneCard from "../components/auth/PriorityOneCard.vue";
 import PriorityTwoCard from "../components/auth/PriorityTwoCard.vue";
 import { defineComponent, ref, onBeforeMount } from "vue";
-import { get } from "@/assets/js/utilities/httpClient/httpClient";
-import { createIframe } from "@/assets/js/utilities/common";
+import { get } from "@/js/utilities/httpClient/httpClient";
+import { createIframe } from "@/js/utilities/common";
 import { URLS, expireDays } from "../components/auth/useAuth";
 import PassCard from "../components/auth/PassCard.vue";
 import RetriveCard from "../components/auth/RetriveCard.vue";
 import { useAuthStore } from "../stores/authStore";
 import Cookies from "js-cookie";
-import { authApi } from "@/assets/js/utilities/apiPath";
+import { authApi } from "@/js/utilities/apiPath";
 
 
 defineComponent({

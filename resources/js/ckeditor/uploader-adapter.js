@@ -1,5 +1,5 @@
-import { request } from "../js/utilities/httpClient/httpClient";
-import { uploadApi } from "../js/utilities/apiPath";
+import { request } from "@/js/utilities/httpClient/httpClient";
+import { uploadApi } from "@/js/utilities/apiPath";
 
 class CKEditorUploadAdapter {
     constructor(loader, options) {
