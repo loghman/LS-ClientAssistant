@@ -9,7 +9,6 @@ use Illuminate\View\Engines\EngineResolver;
 use Ls\ClientAssistant\Core\Middlewares\CorsMiddleware;
 use Ls\ClientAssistant\Core\Middlewares\EmailVerificationMiddleware;
 use Ls\ClientAssistant\Core\Middlewares\MobileVerificationMiddleware;
-use Ls\ClientAssistant\Core\Middlewares\StaticCacheMiddleware;
 use Ls\ClientAssistant\Core\Middlewares\UtmLogMiddleware;
 use Ls\ClientAssistant\Core\Router\App;
 use Illuminate\Filesystem\Filesystem;
