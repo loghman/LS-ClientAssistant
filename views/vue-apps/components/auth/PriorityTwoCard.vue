@@ -1,10 +1,11 @@
 <script setup>
 import { defineProps, defineEmits, ref } from "vue";
-import { Form, Field, ErrorMessage } from 'vee-validate';
+import { Form } from 'vee-validate';
 import {  createValidationSchema } from "./createValidation.js";
 import { useAuthManagment } from "./useAuthManagment.js";
 import Button from "./common/Button.vue";
 import InputGroup from "./common/InputGroup.vue";
+import FormHeader from "./common/FormHeader.vue";
 
 const props = defineProps({
     authTitle: String,
@@ -34,11 +35,11 @@ function onInvalidSubmit({ values, errors, results }) {
 
 <template>
     <Form v-if="priority2.authType === 'password'" @submit="(values) => handleGoToPassCard(values)"
-        @invalid-submit="onInvalidSubmit" :validation-schema="schema" class="card" autocomplete="off">
+        @invalid-submit="onInvalidSubmit" :validation-schema="schema" class="card form-card" autocomplete="off">
         <i class="icon si-tablet-r"></i>
         <h3 class="title">{{ authTitle }}</h3>
         <div class="fields-frame">
-            <div class="inputs auth-inputs">
+            <div class="auth-inputs">
                 <InputGroup fieldName="uniqueKey" :labelText="priority2.field.configs.placeholder" iconClass="si-user-r fs-20"></InputGroup>
             </div>
             <button ref="submitBtnRef" type="submit" class="btn-primary w-100 btn-submit">
@@ -50,11 +51,11 @@ function onInvalidSubmit({ values, errors, results }) {
         </div>
     </Form>
     <Form v-if="priority2.authType === 'otp'" @submit="(values) => sendToken(values)" @invalid-submit="onInvalidSubmit"
-        :validation-schema="schema" class="card">
-        <i class="icon si-tablet-r"></i>
-        <h3 class="title">{{ authTitle }}</h3>
+        :validation-schema="schema" class="card form-card">
+       <!-- :title="authTitle" -->
+       <FormHeader></FormHeader>
         <div class="fields-frame">
-            <div class="inputs auth-inputs">
+            <div class="auth-inputs">
                 <InputGroup fieldName="uniqueKey" :showforgetButton="false" :labelText="priority2.field.configs.label" iconClass="si-user-r fs-20"></InputGroup>
             </div>
             <Button ref="sendTokenBtnRef" type="submit" text="ورود" className="btn-primary w-100"

@@ -7,6 +7,7 @@ import { authApi } from "@/assets/js/utilities/apiPath.js";
 import { lspDomain, lspOrigin } from "./useAuth.js";
 import { useAuthStore } from "../../stores/authStore.js";
 import { deleteTokenCookies } from "@/assets/js/utilities/logout.js";
+import { messages } from "../../assets/js/utilities/static-messages.js";
 export const useAuthManagment = (
     clientUrl,
     submitBtnRef,
@@ -52,10 +53,12 @@ export const useAuthManagment = (
                 const redirectPath = response.result.redirect_path;
 
                 window.location.href = `${redirectPath}`;
-                
+
             } else {
                 endLoading(btnRef.value);
-                toast(response.message.text, "danger");
+
+                toast(response.message.text ? response.message.text : messages.SOMETHING_WENT_WRONG, "danger");
+
                 response.errors?.forEach((error) => {
                     actions.setFieldError(error.field, error.message);
                 });

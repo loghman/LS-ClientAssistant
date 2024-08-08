@@ -12,6 +12,7 @@ import { useOtpManagment } from './useOtpManagment';
 import OtpInputs from './common/OtpInputs.vue';
 import { useAuthStore } from '../../stores/authStore';
 import { deleteTokenCookies } from '@/assets/js/utilities/logout';
+import { messages } from '../../assets/js/utilities/static-messages';
 const clientIframe=document.getElementById('client_iframe');
 const props = defineProps({
     prevCard: String,
@@ -56,7 +57,7 @@ const handleSubmit = async () => {
             window.location.href = `${redirectPath}`;
         } else {
             endLoading(submitVerifFormBtn.value);
-            toast(response.message.text, "danger");
+            toast(response.message.text?response.message.text:messages.SOMETHING_WENT_WRONG, "danger");
         }
     } catch (error) {
         console.log(error);
@@ -72,7 +73,7 @@ onUnmounted(()=>{
 </script>
 
 <template>
-    <Form autocomplete="off" class="card wizard-item">
+    <Form autocomplete="off" class="card form-card">
         <div class="header d-flex align-items-center">
             <Button text="بازگشت" className="outlined sm hover-anim" @handleClick="goToCard(prevCard)" iconClass="si-arrow-right-r mb-0  fs-20"></Button>
         </div>
