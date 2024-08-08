@@ -28,7 +28,6 @@ class Kernel
 
     private array $globalMiddlewares = [
         CorsMiddleware::class,
-        StaticCacheMiddleware::class,
         UtmLogMiddleware::class,
         EmailVerificationMiddleware::class,
         MobileVerificationMiddleware::class,

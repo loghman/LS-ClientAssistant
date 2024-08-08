@@ -8,7 +8,7 @@ class StaticCache
     protected static $cacheSlug;
     protected static $cacheFile;
     protected static $cachable = 1;
-    const EXPIRE_TIME = 3600;   // 1 hour
+    const EXPIRE_TIME = 12*3600;   // 12 hour
 
 
     public static function isCacheEnable(): bool
@@ -46,7 +46,8 @@ class StaticCache
 
     public static function end()
     {
-        if (!empty(current_user())) {
+        // dont cache the page if user logged in
+        if(isset($_COOKIE['token'])){
             return;
         }
 
