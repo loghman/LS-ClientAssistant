@@ -2,6 +2,11 @@
       data-jsc="ajax-form" data-after-success="closure" data-fn="showSuccess">
     <input type="hidden" name="workflow" value="{{ $workflowData['name_en'] }}">
     <input type="hidden" name="source" value="{{ $source ?? 'فرم فرایند در سایت' }}">
+
+    @if(!empty($workflowData['welcome_message']) && isset($showWelcomeMessage) && $showWelcomeMessage === true)
+        <p class="mb-3">{{ $workflowData['welcome_message'] }}</p>
+    @endif
+
     @if(!empty($courses))
         <input type="hidden" name="entity_type" value="lms_products">
         @include('sdk.form-builder.select', [

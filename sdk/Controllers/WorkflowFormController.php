@@ -43,6 +43,7 @@ class WorkflowFormController
                 'source' => $request->get('source'),
                 'workflowData' => $workflowData,
                 'courses' => $courses,
+                'showWelcomeMessage' => true,
                 'timeToCallOptions' => [
                     '10-13' => '۱۰ تا ۱۳',
                     '13-15' => '۱۳ تا ۱۵',
