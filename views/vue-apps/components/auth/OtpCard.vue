@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, defineEmits, ref, onMounted, onUnmounted } from 'vue';
+import { defineProps, defineEmits, ref, onMounted, onUnmounted, watch } from 'vue';
 import { endLoading, startLoading } from "@/assets/js/utilities/loading";
 import { post } from "@/assets/js/utilities/httpClient/httpClient";
 import Cookies from "js-cookie";
@@ -9,10 +9,10 @@ import { postData } from '@/assets/js/utilities/common';
 import { lspDomain, lspOrigin } from './useAuth';
 import Button from './common/Button.vue';
 import { useOtpManagment } from './useOtpManagment';
-import OtpInputs from './common/OtpInputs.vue';
 import { useAuthStore } from '../../stores/authStore';
 import { deleteTokenCookies } from '@/assets/js/utilities/logout';
 import { messages } from '../../assets/js/utilities/static-messages';
+import InputOtp from 'primevue/inputotp';
 const clientIframe=document.getElementById('client_iframe');
 const props = defineProps({
     prevCard: String,
@@ -21,7 +21,7 @@ const props = defineProps({
 });
 const {expireAt,uniqueKey}=useAuthStore();
 const reSendTokenBtnRef = ref(null);
-const otpCode = ref(Array(6).fill(''));
+const otpCode = ref('');
 const submitVerifFormBtn = ref(null);
 const emit = defineEmits(["goToCard"]);
 const {countDownTimer,resetOtpInputs,isBtnDisabled,startCountDown,resendCode,clearOtpInterval}=useOtpManagment()
@@ -29,12 +29,14 @@ const goToCard = (cardName,uniqueKey,verifideField) => {
     emit("goToCard", {cardName,uniqueKey,verifideField});
 }
 
-const handleSetOtp=(data)=>{
-    otpCode.value=data;
+const handleSetOtp=(e)=>{   
+   if (otpCode.value.length>=6) {
     handleSubmit()
+   }
 }
+
 const handleSubmit = async () => {
-    const otpValue = otpCode.value.join('');
+    const otpValue = otpCode.value;
     const data = { unique_key: uniqueKey, password: otpValue, auth_type: "otp" }
     try {
         startLoading(submitVerifFormBtn.value)
@@ -70,6 +72,10 @@ onMounted(()=>{
 onUnmounted(()=>{
     clearOtpInterval()
 })
+watch(()=>resetOtpInputs.value,(prev)=>{
+    console.log(prev);
+    otpCode.value='';
+})
 </script>
 
 <template>
@@ -80,8 +86,10 @@ onUnmounted(()=>{
         <div class="fields-frame">
             <small class="t-small mt-neg-12">کد فرستاده شده برای
                 ( <span class="user-login">{{ uniqueKey }}</span> ) را وارد کنید</small>
-            <OtpInputs @setOtpcode="handleSetOtp" :resetOtpInputs="resetOtpInputs"></OtpInputs>
-            <button ref="submitVerifFormBtn" type="button" class="btn-primary w-100 btn-submit" @click="handleSubmit">
+                <div class="ltr">
+                    <InputOtp v-model="otpCode" @change="handleSetOtp"   :length="6"  />
+                </div>
+           <button ref="submitVerifFormBtn" type="button" class="btn-primary w-100 btn-submit" @click="handleSubmit">
                 <span>ادامه</span><i class="si-arrow-left-r"></i>
             </button>
             <button :disabled="isBtnDisabled" ref="reSendTokenBtnRef" type="button" class="btn-outline-primary w-100 send-code" @click="resendCode(uniqueKey,reSendTokenBtnRef)">

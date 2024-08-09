@@ -39,8 +39,8 @@ function onInvalidSubmit() {
 <template>
     <Form v-if="priority1.authType === 'otp'" @submit="(values) => sendToken(values)" @invalid-submit="onInvalidSubmit"
         :validation-schema="schema" class="card form-card" autocomplete="off">
-        <i class="icon si-tablet-r"></i>
-        <h5 class="title auth-title">{{ authTitle }}</h5>
+        <!-- :title="authTitle" -->
+        <FormHeader></FormHeader>
         <div class="fields-frame">
             <div class="auth-inputs">
                 <InputGroup fieldName="uniqueKey" :showforgetButton="false" :labelText="priority1.field.configs.label"

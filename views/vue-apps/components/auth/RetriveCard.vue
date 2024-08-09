@@ -1,14 +1,14 @@
 <script setup>
-import { defineProps, defineEmits, ref, defineComponent, onMounted } from "vue";
+import { defineProps, defineEmits, ref, defineComponent, onMounted, watch } from "vue";
 import { Form, ErrorMessage, Field } from 'vee-validate';
 import { createRetriveValidationSchema } from "./createValidation.js";
 import Button from "./common/Button.vue";
-import OtpInputs from "./common/OtpInputs.vue";
 import InputGroup from "./common/InputGroup.vue";
 import { useOtpManagment } from "./useOtpManagment.js";
 import { useAuthManagment } from "./useAuthManagment.js";
 import { useAuthStore } from "../../stores/authStore.js";
 import { authApi } from "@/assets/js/utilities/apiPath.js";
+import InputOtp from "primevue/inputotp";
 
 const props = defineProps({
     cardName: String,
@@ -17,7 +17,6 @@ const props = defineProps({
 });
 const { uniqueKey } = useAuthStore();
 const reSendTokenBtnRef = ref(null);
-const otpCode = ref(Array(6).fill(''));
 const code = ref('');
 const submitBtnRef = ref(null);
 
@@ -30,7 +29,7 @@ const emit = defineEmits(["goToCard"]);
 const goToCard = (cardName, uniqueKey) => {
     emit("goToCard", { cardName, uniqueKey });
 }
-const { countDownTimer, isBtnDisabled, startCountDown, resendCode } = useOtpManagment();
+const { countDownTimer, isBtnDisabled, startCountDown, resendCode ,resetOtpInputs} = useOtpManagment();
 const { authRequest } = useAuthManagment(props.clientUrl);
 const schema = createRetriveValidationSchema();
 
@@ -38,10 +37,6 @@ function onInvalidSubmit({ values }) {
     toast("لطفا فرم را بادقت پر کنید.", 'warning');
 }
 
-const handleSetOtp = (data) => {
-    otpCode.value = data;
-    code.value = otpCode.value.join('');
-}
 
 const handleSubmitForm = async (values) => {
     const data = { ...values, unique_key: uniqueKey }
@@ -49,6 +44,9 @@ const handleSubmitForm = async (values) => {
 }
 onMounted(() => {
     startCountDown()
+})
+watch(()=>resetOtpInputs.value,(prev)=>{
+    code.value='';
 })
 </script>
 
@@ -66,7 +64,9 @@ onMounted(() => {
                 <div class="auth-inputs gap-3">
                     <small class="t-small mt-neg-12 fs-12">ابتدا کد فرستاده شده برای
                         ( {{ uniqueKey }} ) را وارد کنید</small>
-                    <OtpInputs @setOtpcode="handleSetOtp"></OtpInputs>
+                        <div class="ltr">
+                        <InputOtp v-model="code"  :length="6" />
+                    </div>
                     <Field type="hidden" name="code" v-model="code" />
                     <ErrorMessage class="error-message" name="otp-code" />
                     <button :disabled="isBtnDisabled" ref="reSendTokenBtnRef" type="button"

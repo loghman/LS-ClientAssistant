@@ -36,8 +36,8 @@ function onInvalidSubmit({ values, errors, results }) {
 <template>
     <Form v-if="priority2.authType === 'password'" @submit="(values) => handleGoToPassCard(values)"
         @invalid-submit="onInvalidSubmit" :validation-schema="schema" class="card form-card" autocomplete="off">
-        <i class="icon si-tablet-r"></i>
-        <h3 class="title">{{ authTitle }}</h3>
+    <!-- :title="authTitle" -->
+    <FormHeader></FormHeader>
         <div class="fields-frame">
             <div class="auth-inputs">
                 <InputGroup fieldName="uniqueKey" :labelText="priority2.field.configs.placeholder" iconClass="si-user-r fs-20"></InputGroup>
