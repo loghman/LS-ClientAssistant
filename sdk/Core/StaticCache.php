@@ -18,8 +18,8 @@ class StaticCache
 
     public static function init()
     {
-        self::$cacheFolder = dirname(__DIR__, 5) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'custom/';
-        self::$cacheSlug = strtok($_SERVER['REQUEST_URI'], '?');
+        self::$cacheFolder = dirname(__DIR__, 5) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'pages/';
+        self::$cacheSlug = $_SERVER['REQUEST_URI'];
         self::$cacheFile = self::$cacheFolder .  md5(self::$cacheSlug) . ".html";
         if (!self::isCacheEnable())
             self::$cachable = 0;
