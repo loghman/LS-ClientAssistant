@@ -43,6 +43,10 @@ export default defineConfig({
           __dirname,
           "./views/vue-apps/assets/ckeditor/content-styles.css"
         ),
+        auth_style: path.resolve(
+          __dirname,
+          "./views/vue-apps/assets/css/auth.scss"
+        ),
       },
     },
     // Disable generating HTML files

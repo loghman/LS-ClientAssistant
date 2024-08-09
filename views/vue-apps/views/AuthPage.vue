@@ -122,7 +122,7 @@ onBeforeMount(() => {
                     <div class="card-info flex-row justify-content-center">
                         <a class="item right active">
                             <div class="text d-flex">
-                                <span class="title">ورود یا عضویت</span>
+                                <span class="title">ورود <small class="fs-16 fw-700 px-1"> | </small> عضویت</span>
                             </div>
                         </a>
                     </div>

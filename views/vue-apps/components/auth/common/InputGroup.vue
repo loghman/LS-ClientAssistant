@@ -10,6 +10,7 @@ const props = defineProps({
     type: String,
     labelText: String,
     iconClass: String,
+    labelClass: String,
     priority: String,
     showforgetButton: {
         Boolean,
@@ -64,10 +65,10 @@ onMounted(() => {
         <Field v-else  :name="fieldName" v-model="fieldVal" v-slot="{ field }">
             <input v-bind="field" :type="type" autocomplete="off"  ref="inputRef" class="field-input ltr en-number" />
         </Field> 
-        <label class="field-label">{{ labelText }}</label>
+        <label class="field-label" :class="labelClass">{{ labelText }}</label>
         <a v-if="showforgetButton" ref="sendTokenBtnRef" @click="handleGoToRetriveCard"
-            className="btn boarder-right-btn px-4">
-            فراموش کردید؟
+            className="btn i-forget">
+            فراموش کردم
         </a>
     </div>
     <ErrorMessage v-if="hasErrorField" class="error-message" :name="fieldName" />

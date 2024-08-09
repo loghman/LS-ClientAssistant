@@ -55,14 +55,14 @@ function onInvalidSubmit() {
 
 <template>
     <Form @submit="(values,actions) => handleSubmitWithPassword({ ...values, uniqueKey: uniqueKey },actions)"
-        :validation-schema="schema" @invalid-submit="onInvalidSubmit" class="card" autocomplete="off">
+        :validation-schema="schema" @invalid-submit="onInvalidSubmit" class="card form-card" autocomplete="off">
         <div>
             <Button :notBtn="true" text="بازگشت" className="outlined sm hover-anim" @handleClick="goToCard(prevCard!=='retrive_card'?prevCard:'priority_one_card')"
                 iconClass="si-arrow-right-r mb-0  fs-20"></Button>
-            <div class="fields-frame">
+            <div class="fields-frame pass-frame">
                 <Label :text="labelText" iconClass="si-lock-2 mb-0 fs-22"></Label>
-                <div class="inputs auth-inputs">
-                    <InputGroup @goToRetrive="goToRetrive" fieldName="password" type="password" labelText="رمز عبور" ></InputGroup>
+                <div class="auth-inputs">
+                    <InputGroup @goToRetrive="goToRetrive" fieldName="password" type="password" labelText="رمز عبور" labelClass="right-30"></InputGroup>
                 </div>
                 <InputGroup fieldName="unique_key" :justErrorMessage="true"></InputGroup>
                 <button ref="submitBtnRef" type="submit" class="btn-primary w-100 btn-submit">
