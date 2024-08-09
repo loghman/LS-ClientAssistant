@@ -224,6 +224,9 @@
                 .city-input {
                     border: none !important;
                     padding: 0;
+                    div.p-autocomplete{
+                        border-left: none!important;
+                    }
                 }
 
                 .vpd-main {
