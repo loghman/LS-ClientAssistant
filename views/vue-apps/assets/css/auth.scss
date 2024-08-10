@@ -288,5 +288,17 @@
                 }
             }
         }
+        
+        @media (max-width:575.98px) {
+            .auth-inputs {
+                .auth-field {
+                    .field-label {
+                        &.top-sm-neg-2 {
+                            top: -2px !important;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

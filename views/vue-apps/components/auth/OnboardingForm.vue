@@ -246,7 +246,7 @@ watch(() => props.currentVerifideField, (newVal) => {
                             موبایل</button>
                     </div>
                 </div>
-                <InputGroup v-if="field.name === 'password'" :showforgetButton="false" :hasErrorField="false" fieldName="password" type="password" :labelText="field.configs.label" labelClass="right-30" ></InputGroup>
+                <InputGroup v-if="field.name === 'password'" :showforgetButton="false" :hasErrorField="false" fieldName="password" type="password" :labelText="field.configs.label" labelClass="right-30 top-sm-neg-2" ></InputGroup>
 
                 <div v-if="shouldShowField(field)" class="input lg"
                     :class="[field.name === 'display_name' ? 'focus' : '']">
