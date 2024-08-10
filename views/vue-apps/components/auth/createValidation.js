@@ -6,7 +6,7 @@ export const createValidationSchema = (priority) => {
         if (priority==='password') {
             // schemaObject['password'] = yup.string().required(`وارد کردن این گزینه الزامی است.`);
         }else{
-            schemaObject['uniqueKey'] = yup.string().matches(new RegExp(priority.field.validation.pattern), priority.field.validation.message);///this is better : /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})|(09[0-9]{9})/
+            // schemaObject['uniqueKey'] = yup.string().matches(new RegExp(priority.field.validation.pattern), priority.field.validation.message);///this is better : /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})|(09[0-9]{9})/
         }
     return yup.object(schemaObject);
 };

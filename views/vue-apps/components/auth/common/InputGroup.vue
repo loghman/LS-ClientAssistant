@@ -20,7 +20,7 @@ const props = defineProps({
         Boolean,
         default: false
     },
-    hasErrorField:{
+    hasErrorField: {
         Boolean,
         default: true
     }
@@ -43,6 +43,10 @@ const { sendToken } = useAuthManagment('', '', sendTokenBtnRef, goToCard);
 
 const handleGoToRetriveCard = () => {
     if (props.priority === 'password') {
+        if (fieldVal.value === '' | fieldVal.value === " ") {
+            toast("موبایل یا ایمیل خود را وارد نمایید و سپس دکمه فراموش کردم را بزنید.", "danger")
+            return
+        }
         sendToken({ uniqueKey: fieldVal.value, retrivePass: true })
     } else {
         sendToken({ uniqueKey: uniqueKey, retrivePass: true })
@@ -60,14 +64,14 @@ onMounted(() => {
         <i v-if="iconClass" class="icon d-none d-sm-inline" :class="iconClass"></i>
         <template v-if="type === 'password'">
             <i @click="handleShowPass" class="icon pass-icon  fs-20" :class="showPass"></i>
-            <Field  autocomplete="new-password"  :name="fieldName" :type="showPass === 'si-eye-r' ? 'password' : 'text'" class="ltr en-number" />
+            <Field autocomplete="new-password" :name="fieldName" :type="showPass === 'si-eye-r' ? 'password' : 'text'"
+                class="ltr en-number" />
         </template>
-        <Field v-else  :name="fieldName" v-model="fieldVal" v-slot="{ field }">
-            <input v-bind="field" :type="type" autocomplete="off"  ref="inputRef" class="field-input ltr en-number" />
-        </Field> 
+        <Field v-else :name="fieldName" v-model="fieldVal" v-slot="{ field }">
+            <input v-bind="field" :type="type" autocomplete="off" ref="inputRef" class="field-input ltr en-number" />
+        </Field>
         <label class="field-label" :class="labelClass">{{ labelText }}</label>
-        <a v-if="showforgetButton" ref="sendTokenBtnRef" @click="handleGoToRetriveCard"
-            className="btn i-forget">
+        <a v-if="showforgetButton" ref="sendTokenBtnRef" @click="handleGoToRetriveCard" className="btn i-forget">
             فراموش کردم
         </a>
     </div>
