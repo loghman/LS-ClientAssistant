@@ -43,7 +43,7 @@ const { sendToken } = useAuthManagment('', '', sendTokenBtnRef, goToCard);
 
 const handleGoToRetriveCard = () => {
     if (props.priority === 'password') {
-        if (fieldVal.value === '' | fieldVal.value === " ") {
+        if (fieldVal.value.trim().length<=1) {
             toast("موبایل یا ایمیل خود را وارد نمایید و سپس دکمه فراموش کردم را بزنید.", "danger")
             return
         }
