@@ -8,7 +8,7 @@ import InputGroup from "./common/InputGroup.vue";
 import { useOtpManagment } from "./useOtpManagment.js";
 import { useAuthManagment } from "./useAuthManagment.js";
 import { useAuthStore } from "../../stores/authStore.js";
-import { authApi } from "@/assets/js/utilities/apiPath.js";
+import { authApi } from "@/js/utilities/apiPath.js";
 
 const props = defineProps({
     cardName: String,
