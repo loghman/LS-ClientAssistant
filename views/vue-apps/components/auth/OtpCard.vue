@@ -10,7 +10,7 @@ import { lspDomain, lspOrigin } from './useAuth';
 import Button from './common/Button.vue';
 import { useOtpManagment } from './useOtpManagment';
 import { useAuthStore } from '../../stores/authStore';
-import { messages } from '../../assets/js/utilities/static-messages';
+import { messages } from "@/js/utilities/static-messages.js";
 import InputOtp from 'primevue/inputotp';
 import { deleteTokenCookies } from '@/js/utilities/logout';
 const clientIframe=document.getElementById('client_iframe');

@@ -6,7 +6,7 @@ import { postData } from "@/js/utilities/common.js";
 import { authApi } from "@/js/utilities/apiPath.js";
 import { lspDomain, lspOrigin } from "./useAuth.js";
 import { useAuthStore } from "../../stores/authStore.js";
-import { messages } from "../../assets/js/utilities/static-messages.js";
+import { messages } from "@/js/utilities/static-messages.js";
 import { deleteTokenCookies } from "@/js/utilities/logout.js";
 export const useAuthManagment = (
     clientUrl,
