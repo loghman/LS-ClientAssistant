@@ -4,9 +4,9 @@ import * as yup from 'yup';
 export const createValidationSchema = (priority) => {
     const schemaObject = {};
         if (priority==='password') {
-            schemaObject['password'] = yup.string().required(`وارد کردن این گزینه الزامی است.`);
+            // schemaObject['password'] = yup.string().required(`وارد کردن این گزینه الزامی است.`);
         }else{
-            schemaObject['uniqueKey'] = yup.string().required(`وارد کردن این گزینه الزامی است.`).matches(new RegExp(priority.field.validation.pattern), priority.field.validation.message);///this is better : /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})|(09[0-9]{9})/
+            schemaObject['uniqueKey'] = yup.string().matches(new RegExp(priority.field.validation.pattern), priority.field.validation.message);///this is better : /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})|(09[0-9]{9})/
         }
     return yup.object(schemaObject);
 };
@@ -39,12 +39,12 @@ export const createFieldsValidationSchema = (fields) => {
 export const createRetriveValidationSchema = () => {
     return yup.object({
         code: yup.string().required('کد تایید الزامی است'),
-        password: yup
-            .string()
-            .required('رمز عبور الزامی است'),
+        // password: yup
+        //     .string()
+        //     .required('رمز عبور الزامی است'),
         repeat_password: yup
             .string()
-            .required('تکرار رمز عبور الزامی است')
+            // .required('تکرار رمز عبور الزامی است')
             .oneOf([yup.ref('password'), null], 'رمز عبور و تکرار آن باید یکسان باشند')
     });
 };

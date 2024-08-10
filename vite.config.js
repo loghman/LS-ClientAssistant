@@ -47,6 +47,10 @@ export default defineConfig({
           __dirname,
           "./resources/js/utilities/uploader.js"
         ),
+        auth_style: path.resolve(
+          __dirname,
+          "./views/vue-apps/assets/css/auth.scss"
+        ),
       },
     },
     // Disable generating HTML files

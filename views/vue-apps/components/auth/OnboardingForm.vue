@@ -14,7 +14,7 @@ import InputGroup from "./common/InputGroup.vue";
 
 defineComponent({
     components: {
-        DatePicker, AutoComplete,InputGroup
+        DatePicker, AutoComplete, InputGroup
     }
 });
 const props = defineProps({
@@ -24,7 +24,7 @@ const props = defineProps({
     currentVerifideField: String
 });
 const customAxios = axios.create({
-  baseURL: exposedEnvVariables.API_BASE_URL.replace('/api', ''), // Set your base URL here
+    baseURL: exposedEnvVariables.API_BASE_URL.replace('/api', ''), // Set your base URL here
 });
 const emit = defineEmits(["goToCard"]);
 
@@ -43,22 +43,15 @@ const isEmailVerified = ref(false);
 const isMobileVerified = ref(false);
 const file = ref(null);
 const fileInput = ref(null);
-const selectedGender = ref('');
+const selectedGender = ref('m');
 const selectedCity = ref();
 const cityCode = ref(0)
-const genders = ref([
-    { name: 'مرد', code: 'm' },
-    { name: 'زن', code: 'f' },
-]);
 const cities = ref([]);
 const citiesList = ref([]);
-const excludedFields = ['avatar_url', 'birth_date', 'gender', 'mobile', 'email', 'city', 'password'];
+const excludedFields = ['avatar_url', 'birth_date', 'gender', 'mobile', 'email', 'city', 'password', "display_name"];
 const shouldShowField = computed(() => field => !excludedFields.includes(field.name));
 const { handleUploadFile, avatarUrl, uploadPercent } = useOnboardingManagment(props.apiKey);
 
-const handleSelectGender = (e) => {
-    selectedGender.value = e.target.value;
-};
 const handleAvatarChange = async (event) => {
     file.value = event.target.files[0];
     if (file.value) {
@@ -145,7 +138,7 @@ onMounted(() => {
         email.value = userEmail ? userEmail : '';
         mobile.value = userMobile ? userMobile : '';
         selectedGender.value = gender ? gender : '';
-        cityCode.value = city ? city :null;
+        cityCode.value = city ? city : '';
         isEmailVerified.value = email_verified;
         isMobileVerified.value = mobile_verified;
         avatarUrl.value = avatar_url?.main.url;
@@ -167,20 +160,25 @@ watch(() => props.currentVerifideField, (newVal) => {
 </script>
 
 <template>
-    <Form @submit="handleSubmitForm" :validation-schema="schema" class="card">
-        <div class="alert light">کاربر گرامی جهت استفاده از خدمات سایت باید اطلاعات حساب کاربری خود را تکمیل کنید.</div>
+    <Form @submit="handleSubmitForm" :validation-schema="schema" class="card form-card">
+        <div>
+            <p class="onboarding-title">کاربر گرامی جهت استفاده از خدمات سایت باید اطلاعات حساب کاربری خود را تکمیل
+                کنید.</p>
+        </div>
         <div class="fields-container">
             <div v-for="(field, index) in registrationFields" :key="index" class="inputs auth-inputs">
                 <div v-if="field.name === 'gender'" class="input-group">
                     <label for="gender">{{ field.configs.label ?? 'جنسیت' }}</label>
-                    <select @change="handleSelectGender" name="gender" id="gender" class="select-gender">
-                        <option v-for="gender in genders" :key="gender.code"
-                            :selected="gender.code === selectedGender ? true : false" :value="gender.code">{{
-                                gender.name }}
-                        </option>
-                    </select>
-                    <field name="gender" type="hidden" v-model="selectedGender" />
-
+                    <div class="d-flex justify-content-around">
+                    <label for="man">
+                        <field name="gender" id="man" type="radio" value="m" v-model="selectedGender" />
+                        آقا
+                    </label>
+                    <label for="woman">
+                        <field name="gender" id="woman" type="radio" value="f" v-model="selectedGender" />
+                        خانم
+                    </label>
+                   </div>
                 </div>
                 <div v-if="field.name === 'city'" class="input-group city-input">
                     <AutoComplete class="px-0" option-label="name" v-model="selectedCity" :suggestions="cities"
@@ -198,7 +196,7 @@ watch(() => props.currentVerifideField, (newVal) => {
                     <div class="input-group avatar-input">
                         <label class="btn  position-relative justify-content-start">
                             <i class="icon si-cloud-upload-r upload-icon mt-0"></i>
-                            {{ field.configs.placeholder ? field.configs.placeholder : "عکس کاربر" }}
+                            {{  "عکس پروفایل مناسب آپلود نمایید" }}
                             <input @change="handleAvatarChange" ref="fileInput" :name="field.name" accept="image/*"
                                 type="file" class="d-none" />
                             <div v-if="uploadPercent > 0" class="upload-progress media">
@@ -226,7 +224,7 @@ watch(() => props.currentVerifideField, (newVal) => {
                         <label>{{ field.configs.label }}</label>
                     </div>
                     <div class="open-confirmation">
-                        <div v-if="isEmailVerified" class="verified-icon text-success fw-700"><i class="fs-22 fw-800 icon si-check-r"></i>
+                        <div v-if="isEmailVerified" class="verified-icon  fw-700"><i class="fs-22 fw-800 icon si-check-circle mb-0"></i>
                         </div>
                         <button v-else ref="confirmEmailBtn" type="button" class="btn btn-primary"
                             @click="handleConfirmEmail">تایید
@@ -240,21 +238,29 @@ watch(() => props.currentVerifideField, (newVal) => {
                         <label>{{ field.configs.label }}</label>
                     </div>
                     <div class="open-confirmation">
-                        <div v-if="isMobileVerified" class="verified-icon text-success fw-700"><i
-                                class="fs-22 fw-800 icon si-check-r"></i>
+                        <div v-if="isMobileVerified" class="verified-icon  fw-700"><i
+                            class="fs-22 fw-800 icon si-check-circle mb-0"></i>
                         </div>
                         <button v-else ref="confirmMobileBtn" type="button" class="btn btn-primary"
                             @click="handleConfirmMobile">تایید
                             موبایل</button>
                     </div>
                 </div>
-                <InputGroup v-if="field.name === 'password'" :showforgetButton="false" :hasErrorField="false" fieldName="password" type="password" :labelText="field.configs.label" ></InputGroup>
+                <InputGroup v-if="field.name === 'password'" :showforgetButton="false" :hasErrorField="false" fieldName="password" type="password" :labelText="field.configs.label" labelClass="right-30 top-sm-neg-2" ></InputGroup>
+
                 <div v-if="shouldShowField(field)" class="input lg"
                     :class="[field.name === 'display_name' ? 'focus' : '']">
                     <Field autocomplete="off" :name="field.name"
                         :class="[field.name === 'display_name' ? 'rtl' : 'ltr']"
                         :value="userInfo[field.name] ? userInfo[field.name] : ''" />
                     <label>{{ field.configs.label }}</label>
+                </div>
+                <div v-if="field.name === 'display_name'" class="input lg"
+                    :class="[field.name === 'display_name' ? 'focus' : '']">
+                    <Field autocomplete="off" :name="field.name"
+                        class="rtl"
+                        :value="userInfo[field.name] ? userInfo[field.name] : ''" />
+                    <label>نام کامل و واقعی شما</label>
                 </div>
                 <ErrorMessage class="error-message" :name="field.name" />
             </div>
