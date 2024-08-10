@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\Router\JsonResponse;
 use Ls\ClientAssistant\Core\Router\WebResponse;
 use Ls\ClientAssistant\Helpers\Config;
+use Ls\ClientAssistant\Services\ObjectCache;
 use Ls\ClientAssistant\Utilities\Modules\TaskManager;
 use Ls\ClientAssistant\Utilities\Modules\V3\LMSProduct;
 use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
@@ -14,14 +15,21 @@ class WorkflowFormController
 {
     public function prepareForm($workflow, Request $request)
     {
-        $response = TaskManager::formData($workflow);
+        $key = __FILE__.__LINE__.$workflow;
+        if(ObjectCache::exists($key)){
+            $response = ObjectCache::get($key);
+        }else{
+            $response = ObjectCache::write($key, TaskManager::formData($workflow));
+        }
+        
         if (!$response->get('success')) {
             abort(404);
         }
+
         $workflowData = $response->get('data');
 
         $courses = [];
-        if (!$request->has('et') && !$request->has('ei')) {
+        if (!$request->has('ei')) {
             $response = LMSProduct::cacheActive()->keyValList(
                 'title',
                 ModuleFilter::new()
@@ -34,8 +42,9 @@ class WorkflowFormController
             }
         }
 
+        $view = ($request->has('m') ? 'sdk.workflow.index-m' : 'sdk.workflow.index');
         return WebResponse::view(
-            'sdk.workflow.index',
+            $view,
             [
                 'title' => $request->get('title'),
                 'entityType' => $request->get('et'),
@@ -45,9 +54,7 @@ class WorkflowFormController
                 'courses' => $courses,
                 'showWelcomeMessage' => true,
                 'timeToCallOptions' => [
-                    '10-13' => '۱۰ تا ۱۳',
-                    '13-15' => '۱۳ تا ۱۵',
-                    '15-17' => '۱۵ تا ۱۷',
+                    '10-13' => '۱۰ تا ۱۳'
                 ]
             ]
         );
@@ -69,30 +76,14 @@ class WorkflowFormController
             'source' => $request->get('source'),
         ]);
 
-        if (!$response->get('success')) {
+        if (!$response->get('success')) 
             return JsonResponse::unprocessableEntity($response->get('message') ?? 'مشکلی رخ داده است.');
-        }
-        $nextFollowupDate = $response->get('data')['next_followup_date'] ?? null;
-        if (!is_null($nextFollowupDate)) {
-            /*$date = verta($nextFollowupDate);
-            $message = $firstName;
-            $message .= sprintf(
-                '  عزیز درخواست شما را با موفقیت دریافت کردیم و با شما در تاریخ %s در ساعت %s تماس خواهیم گرفت',
-                to_persian_num($date->format('%d %B Y')),
-                to_persian_num($date->format('H')),
-            );*/
+        
+        if (mb_substr($firstName, -1) === 'ا') // نادیا عزیز => نادیای عزیز
+            $firstName .= 'ی';
 
-            $message = sprintf("%s عزیز درخواست شما را با موفقیت دریافت کردیم و با شما به زودی تماس خواهیم گرفت", $firstName);
-        } else {
-            /*$message = sprintf(
-                'با تشکر %s عزیز درخواست شما ثبت شد. <br /> همکاران ما با شما تماس خواهند گرفت.',
-                $firstName
-            );*/
-            $message = sprintf(
-                'با تشکر %s عزیز درخواست شما ثبت شد. <br /> همکاران ما با شما به زودی تماس خواهند گرفت.',
-                $firstName
-            );
-        }
+        $nextFollowupDate = $response->get('data')['next_followup_date'] ?? null;
+        $message = sprintf("ممنون %s عزیز<br>درخواست شما ثبت شد.<br>به زودی با شما تماس خواهیم گرفت", $firstName);
 
         return JsonResponse::success('', compact('message'));
     }
