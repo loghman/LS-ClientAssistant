@@ -47,11 +47,11 @@
                 <div class="content">
                     <i class="card-icon si-shopping-basket-r text-secondary-50"></i>
                     <h3 class="card-heading">سبد شما خالی است</h3>
-                    <p class="card-subtitle">شما می‌توانید با رفتن به صفحه دوره‌های متخصص سون‌لرن، دوره مد نظر خود را
+                    <p class="card-subtitle">شما می‌توانید با رفتن به صفحه دوره‌ها، دوره مد نظر خود را
                         انتخاب نمایید</p>
                 </div>
                 <div class="footer justify-content-center">
-                    <a href="{{ route('lms.courses') }}" class="btn">مشاهده دوره‌های متخصص</a>
+                    <a href="{{ route('lms.courses') }}" class="btn">مشاهده دوره‌ها</a>
                 </div>
             </div>
         </div>

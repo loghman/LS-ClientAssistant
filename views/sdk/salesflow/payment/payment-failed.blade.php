@@ -13,9 +13,9 @@
                         <div class="content">
                             <i class="card-icon si-cross-circle-r text-danger"></i>
                             <h3 class="card-heading">فرآیند‍ پرداخت ناموفق بود</h3>
-                            <p class="card-subtitle">در صورتی که مبلغی از حساب شما کسر شده, می توانید با پشتیبانی سون لرن تماس بگیرید</p>
+                            <p class="card-subtitle">در صورتی که مبلغی از حساب شما کسر شده, می توانید با پشتیبانی تماس بگیرید</p>
                         </div>
-                        <div class="footer justify-content-center">
+                        {{-- <div class="footer justify-content-center">
                             <a href="tel:02191094787" class="btn icon lg transparent">
                                 <i class="si-phone"></i>
                             </a>
@@ -25,7 +25,7 @@
                             <a href="https://wa.me/989032149377" class="btn icon lg transparent">
                                 <i class="si-whatsapp"></i>
                             </a>
-                        </div>
+                        </div> --}}
                         <div class="footer justify-content-center">
                             <a href="{{ route('payment.requestLink', ['cart' => $payment['cart_id'], 'gateway' => $payment['gateway_id']]) }}"
                                class="btn success">پرداخت مجدد</a>
