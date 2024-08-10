@@ -1,9 +1,9 @@
 <script setup>
 import { defineProps, ref, defineComponent, computed, onMounted, watch } from "vue";
 import { Form, Field, ErrorMessage } from 'vee-validate';
-import { authApi, publicApi } from "@/assets/js/utilities/apiPath.js";
-import { post, put } from "@/assets/js/utilities/httpClient/httpClient.js";
-import { endLoading, startLoading } from "@/assets/js/utilities/loading.js";
+import { authApi, publicApi } from "@/js/utilities/apiPath.js";
+import { post, put } from "@/js/utilities/httpClient/httpClient.js";
+import { endLoading, startLoading } from "@/js/utilities/loading.js";
 import DatePicker from 'vue3-persian-datetime-picker';
 import { createFieldsValidationSchema } from "./createValidation.js";
 import AutoComplete from "primevue/autocomplete";

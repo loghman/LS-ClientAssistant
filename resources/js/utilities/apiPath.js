@@ -1,4 +1,4 @@
-import { exposedEnvVariables } from "../../../components/auth/useAuth";
+import { exposedEnvVariables } from "../../../views/vue-apps/components/auth/useAuth";
 
 const apiBaseUrl = exposedEnvVariables.API_BASE_URL;
 

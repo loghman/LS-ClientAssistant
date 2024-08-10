@@ -1,18 +1,18 @@
 <script setup>
 import { defineProps, defineEmits, ref, onMounted, onUnmounted, watch } from 'vue';
-import { endLoading, startLoading } from "@/assets/js/utilities/loading";
-import { post } from "@/assets/js/utilities/httpClient/httpClient";
+import { endLoading, startLoading } from "@/js/utilities/loading";
+import { post } from "@/js/utilities/httpClient/httpClient";
 import Cookies from "js-cookie";
 import { Form } from 'vee-validate';
-import { authApi } from '@/assets/js/utilities/apiPath';
-import { postData } from '@/assets/js/utilities/common';
+import { authApi } from '@/js/utilities/apiPath';
+import { postData } from '@/js/utilities/common';
 import { lspDomain, lspOrigin } from './useAuth';
 import Button from './common/Button.vue';
 import { useOtpManagment } from './useOtpManagment';
 import { useAuthStore } from '../../stores/authStore';
-import { deleteTokenCookies } from '@/assets/js/utilities/logout';
 import { messages } from '../../assets/js/utilities/static-messages';
 import InputOtp from 'primevue/inputotp';
+import { deleteTokenCookies } from '@/js/utilities/logout';
 const clientIframe=document.getElementById('client_iframe');
 const props = defineProps({
     prevCard: String,

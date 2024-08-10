@@ -1,9 +1,9 @@
 
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
-import './assets/js/utilities/jquery'
-import './assets/js/utilities/toast';
-import './assets/js/utilities/form-inputs.js'
+import '@/js/utilities/jquery'
+import '@/js/utilities/toast'
+import '@/js/utilities/form-inputs.js'
 import OnboardingPage from './views/OnboardingPage.vue';
 import PrimeVue from 'primevue/config';
 import Aura from '@primevue/themes/aura';

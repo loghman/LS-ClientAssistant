@@ -1,7 +1,7 @@
 import { ref } from "vue";
-import { post } from "@/assets/js/utilities/httpClient/httpClient";
-import { endLoading, startLoading } from "@/assets/js/utilities/loading";
-import { authApi } from "@/assets/js/utilities/apiPath";
+import { post } from "@/js/utilities/httpClient/httpClient";
+import { endLoading, startLoading } from "@/js/utilities/loading";
+import { authApi } from "@/js/utilities/apiPath";
 
 export const useOtpManagment = () => {
     const countDownTimer = ref(120);

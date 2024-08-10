@@ -1,13 +1,13 @@
 // useAuth.js
-import { post, put } from "@/assets/js/utilities/httpClient/httpClient.js";
+import { post, put } from "@/js/utilities/httpClient/httpClient.js";
 import Cookies from "js-cookie";
-import { endLoading, startLoading } from "@/assets/js/utilities/loading.js";
-import { postData } from "@/assets/js/utilities/common.js";
-import { authApi } from "@/assets/js/utilities/apiPath.js";
+import { endLoading, startLoading } from "@/js/utilities/loading.js";
+import { postData } from "@/js/utilities/common.js";
+import { authApi } from "@/js/utilities/apiPath.js";
 import { lspDomain, lspOrigin } from "./useAuth.js";
 import { useAuthStore } from "../../stores/authStore.js";
-import { deleteTokenCookies } from "@/assets/js/utilities/logout.js";
 import { messages } from "../../assets/js/utilities/static-messages.js";
+import { deleteTokenCookies } from "@/js/utilities/logout.js";
 export const useAuthManagment = (
     clientUrl,
     submitBtnRef,

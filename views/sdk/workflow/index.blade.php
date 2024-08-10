@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{ $title }}</title>
+    <title>مشاوره {{ $workflowData['name_fa'] }}</title>
     <link rel="stylesheet" href="{{ asset_url('css/style.min.css') }}">
     <link rel="stylesheet" href="{{ core_url('css/client-common-components.min.css') }}">
     <meta name="csrf-token" content="">

@@ -33,15 +33,19 @@ export default defineConfig({
         ),
         ckeditor: path.resolve(
           __dirname,
-          "./views/vue-apps/assets/ckeditor/ckeditor.js"
+          "./resources/js/ckeditor/ckeditor.js"
         ),
         ck_style: path.resolve(
           __dirname,
-          "./views/vue-apps/assets/ckeditor/ckeditor.css"
+          "./resources/js/ckeditor/ckeditor.css"
         ),
         content_styles: path.resolve(
           __dirname,
-          "./views/vue-apps/assets/ckeditor/content-styles.css"
+          "./resources/js/ckeditor/content-styles.css"
+        ),
+        uploader: path.resolve(
+          __dirname,
+          "./resources/js/utilities/uploader.js"
         ),
         auth_style: path.resolve(
           __dirname,
@@ -54,7 +58,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./views/vue-apps', import.meta.url))
+      '@': fileURLToPath(new URL('./resources', import.meta.url))
     }
   },
   define: {
