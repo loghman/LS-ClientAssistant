@@ -163,6 +163,7 @@ $router->get('/{slug}', [PageController::class, 'find']);
 
 $router->name('pwa.')->prefix('pwa')->group(function (Router $router){
     $router->name('coursePlayer')->get('course-{pid}/player', [CoursePlayerController::class, 'index']);
+    $router->name('dashboard')->get('dashboard', [MyCoursesController::class, 'index']);
     $router->name('myCourses')->get('my-courses', [MyCoursesController::class, 'index']);
     $router->name('auth')->get('/auth', [AuthController::class, 'index']);
     $router->name('onboarding')->get('/onboarding', [OnboardingController::class, 'index']);
