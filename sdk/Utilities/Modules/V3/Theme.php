@@ -12,7 +12,12 @@ class Theme
     public static function get_current_theme(): Collection
     {
         try {
-            return API::get('client/v3/core/theme/active/current');
+            $key = __LINE__ . 'current_theme';
+            $theme = obc_get($key);
+            if(!$theme)
+                $theme = obc_write($key,API::get('client/v3/core/theme/active/current'));
+
+            return $theme;
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {

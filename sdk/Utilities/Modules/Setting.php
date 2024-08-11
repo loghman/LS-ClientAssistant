@@ -18,8 +18,13 @@ class Setting
         }
 
         try {
-            $response = API::get('v1/platform/settings', ['keys' => Config::get('endpoints.required_settings')]);
-            self::$settings = collect($response['data']);
+            $key = 'SettingsValues';
+            if(obc_exists($key)){
+                self::$settings = obc_get($key);
+            }else{
+                $response = API::get('v1/platform/settings', ['keys' => Config::get('endpoints.required_settings')]);
+                self::$settings = obc_write($key, collect($response['data']) ); 
+            }
         } catch (Exception $exception) {
             self::$settings = collect();
         }
