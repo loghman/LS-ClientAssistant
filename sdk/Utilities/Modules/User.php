@@ -15,6 +15,7 @@ use Ls\ClientAssistant\Utilities\Tools\Token;
 class User extends ModuleUtility
 {
     private static $currentUser;
+    private static $user_cookie_key_name = 'cukey';
 
     public static function get(string $idOrSlug, array $with = []): Collection
     {
@@ -78,6 +79,14 @@ class User extends ModuleUtility
         }
     }
 
+    public static function setUserKeyCookie($value){
+        setcookie(self::$user_cookie_key_name,$value, time() + 1800, '/');
+    }
+
+    public static function clearUserKeyCookie(){
+        setcookie(self::$user_cookie_key_name,'', time() - 77777, '/');
+    }
+ 
     public static function getCurrent()
     {
         $token = self::getToken();
@@ -85,8 +94,20 @@ class User extends ModuleUtility
             return;
         }
 
+        $key = $_COOKIE[self::$user_cookie_key_name] ?? false;
+        if($key){
+            $user = obc_get($key);
+            if($user)
+                return $user;
+        }
+
         if (is_null(self::$currentUser)) {
             self::$currentUser = self::me($token);
+            if(is_numeric(self::$currentUser['data']['id'] ?? false)){
+                $key = md5(self::$currentUser['data']['id'] . 'Moha#madGoft');
+                self::setUserKeyCookie($key);
+                obc_write($key,self::$currentUser);
+            }
         }
 
         return self::$currentUser;
@@ -156,6 +177,7 @@ class User extends ModuleUtility
 
     public static function logout(string $userToken, array $headers = []): bool
     {
+        self::clearUserKeyCookie();
         try {
             $response = API::get('v1/auth/logout', [], [
                     'Authorization: Bearer ' . $userToken,
@@ -298,7 +320,7 @@ class User extends ModuleUtility
     {
         return $_COOKIE['token'] ?? null;
     }
-
+    
     public static function tokenExists(): ?string
     {
         return $_COOKIE['token'] ?? false;

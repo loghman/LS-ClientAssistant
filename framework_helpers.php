@@ -12,16 +12,16 @@ use Illuminate\Support\Str;
 use Ls\ClientAssistant\Services\ObjectCache;
 
 
+
 function obc_exists($key){
-    ObjectCache::exists($key);
+    return ObjectCache::exists($key);
 }
 function obc_get($key){
-    ObjectCache::get($key);
+    return ObjectCache::get($key);
 }
 function obc_write($key,$object){
-    ObjectCache::write($key,$object);
+    return ObjectCache::write($key,$object);
 }
-
 
 if (!function_exists('site_url')) {
     function site_url(string $uri = ''): string

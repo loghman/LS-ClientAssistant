@@ -5,7 +5,7 @@ namespace Ls\ClientAssistant\Services;
 class ObjectCache
 {
     private static $base = '../cache/static/';
-    private static $validtime = 7200;
+    private static $validtime = 3600;
     
     public static function exists($key){
         $filepath = self::$base . md5($key) . '.oCache';
