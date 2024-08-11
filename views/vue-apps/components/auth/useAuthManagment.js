@@ -1,5 +1,5 @@
 // useAuth.js
-import { post, put } from "@/js/utilities/httpClient/httpClient.js";
+import { post, put, get } from "@/js/utilities/httpClient/httpClient.js";
 import Cookies from "js-cookie";
 import { endLoading, startLoading } from "@/js/utilities/loading.js";
 import { postData } from "@/js/utilities/common.js";
@@ -8,6 +8,7 @@ import { lspDomain, lspOrigin } from "./useAuth.js";
 import { useAuthStore } from "../../stores/authStore.js";
 import { messages } from "@/js/utilities/static-messages.js";
 import { deleteTokenCookies } from "@/js/utilities/logout.js";
+import { ref } from "vue";
 export const useAuthManagment = (
     clientUrl,
     submitBtnRef,
@@ -17,7 +18,7 @@ export const useAuthManagment = (
     const clientIframe = document.getElementById("client_iframe");
     const { expireAt } = useAuthStore();
     const pathName = window.location.pathname;
-
+    const checkLoginLoading=ref(false);
     const authRequest = async (method, url, data, btnRef, actions) => {
         try {
             startLoading(btnRef.value);
@@ -110,20 +111,27 @@ export const useAuthManagment = (
     const checkLogin = async () => {
         const token = Cookies.get('token');
         if (token && pathName === "/pwa/auth") {
-            const userInfo = await get(authApi.PROFILE);
-            if (userInfo.status) {       
-                 window.location.href ="/pwa/dashboard"
-            } else {
-                toast(messages.LOGIN_AGAIN,'danger')
-                deleteTokenCookies()
-                // window.location.href = "/pwa/auth"
+            try {
+                checkLoginLoading.value=true;
+                const userInfo = await get(authApi.PROFILE);
+                if (userInfo.status) {       
+                     window.location.href ="/pwa/dashboard";
+                } else {
+                    toast(messages.LOGIN_AGAIN,'danger');
+                    deleteTokenCookies();
+                    window.location.href = "/pwa/auth";
+                    checkLoginLoading.value=false;
+                }
+            } catch (error) {
+                console.log(error);
             }
+
         }
     }
     return {
         handleSubmitWithPassword,
         sendToken,
-        goToCard,
+        goToCard,checkLoginLoading,
         authRequest,checkLogin
     };
 };
