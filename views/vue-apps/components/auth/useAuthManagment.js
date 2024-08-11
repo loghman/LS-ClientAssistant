@@ -16,6 +16,8 @@ export const useAuthManagment = (
 ) => {
     const clientIframe = document.getElementById("client_iframe");
     const { expireAt } = useAuthStore();
+    const pathName = window.location.pathname;
+
     const authRequest = async (method, url, data, btnRef, actions) => {
         try {
             startLoading(btnRef.value);
@@ -52,7 +54,11 @@ export const useAuthManagment = (
 
                 const redirectPath = response.result.redirect_path;
 
-                window.location.href = `${redirectPath}`;
+                if (pathName === "/pwa/auth") {
+                    window.location.href = "/pwa/dashboard";
+                } else {
+                    window.location.href = `${redirectPath}`;
+                }
 
             } else {
                 endLoading(btnRef.value);
@@ -101,10 +107,23 @@ export const useAuthManagment = (
             console.log(error);
         }
     };
+    const checkLogin = async () => {
+        const token = Cookies.get('token');
+        if (token && pathName === "/pwa/auth") {
+            const userInfo = await get(authApi.PROFILE);
+            if (userInfo.status) {       
+                 window.location.href ="/pwa/dashboard"
+            } else {
+                toast(messages.LOGIN_AGAIN,'danger')
+                deleteTokenCookies()
+                // window.location.href = "/pwa/auth"
+            }
+        }
+    }
     return {
         handleSubmitWithPassword,
         sendToken,
         goToCard,
-        authRequest,
+        authRequest,checkLogin
     };
 };

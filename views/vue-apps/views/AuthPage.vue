@@ -70,6 +70,7 @@ const currentCard = ref(currentInitial);
 const prevCard = ref('priority_one_card');
 let otpHelp = ref('');
 const defaultError = 'متاسفانه مشکلی پیش آمده است. لطفا مجدد تلاش کنید.';
+const {checkLogin}=useAuthManagment();
 
 const getAuthSetting = async () => {
     try {
@@ -108,6 +109,7 @@ const setCurrentCard = (data) => {
 }
 
 onBeforeMount(() => {
+    checkLogin();
     const target = document.getElementById('app');
     createIframe(target, clientUrl.value);
     getAuthSetting();
