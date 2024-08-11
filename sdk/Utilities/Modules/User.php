@@ -299,6 +299,11 @@ class User extends ModuleUtility
         return $_COOKIE['token'] ?? null;
     }
 
+    public static function tokenExists(): ?string
+    {
+        return $_COOKIE['token'] ?? false;
+    }
+
     public static function resume($id): Collection
     {
         try {

@@ -9,6 +9,19 @@ use Illuminate\Container\Container;
 use Ls\ClientAssistant\Utilities\Tools\CoreAsset;
 use Ls\ClientAssistant\Utilities\Modules\V3\Theme;
 use Illuminate\Support\Str;
+use Ls\ClientAssistant\Services\ObjectCache;
+
+
+function obc_exists($key){
+    ObjectCache::exists($key);
+}
+function obc_get($key){
+    ObjectCache::get($key);
+}
+function obc_write($key,$object){
+    ObjectCache::write($key,$object);
+}
+
 
 if (!function_exists('site_url')) {
     function site_url(string $uri = ''): string
@@ -280,11 +293,16 @@ if (!function_exists('current_user_token')) {
 if (!function_exists('page_editor')) {
     function page_editor(string $routeName, string $entityType = null, string $entityId = null): array
     {
-        $pageMetaResult = API::get('v1/marketing/page-meta/getMetadata', [
-            'route_name' => $routeName,
-            'entity_type' => $entityType,
-            'entity_id' => $entityId,
-        ]);
+        $key = "page_editor{$routeName}{$entityType}{$entityId}";
+        $pageMetaResult = obc_get($key);
+        if(!$pageMetaResult){
+            $pageMetaResult = API::get('v1/marketing/page-meta/getMetadata', [
+                'route_name' => $routeName,
+                'entity_type' => $entityType,
+                'entity_id' => $entityId,
+            ]);
+            $pageMetaResult = obc_write($key, $pageMetaResult);
+        }
 
         $pageMeta = $pageMetaResult['data'] ?? [];
         $editMode = ($_GET['mode'] ?? '') == 'edit';

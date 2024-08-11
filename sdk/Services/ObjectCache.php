@@ -14,7 +14,7 @@ class ObjectCache
 
     public static function get($key){
         $filepath = self::$base . md5($key) . '.oCache';
-        if(file_exists($filepath))
+        if(self::exists($filepath))
             return unserialize(file_get_contents($filepath));
         return false;
     }
