@@ -5,6 +5,7 @@ namespace Ls\ClientAssistant\Utilities\Modules;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Helpers\Config;
+use Ls\ClientAssistant\Services\ObjectCache;
 use Exception;
 
 class Setting
@@ -18,8 +19,13 @@ class Setting
         }
 
         try {
-            $response = API::get('v1/platform/settings', ['keys' => Config::get('endpoints.required_settings')]);
-            self::$settings = collect($response['data']);
+            $key = 'SettingsValues';
+            if(ObjectCache::exists($key)){
+                self::$settings = ObjectCache::get($key);
+            }else{
+                $response = API::get('v1/platform/settings', ['keys' => Config::get('endpoints.required_settings')]);
+                 self::$settings = ObjectCache::write($key, collect($response['data']) );
+            }
         } catch (Exception $exception) {
             self::$settings = collect();
         }
