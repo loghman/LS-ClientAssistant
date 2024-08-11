@@ -8,7 +8,7 @@ class StaticCache
     protected static $cacheSlug;
     protected static $cacheFile;
     protected static $cachable = 1;
-    const EXPIRE_TIME = 12*3600;   // 12 hour
+    const EXPIRE_TIME = 3*3600;   // 3 hour
 
 
     public static function isCacheEnable(): bool
