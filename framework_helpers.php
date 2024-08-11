@@ -1056,6 +1056,9 @@ if (!function_exists('clear_static_cache')) {
     function clear_static_cache(): void
     {
         $cacheFolder = dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'custom/';
+        if (! is_dir($cacheFolder)) {
+            return;
+        }
         $cacheFiles = scandir($cacheFolder);
 
         foreach ($cacheFiles as $file) {
