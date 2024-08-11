@@ -1,5 +1,5 @@
 <?php
-
+use Ls\ClientAssistant\Services\ObjectCache;
 use Ls\ClientAssistant\Controllers\AjaxController;
 use Ls\ClientAssistant\Controllers\AuthController;
 use Ls\ClientAssistant\Controllers\AuthVerificationController;
@@ -19,6 +19,7 @@ use Ls\ClientAssistant\Core\Router\JsonResponse;
 use Illuminate\Routing\Router;
 use Ls\ClientAssistant\Controllers\MiniLandingController;
 use Ls\ClientAssistant\Controllers\SiteMapController;
+
 
 $router->name('sitemap.')->group(function(Router $router) {
     $router->name('index')
@@ -99,6 +100,7 @@ $router->name('cache.clear')->get('clearcache/{client_key}', function (Request $
     if ($clientKey == $GLOBALS['apikey']) {
         clear_static_cache();
         clear_redis_cache();
+        ObjectCache::flush();
 
         return JsonResponse::success('کش پاک شد');
     }

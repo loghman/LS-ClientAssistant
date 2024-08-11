@@ -25,4 +25,15 @@ class ObjectCache
         return $object;
     }
 
+    public static function flush()
+    {
+        $cacheFolder = self::$base;
+        $files = glob($cacheFolder . "*");
+        foreach ($files as $file) {         
+            if (is_file($file)) {
+                unlink($file);
+            }
+        }
+    }
+
 }
