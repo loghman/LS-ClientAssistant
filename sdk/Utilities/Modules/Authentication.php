@@ -17,6 +17,8 @@ class Authentication
 
     public static function login(string $input, string $provider, array $data): Collection
     {
+        User::clearUserKeyCookie();
+
         try {
             $response = API::post(
                 'v1/auth/login', array_merge(['input' => $input, 'auth_method' => $provider], $data)
@@ -37,6 +39,8 @@ class Authentication
 
     public static function preLogin(string $input, array $data)
     {
+        User::clearUserKeyCookie();
+
         try {
             return API::post(
                 'v1/auth/pre/login', array_merge(['input' => $input], $data)
@@ -50,6 +54,7 @@ class Authentication
 
     public static function register(string $provider, array $data): Collection
     {
+        User::clearUserKeyCookie();
         try {
             $hookCookieName = Config::get('endpoints.hook-cookie-name');
             if(request()->cookies->has($hookCookieName)){
@@ -74,6 +79,8 @@ class Authentication
 
     public static function loginOrRegister(string $input, string $provider, array $data)
     {
+        User::clearUserKeyCookie();
+
         try {
             return API::post(
                 'v1/auth/login-or-register', array_merge(['input' => $input, 'auth_method' => $provider], $data)
@@ -87,6 +94,8 @@ class Authentication
 
     public static function logout()
     {
+        User::clearUserKeyCookie();
+
         try {
             $response = API::get('v1/auth/logout');
 
@@ -104,6 +113,8 @@ class Authentication
 
     public static function verifyRequestResetPassword(string $input, string $otp, array $data = [])
     {
+        User::clearUserKeyCookie();
+
         try {
             return API::post(
                 'v1/auth/reset-password/verify',
@@ -118,6 +129,8 @@ class Authentication
 
     public static function resetPassword(string $userToken, string $password, string $confirmed, array $data = [])
     {
+        User::clearUserKeyCookie();
+
         try {
             return API::post(
                 'v1/auth/reset-password',
@@ -133,6 +146,8 @@ class Authentication
 
     public static function sendVerificationCode(string $input, array $data = [])
     {
+        User::clearUserKeyCookie();
+
         try {
             return API::post(
                 'v1/auth/send/verification-code', array_merge($data, compact('input'))
@@ -146,6 +161,8 @@ class Authentication
 
     public static function verifyVerificationFields(string $userToken, string $input, string $otp, array $data = [])
     {
+        User::clearUserKeyCookie();
+
         try {
             return API::post(
                 'v1/auth/verification-fields/verify',
@@ -161,6 +178,8 @@ class Authentication
 
     public static function updateUserMobile(string $userToken, string $mobile)
     {
+        User::clearUserKeyCookie();
+
         try {
             return API::post(
                 'v1/auth/mobile/update',
@@ -176,6 +195,8 @@ class Authentication
 
     public static function updateUserEmail(string $userToken, string $email)
     {
+        User::clearUserKeyCookie();
+
         try {
             return API::post(
                 'v1/auth/email/update',
