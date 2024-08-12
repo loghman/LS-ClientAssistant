@@ -177,6 +177,4 @@ $router->name('ajax.')->prefix('ajax')->group(function (Router $router){
     $router->name('item.signal')->get('item/signal', [AjaxController::class, 'itemSignal']);
 });
 
-
-
 $router->get('/{slug}', [PageController::class, 'find']);
