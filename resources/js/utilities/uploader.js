@@ -71,13 +71,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
         progressPercent.classList.add('d-none');
         progressBar.style.width = '0%';
+        fileInput.value = '';
       } else {
         toast(response.message.text ? response.message.text : messages.SOMETHING_WENT_WRONG, 'danger');
         progressPercent.classList.add('d-none');
         progressBar.style.width = '0%';
+        fileInput.value = '';
       }
     } catch (error) {
       console.error("Error uploading file:", error);
+      fileInput.value = '';
     }
   }
 });
