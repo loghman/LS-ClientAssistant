@@ -12,6 +12,7 @@ import RetriveCard from "../components/auth/RetriveCard.vue";
 import { useAuthStore } from "../stores/authStore";
 import Cookies from "js-cookie";
 import { authApi } from "@/js/utilities/apiPath";
+import { useAuthManagment } from "../components/auth/useAuthManagment";
 
 
 defineComponent({
@@ -26,7 +27,7 @@ defineComponent({
 const authStore = useAuthStore();
 ////refs////
 const isLoading = ref(false);
-const clientUrl=ref(URLS.CLIENT_URL)
+const clientUrl = ref(URLS.CLIENT_URL)
 const authSetting = ref({
     loginFields: {
         priority1: {
@@ -65,13 +66,15 @@ const authSetting = ref({
     },
     expireAt: ""
 });
-const currentInitial=Cookies.get('currentCard')?Cookies.get('currentCard'):"priority_one_card"
+const currentInitial = Cookies.get('currentCard') ? Cookies.get('currentCard') : "priority_one_card"
 const currentCard = ref(currentInitial);
 const prevCard = ref('priority_one_card');
 let otpHelp = ref('');
 const defaultError = 'متاسفانه مشکلی پیش آمده است. لطفا مجدد تلاش کنید.';
+const { checkLogin,checkLoginLoading } = useAuthManagment();
 
 const getAuthSetting = async () => {
+    await checkLogin(); 
     try {
         isLoading.value = true;
         const response = await get(authApi.SETTING);
@@ -100,22 +103,24 @@ const getAuthSetting = async () => {
 const setCurrentCard = (data) => {
     prevCard.value = currentCard.value;
     currentCard.value = data.cardName;
-    Cookies.set("currentCard",data.cardName);
+    Cookies.set("currentCard", data.cardName);
     if (data.uniqueKey) {
-        Cookies.set("uniqueKey",data.uniqueKey);
+        Cookies.set("uniqueKey", data.uniqueKey);
         authStore.setUniqueKey(data.uniqueKey);
     }
 }
 
 onBeforeMount(() => {
+    getAuthSetting();
     const target = document.getElementById('app');
     createIframe(target, clientUrl.value);
-    getAuthSetting();
 });
 </script>
 
 <template>
-    <div class="container">
+    <Loading v-if="checkLoginLoading" class="w-100 d-flex justify-content-center" width="100px" height="100px" v-model:active="checkLoginLoading" :can-cancel="false" :is-full-page="true" :backgroundColor="'var(--primary)'"
+        :color="'var(--secondary-7)'" />
+    <div v-else class="container">
         <div class="row justify-content-center">
             <div class="col-xxxl-4 col-xxl-5 col-xl-6 col-lg-7 col-md-9">
                 <div class="card">
@@ -143,10 +148,8 @@ onBeforeMount(() => {
                                 @goToCard="setCurrentCard" :help="otpHelp">
                             </OtpCard>
                             <PassCard v-if="currentCard === 'pass_card'" :prevCard="prevCard"
-                                :priority1="authSetting.loginFields.priority1"
-                                 @goToCard="setCurrentCard"
-                                 @resetPrevCard="()=>prevCard.value='priority_one_card'"
-                                :clientUrl="clientUrl">
+                                :priority1="authSetting.loginFields.priority1" @goToCard="setCurrentCard"
+                                @resetPrevCard="() => prevCard.value = 'priority_one_card'" :clientUrl="clientUrl">
                             </PassCard>
                             <RetriveCard v-if="currentCard === 'retrive_card'" :prevCard="prevCard"
                                 @goToCard="setCurrentCard" :clientUrl="clientUrl">
@@ -158,4 +161,3 @@ onBeforeMount(() => {
         </div>
     </div>
 </template>
-

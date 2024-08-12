@@ -44,7 +44,7 @@ const { sendToken } = useAuthManagment('', '', sendTokenBtnRef, goToCard);
 const handleGoToRetriveCard = () => {
     if (props.priority === 'password') {
         if (fieldVal.value.trim().length<=1) {
-            toast("موبایل یا ایمیل خود را وارد نمایید و سپس دکمه فراموش کردم را بزنید.", "danger")
+            toast("لطفا شماره موبایل یا ایمیل خود را وارد نمایید.", "danger")
             return
         }
         sendToken({ uniqueKey: fieldVal.value, retrivePass: true })
