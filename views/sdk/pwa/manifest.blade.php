@@ -1,7 +1,7 @@
 {
-  "name": "Madam Cakes PWA",
-  "short_name": "MadamCakes",
-  "description": "Madam Cakes Progressive Web Application",
+  "name": "<?=$brand_name?> PWA",
+  "short_name": "<?=$brand_name?>",
+  "description": "<?=$brand_name?> Progressive Web Application",
   "start_url": "/pwa/auth",
   "display": "standalone",
   "background_color": "#ffffff",

@@ -11,7 +11,7 @@ class PwaController
     {
         header('Content-Type: application/json; charset=utf-8');
         $data = [
-            'brand_name' => setting('brand_name_fa'),
+            'brand_name' => setting('brand_name_en'),
             'logo_url' => setting('logo_url'),
         ];
         return WebResponse::view('sdk.pwa.manifest',$data);
