@@ -163,7 +163,6 @@ $router->name('payment.')->prefix('payment')->group(function (Router $router) {
         ->get('/failed/{paymentId}', [PaymentController::class, 'failureForm']);
 });
 
-$router->get('/{slug}', [PageController::class, 'find']);
 
 $router->get('manifest.json', [PwaController::class, 'manifest']);  
 $router->name('pwa.')->prefix('pwa')->group(function (Router $router){
@@ -177,3 +176,7 @@ $router->name('ajax.')->prefix('ajax')->group(function (Router $router){
     $router->name('item')->get('item', [AjaxController::class, 'item']);
     $router->name('item.signal')->get('item/signal', [AjaxController::class, 'itemSignal']);
 });
+
+
+
+$router->get('/{slug}', [PageController::class, 'find']);
