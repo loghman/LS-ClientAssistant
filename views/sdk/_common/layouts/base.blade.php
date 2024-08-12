@@ -2,6 +2,7 @@
 <html dir="rtl" lang="fa">
 <head>
     @include('sdk._common.layouts.head')
+    <link rel="manifest" href="<?=site_url('manifest.json')?>">
 </head>
 <body @include('_common.layouts.body-class')>
 {!! setting('top_of_body_script') !!}

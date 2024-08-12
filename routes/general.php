@@ -19,6 +19,8 @@ use Ls\ClientAssistant\Core\Router\JsonResponse;
 use Illuminate\Routing\Router;
 use Ls\ClientAssistant\Controllers\MiniLandingController;
 use Ls\ClientAssistant\Controllers\SiteMapController;
+use Ls\ClientAssistant\Controllers\PwaController;
+
 
 
 $router->name('sitemap.')->group(function(Router $router) {
@@ -163,9 +165,9 @@ $router->name('payment.')->prefix('payment')->group(function (Router $router) {
 
 $router->get('/{slug}', [PageController::class, 'find']);
 
+$router->get('manifest.json', [PwaController::class, 'manifest']);  
 $router->name('pwa.')->prefix('pwa')->group(function (Router $router){
     $router->name('coursePlayer')->get('course-{pid}/player', [CoursePlayerController::class, 'index']);
-    $router->name('dashboard')->get('dashboard', [MyCoursesController::class, 'index']);
     $router->name('myCourses')->get('my-courses', [MyCoursesController::class, 'index']);
     $router->name('auth')->get('/auth', [AuthController::class, 'index']);
     $router->name('onboarding')->get('/onboarding', [OnboardingController::class, 'index']);

@@ -3,6 +3,7 @@
 <head>
     <title><?=$course['title']?></title>
     @include('sdk.pages.landing-partials.head')
+    @include('sdk.pwa._partials.styles')
 <style>
     button:hover, .btn:hover {
         opacity: 0.8;
@@ -287,6 +288,8 @@
         </div>
 
     </div>
+    @include('sdk.pwa._partials.bottom-nav')
+
     <script type="module" src="{{ core_asset('resources/assets/js/jquery.js') }}"></script>
     <script type="module" src="{{ core_asset('resources/assets/minimal-landing/js/client.js') }}"></script>
     @include('sdk._common.components.error-messages');
