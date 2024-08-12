@@ -39,7 +39,15 @@ class AjaxController
             'player_type' => ($slen > 16) ? 'arvan' : (($slen > 8 ) ? 'kavimo' : 'mp4'),
             'log_type' => $log_type 
         ];
-        $data['arvanUrl'] = ($data['player_type'] == 'arvan') ? $this->getArvanConfig($item['main_video']['stream_id'])['data']['config_url'] : null;
+
+        if($item['main_video']['stream_id']??false){
+            $key = __LINE__."arvid".$item['main_video']['stream_id'];
+            $arvanConfig = obc_get($key);
+            if(!$arvanConfig)
+                $arvanConfig = obc_write($key,$this->getArvanConfig($item['main_video']['stream_id']));    
+        }
+
+        $data['arvanUrl'] = ($data['player_type'] == 'arvan') ? $arvanConfig['data']['config_url'] : null;
 
         return WebResponse::view('sdk.pwa.course-player.partials.player', compact('item', 'chapter','data'));
 
