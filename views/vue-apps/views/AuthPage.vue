@@ -5,7 +5,6 @@ import PriorityOneCard from "../components/auth/PriorityOneCard.vue";
 import PriorityTwoCard from "../components/auth/PriorityTwoCard.vue";
 import { defineComponent, ref, onBeforeMount } from "vue";
 import { get } from "@/js/utilities/httpClient/httpClient";
-import { createIframe } from "@/js/utilities/common";
 import { URLS, expireDays } from "../components/auth/useAuth";
 import PassCard from "../components/auth/PassCard.vue";
 import RetriveCard from "../components/auth/RetriveCard.vue";
@@ -71,10 +70,10 @@ const currentCard = ref(currentInitial);
 const prevCard = ref('priority_one_card');
 let otpHelp = ref('');
 const defaultError = 'متاسفانه مشکلی پیش آمده است. لطفا مجدد تلاش کنید.';
-const { checkLogin,checkLoginLoading } = useAuthManagment();
+const { checkLogin, checkLoginLoading } = useAuthManagment();
 
 const getAuthSetting = async () => {
-    await checkLogin(); 
+    await checkLogin();
     try {
         isLoading.value = true;
         const response = await get(authApi.SETTING);
@@ -112,13 +111,14 @@ const setCurrentCard = (data) => {
 
 onBeforeMount(() => {
     getAuthSetting();
-    const target = document.getElementById('app');
-    createIframe(target, clientUrl.value);
 });
 </script>
 
 <template>
-    <Loading v-if="checkLoginLoading" class="w-100 d-flex justify-content-center" width="100px" height="100px" v-model:active="checkLoginLoading" :can-cancel="false" :is-full-page="true" :backgroundColor="'var(--primary)'"
+    <iframe :src="clientUrl" frameborder="0" id="client_iframe" width="1" height="1"
+        sandbox="allow-scripts allow-same-origin"></iframe>
+    <Loading v-if="checkLoginLoading" class="w-100 d-flex justify-content-center" width="100px" height="100px"
+        v-model:active="checkLoginLoading" :can-cancel="false" :is-full-page="true" :backgroundColor="'var(--primary)'"
         :color="'var(--secondary-7)'" />
     <div v-else class="container">
         <div class="row justify-content-center">
