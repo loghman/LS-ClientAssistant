@@ -44,7 +44,7 @@
     }
 
     .accordions .accordion .header .picon {
-        font-size: 20px;
+        font-size: 18px;
     }
     .picon.completed {
         color:var(--primary);
@@ -86,6 +86,7 @@
         z-index: 1;
         border-color: var(--primary) !important;
         background: var(--primary-5);
+        padding: 0 12px 15px 12px;
     }
 
     .loader {
@@ -198,7 +199,10 @@
         border-radius: 30px;
         font-size: 14px;
     }    
-    
+    .attachments{
+        padding: 10px 0;
+    }
+
     a.atlink i{
         font-style: normal;
     }
@@ -207,20 +211,17 @@
         background: #fff;
         border: 1px solid var(--primary-10);
         border-radius: 5px;
-        margin-bottom: 2px;
+        margin: 5px auto;
         padding: 5px 15px;
         font-size: 14px;
     }
-
-    .desc {
-        font-size: 14px;
-        line-height: 28px;
-        text-align: justify;
-        margin: 20px 0;
-        background-size: 
+    a.atlink .size {
+        font-size: 9px; 
     }
+
     .bghead{
         min-height: 100%;
+        padding-top: 80px !important;
         background-size: cover !important;
         background: linear-gradient(45deg, var(--primary-50), rgb(255 255 255 / 70%)), url(<?= $course['banner_url'] ?>);
     }
@@ -233,10 +234,11 @@
             <a href="{{ site_url('') }}" class="brand">
                 <img src="{{ $data['logo_url'] }}" alt="{{ $data['brand_name'] }}">
             </a>
-            <a class="btn primary sm" href="{{site_url('pwa/my-courses')}}">
+            <?=circleProgressbar($enrollment['progress_percent'])?>
+            <!-- <a class="btn primary sm" href="{{site_url('pwa/my-courses')}}">
                همه دوره های من
                 <i class="i-left" style="font-size: 10px;"></i>
-            </a>
+            </a> -->
         </div>
 
         <div class="card-status bghead m-0 shadow-inset pt pb">
@@ -254,7 +256,7 @@
             </div>
         </div>
         <div class="content">
-            <div class="progress me-auto" style="--w: <?=$enrollment['progress_percent']?>%"><span><?=to_persian_num($enrollment['progress_percent'])?>٪</span></div>
+            <!-- <div class="progress me-auto" style="--w: <?=$enrollment['progress_percent']?>%"><span><?=to_persian_num($enrollment['progress_percent'])?>٪</span></div> -->
 
             @foreach($chapters as $ii => $ch)
             <div class="accordions" >
@@ -266,7 +268,8 @@
                 <div class="accordion empty <?=($item['id'] == $_GET['i']??'*') ? 'default' : ''?>" data-iid="<?=$item['id']?>" data-pid="<?=$item['product_id']?>"
                 data-chid="<?=$item['parent_id']?>" data-t="<?=$item['log_type']?>">
                     <div class="header py-sm" id='<?=$item['id']?>'>
-                        <span class="picon i-play-circle-fill <?=$item['log_type']?>"></span>
+                    
+                        <span class="picon fa-solid <?=($item['log_type'] == 'completed') ? 'fa-circle-check' : 'fa-circle-play'?>  <?=$item['log_type']?>"></span>
                         <span class="title sm">
                             @if($course['items_count'] > 2)
                             <b>جلسه <?=to_persian_num($si++)?> :</b> 
@@ -295,6 +298,19 @@
     @include('sdk._common.components.error-messages');
 
 <script>
+    function toggleMoreText() {
+        var textContainer = document.querySelector('.longtextwrap');
+        var button = document.querySelector('.moretext');
+
+        if (textContainer.classList.contains('expanded')) {
+            textContainer.classList.remove('expanded');
+            button.textContent = "ادامه توضیحات ...";
+        } else {
+            textContainer.classList.add('expanded');
+            button.textContent = "بستن توضیحات";
+        }
+    }
+
     function getQueryParam(key) {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
