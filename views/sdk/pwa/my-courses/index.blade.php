@@ -15,6 +15,25 @@
             border-radius: 10px;
             margin: 7px 2%;
             width: 96%;
+            padding: 12px 16px 12px 5px;
+            background-size: cover !important;
+            background: linear-gradient(180deg, var(--primary-50), rgb(255 255 255 / 70%));
+        }
+        .card-product:hover {
+            background: linear-gradient(180deg, var(--primary-50), rgb(255 255 255 / 70%)) !important;
+            opacity: 0.8;
+        }
+
+        .card-product .content .icon {
+            margin-top: 7px;
+        }
+        .card-product .content {
+            align-items: flex-start;
+        }
+
+
+        .card-product .progress-circle{
+            height: 32px;
         }
         .progress{
             text-align: center;
@@ -45,7 +64,7 @@
             <img src="{{ $data['logo_url'] }}" alt="{{ $data['brand_name'] }}">
         </a>
     </div>
-    <div class="card-status">
+    <div class="card-status" style="margin-top:70px">
         <span class="title">دوره‌های من</span>
         <small class="subtitle"><?=to_persian_num(count($courses))?> دوره خرید شده</small>
     </div>
@@ -61,16 +80,17 @@
                     <span class="content">
                         <span class="icon " style="--bg: var(--primary)">
                             @if($progress >=100)
-                            <span class="i-check-circle number mb-auto" style="z-index: 99;color: var(--primary-15);font-size: 32px;"></span>
+                            <span class="fa-solid fa-circle-check number mb-auto" style="z-index: 99;color: var(--primary-15);font-size: 24px;"></span>
                             @else
-                            <span class="i-play-fill number mb-auto" style="z-index: 99;color: var(--primary-15);font-size: 20px;"></span>
+                            <span class="fa-solid fa-play number mb-auto" style="z-index: 99;color: var(--primary-15);font-size: 20px;"></span>
                             @endif
                         </span>
                         <span class="text">
                             <span class="title"><?=$title?></span>
                             <span class="content">
-                                <small class="subtitle"><?=to_persian_num($e['product']['items_count'])?> جلسه<?= ($progress>=100) ? ' <span class="cpbadge">کامل دیده اید</span>' :''; ?></small>
-                                <span class="progress me-auto" style="width: 100px;height:13px;--w: <?=$progress?>%"><span><?=to_persian_num($progress)?>٪</span></span>
+                                <small class="subtitle"><?=to_persian_num($e['product']['items_count'])?> جلسه<?php // ($progress>=100) ? ' <span class="cpbadge">کامل دیده اید</span>' :''; ?></small>
+                                <!-- <span class="progress me-auto" style="width: 100px;height:13px;--w: <?=$progress?>%"><span><?=to_persian_num($progress)?>٪</span></span> -->
+                                <?=circleProgressbar($progress,'sm','me-auto')?>
                             </span>
                         </span>
                     </span>
@@ -84,9 +104,8 @@
                 <button class="button primary sm" style="padding:5px 40px" onclick="location.href='{{site_url('courses')}}#start-courses'">مشاهده لیست دوره ها</button>
             </div>
         @endif
-
-
     </div>
+    <div class="h200"></div>
 
 </div>
 @include('sdk.pwa._partials.bottom-nav')

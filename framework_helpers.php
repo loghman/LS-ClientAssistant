@@ -1302,3 +1302,31 @@ if (! function_exists('create_unique_id')) {
         return Str::random(32);
     }
 }
+
+function circleProgressbar($percent = 0, $size = 'sm', $class = '', $stroke = '', $color = '#777', $fw = '500') {
+    if (empty($percent))
+        $percent = 0;
+    
+    if($percent <= 99)
+        $stroke_theme = 'var(--primary)';
+    else if($percent == 100)
+        $stroke_theme = 'var(--primary)';
+    
+    // محاسبه محیط دایره
+    $circleCircumference = 3.14 * (8 * 2);
+    $dashOffset = $circleCircumference * (1 - $percent / 100);
+
+    echo "<svg viewBox='0 0 20 20' class='progress-circle {$class} {$size}'>
+        <circle cx='10' cy='10' r='8' class='bg' style='" . (!empty($stroke) ? "stroke:{$stroke};" : '') . "'></circle>";
+    
+    if($percent > 0) {
+        echo "<circle cx='10' cy='10' r='8' class='percent' stroke='" . (!empty($stroke_theme) ? $stroke_theme : '') . "' fill='none'
+                stroke-dasharray='{$circleCircumference}' stroke-dashoffset='{$dashOffset}'></circle>";
+    }
+
+    echo "<text x='50%' y='59%' style='" . 
+        (!empty($color) ? "fill: {$color};" : '') . 
+        (!empty($fw) ? "font-weight:{$fw};" : '') . "'>" . 
+        to_persian_num($percent) . "٪</text>
+    </svg>"; 
+}

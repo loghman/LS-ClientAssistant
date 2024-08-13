@@ -18,7 +18,7 @@ function formatSizeUnits($bytes) {
 @if(in_array($item['type'],[2,3]))
     <div class="playerbox">
     @if($data['player_type'] == 'arvan')
-        <iframe id="ir1p" frameborder="0" title="<?=$item?>" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        <iframe id="ir1p" frameborder="0" title="<?=$item['title']?>" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         src="https://player.arvancloud.ir/index.html?config=<?=$data['arvanUrl']?>" allowfullscreen></iframe>
         <!-- src="https://player.arvancloud.ir/?config={CONFIG_URL}" allowfullscreen></iframe> -->
 
@@ -44,14 +44,25 @@ function formatSizeUnits($bytes) {
         </div> 
 @endif
 
-<div>
-    <?php foreach($item['other_attachments'] as $atch): ?>
-        <a href="<?=$atch['full_url']?>" target="_blank" class="atlink">
-            <span class="title"><b><i>📌</i> دانلود: </b> <?=str_replace(['پیوست ','پیوست'],'',$atch['title'])?></span>
-            <span class="me-auto"><?=to_persian_num(formatSizeUnits($atch['size']))?></span>
-        </a>
-    <?php endforeach; ?>
-    <div class="desc"><?= $item['description']?></div>
+<?php if(!empty($item['other_attachments'])): ?>
+<div class="attachments">
+<?php foreach($item['other_attachments'] as $atch): ?>
+<a href="<?=$atch['full_url']?>" target="_blank" class="atlink"> 
+    <span class="title"><b><i class="fa-solid fa-download"></i></b> <?=str_replace(['پیوست ','پیوست'],'',$atch['title'])?></span>
+    <span class="size me-auto"><?=to_persian_num(formatSizeUnits($atch['size']))?></span>
+</a>
+<?php endforeach; ?>
+</div> 
+<?php endif; ?>
+
+<?php $len = strlen($item['description']);?>
+<?php if($len > 3): ?>
+<div class="longtextwrap">
+    <?php if($len > 400): ?>
+        <div class="longtext"><?= $item['description']?></div>
+        <span class="moretext" onclick="toggleMoreText()">ادامه توضیحات ...</span>
+    <?php else: ?>
+        <div class="alltext"><?= $item['description']?></div>
+    <?php endif; ?>
 </div>
-
-
+<?php endif; ?>

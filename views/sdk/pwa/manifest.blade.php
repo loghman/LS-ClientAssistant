@@ -2,7 +2,7 @@
   "name": "<?=$brand_name?> PWA",
   "short_name": "<?=$brand_name?>",
   "description": "<?=$brand_name?> Progressive Web Application",
-  "start_url": "/pwa/auth",
+  "start_url": "/pwa/dashboard",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ff69b4",
