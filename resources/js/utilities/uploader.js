@@ -5,14 +5,16 @@ import { messages } from "./static-messages";
 document.addEventListener('DOMContentLoaded', function () {
   const uploaders = document.querySelectorAll('.uploader');
 
-  const onUploadProgress = (progressEvent, progressBar ,progressPercent) => {
+  const onUploadProgress = (progressEvent, progressBar, progressPercent) => {
     const { loaded, total } = progressEvent;
     let percent = Math.floor((loaded * 100) / total);
 
-    if (percent <= 100) {
+    if (percent <= 100 && progressBar && progressPercent) {
       progressPercent.classList.remove('d-none');
       progressBar.style.width = `${percent}%`;
       progressPercent.textContent = `% ${percent}`;
+    } else {
+      console.error("put upload-progress element beside input type file")
     }
   };
 
@@ -69,13 +71,17 @@ document.addEventListener('DOMContentLoaded', function () {
       if (response.status) {
         toast('فایل اپلود شد');
 
-        progressPercent.classList.add('d-none');
-        progressBar.style.width = '0%';
+        if (progressBar && progressPercent) {
+          progressPercent.classList.add('d-none');
+          progressBar.style.width = '0%';
+        }
         fileInput.value = '';
       } else {
         toast(response.message.text ? response.message.text : messages.SOMETHING_WENT_WRONG, 'danger');
-        progressPercent.classList.add('d-none');
-        progressBar.style.width = '0%';
+        if (progressBar && progressPercent) {
+          progressPercent.classList.add('d-none');
+          progressBar.style.width = '0%';
+        }
         fileInput.value = '';
       }
     } catch (error) {
