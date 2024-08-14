@@ -11,7 +11,7 @@
             border-color: var(--primary) !important;
         }
         .card-product {
-            border: 1px solid var(--primary) !important;
+            border: 1px solid var(--primary-70) !important;
             border-radius: 10px;
             margin: 7px 2%;
             width: 96%;
@@ -112,6 +112,25 @@
 <script type="module" src="{{ core_asset('resources/assets/js/jquery.js') }}"></script>
 <script type="module" src="{{ core_asset('resources/assets/minimal-landing/js/client.js') }}"></script>
 @include('sdk._common.components.error-messages')
+
+<script>
+document.querySelectorAll('.card-product').forEach(function(element) {
+    element.addEventListener('click', function(e) {
+        document.querySelectorAll('.card-product').forEach(function(el) {
+            el.classList.remove('waiting');
+            const loader = el.querySelector('.loader');
+            if (loader) {
+                loader.remove();
+            }
+        });
+        this.classList.add('waiting');
+        const loaderSpan = document.createElement('span');
+        loaderSpan.className = 'loader';
+        this.appendChild(loaderSpan);
+    });
+});
+</script>
+
 
 </body>
 </html>

@@ -89,57 +89,6 @@
         padding: 0 12px 15px 12px;
     }
 
-    .loader {
-
-        width: 48px;
-        height: 48px;
-        border: 3px dotted #777;
-        border-style: solid solid dotted dotted;
-        border-radius: 50%;
-        display: block;
-        margin: 20px auto;
-        position: relative;
-        box-sizing: border-box;
-        animation: rotation 2s linear infinite;
-    }
-
-    .loader::after {
-        content: '';
-        box-sizing: border-box;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        margin: auto;
-        border: 3px dotted var(--primary);
-        border-style: solid solid dotted;
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        animation: rotationBack 1s linear infinite;
-        transform-origin: center center;
-    }
-
-    @keyframes rotation {
-        0% {
-            transform: rotate(0deg);
-        }
-
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
-    @keyframes rotationBack {
-        0% {
-            transform: rotate(0deg);
-        }
-
-        100% {
-            transform: rotate(-360deg);
-        }
-    }
     .accordions .accordion .content {
         background: none !important;
     }
@@ -317,11 +266,14 @@
         return urlParams.get(key);
     }
 
-    function goScrollTo(element, offset = 5,expand = 0){
-        var headerOffset = 5;
-        var elementPosition = element.getBoundingClientRect().top;
-        var offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-        window.scrollTo({top: offsetPosition, behavior: "smooth"});
+    function goScrollTo(element, offset = 5,expand = 0,scroll_enabled = 1){
+        // scroll
+        if(scroll_enabled){
+            var elementPosition = element.getBoundingClientRect().top;
+            var offsetPosition = elementPosition + window.pageYOffset - offset;
+            window.scrollTo({top: offsetPosition, behavior: "smooth"});
+        }
+        // expand
         setTimeout(function() {
             element.click();
             if(expand == 1)
@@ -386,11 +338,10 @@
             element.addEventListener('click', sendAjaxRequest);
         });
         
-        if(accordionElements.length == 1){
-            let element = accordionElements[0];
-            element.scrollIntoView({ behavior: 'smooth' });
-            goScrollTo(element,5,1);
-        }
+        // expand if single video
+        if(accordionElements.length == 1)
+            goScrollTo(accordionElements[0],5,1,0);
+        
 
         qp = getQueryParam('i');
         if(qp){
