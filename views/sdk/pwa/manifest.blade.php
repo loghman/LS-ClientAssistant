@@ -5,7 +5,7 @@
   "start_url": "/pwa/dashboard",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#ff69b4",
+  "theme_color": "var(--primary)",
   "icons": [
     {
       "src": "<?=$logo_url?>",
