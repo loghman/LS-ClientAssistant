@@ -12,7 +12,8 @@ class PwaController
         header('Content-Type: application/json; charset=utf-8');
         $data = [
             'brand_name' => setting('brand_name_en'),
-            'logo_url' => setting('logo_url'),
+            'theme_color' => '#ffffff',
+            'logo_url' => empty(setting('logo_icon_url')) ? setting('logo_url') : setting('logo_icon_url'),
         ];
         return WebResponse::view('sdk.pwa.manifest',$data);
     }
@@ -22,7 +23,8 @@ class PwaController
         header('Content-Type: application/javascript');
         $data = [
             'brand_name' => setting('brand_name_en'),
-            'logo_url' => setting('logo_url'),
+            'theme_color' => '#ffffff',
+            'logo_url' => empty(setting('logo_icon_url')) ? setting('logo_url') : setting('logo_icon_url'),
         ];
         return WebResponse::view('sdk.pwa.service-worker',$data);
     }
