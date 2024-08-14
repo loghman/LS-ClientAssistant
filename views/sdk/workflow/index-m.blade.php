@@ -119,7 +119,7 @@
             text-align: center;
             z-index: 999;
             font-size: 30px;
-            padding: 20% 12%;
+            padding: 10% 12%;
         }
     </style>
 </head>
