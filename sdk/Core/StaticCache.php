@@ -37,6 +37,10 @@ class StaticCache
             if (strlen($fileContent) < 200) {
                 return;
             }
+
+            if(is_valid_json($fileContent))
+                header('Content-Type: application/json; charset=utf-8');
+            
             readfile(self::$cacheFile);
             exit;
         }
