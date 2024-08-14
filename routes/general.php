@@ -165,6 +165,7 @@ $router->name('payment.')->prefix('payment')->group(function (Router $router) {
 
 
 $router->get('manifest.json', [PwaController::class, 'manifest']);  
+$router->get('site.webmanifest', [PwaController::class, 'manifest']);  
 $router->get('service-worker.js', [PwaController::class, 'service_worker']);  
 $router->name('pwa.')->prefix('pwa')->group(function (Router $router){
     $router->name('coursePlayer')->get('course-{pid}/player', [CoursePlayerController::class, 'index']);
