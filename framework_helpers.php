@@ -23,6 +23,11 @@ function obc_write($key,$object){
     return ObjectCache::write($key,$object);
 }
 
+function is_valid_json(string $string): bool {
+    json_decode($string);
+    return json_last_error() === JSON_ERROR_NONE;
+}
+
 if (!function_exists('site_url')) {
     function site_url(string $uri = ''): string
     {
