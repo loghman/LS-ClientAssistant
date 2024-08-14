@@ -165,12 +165,14 @@ $router->name('payment.')->prefix('payment')->group(function (Router $router) {
 
 
 $router->get('manifest.json', [PwaController::class, 'manifest']);  
+$router->get('service-worker.js', [PwaController::class, 'service_worker']);  
 $router->name('pwa.')->prefix('pwa')->group(function (Router $router){
     $router->name('coursePlayer')->get('course-{pid}/player', [CoursePlayerController::class, 'index']);
     $router->name('dashboard')->get('dashboard', [MyCoursesController::class, 'index']);
     $router->name('myCourses')->get('my-courses', [MyCoursesController::class, 'index']);
     $router->name('auth')->get('/auth', [AuthController::class, 'index']);
     $router->name('onboarding')->get('/onboarding', [OnboardingController::class, 'index']);
+    $router->name('offline')->get('/offline.html', [PwaController::class, 'offline']);
 });
 
 $router->name('ajax.')->prefix('ajax')->group(function (Router $router){
