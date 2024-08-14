@@ -77,7 +77,7 @@ class WorkflowFormController
         ]);
 
         if (!$response->get('success')) 
-            return JsonResponse::unprocessableEntity($response->get('message') ?? 'مشکلی رخ داده است.');
+            return JsonResponse::unprocessableEntity($response->get('message')['text'] ?? 'مطممئن شوید اطلاعات فرم را به درستی وارد کرده اید');
         
         if (mb_substr($firstName, -1) === 'ا') // نادیا عزیز => نادیای عزیز
             $firstName .= 'ی';
