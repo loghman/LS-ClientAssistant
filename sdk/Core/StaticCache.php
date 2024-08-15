@@ -74,7 +74,8 @@ class StaticCache
         }
 
         $cachedfile = fopen(self::$cacheFile, 'w+');
-        fwrite($cachedfile, "<!-- cached:" . date('Y-m-d H:i:s', filemtime(self::$cacheFile)) . " -->\n");
+        if(!is_valid_json($cacheContent))
+            fwrite($cachedfile, "<!-- cached:" . date('Y-m-d H:i:s', filemtime(self::$cacheFile)) . " -->\n");
         fwrite($cachedfile, $cacheContent);
         fclose($cachedfile);
         # Send the output to the browser

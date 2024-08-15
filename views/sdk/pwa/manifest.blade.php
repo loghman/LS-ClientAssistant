@@ -5,17 +5,17 @@
   "start_url": "/pwa/dashboard",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": <?=$theme_color?>,
+  "theme_color": "<?=$theme_color?>",
   "icons": [
     {
       "src": "<?=$logo_url?>",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "<?=$mime_type?>"
     },
     {
       "src": "<?=$logo_url?>",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "<?=$mime_type?>"
     }
   ],
   "lang": "fa-IR"
