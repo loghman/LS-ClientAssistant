@@ -21,7 +21,7 @@ class ObjectCache
 
     public static function write($key,$object){
         if(!is_dir(self::$cacheFolder)){
-            mkdir(self::$cacheFolder);
+            mkdir(self::$cacheFolder, 0775, true);
         }
         $filepath = self::$cacheFolder . md5($key) . '.oCache';
         file_put_contents($filepath,serialize($object));
