@@ -5,7 +5,7 @@ import PriorityOneCard from "../components/auth/PriorityOneCard.vue";
 import PriorityTwoCard from "../components/auth/PriorityTwoCard.vue";
 import { defineComponent, ref, onBeforeMount } from "vue";
 import { get } from "@/js/utilities/httpClient/httpClient";
-import { URLS, expireDays } from "../components/auth/useAuth";
+import { URLS, expireDays, showIframe } from "../components/auth/useAuth";
 import PassCard from "../components/auth/PassCard.vue";
 import RetriveCard from "../components/auth/RetriveCard.vue";
 import { useAuthStore } from "../stores/authStore";
@@ -112,10 +112,11 @@ const setCurrentCard = (data) => {
 onBeforeMount(() => {
     getAuthSetting();
 });
+
 </script>
 
 <template>
-    <iframe :src="clientUrl" frameborder="0" id="client_iframe" width="1" height="1"
+    <iframe v-if="showIframe" :src="clientUrl" frameborder="0" id="client_iframe" width="1" height="1"
         sandbox="allow-scripts allow-same-origin"></iframe>
     <Loading v-if="checkLoginLoading" class="w-100 d-flex justify-content-center" width="100px" height="100px"
         v-model:active="checkLoginLoading" :can-cancel="false" :is-full-page="true" :backgroundColor="'var(--primary)'"

@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import { Form } from 'vee-validate';
 import { authApi } from '@/js/utilities/apiPath';
 import { postData } from '@/js/utilities/common';
-import { lspDomain, lspOrigin } from './useAuth';
+import { lspDomain, lspOrigin, showIframe } from './useAuth';
 import Button from './common/Button.vue';
 import { useOtpManagment } from './useOtpManagment';
 import { useAuthStore } from '../../stores/authStore';
@@ -51,7 +51,9 @@ const handleSubmit = async () => {
             deleteTokenCookies()
             Cookies.set("token", response.result.auth.token,{expires: expireAt,domain:lspDomain});
             endLoading(submitVerifFormBtn.value);
-            postData(clientIframe,{token:response.result.auth.token,origin:lspOrigin},props.clientUrl)   
+            if (showIframe) {
+                postData(clientIframe,{token:response.result.auth.token,origin:lspOrigin},props.clientUrl);   
+            }
             toast(response.message.text);
             Cookies.remove("currentCard");
             Cookies.remove("uniqueKey");
