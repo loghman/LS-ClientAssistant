@@ -16,7 +16,7 @@ class CartController
     public function __construct()
     {
         if (! Config::get('endpoints.enable_cart_payment')) {
-            abort(404);
+            abort(403, 'Payment system is disabled.');
         }
     }
 
