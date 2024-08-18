@@ -55,7 +55,7 @@ export const useAuthManagment = (
 
                 const redirectPath = response.result.redirect_path;
 
-                if (pathName === "/pwa/auth") {
+                if (pathName.includes('/pwa/auth')) {
                     window.location.href = "/pwa/dashboard";
                 } else {
                     window.location.href = `${redirectPath}`;
@@ -110,7 +110,7 @@ export const useAuthManagment = (
     };
     const checkLogin = async () => {
         const token = Cookies.get('token');
-        if (token && pathName === "/pwa/auth") {
+        if (token && pathName.includes('/pwa/auth')) {
             try {
                 checkLoginLoading.value=true;
                 const userInfo = await get(authApi.PROFILE);
