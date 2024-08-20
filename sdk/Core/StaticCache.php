@@ -68,7 +68,7 @@ class StaticCache
         
 
         # Cache the contents to a cache file
-        $cacheContent = ob_get_contents();
+        $cacheContent = ob_get_contents(); 
         if(empty($cacheContent))
             return;
         
