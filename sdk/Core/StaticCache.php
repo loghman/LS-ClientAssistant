@@ -41,6 +41,8 @@ class StaticCache
             if(is_valid_json($fileContent))
                 header('Content-Type: application/json; charset=utf-8');
             
+            header("Pragma: no-cache");
+            header("Expires: 0");  
             readfile(self::$cacheFile);
             exit;
         }
