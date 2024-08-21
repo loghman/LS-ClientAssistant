@@ -12,7 +12,7 @@ class StaticCache
     public static function isCacheEnable(): bool
     {
         // dont cache the page if user logged in
-        if(empty($_COOKIE['token']??''))
+        if(!empty($_COOKIE['token']??''))
             return false;
 
         if ($_SERVER['REQUEST_METHOD'] != 'GET') 
