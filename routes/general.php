@@ -1,5 +1,6 @@
 <?php
 use Ls\ClientAssistant\Services\ObjectCache;
+use Ls\ClientAssistant\Core\StaticCache;
 use Ls\ClientAssistant\Controllers\AjaxController;
 use Ls\ClientAssistant\Controllers\AuthController;
 use Ls\ClientAssistant\Controllers\AuthVerificationController;
