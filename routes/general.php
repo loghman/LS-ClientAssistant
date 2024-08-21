@@ -100,10 +100,9 @@ $router->name('pageEditor.store')->post('/page-meta/updateForm', function (Reque
 
 $router->name('cache.clear')->get('clearcache/{client_key}', function (Request $request, $clientKey) {
     if ($clientKey == $GLOBALS['apikey']) {
-        clear_static_cache();
         clear_redis_cache();
         ObjectCache::flush();
-
+        StaticCache::flush();
         return JsonResponse::success('کش پاک شد');
     }
 
