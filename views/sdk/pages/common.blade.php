@@ -1,5 +1,11 @@
 @extends('sdk._common.layouts.base')
-@section('title', $page['title'])
+@if(isset($seoMeta) && $seoMeta != '')
+    @push('head')
+        {!! $seoMeta !!}
+    @endpush
+@else
+    @section('title', $article['title'])
+@endif
 @push('head')
 @endpush
 @section('body-class', '')
