@@ -1,7 +1,7 @@
 {
-  "name": "<?=$brand_name?> PWA",
+  "name": "<?=$brand_name?>",
   "short_name": "<?=$brand_name?>",
-  "description": "<?=$brand_name?> Progressive Web Application",
+  "description": "اپلیکیشن <?=$brand_name?>",
   "start_url": "/pwa/dashboard",
   "display": "standalone",
   "background_color": "#ffffff",

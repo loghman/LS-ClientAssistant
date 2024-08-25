@@ -76,7 +76,7 @@
                     $title = str_replace('','',$e['product']['title']);
                     $progress = $e['progress_percent'];
                 ?>
-                <a href="<?=site_url("pwa/course-{$e['product']['id']}/player")?>?e={{$e['id']}}" class="card-product">
+                <a href="<?=site_url("pwa/course-{$e['product']['id']}/screen")?>?e={{$e['id']}}" class="card-product">
                     <span class="content">
                         <span class="icon " style="--bg: var(--primary)">
                             @if($progress >=100)

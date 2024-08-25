@@ -4,6 +4,13 @@
     body{
         max-width: 100%;
     }
+    @media (min-width: 900px) {
+        html,.navbar,.bottom-nav,#pageloader {
+            max-width: 800px !important;
+            margin:0 auto !important;
+        }
+    }
+
     .h100{
         height: 100px;
     }
@@ -177,7 +184,50 @@
             transform: rotate(-360deg);
         }
     }
-}
+
+
+    #pageloader{
+        display: none;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        background: rgba(255,255,255,0.95);
+        left:0;
+        right:0;
+        top:0;
+        bottom:0;
+        flex-direction: column;
+        z-index: 999;
+    }
+    
+    #pageloader div{
+        color: #333;
+        font-size: 16px;
+    }
+    #pageloader img{
+        max-width: 64px;
+        animation: opa37 1s infinite ease-in-out;
+        margin-bottom: 30px;
+    }
+    #pageloader.show{
+        display: flex;
+    }
+    @keyframes opa37 {
+        0% {
+            /* transform: scale(1); */
+            opacity:1;
+        }
+        50% {
+            /* transform: scale(1.1); */
+            opacity:0.37; 
+
+        }
+        100% { 
+            /* transform: scale(1); */
+            opacity:1;
+
+        }
+    }
 
 </style>
 
@@ -189,10 +239,24 @@
         window.addEventListener('load', function() {
             navigator.serviceWorker.register('/service-worker.js')
                 .then(function(registration) {
-                    console.log('Service Worker registered with scope:', registration.scope);
+                    console.log('Service Worker registered:', registration.scope);
                 }, function(error) {
-                    console.log('Service Worker registration failed:', error);
+                    console.log('Service Worker failed:', error);
                 });
         });
+    }
+    function typeWriter(text, elementId, speed) {
+        let i = 0;
+        const element = document.getElementById(elementId);
+        if(element.innerHTML.length > 0)
+            return;
+        element.innerHTML = "";
+        function type() {
+            if (i < text.length) {
+            element.innerHTML += text.charAt(i++);
+            setTimeout(type, speed);
+            }
+        }
+        type();
     }
 </script>
