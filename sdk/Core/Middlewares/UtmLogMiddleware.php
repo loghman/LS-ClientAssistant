@@ -9,7 +9,7 @@ class UtmLogMiddleware
 {
     /**
      * Store utm data
-     * Sample: https://7learn.com?utm_source=insta&utm_medium=ads&utm_campaign=bendaz&utm_id=ds458
+     * Sample: https://site.com?utm_source=insta&utm_medium=ads&utm_campaign=bendaz&utm_id=ds458
      */
     public function handle(Request $request, $next)
     {

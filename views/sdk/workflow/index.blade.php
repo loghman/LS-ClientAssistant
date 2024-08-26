@@ -14,8 +14,8 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#148ef3">
-    <meta name="apple-mobile-web-app-title" content="7Learn">
-    <meta name="application-name" content="7Learn">
+    <meta name="apple-mobile-web-app-title" content="{{setting('brand_name_en')}}">
+    <meta name="application-name" content="{{setting('brand_name_en')}}">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="theme-color" content="#ffffff">
 </head>
