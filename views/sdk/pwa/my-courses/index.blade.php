@@ -1,75 +1,18 @@
-@section('title', 'دوره‌های من')
-        <!doctype html>
+<!doctype html>
 <html lang="fa">
 <head>
-    @include('sdk.pages.landing-partials.head')
-    @include('sdk.pwa._partials.styles')
-    <style>
-        button:hover, .btn:hover {
-            opacity: 0.8;
-            background: var(--primary) !important;
-            border-color: var(--primary) !important;
-        }
-        .card-product {
-            border: 1px solid var(--primary-70) !important;
-            border-radius: 10px;
-            margin: 7px 2%;
-            width: 96%;
-            padding: 12px 16px 12px 5px;
-            background-size: cover !important;
-            background: linear-gradient(180deg, var(--primary-50), rgb(255 255 255 / 70%));
-        }
-        .card-product:hover {
-            background: linear-gradient(180deg, var(--primary-50), rgb(255 255 255 / 70%)) !important;
-            opacity: 0.8;
-        }
-
-        .card-product .content .icon {
-            margin-top: 7px;
-        }
-        .card-product .content {
-            align-items: flex-start;
-        }
-
-
-        .card-product .progress-circle{
-            height: 32px;
-        }
-        .progress{
-            text-align: center;
-            font-size: 9px;
-            padding-left: 11px;
-            line-height: 13px;
-        }
-        .progress span{
-            z-index: 99999;
-            position: absolute;
-            text-align: center;
-            color:var(--primary-50);
-        }
-        .cpbadge{
-            background-color: var(--primary-15);
-            color: var(--primary);
-            padding: 3px 7px;
-            font-size: 10px;
-            margin-right: 5px;
-            border-radius: 3px;
-        }
-    </style>
+@include('sdk.pwa._partials.head')
+@include('sdk.pwa._partials.styles')
 </head>
 <body>
 <div class="base-content">
-    <div class="navbar">
-        <a href="{{ site_url('') }}" class="brand">
-            <img src="{{ $data['logo_url'] }}" alt="{{ $data['brand_name'] }}">
-        </a>
-    </div>
-    <div class="card-status" style="margin-top:70px">
-        <span class="title">دوره‌های من</span>
-        <small class="subtitle"><?=to_persian_num(count($courses))?> دوره خرید شده</small>
-    </div>
-    
-    <div class="card-product-parent">
+    @include('sdk.pwa._partials.top-nav')
+
+    <div class="card-product-parent wpad">
+        <div class="title-row">
+            <span class="title">دوره های ثبت نام شده</span>
+            <span class="stat"><?=to_persian_num(count($courses))?> دوره</span>
+        </div>
         @if(count($courses))
             @foreach($courses as $e)
                 <?php 

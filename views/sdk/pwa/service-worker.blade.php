@@ -18,10 +18,22 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// مدیریت درخواست‌ها
+// cache cdn files
 self.addEventListener('fetch', (event) => {
+  if (event.request.url.includes('cdn')) {
+    event.respondWith(
+      caches.open(CACHE_NAME).then((cache) => {
+        return cache.match(event.request).then((response) => {
+          return response || fetch(event.request).then((newResponse) => {
+            cache.put(event.request, newResponse.clone());
+            return newResponse;
+          });
+        });
+      })
+    );
+  }
+  
   const requestUrl = new URL(event.request.url);
-
   // کش کردن تصاویر و فونت‌ها
   if (requestUrl.pathname.endsWith('.png') || requestUrl.pathname.endsWith('.jpg') || requestUrl.pathname.endsWith('.jpeg') || requestUrl.pathname.endsWith('.gif') || requestUrl.pathname.endsWith('.svg') || requestUrl.pathname.endsWith('.woff') || requestUrl.pathname.endsWith('.woff2')) {
     event.respondWith(
