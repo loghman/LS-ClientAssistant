@@ -1,6 +1,6 @@
 <?php
 
-namespace Ls\ClientAssistant\Controllers;
+namespace Ls\ClientAssistant\Controllers\PWA;
 
 use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\Router\WebResponse;
@@ -49,7 +49,7 @@ class AjaxController
 
         $data['arvanUrl'] = ($data['player_type'] == 'arvan') ? $arvanConfig['data']['config_url'] : null;
 
-        return WebResponse::view('sdk.pwa.course-player.partials.player', compact('item', 'chapter','data'));
+        return WebResponse::view('sdk.pwa.course-screen.partials.player', compact('item', 'chapter','data'));
 
     }
 
