@@ -26,7 +26,8 @@ class PwaController
             $courses = ObjectCache::write($key, User::courses($request->cookies->get('token'))['data']['data'] ?? []);
         }
         self::sleep(); 
-        return WebResponse::view('sdk.pwa.my-courses.index', compact('courses','data'));
+        $pagetitle = "داشبورد";
+        return WebResponse::view('sdk.pwa.dashboard.index', compact('pagetitle','user','courses','data'));
     }
 
     public function my_courses(Request $request)
@@ -40,7 +41,8 @@ class PwaController
             $courses = ObjectCache::write($key, User::courses($request->cookies->get('token'))['data']['data'] ?? []);
         }
         self::sleep(); 
-        return WebResponse::view('sdk.pwa.my-courses.index', compact('courses','data'));
+        $pagetitle = "دوره های من";
+        return WebResponse::view('sdk.pwa.my-courses.index', compact('pagetitle','courses','data'));
     }
 
     public function courses(Request $request)
@@ -54,7 +56,8 @@ class PwaController
             $courses = ObjectCache::write($key, User::courses($request->cookies->get('token'))['data']['data'] ?? []);
         }
         self::sleep(); 
-        return WebResponse::view('sdk.pwa.my-courses.index', compact('courses','data'));
+        $pagetitle = "همه دوره ها";
+        return WebResponse::view('sdk.pwa.my-courses.index', compact('pagetitle','courses','data'));
     }
 
     public function course_screen(Request $request,string $product_id)
@@ -70,7 +73,8 @@ class PwaController
         }
         $chapters = LMSProduct::chaptersWithUserData($product_id, $userToken)['data'];
         $enrollment = Enrollment::findByUserAndProduct($product_id, $userToken)['data'] ?? [];
-        return WebResponse::view('sdk.pwa.course-screen.index', compact('data','course','chapters','enrollment'));
+        $pagetitle = "{$course['title']}";
+        return WebResponse::view('sdk.pwa.course-screen.index', compact('pagetitle','data','course','chapters','enrollment'));
     } 
 
     public function profile(Request $request)
@@ -85,7 +89,8 @@ class PwaController
             $courses = ObjectCache::write($key, User::courses($request->cookies->get('token'))['data']['data'] ?? []);
         }
         self::sleep(1200); 
-        return WebResponse::view('sdk.pwa.profile.index', compact('user','courses','data'));
+        $pagetitle = "پروفایل من";
+        return WebResponse::view('sdk.pwa.profile.index', compact('pagetitle','user','courses','data'));
     }
 
     public function logout(Request $request): RedirectResponse

@@ -1,9 +1,8 @@
 <!doctype html>
 <html lang="fa">
 <head>
-    <title><?=$course['title']?></title>
-    @include('sdk.pages.landing-partials.head')
-    @include('sdk.pwa._partials.styles')
+@include('sdk.pwa._partials.head')
+@include('sdk.pwa._partials.styles')
 <style>
     button:hover, .btn:hover {
         opacity: 0.8;
@@ -73,7 +72,7 @@
     }
 
     .accordions .accordion {
-        border: 1px solid var(--primary-10) !important;
+        border: 1px solid #e7e7e7 !important;
         border-radius: 5px;
         border-top-right-radius: 5px !important;
         border-top-left-radius: 5px !important;
@@ -224,7 +223,7 @@
                             <b>جلسه <?=to_persian_num($si++)?> :</b> 
                             @endif
                         <?=$item['title']?></span>
-                        <span class="time me-auto"><?=($item['attachment_duration_sum']) ? to_persian_num(round($item['attachment_duration_sum']/60)) . ' دقیقه' : '' ?></span>
+                        <span class="time me-auto"><?=($item['attachment_duration_sum']) ? to_persian_num(round($item['attachment_duration_sum']/60)) . ' دقیقه' : '&nbsp;' ?></span>
                     </div>
                     <div class="content">
                         <span class="loader"></span>
