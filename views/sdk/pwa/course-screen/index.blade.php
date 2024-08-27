@@ -168,37 +168,32 @@
     }
 
     .bghead{
+        position: relative;
         min-height: 100%;
         padding-top: 80px !important;
+        padding-bottom: 20px !important;
         background-size: cover !important;
-        background: linear-gradient(45deg, var(--primary-50), rgb(255 255 255 / 70%)), url(<?= $course['banner_url'] ?>);
+        background: linear-gradient(45deg, var(--primary-50), rgb(255 255 255 / 50%)), url(<?= $course['banner_url'] ?>);
+    }
+    .bghead .pbar{
+        position: absolute;
+        top:20px;
+        left:20px;
     }
     </style>
 </head>
 
 <body>
     <div class="base-content">
-        <div class="navbar shadow">
-            <a href="{{ site_url('') }}" class="brand">
-                <img src="{{ $data['logo_url'] }}" alt="{{ $data['brand_name'] }}">
-            </a>
-            <?=circleProgressbar($enrollment['progress_percent'])?>
-            <!-- <a class="btn primary sm" href="{{site_url('pwa/my-courses')}}">
-               همه دوره های من
-                <i class="i-left" style="font-size: 10px;"></i>
-            </a> -->
-        </div>
-
         <div class="card-status bghead m-0 shadow-inset pt pb">
-            <div class="card-product">
+            <div>
                 <span class="content">
-                    {{-- <img loading="lazy" style="height: 80px;" src="" alt="تصویر دوره"> --}}
                     <span class="text">
-                        <span class="title"><?=$course['title']?></span>
+                        <span class="title" style="font-size: 24px;"><?=$course['title']?></span><br>
                         <span class="content">
                             <small class="subtitle">{{ to_persian_num(count($chapters)) }} سرفصل، {{ to_persian_num($course['items_count']) }} جلسه</small>
-                            
                         </span>
+                        <span class="pbar"><?=circleProgressbar($enrollment['progress_percent'])?></span>
                     </span>
                 </span>
             </div>
@@ -228,10 +223,6 @@
                     <div class="content">
                         <span class="loader"></span>
                     </div>
-                    <!-- <div class="card-status m-0 shadow-0 p-0">
-                        <span class="fw-700">این جلسه رو کامل دیدی ؟</span>
-                        <a href="#" class="btn xs success me-auto">بله</a>
-                    </div> -->
                 </div>
                 @endforeach
             </div>
@@ -240,7 +231,6 @@
 
     </div>
     @include('sdk.pwa._partials.bottom-nav')
-
     <script type="module" src="{{ core_asset('resources/assets/js/jquery.js') }}"></script>
     <script type="module" src="{{ core_asset('resources/assets/minimal-landing/js/client.js') }}"></script>
     @include('sdk._common.components.error-messages');
