@@ -226,13 +226,10 @@
         align-items: center;
         justify-content: center;
     }
-    .waiting{
-        display: flex;
-        align-items: center;
-    }
     .waiting>.loader {
         position: absolute;
         top: 30px;
+        left:45%;
     }
     
     .loader {
