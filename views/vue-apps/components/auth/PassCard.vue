@@ -22,7 +22,7 @@ defineComponent({
 const sendTokenBtnRef = ref(null);
 const uniqueKeyErrorMsg = ref('');
 const {uniqueKey}=useAuthStore();
-const labelText=`رمز عبور (${uniqueKey}) را وارد کنید.`
+const labelText=`رمز عبور  ${uniqueKey}  را وارد کنید.`
 const emit = defineEmits(["goToCard"]);
 const goToCard =async (cardName) => {
      emit("goToCard", { cardName, uniqueKey });

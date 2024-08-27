@@ -73,7 +73,7 @@ watch(()=>resetOtpInputs.value,(prev)=>{
                         class="btn-outline-primary w-100 send-code" @click="resendCode(uniqueKey, reSendTokenBtnRef)">
                         <i class='si-comment-text-r'></i>
                         <span>دریافت مجدد (</span>
-                        <span><span class="text-danger-85">{{ countDownTimer }}</span> ثانیه</span>
+                        <span><span class="text-danger-85 countdown-num">{{ countDownTimer }}</span> ثانیه</span>
                         <span>)</span>
                     </button>
                     <small class="t-small">
