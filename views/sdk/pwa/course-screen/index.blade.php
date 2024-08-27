@@ -170,10 +170,10 @@
     .bghead{
         position: relative;
         min-height: 100%;
-        padding-top: 80px !important;
+        padding-top: 90px !important;
         padding-bottom: 20px !important;
         background-size: cover !important;
-        background: linear-gradient(45deg, var(--primary-50), rgb(255 255 255 / 50%)), url(<?= $course['banner_url'] ?>);
+        background: linear-gradient(0deg, var(--primary-50), rgba(0,0,0,0.4)), url(<?= $course['banner_url'] ?>);
     }
     .bghead .pbar{
         position: absolute;
@@ -193,7 +193,7 @@
                         <span class="content">
                             <small class="subtitle">{{ to_persian_num(count($chapters)) }} سرفصل، {{ to_persian_num($course['items_count']) }} جلسه</small>
                         </span>
-                        <span class="pbar"><?=circleProgressbar($enrollment['progress_percent'])?></span>
+                        <span class="pbar"><?=circleProgressbar($enrollment['progress_percent'],'sm','', '','#555')?></span>
                     </span>
                 </span>
             </div>
