@@ -214,7 +214,7 @@
     }
 
     .waiting:after {
-        background: rgba(255, 255, 255, 0.7);
+        background: rgba(255, 255, 255, 0.77);
         top: 0;
         bottom: 0;
         left: 0;
@@ -226,10 +226,13 @@
         align-items: center;
         justify-content: center;
     }
+    .waiting{
+        display: flex;
+        align-items: center;
+    }
     .waiting>.loader {
         position: absolute;
-        margin: 8px auto;
-        right: 17px;
+        top: 30px;
     }
     
     .loader {
@@ -239,7 +242,7 @@
         border-style: solid solid dotted dotted;
         border-radius: 50%;
         display: block;
-        margin: 20px auto;
+        margin: 0 auto;
         position: relative;
         box-sizing: border-box;
         animation: rotation 2s linear infinite;

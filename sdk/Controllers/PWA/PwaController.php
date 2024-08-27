@@ -9,6 +9,9 @@ use Ls\ClientAssistant\Utilities\Modules\Authentication;
 use Ls\ClientAssistant\Utilities\Modules\Enrollment;
 use Ls\ClientAssistant\Utilities\Modules\LMSProduct;
 use Ls\ClientAssistant\Utilities\Modules\User;
+use Ls\ClientAssistant\Utilities\Modules\V3\Enrollment as V3Enrollment;
+use Ls\ClientAssistant\Utilities\Modules\V3\LMSProduct as V3LMSProduct;
+use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
 use Ls\ClientAssistant\Utilities\Tools\Token;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -19,30 +22,36 @@ class PwaController
         $user = current_user();
         $data = self::shered_data();
 
-        $key = __FILE__.__LINE__.$user['id'];
-        if(ObjectCache::exists($key)){
-            $courses = ObjectCache::get($key);
-        }else{
-            $courses = ObjectCache::write($key, User::courses($request->cookies->get('token'))['data']['data'] ?? []);
-        }
+        $enrollments = V3Enrollment::list(
+            ModuleFilter::new()
+                ->otherFilters('type', 'lms')
+                ->search('entity_type', 'lms_products')
+                ->search('user_id', $user['id'])
+                ->includes('entity')
+                ->orderBy('last_log_date')->sortedBy('DESC')
+        )->get('result');
         self::sleep(); 
         $pagetitle = "داشبورد";
-        return WebResponse::view('sdk.pwa.dashboard.index', compact('pagetitle','user','courses','data'));
+        return WebResponse::view('sdk.pwa.dashboard.index', compact('pagetitle','user','enrollments','data'));
     }
 
     public function my_courses(Request $request)
     {
         $user = current_user();
         $data = self::shered_data();
-        $key = __FILE__.__LINE__.$user['id'];
-        if(0 and ObjectCache::exists($key)){    // cache is disabled!!!!!!
-            $courses = ObjectCache::get($key);
-        }else{
-            $courses = ObjectCache::write($key, User::courses($request->cookies->get('token'))['data']['data'] ?? []);
-        }
+
+        $enrollments = V3Enrollment::list(
+            ModuleFilter::new()
+                ->otherFilters('type', 'lms')
+                ->search('entity_type', 'lms_products')
+                ->search('user_id', $user['id'])
+                ->includes('entity')
+                ->orderBy('last_log_date')->sortedBy('DESC')
+        )->get('result');
+
         self::sleep(); 
         $pagetitle = "دوره های من";
-        return WebResponse::view('sdk.pwa.my-courses.index', compact('pagetitle','courses','data'));
+        return WebResponse::view('sdk.pwa.my-courses.index', compact('pagetitle','enrollments','data'));
     }
 
     public function courses(Request $request)

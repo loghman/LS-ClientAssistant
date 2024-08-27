@@ -35,23 +35,18 @@
 
     .swiper {
       width: 100%;
-      height: 100%;
       margin-top: 5px;
     }
+
+
     .swiper-slide {
-      text-align: center;
-      font-size: 18px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
     }
     .swiper-slide img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 10px;
+        border-radius: 10px;
     }
 
     .lastseens.swiper {
@@ -64,11 +59,15 @@
         align-items: center;
         justify-content: center;
         border-radius: 10px;
-        font-size: 40px;
+        font-size: 20px;
+        color:#333333;
         font-weight: bold;
-        color:#eee;
-        background-color: #fff !important;
+        background-size: cover !important;
+        align-items: flex-end;
+        padding: 0 30px 30px 30px; 
     }
+
+
     
 </style>
 </head>
@@ -78,7 +77,7 @@
 
     <div class="statboxes wpad">
         <a class="statbox" href="<?=site_url('pwa/my-courses')?>">
-            <span><?=to_persian_num(count($courses))?> دوره</span>
+            <span><?=to_persian_num(count($enrollments))?> دوره</span>
             <small>خرید شده</small>
             <i class="fa-solid fa-cart-shopping" style="color:#ebebeb"></i>
         </a>
@@ -109,40 +108,41 @@
         <span class="title">آخرین مشاهدات من</span>
         <a class="stat" href="<?=site_url('pwa/my-courses')?>">دوره های من</a>
     </div>
-    <div class="swiper lastseens wpad">
+    <div dir="rtl" class="swiper lastseens wpad">
         <div class="swiper-wrapper">
-            <div class="swiper-slide">دوره اول</div>
-            <div class="swiper-slide">دوره دوم</div>
-            <div class="swiper-slide">دوره سوم</div>
+        @foreach($enrollments as $e)
+            <?php $product = $e['entity'];?>
+            <a href="<?=site_url("pwa/course-{$product['id']}/screen?e={$e['id']}")?>" class="bnavi swiper-slide enroll-slide" style="background: linear-gradient(0deg, var(--primary-50), rgba(0,0,0,0.3)), url(<?=$product['banner_url']['medium']['url']?>);"> 
+                <span><?=$product['title']?></span>
+            </a>
+        @endforeach
         </div>
     </div>
 
-
 </div>
-
 <div class="h200"></div>
+
 </div>
 @include('sdk.pwa._partials.bottom-nav')
-<script type="module" src="{{ core_asset('resources/assets/js/jquery.js') }}"></script>
-<script type="module" src="{{ core_asset('resources/assets/minimal-landing/js/client.js') }}"></script>
 @include('sdk._common.components.error-messages')
 <script>
-var swiper = new Swiper(".app-slider", {
-    // pagination: {
-    //     el: ".swiper-pagination",
-    //     dynamicBullets: true,
-    // },
+new Swiper(".app-slider", {
     autoplay: {
-        delay: 4000,
+        delay: 5000,
         disableOnInteraction: false,
-      },
-      spaceBetween: 30,
-      centeredSlides: true,
-});
-var swiper2 = new Swiper(".lastseens", {
-    spaceBetween: 10,
+    },
+    spaceBetween: 30,
     centeredSlides: true,
+    cssMode:true,
+    loop:true,
+
 });
+new Swiper(".lastseens", {
+    slidesPerView: "auto",
+    spaceBetween: 15,
+    cssMode:true
+});
+
 </script>
 
 </body>

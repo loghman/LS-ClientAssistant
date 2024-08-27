@@ -11,29 +11,31 @@
     <div class="card-product-parent wpad">
         <div class="title-row">
             <span class="title">دوره های ثبت نام شده</span>
-            <span class="stat"><?=to_persian_num(count($courses))?> دوره</span>
+            <span class="stat"><?=to_persian_num(count($enrollments))?> دوره</span>
         </div>
-        @if(count($courses))
-            @foreach($courses as $e)
+        @if(count($enrollments))
+            @foreach($enrollments as $e)
                 <?php 
-                    $title = str_replace('','',$e['product']['title']);
+                    $product = $e['entity'];
+                    $title = str_replace('','',$product['title']);
                     $progress = $e['progress_percent'];
                 ?>
-                <a href="<?=site_url("pwa/course-{$e['product']['id']}/screen")?>?e={{$e['id']}}" class="card-product">
+                <a href="<?=site_url("pwa/course-{$product['id']}/screen")?>?e={{$e['id']}}" class="card-product"
+                style="padding:20px 20px 20px 12px;border:0 !important;background: linear-gradient(240deg, var(--primary-50), rgba(0,0,0,0.5)), url(<?=$product['banner_url']['medium']['url']?>);">
                     <span class="content">
-                        <span class="icon " style="--bg: var(--primary)">
+                        <!-- <span class="icon " style="--bg: var(--primary)">
                             @if($progress >=100)
                             <span class="fa-solid fa-circle-check number mb-auto" style="z-index: 99;color: var(--primary-15);font-size: 24px;"></span>
                             @else
                             <span class="fa-solid fa-play number mb-auto" style="z-index: 99;color: var(--primary-15);font-size: 20px;"></span>
                             @endif
-                        </span>
+                        </span> -->
                         <span class="text">
-                            <span class="title"><?=$title?></span>
+                            <span class="title" style="font-size: 18px;"><?=$title?></span>
                             <span class="content">
-                                <small class="subtitle"><?=to_persian_num($e['product']['items_count'])?> جلسه<?php // ($progress>=100) ? ' <span class="cpbadge">کامل دیده اید</span>' :''; ?></small>
+                                <small class="subtitle" style="font-size: 11px;color:#555">آخرین مشاهده در <?=to_persian_date($e['last_log_date'], '%d %B %Y')?></small>
                                 <!-- <span class="progress me-auto" style="width: 100px;height:13px;--w: <?=$progress?>%"><span><?=to_persian_num($progress)?>٪</span></span> -->
-                                <?=circleProgressbar($progress,'sm','me-auto')?>
+                                <?=circleProgressbar($progress,'sm','me-auto', '','#ccc')?>
                             </span>
                         </span>
                     </span>
@@ -44,7 +46,7 @@
                 شما هنوز در هیچ دوره ای ثبت نام نکرده اید
             </div>
             <div class="text-center" style="margin-top:20px">
-                <button class="button primary sm" style="padding:5px 40px" onclick="location.href='{{site_url('courses')}}#start-courses'">مشاهده لیست دوره ها</button>
+                <button class="button primary sm" style="padding:5px 40px" onclick="location.href='<?=site_url('pwa/dashboard')?>#start-courses'">بازگشت به داشبورد</button>
             </div>
         @endif
     </div>
@@ -52,8 +54,6 @@
 
 </div>
 @include('sdk.pwa._partials.bottom-nav')
-<script type="module" src="{{ core_asset('resources/assets/js/jquery.js') }}"></script>
-<script type="module" src="{{ core_asset('resources/assets/minimal-landing/js/client.js') }}"></script>
 @include('sdk._common.components.error-messages')
 
 <script>
