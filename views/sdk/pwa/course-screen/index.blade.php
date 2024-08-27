@@ -193,7 +193,7 @@
                         <span class="content">
                             <small class="subtitle">{{ to_persian_num(count($chapters)) }} سرفصل، {{ to_persian_num($course['items_count']) }} جلسه</small>
                         </span>
-                        <span class="pbar"><?=circleProgressbar($enrollment['progress_percent'],'sm','', '','#555')?></span>
+                        <span class="pbar"><?=circleProgressbar($enrollment['progress_percent'],'sm','', '','#ccc')?></span>
                     </span>
                 </span>
             </div>

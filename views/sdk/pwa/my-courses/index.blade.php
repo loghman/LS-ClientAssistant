@@ -20,21 +20,22 @@
                     $title = str_replace('','',$product['title']);
                     $progress = $e['progress_percent'];
                 ?>
-                <a href="<?=site_url("pwa/course-{$product['id']}/screen")?>?e={{$e['id']}}" class="card-product">
+                <a href="<?=site_url("pwa/course-{$product['id']}/screen")?>?e={{$e['id']}}" class="card-product"
+                style="padding:20px 20px 20px 12px;border:0 !important;background: linear-gradient(240deg, var(--primary-50), rgba(0,0,0,0.5)), url(<?=$product['banner_url']['medium']['url']?>);">
                     <span class="content">
-                        <span class="icon " style="--bg: var(--primary)">
+                        <!-- <span class="icon " style="--bg: var(--primary)">
                             @if($progress >=100)
                             <span class="fa-solid fa-circle-check number mb-auto" style="z-index: 99;color: var(--primary-15);font-size: 24px;"></span>
                             @else
                             <span class="fa-solid fa-play number mb-auto" style="z-index: 99;color: var(--primary-15);font-size: 20px;"></span>
                             @endif
-                        </span>
+                        </span> -->
                         <span class="text">
-                            <span class="title"><?=$title?></span>
+                            <span class="title" style="font-size: 18px;"><?=$title?></span>
                             <span class="content">
-                                <small class="subtitle" style="font-size: 11px;">آخرین مشاهده در <?=to_persian_date($e['last_log_date'], '%d %B %Y')?></small>
+                                <small class="subtitle" style="font-size: 11px;color:#555">آخرین مشاهده در <?=to_persian_date($e['last_log_date'], '%d %B %Y')?></small>
                                 <!-- <span class="progress me-auto" style="width: 100px;height:13px;--w: <?=$progress?>%"><span><?=to_persian_num($progress)?>٪</span></span> -->
-                                <?=circleProgressbar($progress,'sm','me-auto')?>
+                                <?=circleProgressbar($progress,'sm','me-auto', '','#ccc')?>
                             </span>
                         </span>
                     </span>
