@@ -16,7 +16,6 @@ const checkDeviceType = () => {
     ) || window.innerWidth <= 768;
 };
 const handleChangeOtp = (e) => {
-    console.log(otpCode.value);
     emit('setOtpCode',otpCode.value );
 };
 const handleKeyDown = (event) => {
