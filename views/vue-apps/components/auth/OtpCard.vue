@@ -18,8 +18,8 @@ import Button from "./common/Button.vue";
 import { useOtpManagment } from "./useOtpManagment";
 import { useAuthStore } from "../../stores/authStore";
 import { messages } from "@/js/utilities/static-messages.js";
-import InputOtp from "primevue/inputotp";
 import { deleteTokenCookies } from "@/js/utilities/logout";
+import OtpFields from "./common/OtpFields.vue";
 const clientIframe = document.getElementById("client_iframe");
 const props = defineProps({
   prevCard: String,
@@ -43,8 +43,9 @@ const goToCard = (cardName, uniqueKey, verifideField) => {
   emit("goToCard", { cardName, uniqueKey, verifideField });
 };
 
-const handleSetOtp = (e) => {
-  if (otpCode.value.length >= 6) {
+const handleSetOtp = (otp) => {
+  otpCode.value=otp;
+  if (otpCode.value.length === 6) {
     handleSubmit();
   }
 };
@@ -122,16 +123,8 @@ watch(
         >کد فرستاده شده برای <span class="user-login"> {{ uniqueKey }} </span> را
         وارد کنید</small
       >
-      <div>
-        <InputOtp
-          v-model="otpCode"
-          @change="handleSetOtp"
-          :length="6"
-          integerOnly
-          inputmode="numeric"
-          class="ltr"
-        />
-      </div>
+      <OtpFields @setOtpCode="handleSetOtp"/>
+
       <button
         ref="submitVerifFormBtn"
         type="button"
