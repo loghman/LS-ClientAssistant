@@ -78,12 +78,12 @@ class PwaController
         if(ObjectCache::exists($key)){
             $course = ObjectCache::get($key);
         }else{
-            $course = ObjectCache::write($key, LMSProduct::get($product_id)['data']);
+            $course = LMSProduct::get($product_id)['data'];
+            $course['chapters'] = LMSProduct::chapters($product_id, $userToken)['data']['items'];
+            $course = ObjectCache::write($key, $course);
         }
-        $chapters = LMSProduct::chaptersWithUserData($product_id, $userToken)['data'];
-        $enrollment = Enrollment::findByUserAndProduct($product_id, $userToken)['data'] ?? [];
         $pagetitle = "{$course['title']}";
-        return WebResponse::view('sdk.pwa.course-screen.index', compact('pagetitle','data','course','chapters','enrollment'));
+        return WebResponse::view('sdk.pwa.course-screen.index', compact('pagetitle','data','course'));
     } 
 
     public function profile(Request $request)

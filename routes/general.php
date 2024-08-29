@@ -182,6 +182,7 @@ $router->name('pwa.')->prefix('pwa')->group(function (Router $router){
 $router->name('ajax.')->prefix('ajax')->group(function (Router $router){
     $router->name('item')->get('item', [AjaxController::class, 'item']);
     $router->name('item.signal')->get('item/signal', [AjaxController::class, 'itemSignal']);
+    $router->name('enrollment.logs')->get('enrollment/{eid}/logs', [AjaxController::class, 'enrollmentLogs']);
 });
 
 

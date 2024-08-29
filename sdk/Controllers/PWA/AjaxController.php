@@ -3,11 +3,13 @@
 namespace Ls\ClientAssistant\Controllers\PWA;
 
 use Illuminate\Http\Request;
+use Ls\ClientAssistant\Core\Router\JsonResponse;
 use Ls\ClientAssistant\Core\Router\WebResponse;
 use Ls\ClientAssistant\Services\ObjectCache;
 use Ls\ClientAssistant\Utilities\Modules\Enrollment;
 use Ls\ClientAssistant\Utilities\Modules\LMSProduct;
-
+use Ls\ClientAssistant\Utilities\Modules\V3\Enrollment as V3Enrollment;
+use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
 
 class AjaxController
 {
@@ -51,6 +53,29 @@ class AjaxController
 
         return WebResponse::view('sdk.pwa.course-screen.partials.player', compact('item', 'chapter','data'));
 
+    }
+
+    public function enrollmentLogs(Request $request,string $enrollment_id)
+    {
+        $user = current_user();
+        $enrollment = V3Enrollment::get($enrollment_id,
+        ModuleFilter::new()
+            ->includes('enrollmentLogs')
+            ->excludes('entity')
+        )->get('result');
+        if(!is_numeric($enrollment_id) || $enrollment['user_id'] != $user['id'] )
+            return JsonResponse::forbidden('Invalid Request'); 
+
+        $data['progress_percent'] = $enrollment['progress_percent'];
+        $data['statuses'] = [];
+        foreach($enrollment['enrollmentLogs'] as $log){
+            $status = !is_null($log['completed_at']) ? 'completed' : 
+                        (!is_null($log['last_played_at']) ? 'played':
+                        (!is_null($log['last_visited_at']) ? 'visited': '')
+                );
+            $data['statuses'][$log['product_item_id']] = $status;
+        }
+        return JsonResponse::success('success', $data);
     }
 
     public function itemSignal(Request $request)
