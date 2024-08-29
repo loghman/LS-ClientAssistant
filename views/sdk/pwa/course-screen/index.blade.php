@@ -45,7 +45,8 @@
     .accordions .accordion .header .picon {
         font-size: 18px;
     }
-    .picon.completed {
+
+    .completed .picon {
         color:var(--primary);
     }
 
@@ -191,28 +192,26 @@
                     <span class="text">
                         <span class="title" style="font-size: 24px;"><?=$course['title']?></span><br>
                         <span class="content">
-                            <small class="subtitle">{{ to_persian_num(count($chapters)) }} سرفصل، {{ to_persian_num($course['items_count']) }} جلسه</small>
+                            <small class="subtitle">{{ to_persian_num(count($course['chapters'])) }} سرفصل، {{ to_persian_num($course['items_count']) }} جلسه</small>
                         </span>
-                        <span class="pbar"><?=circleProgressbar($enrollment['progress_percent'],'sm','', '','#ccc')?></span>
+                        <span class="pbar" id="pbar"></span>
                     </span>
                 </span>
             </div>
         </div>
         <div class="content">
-            <!-- <div class="progress me-auto" style="--w: <?=$enrollment['progress_percent']?>%"><span><?=to_persian_num($enrollment['progress_percent'])?>٪</span></div> -->
-
-            @foreach($chapters as $ii => $ch)
+            @foreach($course['chapters'] as $ii => $ch)
             <div class="accordions" >
-                @if(count($chapters) > 1)
+                @if(count($course['chapters']) > 1)
                 <div class="fw-700 truncate"><?= "<span class='fasl'>فصل " . to_persian_num($ii+1) . ":</span> " . $ch['title']?></div>
                 @endif
                 <?php $si=1;?>
                 @foreach($ch['items'] as $item)
-                <div class="accordion empty <?=($item['id'] == $_GET['i']??'*') ? 'default' : ''?>" data-iid="<?=$item['id']?>" data-pid="<?=$item['product_id']?>"
+                <div class="accordion empty <?=$item['log_type']?> <?=($item['id'] == $_GET['i']??'*') ? 'default' : ''?>" data-iid="<?=$item['id']?>" data-pid="<?=$item['product_id']?>"
                 data-chid="<?=$item['parent_id']?>" data-t="<?=$item['log_type']?>">
                     <div class="header py-sm" id='<?=$item['id']?>'>
                     
-                        <span class="picon fa-solid <?=($item['log_type'] == 'completed') ? 'fa-circle-check' : 'fa-circle-play'?>  <?=$item['log_type']?>"></span>
+                        <span class="picon fa-solid <?=($item['log_type'] == 'completed') ? 'fa-circle-check' : 'fa-circle-play'?>"></span>
                         <span class="title sm">
                             @if($course['items_count'] > 2)
                             <b>جلسه <?=to_persian_num($si++)?> :</b> 
@@ -369,7 +368,48 @@
             console.log(xhr.responseText);
         };
         xhr.send();
+    } 
+
+
+
+
+
+function circleProgressbar(percent = 0, size = 'sm', className = '', stroke = '', color = '#777', fw = '500') {
+    percent = percent || 0;
+    const strokeTheme = percent <= 99 ? 'var(--primary)' : 'var(--primary)';
+    const circleCircumference = 3.14 * (8 * 2);
+    const dashOffset = circleCircumference * (1 - percent / 100);
+    let svg = `<svg viewBox='0 0 20 20' class='progress-circle ${className} ${size}'>
+        <circle cx='10' cy='10' r='8' class='bg' style='${stroke ? `stroke:${stroke};` : ''}'></circle>`;
+    if (percent > 0) {
+        svg += `<circle cx='10' cy='10' r='8' class='percent' stroke='${strokeTheme}' fill='none'
+                stroke-dasharray='${circleCircumference}' stroke-dashoffset='${dashOffset}'></circle>`;
     }
+    svg += `<text x='50%' y='59%' style='${color ? `fill: ${color};` : ''}${fw ? `font-weight:${fw};` : ''}'>${toPersianNum(percent)}٪</text>
+    </svg>`;
+    return svg;
+}
+function toPersianNum(num) {
+    const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    return num.toString().replace(/\d/g, x => persianDigits[x]);
+}
+
+function updateEnrollmentLogs() {
+    fetch('https://dev.madamcakes.com/ajax/enrollment/<?=$_GET['e']??'null'?>/logs')
+        .then(response => response.json())
+        .then(data => {
+            if (data.message === "success") {
+                const map = data.data.statuses;
+                Object.keys(map).forEach(key => {
+                    const element = document.querySelector(`[data-iid="${key}"]`);
+                    if (element && map[key]) 
+                        element.classList.add(map[key]);
+                    document.getElementById('pbar').innerHTML = circleProgressbar(data.data.progress_percent,'sm','', '','#ccc');
+                });
+            }
+        });
+}
+updateEnrollmentLogs();
 
 
 </script>
