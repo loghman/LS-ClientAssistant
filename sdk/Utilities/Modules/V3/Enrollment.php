@@ -10,6 +10,18 @@ use Ls\ClientAssistant\Helpers\Response;
 class Enrollment
 {
 
+    public static function get(string $id, ModuleFilter $filter = null): Collection
+    {
+        try {
+            return API::get('client/v3/lms/enrollment/' . $id, $filter ? $filter->all() : []);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
+    
     public static function list(ModuleFilter $filter = null): Collection
     {
         try {
