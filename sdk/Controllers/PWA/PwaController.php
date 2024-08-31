@@ -46,6 +46,7 @@ class PwaController
                 ->search('entity_type', 'lms_products')
                 ->search('user_id', $user['id'])
                 ->includes('entity')
+                ->perPage(500)
                 ->orderBy('last_log_date')->sortedBy('DESC')
         )->get('result');
 
@@ -74,7 +75,7 @@ class PwaController
         $user = current_user();
         $userToken = $request->cookies->get('token');
         $data = self::shered_data();
-        $key = __FILE__.__LINE__.$product_id;
+        $key = "course($product_id)-with-chapters";
         if(ObjectCache::exists($key)){
             $course = ObjectCache::get($key);
         }else{
@@ -84,6 +85,58 @@ class PwaController
         }
         $pagetitle = "{$course['title']}";
         return WebResponse::view('sdk.pwa.course-screen.index', compact('pagetitle','data','course'));
+    } 
+    public function item_screen(Request $request,string $product_id,string $item_id)
+    {
+        $user = current_user();
+        $userToken = $request->cookies->get('token');
+        $data = self::shered_data();
+        $key = "course($product_id)-with-chapters";
+        if(ObjectCache::exists($key)){
+            $course = ObjectCache::get($key);
+        }else{
+            $course = LMSProduct::get($product_id)['data'];
+            $course['chapters'] = LMSProduct::chapters($product_id, $userToken)['data']['items'];
+            $course = ObjectCache::write($key, $course);
+        }
+        $item = null;
+        foreach ($course['chapters'] as $ch) {
+            foreach ($ch['items'] as $i) {
+                if($i['id'] == $item_id){
+                    $item = $i;
+                    break;
+                }
+            }
+            if($item) break;
+        }
+        $pagetitle = "{$item['title']}";
+        return WebResponse::view('sdk.pwa.pages.item-screen', compact('pagetitle','data','course','item'));
+    } 
+    public function course_screen_links(Request $request,string $product_id)
+    {
+        $user = current_user(); 
+        $allowed_positions = ['platform_owner','marketing_manager','educational_manager','manager','system_admin'];
+        if(count(array_intersect($allowed_positions,$user['positions_name_en']??[])) <=0){
+            abort(404,'دسترسی برای شما مجاز نیست'); 
+        }        
+        $key = "course($product_id)-with-chapters";
+        if(ObjectCache::exists($key)){
+            $course = ObjectCache::get($key);
+        }else{
+            $course = LMSProduct::get($product_id)['data'];
+            $course['chapters'] = LMSProduct::chapters($product_id, $request->cookies->get('token'))['data']['items'];
+            $course = ObjectCache::write($key, $course);
+        }
+        $links[0] = ['id'=>'id','type'=>'type','title'=>'title','link'=>'link'];
+        $row=1;
+        foreach ($course['chapters'] as $chapter) {
+            $links[$row++] = ['id'=>$chapter['id'],'type'=>'سرفصل','title'=>$chapter['title'],'link'=>''];
+            foreach ($chapter['items'] as $item) {
+                $links[$row++] = ['id'=>$item['id'],'type'=>'جلسه','title'=>$item['title'],'link'=>site_url("pwa/item/p{$item['product_id']}i{$item['id']}/screen")];
+            }
+        }
+        $pagetitle = "لینک های دوره {$course['title']}";
+        return WebResponse::view('sdk.pwa.pages.course-links', compact('pagetitle','course','links'));
     } 
 
     public function profile(Request $request)

@@ -327,35 +327,48 @@
 
         }
     }
+    .findwrap{
+        position: relative;
+    }
+    .findwrap small{
+        position: absolute;
+        left: 7px;
+        top: 16px;
+        color: #777;
+        background: #f1f1f1;
+        padding: 5px 15px !important;
+        height: 40px;
+        line-height: 30px;
+        border-radius: 10px;
+    }
+    .findwrap small i{
+        vertical-align: middle;
+        margin-right: 5px;
+    }
+    
+    input#find{
+        margin-top: 10px;
+        margin-bottom: 5px;
+        border-radius: 10px !important;
+    }
+    input#find::placeholder{
+        font-weight: 300;
+    }
+    .hide{
+        display: none !important;
+        
+    }
+    .find-result{
+        display: none;
+        padding: 30px 10px;
+        text-align: center;
+        color: #555;
+    }
+    .find-result span{
+        color:var(--primary);
+    }
+    strong.smatch{
+        color:var(--primary);
+    }
 </style>
 
-
-
-<script>
-    // add service worker
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-            navigator.serviceWorker.register('/service-worker.js')
-                .then(function(registration) {
-                    console.log('Service Worker registered:', registration.scope);
-                }, function(error) {
-                    console.log('Service Worker failed:', error);
-                });
-        });
-    }
-    function typeWriter(text, elementId, speed) {
-        let i = 0;
-        const element = document.getElementById(elementId);
-        if(element.innerHTML.length > 0)
-            return;
-        element.innerHTML = "";
-        function type() {
-            if (i < text.length) {
-            element.innerHTML += text.charAt(i++);
-            setTimeout(type, speed);
-            }
-        }
-        type();
-    }
-
-</script>

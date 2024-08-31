@@ -173,7 +173,9 @@ $router->name('pwa.')->prefix('pwa')->group(function (Router $router){
     $router->name('dashboard')->get('dashboard', [PwaController::class, 'dashboard'])->middleware(PwaMiddleware::class);
     $router->name('myCourses')->get('my-courses', [PwaController::class, 'my_courses'])->middleware(PwaMiddleware::class);
     $router->name('courseScreen')->get('course-{pid}/screen', [PwaController::class, 'course_screen'])->middleware(PwaMiddleware::class);
-    $router->name('courses')->get('courses', [PwaController::class, 'courses'])->middleware(PwaMiddleware::class);
+    $router->name('itemScreen')->get('item/p{pid}i{iid}/screen', [PwaController::class, 'item_screen'])->middleware(PwaMiddleware::class);
+    $router->name('courseScreenLinks')->get('course-{pid}/links', [PwaController::class, 'course_screen_links'])->middleware(PwaMiddleware::class);
+    $router->name('courses')->get('courses', [PwaController::class, 'courses'])->middleware(PwaMiddleware::class); 
     $router->name('profile')->get('profile', [PwaController::class, 'profile'])->middleware(PwaMiddleware::class);
     $router->name('logout')->get('logout', [PwaController::class, 'logout']);
     $router->name('offline')->get('/offline.html', [PwaController::class, 'offline']);
@@ -183,6 +185,7 @@ $router->name('ajax.')->prefix('ajax')->group(function (Router $router){
     $router->name('item')->get('item', [AjaxController::class, 'item']);
     $router->name('item.signal')->get('item/signal', [AjaxController::class, 'itemSignal']);
     $router->name('enrollment.logs')->get('enrollment/{eid}/logs', [AjaxController::class, 'enrollmentLogs']);
+    $router->name('myCourses.stats')->get('my-courses/stats', [AjaxController::class, 'myCoursesStats']);
 });
 
 
