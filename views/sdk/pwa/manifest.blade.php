@@ -3,9 +3,11 @@
   "short_name": "<?=$brand_name?>",
   "description": "اپلیکیشن <?=$brand_name?>",
   "start_url": "/pwa/dashboard",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "<?=$theme_color?>",
+  "lang": "fa-IR",
   "icons": [
     {
       "src": "<?=$logo_url?>",
@@ -18,5 +20,9 @@
       "type": "<?=$mime_type?>"
     }
   ],
-  "lang": "fa-IR"
+  "url_handlers": [
+    {
+      "origin": "<?=site_url('pwa/*')?>"
+    }
+  ]
 }

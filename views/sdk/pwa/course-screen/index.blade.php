@@ -55,6 +55,14 @@
         font-weight: 300;
         opacity: 0.7;
     }
+    .accordions .accordion .header .copy{
+        font-size: 11px;
+        opacity: 0.5;
+        padding: 7px 7px 7px 3px;
+    }
+    .accordions .accordion .header .copy:hover{
+        opacity: 1;
+    }
     .accordions .accordion .header {
         background: none !important;
         gap: 7px;
@@ -145,7 +153,7 @@
 
     .signal-box button {
         padding: 0px 20px;
-        border-radius: 30px;
+        border-radius: 10px; 
         font-size: 14px;
     }    
     .attachments{
@@ -200,6 +208,13 @@
             </div>
         </div>
         <div class="content">
+            @if($course['items_count'] > 15)
+            <div class="findwrap">
+                <input id="find" data-group=".accordions" data-parent=".accordion" data-content=".accordion .title span" type="text" onfocus="goScrollTo(this,15);" placeholder="جستجو در جلسات" >
+                <small id="findStat"></small>
+            </div>
+            @endif
+            <div class="chapters">
             @foreach($course['chapters'] as $ii => $ch)
             <div class="accordions" >
                 @if(count($course['chapters']) > 1)
@@ -216,8 +231,16 @@
                             @if($course['items_count'] > 2)
                             <b>جلسه <?=to_persian_num($si++)?> :</b> 
                             @endif
-                        <?=$item['title']?></span>
+                            <span><?=$item['title']?></span>
+                        </span>
                         <span class="time me-auto"><?=($item['attachment_duration_sum']) ? to_persian_num(round($item['attachment_duration_sum']/60)) . ' دقیقه' : '&nbsp;' ?></span>
+                        @if($_GET['links'])
+                        <?php $itemLink = site_url("pwa/item/p{$item['product_id']}i{$item['id']}/screen") ?>
+                        <i class="copy fa-solid fa-copy" data-copy="<?=$itemLink?>"></i>
+                        <a href="<?=$itemLink?>" target="_blank" data-copy="<?=$itemLink?>">
+                            <i class="copy fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                        @endif
                     </div>
                     <div class="content">
                         <span class="loader"></span>
@@ -226,6 +249,7 @@
                 @endforeach
             </div>
             @endforeach
+            </div>
         </div>
 
     </div>
@@ -233,42 +257,9 @@
     <script type="module" src="{{ core_asset('resources/assets/js/jquery.js') }}"></script>
     <script type="module" src="{{ core_asset('resources/assets/minimal-landing/js/client.js') }}"></script>
     @include('sdk._common.components.error-messages');
+    @include('sdk.pwa._partials.scripts')
 
 <script>
-    function toggleMoreText() {
-        var textContainer = document.querySelector('.longtextwrap');
-        var button = document.querySelector('.moretext');
-
-        if (textContainer.classList.contains('expanded')) {
-            textContainer.classList.remove('expanded');
-            button.textContent = "ادامه توضیحات ...";
-        } else {
-            textContainer.classList.add('expanded');
-            button.textContent = "بستن توضیحات";
-        }
-    }
-
-    function getQueryParam(key) {
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        return urlParams.get(key);
-    }
-
-    function goScrollTo(element, offset = 5,expand = 0,scroll_enabled = 1){
-        // scroll
-        if(scroll_enabled){
-            var elementPosition = element.getBoundingClientRect().top;
-            var offsetPosition = elementPosition + window.pageYOffset - offset;
-            window.scrollTo({top: offsetPosition, behavior: "smooth"});
-        }
-        // expand
-        setTimeout(function() {
-            element.click();
-            if(expand == 1)
-                element.classList.add("expanded")
-        }, 200);
-    }
-
     document.addEventListener('DOMContentLoaded', function() {
 
         function sendAjaxRequest(event) {
@@ -370,46 +361,22 @@
         xhr.send();
     } 
 
-
-
-
-
-function circleProgressbar(percent = 0, size = 'sm', className = '', stroke = '', color = '#777', fw = '500') {
-    percent = percent || 0;
-    const strokeTheme = percent <= 99 ? 'var(--primary)' : 'var(--primary)';
-    const circleCircumference = 3.14 * (8 * 2);
-    const dashOffset = circleCircumference * (1 - percent / 100);
-    let svg = `<svg viewBox='0 0 20 20' class='progress-circle ${className} ${size}'>
-        <circle cx='10' cy='10' r='8' class='bg' style='${stroke ? `stroke:${stroke};` : ''}'></circle>`;
-    if (percent > 0) {
-        svg += `<circle cx='10' cy='10' r='8' class='percent' stroke='${strokeTheme}' fill='none'
-                stroke-dasharray='${circleCircumference}' stroke-dashoffset='${dashOffset}'></circle>`;
+    function updateEnrollmentLogs() {
+        fetch('https://dev.madamcakes.com/ajax/enrollment/<?=$_GET['e']??'null'?>/logs')
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === "success") {
+                    const map = data.data.statuses;
+                    Object.keys(map).forEach(key => {
+                        const element = document.querySelector(`[data-iid="${key}"]`);
+                        if (element && map[key]) 
+                            element.classList.add(map[key]);
+                        document.getElementById('pbar').innerHTML = circleProgressbar(data.data.progress_percent,'sm','', '','#ccc');
+                    });
+                }
+            });
     }
-    svg += `<text x='50%' y='59%' style='${color ? `fill: ${color};` : ''}${fw ? `font-weight:${fw};` : ''}'>${toPersianNum(percent)}٪</text>
-    </svg>`;
-    return svg;
-}
-function toPersianNum(num) {
-    const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-    return num.toString().replace(/\d/g, x => persianDigits[x]);
-}
-
-function updateEnrollmentLogs() {
-    fetch('https://dev.madamcakes.com/ajax/enrollment/<?=$_GET['e']??'null'?>/logs')
-        .then(response => response.json())
-        .then(data => {
-            if (data.message === "success") {
-                const map = data.data.statuses;
-                Object.keys(map).forEach(key => {
-                    const element = document.querySelector(`[data-iid="${key}"]`);
-                    if (element && map[key]) 
-                        element.classList.add(map[key]);
-                    document.getElementById('pbar').innerHTML = circleProgressbar(data.data.progress_percent,'sm','', '','#ccc');
-                });
-            }
-        });
-}
-updateEnrollmentLogs();
+    updateEnrollmentLogs();
 
 
 </script>

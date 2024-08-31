@@ -1335,3 +1335,19 @@ function circleProgressbar($percent = 0, $size = 'sm', $class = '', $stroke = ''
         to_persian_num($percent) . "٪</text>
     </svg>"; 
 }
+
+
+function formatSizeUnits($bytes) {
+    if ($bytes >= 1073741824) {
+        $bytes = number_format($bytes / 1073741824,2) . ' گیگابایت';
+    } elseif ($bytes >= 1048576) {
+        $bytes = number_format($bytes / 1048576,2) . ' مگابایت';
+    } elseif ($bytes >= 1024) {
+        $bytes = number_format($bytes / 1024) . ' کیلوبایت';
+    } elseif ($bytes >= 1) {
+        $bytes = $bytes . ' بایت';
+    } else {
+        $bytes = '';
+    }
+    return $bytes;
+}

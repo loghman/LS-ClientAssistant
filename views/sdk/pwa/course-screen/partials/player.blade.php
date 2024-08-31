@@ -1,20 +1,3 @@
-<?php 
-function formatSizeUnits($bytes) {
-    if ($bytes >= 1073741824) {
-        $bytes = number_format($bytes / 1073741824,2) . ' گیگابایت';
-    } elseif ($bytes >= 1048576) {
-        $bytes = number_format($bytes / 1048576,2) . ' مگابایت';
-    } elseif ($bytes >= 1024) {
-        $bytes = number_format($bytes / 1024) . ' کیلوبایت';
-    } elseif ($bytes >= 1) {
-        $bytes = $bytes . ' بایت';
-    } else {
-        $bytes = '';
-    }
-    return $bytes;
-}
-?>
-
 @if(in_array($item['type'],[2,3]))
     <div class="playerbox">
     @if($data['player_type'] == 'arvan')
@@ -36,8 +19,7 @@ function formatSizeUnits($bytes) {
     </div>
         <div class="signal-box">
         @if($data['log_type'] != 'completed')
-            <span>این جلسه رو به صورت کامل  دیدید؟</span>
-            <button class="signal-btn me-auto" data-iid="<?=$item['id']?>" onclick="signalRequest(this,'completed')"><span class="i-check-circle"></span> بله، کامل دیدم</button>
+            <button class="signal-btn me-auto" data-iid="<?=$item['id']?>" onclick="signalRequest(this,'completed')"><i class="fa-solid fa-circle-check"></i> تماشا کردم</button>
             @else
             <span><span class="i-check-circle" style="font-size: 20px; color: var(--primary); vertical-align: text-bottom;"></span> قبلا این جلسه را مشاهده کرده اید.</span>
             @endif

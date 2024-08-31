@@ -1,3 +1,4 @@
+<?php $count = count($enrollments); ?>
 <!doctype html>
 <html lang="fa">
 <head>
@@ -5,14 +6,20 @@
 @include('sdk.pwa._partials.styles')
 </head>
 <body>
-<div class="base-content">
+<div class="base-content wpad">
     @include('sdk.pwa._partials.top-nav')
-
-    <div class="card-product-parent wpad">
+    @if($count>1)
+    <div class="findwrap">
+        <input id="find" data-parent=".card-product" data-content=".card-product .title" type="text" placeholder="جستجو در دوره های من" >
+        <small id="findStat"></small>
+    </div>
+    @endif
+    <div class="card-product-parent">
         <div class="title-row">
             <span class="title">دوره های ثبت نام شده</span>
-            <span class="stat"><?=to_persian_num(count($enrollments))?> دوره</span>
+            <span class="stat"><?=to_persian_num($count)?> دوره</span>
         </div>
+        <div>
         @if(count($enrollments))
             @foreach($enrollments as $e)
                 <?php 
@@ -49,12 +56,15 @@
                 <button class="button primary sm" style="padding:5px 40px" onclick="location.href='<?=site_url('pwa/dashboard')?>#start-courses'">بازگشت به داشبورد</button>
             </div>
         @endif
+        </div>
+
     </div>
     <div class="h200"></div>
 
 </div>
 @include('sdk.pwa._partials.bottom-nav')
 @include('sdk._common.components.error-messages')
+@include('sdk.pwa._partials.scripts')
 
 <script>
 document.querySelectorAll('.card-product').forEach(function(element) {

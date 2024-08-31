@@ -8,6 +8,7 @@ use Ls\ClientAssistant\Core\Router\WebResponse;
 use Ls\ClientAssistant\Services\ObjectCache;
 use Ls\ClientAssistant\Utilities\Modules\Enrollment;
 use Ls\ClientAssistant\Utilities\Modules\LMSProduct;
+use Ls\ClientAssistant\Utilities\Modules\User;
 use Ls\ClientAssistant\Utilities\Modules\V3\Enrollment as V3Enrollment;
 use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
 
@@ -55,6 +56,35 @@ class AjaxController
 
     }
 
+    public function myCoursesStats(Request $request){
+        $user = current_user();
+        if (!$user)
+            return JsonResponse::forbidden('Invalid Request'); 
+        $enrollments = V3Enrollment::list(
+            ModuleFilter::new()
+                ->otherFilters('type', 'lms')
+                ->search('entity_type', 'lms_products')
+                ->search('user_id', $user['id'])
+                ->includes('entity')
+                ->perPage(500)
+                ->orderBy('last_log_date')->sortedBy('DESC')
+        )->get('result');
+        if ($user['id'] != $enrollments[0]['user_id'])
+            return JsonResponse::forbidden('Invalid Request'); 
+
+        $data['counts'] = count($enrollments);
+        foreach($enrollments as $e){
+            $data['prodcuts'][$e['entity']['id']]['id'] = $e['entity']['id'];
+            $data['prodcuts'][$e['entity']['id']]['title'] = $e['entity']['title'];
+            $data['prodcuts'][$e['entity']['id']]['price'] = $e['entity']['price']['main'];
+            $data['prodcuts'][$e['entity']['id']]['is_on_sale'] = $e['entity']['is_on_sale'];
+            $data['prodcuts'][$e['entity']['id']]['banner_url'] = $e['entity']['banner_url']['medium']['url'];
+            $data['progress_percents'][$e['id']] = $e['progress_percent'];
+            $data['last_log_dates'][$e['id']] = to_persian_date($e['last_log_date'],'%d %B %y');
+        }
+        return JsonResponse::success('success', $data);
+    }
+
     public function enrollmentLogs(Request $request,string $enrollment_id)
     {
         $user = current_user();
@@ -77,6 +107,8 @@ class AjaxController
         }
         return JsonResponse::success('success', $data);
     }
+
+
 
     public function itemSignal(Request $request)
     {
