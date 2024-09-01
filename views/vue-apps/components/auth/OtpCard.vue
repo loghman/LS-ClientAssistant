@@ -20,6 +20,7 @@ import { useAuthStore } from "../../stores/authStore";
 import { messages } from "@/js/utilities/static-messages.js";
 import { deleteTokenCookies } from "@/js/utilities/logout";
 import OtpFields from "./common/OtpFields.vue";
+import { checkDeviceType } from "@/js/utilities/common";
 const clientIframe = document.getElementById("client_iframe");
 const props = defineProps({
   prevCard: String,
@@ -30,8 +31,8 @@ const { expireAt, uniqueKey } = useAuthStore();
 const reSendTokenBtnRef = ref(null);
 const otpCode = ref("");
 const submitVerifFormBtn = ref(null);
-const pathName = window.location.pathname;
 const emit = defineEmits(["goToCard"]);
+const isMobileDevice = ref(false);
 const {
   countDownTimer,
   resetOtpInputs,
@@ -85,7 +86,6 @@ const handleSubmit = async () => {
       } else {
         window.location.href = `${redirectPath}`;
       }
-
     } else {
       endLoading(submitVerifFormBtn.value);
       toast(
@@ -101,6 +101,12 @@ const handleSubmit = async () => {
 };
 
 onMounted(() => {
+  isMobileDevice.value = checkDeviceType();
+
+  if (isMobileDevice.value) {
+    window.scrollTo({ top: "0", behavior: "smooth" });
+  }
+
   startCountDown();
 });
 onUnmounted(() => {

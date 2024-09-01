@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, onUnmounted, ref , defineEmits} from 'vue';
 import InputOtp from 'primevue/inputotp';
+import { checkDeviceType } from '@/js/utilities/common';
 const props = defineProps({
   fieldName: String,
 });
@@ -8,13 +9,6 @@ const isMobileDevice = ref(false);
 const otpCode = ref('');
 const emit = defineEmits(['setOtpCode']);
 
-
-const checkDeviceType = () => {
-  isMobileDevice.value =
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent,
-    ) || window.innerWidth <= 768;
-};
 const handleChangeOtp = (e) => {
     emit('setOtpCode',otpCode.value );
 };
@@ -45,7 +39,7 @@ const handleKeyDown = (event) => {
   }
 };
 onMounted(() => {
-  checkDeviceType();
+  isMobileDevice.value = checkDeviceType();
   window.addEventListener('resize', checkDeviceType);
 });
 onUnmounted(() => {
