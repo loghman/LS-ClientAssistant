@@ -30,6 +30,7 @@ const { expireAt, uniqueKey } = useAuthStore();
 const reSendTokenBtnRef = ref(null);
 const otpCode = ref("");
 const submitVerifFormBtn = ref(null);
+const pathName = window.location.pathname;
 const emit = defineEmits(["goToCard"]);
 const {
   countDownTimer,
@@ -44,7 +45,7 @@ const goToCard = (cardName, uniqueKey, verifideField) => {
 };
 
 const handleSetOtp = (otp) => {
-  otpCode.value=otp;
+  otpCode.value = otp;
   if (otpCode.value.length === 6) {
     handleSubmit();
   }
@@ -78,7 +79,13 @@ const handleSubmit = async () => {
       Cookies.remove("currentCard");
       Cookies.remove("uniqueKey");
       const redirectPath = response.result.redirect_path;
-      window.location.href = `${redirectPath}`;
+
+      if (pathName.includes("/pwa/auth")) {
+        window.location.href = "/pwa/dashboard";
+      } else {
+        window.location.href = `${redirectPath}`;
+      }
+
     } else {
       endLoading(submitVerifFormBtn.value);
       toast(
@@ -119,10 +126,10 @@ watch(
     </div>
     <div class="fields-frame">
       <small class="t-small mt-neg-12"
-        >کد فرستاده شده برای <span class="user-login"> {{ uniqueKey }} </span> را
-        وارد کنید</small
+        >کد فرستاده شده برای
+        <span class="user-login"> {{ uniqueKey }} </span> را وارد کنید</small
       >
-      <OtpFields @setOtpCode="handleSetOtp"/>
+      <OtpFields @setOtpCode="handleSetOtp" />
 
       <button
         ref="submitVerifFormBtn"
@@ -142,7 +149,10 @@ watch(
         <i class="si-comment-text-r"></i>
         <span>ارسال مجدد (</span>
         <span
-          ><span class="text-danger-85 countdown-num">{{ countDownTimer }}</span> ثانیه</span
+          ><span class="text-danger-85 countdown-num">{{
+            countDownTimer
+          }}</span>
+          ثانیه</span
         >
         <span>)</span>
       </button>
