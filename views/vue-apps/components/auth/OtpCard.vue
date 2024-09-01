@@ -33,6 +33,8 @@ const otpCode = ref("");
 const submitVerifFormBtn = ref(null);
 const emit = defineEmits(["goToCard"]);
 const isMobileDevice = ref(false);
+const pathName = window.location.pathname;
+
 const {
   countDownTimer,
   resetOtpInputs,
