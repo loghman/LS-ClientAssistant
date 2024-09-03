@@ -3,7 +3,6 @@
 <head>
     @include('sdk._common.layouts.head')
     <link rel="manifest" href="<?=site_url('manifest.json')?>">
-    <link rel="manifest" href="<?=site_url('site.webmanifest')?>">
 </head>
 <body @include('_common.layouts.body-class')>
 {!! setting('top_of_body_script') !!}
