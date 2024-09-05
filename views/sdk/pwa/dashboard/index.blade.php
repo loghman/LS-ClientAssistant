@@ -90,10 +90,10 @@
 
 <div class="swiper app-slider wpad">
     <div class="swiper-wrapper">
-        <a class="swiper-slide" href="https://madamcakes.com/book1"> 
+        <a class="swiper-slide bnavi" href="https://madamcakes.com/book1"> 
             <img src="https://up.7learn.com/1/mdm/book1.jpg" alt="">
         </a>
-        <a class="swiper-slide" href="https://madamcakes.com/book2">
+        <a class="swiper-slide bnavi" href="https://madamcakes.com/book2">
             <img src="https://up.7learn.com/1/mdm/book2.jpg" alt="">
         </a>
     </div>
