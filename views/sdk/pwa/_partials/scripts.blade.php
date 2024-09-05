@@ -2,6 +2,7 @@
 
     // in page search
     const findInput = document.getElementById('find');
+    findInput.setAttribute('autocomplete', 'off');
     const findStat = document.getElementById('findStat');
     function setFindStatValue(count,icon = 1){
         findStat.innerHTML = toPersianNum(count) + " مورد";

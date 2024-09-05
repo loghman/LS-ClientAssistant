@@ -8,7 +8,7 @@
 <body>
 <div class="base-content wpad">
     @include('sdk.pwa._partials.top-nav')
-    @if($count>1)
+    @if($count>10)
     <div class="findwrap">
         <input id="find" data-parent=".card-product" data-content=".card-product .title" type="text" placeholder="جستجو در دوره های من" >
         <small id="findStat"></small>
@@ -27,8 +27,8 @@
                     $title = str_replace('','',$product['title']);
                     $progress = $e['progress_percent'];
                 ?>
-                <a href="<?=site_url("pwa/course-{$product['id']}/screen")?>?e={{$e['id']}}" class="card-product"
-                style="padding:20px 20px 20px 12px;border:0 !important;background: linear-gradient(240deg, var(--primary-50), rgba(0,0,0,0.5)), url(<?=$product['banner_url']['medium']['url']?>);">
+                <a href="<?=site_url("pwa/course-{$product['id']}/screen")?>?e={{$e['id']}}" class="card-product my-course"
+                style="background: linear-gradient(240deg, #fff, rgba(0,0,0,0.5)), url(<?=$product['banner_url']['medium']['url']?>);">
                     <span class="content">
                         <!-- <span class="icon " style="--bg: var(--primary)">
                             @if($progress >=100)
