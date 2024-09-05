@@ -176,8 +176,10 @@ $router->name('pwa.')->prefix('pwa')->group(function (Router $router){
     $router->name('itemScreen')->get('item/p{pid}i{iid}/screen', [PwaController::class, 'item_screen'])->middleware(PwaMiddleware::class);
     $router->name('courseScreenLinks')->get('course-{pid}/links', [PwaController::class, 'course_screen_links'])->middleware(PwaMiddleware::class);
     $router->name('courses')->get('courses', [PwaController::class, 'courses'])->middleware(PwaMiddleware::class); 
+    $router->name('blog')->get('blog', [PwaController::class, 'blog'])->middleware(PwaMiddleware::class); 
+    $router->name('blog.single')->get('blog/{id}', [PwaController::class, 'blog_single'])->middleware(PwaMiddleware::class); 
     $router->name('profile')->get('profile', [PwaController::class, 'profile'])->middleware(PwaMiddleware::class);
-    $router->name('logout')->get('logout', [PwaController::class, 'logout']);
+    $router->name('logout')->get('logout', [PwaController::class, 'logout']); 
     $router->name('offline')->get('/offline.html', [PwaController::class, 'offline']);
 });
 
