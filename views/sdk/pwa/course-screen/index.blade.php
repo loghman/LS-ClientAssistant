@@ -234,7 +234,7 @@
                             <span><?=$item['title']?></span>
                         </span>
                         <span class="time me-auto"><?=($item['attachment_duration_sum']) ? to_persian_num(round($item['attachment_duration_sum']/60)) . ' دقیقه' : '&nbsp;' ?></span>
-                        @if($_GET['links'])
+                        @if($_GET['links'] and $user['isLmsManager'])
                         <?php $itemLink = site_url("pwa/item/p{$item['product_id']}i{$item['id']}/screen") ?>
                         <i class="copy fa-solid fa-copy" data-copy="<?=$itemLink?>"></i>
                         <a href="<?=$itemLink?>" target="_blank" data-copy="<?=$itemLink?>">
@@ -376,9 +376,7 @@
                 }
             });
     }
-    updateEnrollmentLogs();
-
-
+    updateEnrollmentLogs();    
 </script>
 
 </body>

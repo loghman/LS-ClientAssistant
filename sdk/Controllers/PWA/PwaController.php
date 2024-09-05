@@ -73,6 +73,7 @@ class PwaController
     public function course_screen(Request $request,string $product_id)
     {
         $user = current_user();
+        $user['isLmsManager'] = in_array('lms:update',$user['permissions']) ? 1 : 0;
         $userToken = $request->cookies->get('token');
         $data = self::shered_data();
         $key = "course($product_id)-with-chapters";
@@ -84,7 +85,7 @@ class PwaController
             $course = ObjectCache::write($key, $course);
         }
         $pagetitle = "{$course['title']}";
-        return WebResponse::view('sdk.pwa.course-screen.index', compact('pagetitle','data','course'));
+        return WebResponse::view('sdk.pwa.course-screen.index', compact('pagetitle','data','course','user'));
     } 
     public function item_screen(Request $request,string $product_id,string $item_id)
     {
