@@ -1,4 +1,4 @@
-<?php $count = count($enrollments); ?>
+<?php $count = count($enrollments??[]); ?>
 <!doctype html>
 <html lang="fa">
 <head>
@@ -20,7 +20,7 @@
             <span class="stat"><?=to_persian_num($count)?> دوره</span>
         </div>
         <div>
-        @if(count($enrollments))
+        @if(count($enrollments??[]))
             @foreach($enrollments as $e)
                 <?php 
                     $product = $e['entity'];
