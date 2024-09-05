@@ -27,12 +27,12 @@
   "lang": "fa-IR",
   "icons": [
     {
-      "src": "https://s.madamcakes.com/s/2024/08/128-bg-white-02ZI.png",
+      "src": "https://up.7learn.com/1/mdm/madam-192-maskable.png",
       "sizes": "192x192",
       "type": "<?=$mime_type?>"
     },
     {
-      "src": "https://s.madamcakes.com/s/2024/08/128-bg-white-02ZI.png",
+      "src": "https://up.7learn.com/1/mdm/madam-512-maskable.png",
       "sizes": "512x512",
       "type": "<?=$mime_type?>"
     }
