@@ -362,7 +362,7 @@
     } 
 
     function updateEnrollmentLogs() {
-        fetch('https://dev.madamcakes.com/ajax/enrollment/<?=$_GET['e']??'null'?>/logs')
+        fetch('<?=site_url("ajax/enrollment/".($_GET['e']??'null')."/logs")?>')
             .then(response => response.json())
             .then(data => {
                 if (data.message === "success") {
