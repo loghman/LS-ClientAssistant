@@ -9,6 +9,16 @@ use Ls\ClientAssistant\Helpers\Response;
 
 class CMS
 {
+    public static function index(ModuleFilter $filter = null) : Collection
+    {
+        try {
+            return API::get('client/v3/cms/post/', $filter ? $filter->all() : []);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
     public static function terminologyList(ModuleFilter $filter = null) : Collection
     {
         try {
@@ -24,17 +34,6 @@ class CMS
     {
         try {
             return API::get('client/v3/cms/terminology/count', $filter ? $filter->all() : []);
-        } catch (ClientException $exception) {
-            return Response::parseClientException($exception);
-        } catch (\Exception $exception) {
-            return Response::parseException($exception);
-        }
-    }
-
-    public static function terminologyMostUsedTags(ModuleFilter $filter = null)  : Collection
-    {
-        try {
-            return API::get('client/v3/cms/terminology/tags', $filter ? $filter->all() : []);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
