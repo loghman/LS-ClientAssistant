@@ -62,8 +62,9 @@ class LMSProductSeoMeta extends SeoMeta
         $updatedTime = date('Y-m-d\TH:i:s+03:30', strtotime($this->product['updated_at']));
         $openGraph .= "<meta property='og:updated_time' content='$updatedTime' />" . PHP_EOL;
 
-        if (!empty($this->banner_url)) {
-            $bannerUrl = $this->banner_url;
+        if (!empty($this->banner)) {
+//        if (!empty($this->banner_url)) {
+            $bannerUrl = get_media_url($this->banner);
 //            list($width, $height, $type, $attr) = getimagesize($bannerUrl);
             $openGraph .= "<meta property='og:image' content='{$bannerUrl}' />" . PHP_EOL;
             $openGraph .= "<meta property='og:image:width' content='768' />" . PHP_EOL;
@@ -86,8 +87,10 @@ class LMSProductSeoMeta extends SeoMeta
     {
         $twitterTags = '';
 
-        if (!empty($this->banner_url)) {
-            $bannerUrl = $this->banner_url;
+        if (!empty($this->banner)) {
+//        if (!empty($this->banner_url)) {
+            $bannerUrl = get_media_url($this->banner);
+//            $bannerUrl = $this->banner_url;
             $twitterTags .= "<meta name='twitter:title' content='$this->title' />" . PHP_EOL;
             $twitterTags .= "<meta name='twitter:card' content='summary_large_image' />" . PHP_EOL;
             $twitterTags .= "<meta name='twitter:image' content='{$bannerUrl}' />" . PHP_EOL;

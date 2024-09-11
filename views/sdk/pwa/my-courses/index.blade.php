@@ -28,7 +28,7 @@
                     $progress = $e['progress_percent'];
                 ?>
                 <a href="<?=site_url("pwa/course-{$product['id']}/screen")?>?e={{$e['id']}}" class="card-product"
-                style="padding:20px 20px 20px 12px;border:0 !important;background: linear-gradient(240deg, var(--primary-50), rgba(0,0,0,0.5)), url(<?=$product['banner_url']['medium']['url']?>);">
+                style="padding:20px 20px 20px 12px;border:0 !important;background: linear-gradient(240deg, var(--primary-50), rgba(0,0,0,0.5)), url(<?=get_media_url($product['banner'])?>);">
                     <span class="content">
                         <!-- <span class="icon " style="--bg: var(--primary)">
                             @if($progress >=100)

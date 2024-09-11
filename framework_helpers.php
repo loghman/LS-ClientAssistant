@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\API;
+use Ls\ClientAssistant\Utilities\Tools\Enums\MediaConversionEnum;
 use Ls\ClientAssistant\Helpers\Config;
 use Ls\ClientAssistant\Utilities\Modules\Setting;
 use Ls\ClientAssistant\Utilities\Modules\User;
@@ -10,7 +11,7 @@ use Ls\ClientAssistant\Utilities\Tools\CoreAsset;
 use Ls\ClientAssistant\Utilities\Modules\V3\Theme;
 use Illuminate\Support\Str;
 use Ls\ClientAssistant\Services\ObjectCache;
-
+use Ls\ClientAssistant\Utilities\Tools\Media;
 
 
 function obc_exists($key){
@@ -1305,6 +1306,27 @@ if (! function_exists('create_unique_id')) {
     function create_unique_id(): string
     {
         return Str::random(32);
+    }
+}
+
+if (! function_exists('get_media_url')) {
+    function get_media_url(array $media, string $defaultMedia = '', string $conversion = MediaConversionEnum::ORIGINAL): string
+    {
+        return Media::getMediaUrl($media, $defaultMedia, $conversion);
+    }
+}
+
+if (! function_exists('get_default_media')) {
+    function get_default_media(string $mediaCollection): string
+    {
+        return Media::getDefaultMedia($mediaCollection);
+    }
+}
+
+if (! function_exists('is_valid_url')) {
+    function is_valid_url(string $url = null): bool
+    {
+        return ! empty($url) && filter_var($url, FILTER_VALIDATE_URL);
     }
 }
 

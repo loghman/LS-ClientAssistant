@@ -30,9 +30,12 @@ class ProductsSiteMap extends SiteMap
             $items .= "<priority>{$item['priority']}</priority>" . PHP_EOL;
             $items .= "<lastmod>{$item['lastmod']}</lastmod>" . PHP_EOL;
 
-            if (!empty($item['banner_url'])) {
+            if (!empty($item['banner'])) {
+                $bannerUrl = get_media_url($item['banner']);
+//            if (!empty($item['banner_url'])) {
                 $items .= "<image:image>" . PHP_EOL;
-                $items .= "<image:loc>{$item['banner_url']}</image:loc>" . PHP_EOL;
+                $items .= "<image:loc>$bannerUrl</image:loc>" . PHP_EOL;
+//                $items .= "<image:loc>{$item['banner_url']}</image:loc>" . PHP_EOL;
                 if (!empty($item['caption']))
                     $items .= "<image:caption>{$item['caption']}</image:caption>" . PHP_EOL;
                 $items .= "<image:title>{$item['title']}</image:title>" . PHP_EOL;

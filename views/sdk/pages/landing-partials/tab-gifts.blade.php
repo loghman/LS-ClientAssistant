@@ -8,7 +8,16 @@
             <div class="card-action">
                 <div class="gift"></div>
                 <span class="content pb-0 justify-content-center">
-                    <img loading="lazy" class="icon" src="{{ $gift['meta']['icon_multi_color']['small']['url'] ?? $gift['meta']['banner_url']['small']['url'] }}">
+{{--                    <img loading="lazy" class="icon" src="{{ $gift['meta']['icon_multi_color']['small']['url'] ?? $gift['meta']['banner_url']['small']['url'] }}">--}}
+                    <img loading="lazy"
+                         class="icon"
+                         src="{{
+                                    get_media_url(
+                                    $gift['icon_multi_color'],
+                                    get_media_url($gift['banner'], get_default_media(\Ls\ClientAssistant\Utilities\Tools\Enums\MediaDefaultReplacementEnum::BANNER), \Ls\ClientAssistant\Utilities\Tools\Enums\MediaConversionEnum::SMALL_THUMBNAIL),
+                                     \Ls\ClientAssistant\Utilities\Tools\Enums\MediaConversionEnum::SMALL_THUMBNAIL
+                                    )
+                                 }}">
                     <span class="title">{{ $gift['title'] }}</span>
                     <small class="subtitle">{{ $gift['price']['human'] }}</small>
                 </span>

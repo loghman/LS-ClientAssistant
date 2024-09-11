@@ -5,9 +5,12 @@
                 @php($title = $item['entity']['title'] ?? ($item['entity']['name_fa'] ?? ''))
                 <div class="card position-relative">
                     <div class="card-row">
-                        @isset($item['entity']['meta']['icon_multi_color'])
-                            <img src="{{ $item['entity']['meta']['icon_multi_color'] }}" class="card-icon" alt="{{ $title }}">
-                        @endisset
+                        @if(!empty($item['entity']['icon_multi_color']))
+                            <img src="{{ get_media_url($item['entity']['icon_multi_color']) }}" class="card-icon" alt="{{ $title }}">
+                        @endif
+{{--                        @isset($item['entity']['meta']['icon_multi_color'])--}}
+{{--                            <img src="{{ $item['entity']['meta']['icon_multi_color'] }}" class="card-icon" alt="{{ $title }}">--}}
+{{--                        @endisset--}}
 
                         <div class="card-column truncate">
                             <span class="card-heading truncate w-100">{{ $title }}</span>

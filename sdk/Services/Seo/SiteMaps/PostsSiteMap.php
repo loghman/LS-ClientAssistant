@@ -31,8 +31,9 @@ class PostsSiteMap extends SiteMap
             $item['caption'] = sub_words($item['caption'], 165);
 
             if (!empty($item['thumbnail'])) {
+                $thumbnail = get_media_url($item['thumbnail']);
                 $items .= "<image:image>" . PHP_EOL;
-                $items .= "<image:loc>{$item['thumbnail']}</image:loc>" . PHP_EOL;
+                $items .= "<image:loc>$thumbnail</image:loc>" . PHP_EOL;
                 if (!empty($item['caption']))
                     $items .= "<image:caption>{$item['caption']}</image:caption>" . PHP_EOL;
                 $items .= "<image:title>{$item['title']}</image:title>" . PHP_EOL;
