@@ -90,21 +90,18 @@
 
 <div class="swiper app-slider wpad">
     <div class="swiper-wrapper">
-        <div class="swiper-slide">
-            <img src="https://madamcakes.com/assets/img/banners/book1.jpg" alt="">
-        </div>
-        <div class="swiper-slide">
-            <img src="https://madamcakes.com/assets/img/banners/book2.jpg" alt="">
-        </div>
-        <div class="swiper-slide">
-            <img src="https://madamcakes.com/assets/img/banners/book1.jpg" alt="">
-        </div>
+        <a class="swiper-slide bnavi" href="https://madamcakes.com/book1"> 
+            <img src="https://up.7learn.com/1/mdm/book1.jpg" alt="">
+        </a>
+        <a class="swiper-slide bnavi" href="https://madamcakes.com/book2">
+            <img src="https://up.7learn.com/1/mdm/book2.jpg" alt="">
+        </a>
     </div>
     <div class="swiper-pagination"></div>
 </div>
 
 <div>
-    <div class="title-row wpad tpad10">
+    <div class="title-row wpad">
         <span class="title">آخرین مشاهدات من</span>
         <a class="stat" href="<?=site_url('pwa/my-courses')?>">دوره های من</a>
     </div>
@@ -125,6 +122,8 @@
 </div>
 @include('sdk.pwa._partials.bottom-nav')
 @include('sdk._common.components.error-messages')
+@include('sdk.pwa._partials.scripts')
+
 <script>
 new Swiper(".app-slider", {
     autoplay: {

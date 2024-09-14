@@ -47,14 +47,14 @@
     
 
     .wpad{
-        padding-left: 5%;
-        padding-right: 5%;
+        padding-left: 5% !important;
+        padding-right: 5% !important;
     }
     .tpad5{
-        padding-top:5px;
+        padding-top:5px !important;
     }
     .tpad10{
-        padding-top:10px;
+        padding-top:10px !important;
     }
     .tpad20{
         padding-top:20px;
@@ -130,50 +130,52 @@
             background: var(--primary) !important;
             border-color: var(--primary) !important;
         }
-        .card-product {
-            border: 1px solid var(--primary-70) !important;
-            border-radius: 10px;
-            margin: 7px 0;
-            padding: 12px 16px 12px 5px;
-            background-size: cover !important;
-            background: linear-gradient(180deg, var(--primary-50), rgb(255 255 255 / 70%));
-        }
-        .card-product:hover {
-            background: linear-gradient(180deg, var(--primary-50), rgb(255 255 255 / 70%)) !important;
-            opacity: 0.8;
-        }
+    .card-product.my-course {
+        padding:20px 20px 20px 12px;
+        border:1px solid #ccc !important;
+    }
+    .card-product {
+        border-radius: 10px;
+        margin: 7px 0;
+        padding: 12px 16px 12px 5px;
+        background-size: cover !important;
+        background: linear-gradient(180deg, var(--primary-50), rgb(255 255 255 / 70%));
+    }
+    .card-product:hover {
+        opacity: 0.8;
+    }
 
-        .card-product .content .icon {
-            margin-top: 7px;
-        }
-        .card-product .content {
-            align-items: flex-start;
-        }
+    .card-product .content .icon {
+        margin-top: 7px;
+    }
+    .card-product .content {
+        align-items: flex-start;
+    }
 
 
-        .card-product .progress-circle{
-            height: 32px;
-        }
-        .progress{
-            text-align: center;
-            font-size: 9px;
-            padding-left: 11px;
-            line-height: 13px;
-        }
-        .progress span{
-            z-index: 99999;
-            position: absolute;
-            text-align: center;
-            color:var(--primary-50);
-        }
-        .cpbadge{
-            background-color: var(--primary-15);
-            color: var(--primary);
-            padding: 3px 7px;
-            font-size: 10px;
-            margin-right: 5px;
-            border-radius: 3px;
-        }
+    .card-product .progress-circle{
+        height: 32px;
+    }
+    .progress{
+        text-align: center;
+        font-size: 9px;
+        padding-left: 11px;
+        line-height: 13px;
+    }
+    .progress span{
+        z-index: 99999;
+        position: absolute;
+        text-align: center;
+        color:var(--primary-50);
+    }
+    .cpbadge{
+        background-color: var(--primary-15);
+        color: var(--primary);
+        padding: 3px 7px;
+        font-size: 10px;
+        margin-right: 5px;
+        border-radius: 3px;
+    }
 
 /* Show More Button */
     .longtextwrap {
@@ -341,6 +343,11 @@
         line-height: 30px;
         border-radius: 10px;
     }
+    .findwrap .inbtn{
+        left: 7% !important; 
+        top: 27px !important;
+        padding: 5px 10px 5px 15px !important;
+    }
     .findwrap small i{
         vertical-align: middle;
         margin-right: 5px;
@@ -370,5 +377,115 @@
     strong.smatch{
         color:var(--primary);
     }
+    
+
+
+    span.badge-light {
+        background: rgba(255, 255, 255, 0.5);
+        font-size: 11px;
+        padding: 3px 7px;
+        border-radius: 10px;
+    }
+    .stats-row i{
+        margin-left: 3px;
+    }
+    .stats-row{
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        font-weight: 300;
+        padding: 5px 20px;
+        background-color: #f7f7f7;
+        color:#555;
+    }
+
+
+    .content h1,.content h2,.content h3{
+        text-align: right !important;
+        padding-top: 20px;
+    }
+    .content h1{
+        font-size: 22px;
+        display: none;
+    }
+    .content h2{
+        font-size: 19px;
+    }
+    .content h3{
+        font-size: 16px;
+    }
+    .content ol,.content li{
+        margin-right: 10px;
+    }
+
+    .content-footer{
+        display: flex;
+        justify-content: space-between;
+        gap:1%;
+        margin-top: 10px;
+    }
+    .content-footer i{
+        padding-left: 5px;
+    }
+    .content-footer a{
+        background-color: rgba(255,255,255,0.7);
+        width: 96%;
+        text-align: center;
+        padding: 5px;
+    }
+    img{
+        max-width: 100%;
+        margin:10px auto;
+        border-radius: 10px;
+    }
+
+    .latest-posts{
+        margin: 5px;
+    }
+    .latest-posts .card-post{
+        display: flex;
+        background-color: #fff;
+        margin: 15px 0;
+        padding: 10px;
+        min-height: 80px;
+        border-radius: 7px;    
+    }
+    .latest-posts .card-post::after{
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    .right{
+        float: right;
+    }
+    .thumb-sm{
+        width: 64px;
+        height: 64px;
+        border-radius: 5px;
+        margin-left: 10px;
+    }
+    .ptitle{
+        font-weight: 600;
+        font-size: 15px;
+    }
+    .pdate{
+        font-weight: 300;
+        font-size: 11px;
+        color:#999;
+    }
+    .shadow-sm{
+        box-shadow: 0 3px 3px #0000000d;
+    }
+
+    .bgcover{
+        background-size: cover !important;
+        background-position: center !important;
+    }
+    .square50{
+        width: 50px;
+        height: 50px;
+    }
+    
 </style>
 

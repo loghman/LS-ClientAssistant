@@ -9,6 +9,8 @@ use Ls\ClientAssistant\Utilities\Modules\Authentication;
 use Ls\ClientAssistant\Utilities\Modules\Enrollment;
 use Ls\ClientAssistant\Utilities\Modules\LMSProduct;
 use Ls\ClientAssistant\Utilities\Modules\User;
+use Ls\ClientAssistant\Utilities\Modules\V3\BannerPosition;
+use Ls\ClientAssistant\Utilities\Modules\V3\CmsPost;
 use Ls\ClientAssistant\Utilities\Modules\V3\Enrollment as V3Enrollment;
 use Ls\ClientAssistant\Utilities\Modules\V3\LMSProduct as V3LMSProduct;
 use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
@@ -30,7 +32,6 @@ class PwaController
                 ->includes('entity')
                 ->orderBy('last_log_date')->sortedBy('DESC')
         )->get('result');
-        self::sleep(); 
         $pagetitle = "داشبورد";
         return WebResponse::view('sdk.pwa.dashboard.index', compact('pagetitle','user','enrollments','data'));
     }
@@ -50,7 +51,6 @@ class PwaController
                 ->orderBy('last_log_date')->sortedBy('DESC')
         )->get('result');
 
-        self::sleep(); 
         $pagetitle = "دوره های من";
         return WebResponse::view('sdk.pwa.my-courses.index', compact('pagetitle','enrollments','data'));
     }
@@ -65,7 +65,7 @@ class PwaController
         }else{
             $courses = ObjectCache::write($key, User::courses($request->cookies->get('token'))['data']['data'] ?? []);
         }
-        self::sleep(); 
+
         $pagetitle = "همه دوره ها";
         return WebResponse::view('sdk.pwa.my-courses.index', compact('pagetitle','courses','data'));
     }
@@ -73,6 +73,7 @@ class PwaController
     public function course_screen(Request $request,string $product_id)
     {
         $user = current_user();
+        $user['isLmsManager'] = in_array('lms:update',$user['permissions']??[]) ? 1 : 0;
         $userToken = $request->cookies->get('token');
         $data = self::shered_data();
         $key = "course($product_id)-with-chapters";
@@ -84,7 +85,7 @@ class PwaController
             $course = ObjectCache::write($key, $course);
         }
         $pagetitle = "{$course['title']}";
-        return WebResponse::view('sdk.pwa.course-screen.index', compact('pagetitle','data','course'));
+        return WebResponse::view('sdk.pwa.course-screen.index', compact('pagetitle','data','course','user'));
     } 
     public function item_screen(Request $request,string $product_id,string $item_id)
     {
@@ -139,6 +140,51 @@ class PwaController
         return WebResponse::view('sdk.pwa.pages.course-links', compact('pagetitle','course','links'));
     } 
 
+    public function blog(Request $request)
+    {
+        $user = current_user();
+        $data = self::shered_data();
+        $filter = ModuleFilter::new()
+        ->search('type','post')
+        ->searchJoin('and')
+        ->search('status','published') // published
+        ->orderBy('id')->sortedBy('desc')
+        ->perPage(20);
+
+        if($request->get('keyword')){
+            $posts['latest'] = CmsPost::list(
+                $filter->search('title',"%".$request->get('keyword')."%",'like')->perPage(200)
+                )->get('result');
+        }else{
+            $key = "blog-posts-20";
+            if(obc_exists($key)){
+                $posts = obc_get($key);
+            }else{
+                $posts['latest'] = CmsPost::list($filter)->get('result');
+                $posts['featured'] = CmsPost::list($filter->perPage(10))->get('result');
+                $posts = obc_write($key,$posts);
+            }
+        }
+        $pagetitle = "وبلاگ " . $data['brand_name'];
+        return WebResponse::view('sdk.pwa.blog.list', compact('pagetitle','data','posts'));
+    } 
+    
+    public function blog_single(Request $request,string $post_id)
+    {        
+        $user = current_user();
+        $data = self::shered_data();
+        $key = "cmspost($post_id)";
+        if(obc_exists($key)){
+            $post = obc_get($key);
+        }else{
+            $post = obc_write($key, CmsPost::get($post_id,ModuleFilter::new()
+                ->includes('comments','attachments'))->get('result')
+            );
+        }
+        $pagetitle = $post['title'];
+        return WebResponse::view('sdk.pwa.blog.single', compact('pagetitle','data','post'));
+    } 
+
     public function profile(Request $request)
     {    
         $user = current_user();
@@ -150,7 +196,6 @@ class PwaController
         }else{
             $courses = ObjectCache::write($key, User::courses($request->cookies->get('token'))['data']['data'] ?? []);
         }
-        self::sleep(1200); 
         $pagetitle = "پروفایل من";
         return WebResponse::view('sdk.pwa.profile.index', compact('pagetitle','user','courses','data'));
     }
