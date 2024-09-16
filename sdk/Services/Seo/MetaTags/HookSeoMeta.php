@@ -65,9 +65,10 @@ class HookSeoMeta extends SeoMeta
                 $openGraph .= "<meta property='og:$openGraphKey' content='$openGraphValue' />" . PHP_EOL;
 
 
-        if (!empty($this->hook['banner']['main']['url'])) {
+        if (get_media_url($this->hook['banner']) !== '') {
+            $bannerUrl = get_media_url($this->hook['banner']);
 //            list($width, $height, $type, $attr) = getimagesize($this->hook['hook_logo']);
-            $openGraph .= "<meta property='og:image' content='{$this->hook['banner']['main']['url']}' />" . PHP_EOL;
+            $openGraph .= "<meta property='og:image' content='$bannerUrl' />" . PHP_EOL;
             $openGraph .= "<meta property='og:image:width' content='768' />" . PHP_EOL;
             $openGraph .= "<meta property='og:image:height' content='1024' />" . PHP_EOL;
         }
@@ -98,8 +99,9 @@ class HookSeoMeta extends SeoMeta
 
         $twitterTags .= "<meta name='twitter:title' content='{$this->hook['title_fa']}' />" . PHP_EOL;
         $twitterTags .= "<meta name='twitter:card' content='summary_large_image' />" . PHP_EOL;
-        if (!empty($this->hook['banner']['main']['url'])) {
-            $twitterTags .= "<meta name='twitter:image' content='{$this->hook['banner']['main']['url']}' />" . PHP_EOL;
+        if (get_media_url($this->hook['banner']) !== '') {
+            $bannerUrl = get_media_url($this->hook['banner']);
+            $twitterTags .= "<meta name='twitter:image' content='$bannerUrl' />" . PHP_EOL;
         }
         return $twitterTags;
     }
