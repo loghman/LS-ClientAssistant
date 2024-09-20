@@ -3,7 +3,7 @@
     <div id="gateway-container" class="d-flex flex-column gap-xs mt-sm"
          data-url_pattern="{{ route('payment.requestLink', ['cart' => $cart['id'], 'gateway' => '#gateway_id#']) }}">
         <span class="t-title-md pb-xxs">
-            پرداخت نقدی
+            درگاه پرداخت
             <small class="t-small me-xxs">(با تمامی کارت‌های بانکی)</small>
         </span>
         <div class="d-flex flex-column gap-xs ps-xxl ps-0--xxl">

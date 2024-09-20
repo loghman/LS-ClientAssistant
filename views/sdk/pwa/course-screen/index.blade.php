@@ -1,9 +1,8 @@
 <!doctype html>
 <html lang="fa">
 <head>
-    <title><?=$course['title']?></title>
-    @include('sdk.pages.landing-partials.head')
-    @include('sdk.pwa._partials.styles')
+@include('sdk.pwa._partials.head')
+@include('sdk.pwa._partials.styles')
 <style>
     button:hover, .btn:hover {
         opacity: 0.8;
@@ -46,7 +45,8 @@
     .accordions .accordion .header .picon {
         font-size: 18px;
     }
-    .picon.completed {
+
+    .completed .picon {
         color:var(--primary);
     }
 
@@ -54,6 +54,14 @@
         font-size: 11px;
         font-weight: 300;
         opacity: 0.7;
+    }
+    .accordions .accordion .header .copy{
+        font-size: 11px;
+        opacity: 0.5;
+        padding: 7px 7px 7px 3px;
+    }
+    .accordions .accordion .header .copy:hover{
+        opacity: 1;
     }
     .accordions .accordion .header {
         background: none !important;
@@ -73,7 +81,7 @@
     }
 
     .accordions .accordion {
-        border: 1px solid var(--primary-10) !important;
+        border: 1px solid #e7e7e7 !important;
         border-radius: 5px;
         border-top-right-radius: 5px !important;
         border-top-left-radius: 5px !important;
@@ -145,7 +153,7 @@
 
     .signal-box button {
         padding: 0px 20px;
-        border-radius: 30px;
+        border-radius: 10px; 
         font-size: 14px;
     }    
     .attachments{
@@ -169,118 +177,89 @@
     }
 
     .bghead{
+        position: relative;
         min-height: 100%;
-        padding-top: 80px !important;
+        padding-top: 90px !important;
+        padding-bottom: 20px !important;
         background-size: cover !important;
-        background: linear-gradient(45deg, var(--primary-50), rgb(255 255 255 / 70%)), url(<?= $course['banner_url'] ?>);
+        background: linear-gradient(0deg, var(--primary-50), rgba(0,0,0,0.4)), url(<?= $course['banner_url'] ?>);
+    }
+    .bghead .pbar{
+        position: absolute;
+        top:20px;
+        left:20px;
     }
     </style>
 </head>
 
 <body>
     <div class="base-content">
-        <div class="navbar shadow">
-            <a href="{{ site_url('') }}" class="brand">
-                <img src="{{ $data['logo_url'] }}" alt="{{ $data['brand_name'] }}">
-            </a>
-            <?=circleProgressbar($enrollment['progress_percent'])?>
-            <!-- <a class="btn primary sm" href="{{site_url('pwa/my-courses')}}">
-               همه دوره های من
-                <i class="i-left" style="font-size: 10px;"></i>
-            </a> -->
-        </div>
-
         <div class="card-status bghead m-0 shadow-inset pt pb">
-            <div class="card-product">
+            <div>
                 <span class="content">
-                    {{-- <img loading="lazy" style="height: 80px;" src="" alt="تصویر دوره"> --}}
                     <span class="text">
-                        <span class="title"><?=$course['title']?></span>
+                        <span class="title" style="font-size: 24px;"><?=$course['title']?></span><br>
                         <span class="content">
-                            <small class="subtitle">{{ to_persian_num(count($chapters)) }} سرفصل، {{ to_persian_num($course['items_count']) }} جلسه</small>
-                            
+                            <small class="subtitle">{{ to_persian_num(count($course['chapters'])) }} سرفصل، {{ to_persian_num($course['items_count']) }} جلسه</small>
                         </span>
+                        <span class="pbar" id="pbar"></span>
                     </span>
                 </span>
             </div>
         </div>
         <div class="content">
-            <!-- <div class="progress me-auto" style="--w: <?=$enrollment['progress_percent']?>%"><span><?=to_persian_num($enrollment['progress_percent'])?>٪</span></div> -->
-
-            @foreach($chapters as $ii => $ch)
+            @if($course['items_count'] > 15)
+            <div class="findwrap">
+                <input id="find" data-group=".accordions" data-parent=".accordion" data-content=".accordion .title span" type="text" onfocus="goScrollTo(this,15);" placeholder="جستجو در جلسات" >
+                <small id="findStat"></small>
+            </div>
+            @endif
+            <div class="chapters">
+            @foreach($course['chapters'] as $ii => $ch)
             <div class="accordions" >
-                @if(count($chapters) > 1)
+                @if(count($course['chapters']) > 1)
                 <div class="fw-700 truncate"><?= "<span class='fasl'>فصل " . to_persian_num($ii+1) . ":</span> " . $ch['title']?></div>
                 @endif
                 <?php $si=1;?>
                 @foreach($ch['items'] as $item)
-                <div class="accordion empty <?=($item['id'] == $_GET['i']??'*') ? 'default' : ''?>" data-iid="<?=$item['id']?>" data-pid="<?=$item['product_id']?>"
+                <div class="accordion empty <?=$item['log_type']?> <?=($item['id'] == $_GET['i']??'*') ? 'default' : ''?>" data-iid="<?=$item['id']?>" data-pid="<?=$item['product_id']?>"
                 data-chid="<?=$item['parent_id']?>" data-t="<?=$item['log_type']?>">
                     <div class="header py-sm" id='<?=$item['id']?>'>
                     
-                        <span class="picon fa-solid <?=($item['log_type'] == 'completed') ? 'fa-circle-check' : 'fa-circle-play'?>  <?=$item['log_type']?>"></span>
+                        <span class="picon fa-solid <?=($item['log_type'] == 'completed') ? 'fa-circle-check' : 'fa-circle-play'?>"></span>
                         <span class="title sm">
                             @if($course['items_count'] > 2)
                             <b>جلسه <?=to_persian_num($si++)?> :</b> 
                             @endif
-                        <?=$item['title']?></span>
-                        <span class="time me-auto"><?=($item['attachment_duration_sum']) ? to_persian_num(round($item['attachment_duration_sum']/60)) . ' دقیقه' : '' ?></span>
+                            <span><?=$item['title']?></span>
+                        </span>
+                        <span class="time me-auto"><?=($item['attachment_duration_sum']) ? to_persian_num(round($item['attachment_duration_sum']/60)) . ' دقیقه' : '&nbsp;' ?></span>
+                        @if($_GET['links'] and $user['isLmsManager'])
+                        <?php $itemLink = site_url("pwa/item/p{$item['product_id']}i{$item['id']}/screen") ?>
+                        <i class="copy fa-solid fa-copy" data-copy="<?=$itemLink?>"></i>
+                        <a href="<?=$itemLink?>" target="_blank" data-copy="<?=$itemLink?>">
+                            <i class="copy fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                        @endif
                     </div>
                     <div class="content">
                         <span class="loader"></span>
                     </div>
-                    <!-- <div class="card-status m-0 shadow-0 p-0">
-                        <span class="fw-700">این جلسه رو کامل دیدی ؟</span>
-                        <a href="#" class="btn xs success me-auto">بله</a>
-                    </div> -->
                 </div>
                 @endforeach
             </div>
             @endforeach
+            </div>
         </div>
 
     </div>
     @include('sdk.pwa._partials.bottom-nav')
-
     <script type="module" src="{{ core_asset('resources/assets/js/jquery.js') }}"></script>
     <script type="module" src="{{ core_asset('resources/assets/minimal-landing/js/client.js') }}"></script>
     @include('sdk._common.components.error-messages');
+    @include('sdk.pwa._partials.scripts')
 
 <script>
-    function toggleMoreText() {
-        var textContainer = document.querySelector('.longtextwrap');
-        var button = document.querySelector('.moretext');
-
-        if (textContainer.classList.contains('expanded')) {
-            textContainer.classList.remove('expanded');
-            button.textContent = "ادامه توضیحات ...";
-        } else {
-            textContainer.classList.add('expanded');
-            button.textContent = "بستن توضیحات";
-        }
-    }
-
-    function getQueryParam(key) {
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        return urlParams.get(key);
-    }
-
-    function goScrollTo(element, offset = 5,expand = 0,scroll_enabled = 1){
-        // scroll
-        if(scroll_enabled){
-            var elementPosition = element.getBoundingClientRect().top;
-            var offsetPosition = elementPosition + window.pageYOffset - offset;
-            window.scrollTo({top: offsetPosition, behavior: "smooth"});
-        }
-        // expand
-        setTimeout(function() {
-            element.click();
-            if(expand == 1)
-                element.classList.add("expanded")
-        }, 200);
-    }
-
     document.addEventListener('DOMContentLoaded', function() {
 
         function sendAjaxRequest(event) {
@@ -380,9 +359,24 @@
             console.log(xhr.responseText);
         };
         xhr.send();
+    } 
+
+    function updateEnrollmentLogs() {
+        fetch('<?=site_url("ajax/enrollment/".($_GET['e']??'null')."/logs")?>')
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === "success") {
+                    const map = data.data.statuses;
+                    Object.keys(map).forEach(key => {
+                        const element = document.querySelector(`[data-iid="${key}"]`);
+                        if (element && map[key]) 
+                            element.classList.add(map[key]);
+                        document.getElementById('pbar').innerHTML = circleProgressbar(data.data.progress_percent,'sm','', '','#ccc');
+                    });
+                }
+            });
     }
-
-
+    updateEnrollmentLogs();    
 </script>
 
 </body>

@@ -15,11 +15,12 @@ class PageController
         if ($page['type'] != 'page') {
             abort(404, 'برگه مورد نظر یافت نشد');
         }
+        $seoMeta = seo_meta('post', $page);
 
         if(!WebResponse::viewExist("pages.page.single")){
-            WebResponse::view('sdk.pages.common', compact('page'));
+            WebResponse::view('sdk.pages.common', compact('page', 'seoMeta'));
         }
 
-        WebResponse::view("pages.page.single", compact('page'));
+        WebResponse::view("pages.page.single", compact('page', 'seoMeta'));
     }
 }

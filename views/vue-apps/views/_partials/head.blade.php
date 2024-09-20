@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ core_asset('resources/assets/css/app.scss') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sdk-vue-auth</title>
+    <title>ورود و عضویت</title>
     <script type="module"  src={{getViteAssetUrl('views/vue-apps/auth.js')}}></script>
     <link rel="stylesheet" href="{{ getViteAssetUrl('views/vue-apps/assets/css/auth.scss') }}">
 

@@ -1,10 +1,8 @@
 <?php
 use Ls\ClientAssistant\Services\ObjectCache;
-use Ls\ClientAssistant\Controllers\AjaxController;
+use Ls\ClientAssistant\Core\StaticCache;
 use Ls\ClientAssistant\Controllers\AuthController;
 use Ls\ClientAssistant\Controllers\AuthVerificationController;
-use Ls\ClientAssistant\Controllers\CoursePlayerController;
-use Ls\ClientAssistant\Controllers\MyCoursesController;
 use Ls\ClientAssistant\Controllers\OnboardingController;
 use Ls\ClientAssistant\Controllers\PageController;
 use Ls\ClientAssistant\Controllers\PanelController;
@@ -19,9 +17,12 @@ use Ls\ClientAssistant\Core\Router\JsonResponse;
 use Illuminate\Routing\Router;
 use Ls\ClientAssistant\Controllers\MiniLandingController;
 use Ls\ClientAssistant\Controllers\SiteMapController;
-use Ls\ClientAssistant\Controllers\PwaController;
 
-
+use Ls\ClientAssistant\Controllers\PWA\PwaController;
+use Ls\ClientAssistant\Controllers\PWA\AjaxController;
+use Ls\ClientAssistant\Controllers\PWA\CoursePlayerController;
+use Ls\ClientAssistant\Controllers\PWA\MyCoursesController;
+use Ls\ClientAssistant\Core\Middlewares\PwaMiddleware;
 
 $router->name('sitemap.')->group(function(Router $router) {
     $router->name('index')
@@ -100,10 +101,9 @@ $router->name('pageEditor.store')->post('/page-meta/updateForm', function (Reque
 
 $router->name('cache.clear')->get('clearcache/{client_key}', function (Request $request, $clientKey) {
     if ($clientKey == $GLOBALS['apikey']) {
-        clear_static_cache();
         clear_redis_cache();
         ObjectCache::flush();
-
+        StaticCache::flush();
         return JsonResponse::success('کش پاک شد');
     }
 
@@ -165,20 +165,32 @@ $router->name('payment.')->prefix('payment')->group(function (Router $router) {
 
 
 $router->get('manifest.json', [PwaController::class, 'manifest']);  
-$router->get('site.webmanifest', [PwaController::class, 'manifest']);  
+// $router->get('site.webmanifest', [PwaController::class, 'manifest']);  
 $router->get('service-worker.js', [PwaController::class, 'service_worker']);  
 $router->name('pwa.')->prefix('pwa')->group(function (Router $router){
-    $router->name('coursePlayer')->get('course-{pid}/player', [CoursePlayerController::class, 'index']);
-    $router->name('dashboard')->get('dashboard', [MyCoursesController::class, 'index']);
-    $router->name('myCourses')->get('my-courses', [MyCoursesController::class, 'index']);
     $router->name('auth')->get('/auth', [AuthController::class, 'index']);
-    $router->name('onboarding')->get('/onboarding', [OnboardingController::class, 'index']);
+    $router->name('onboarding')->get('/onboarding', [OnboardingController::class, 'index'])->middleware(PwaMiddleware::class);
+    $router->name('dashboard')->get('dashboard', [PwaController::class, 'dashboard'])->middleware(PwaMiddleware::class);
+    $router->name('myCourses')->get('my-courses', [PwaController::class, 'my_courses'])->middleware(PwaMiddleware::class);
+    $router->name('courseScreen')->get('course-{pid}/screen', [PwaController::class, 'course_screen'])->middleware(PwaMiddleware::class);
+    $router->name('itemScreen')->get('item/p{pid}i{iid}/screen', [PwaController::class, 'item_screen']);
+    $router->name('courseScreenLinks')->get('course-{pid}/links', [PwaController::class, 'course_screen_links'])->middleware(PwaMiddleware::class);
+    $router->name('courses')->get('courses', [PwaController::class, 'courses'])->middleware(PwaMiddleware::class); 
+    $router->name('blog')->get('blog', [PwaController::class, 'blog'])->middleware(PwaMiddleware::class); 
+    $router->name('blog.single')->get('blog/{id}', [PwaController::class, 'blog_single'])->middleware(PwaMiddleware::class); 
+    $router->name('profile')->get('profile', [PwaController::class, 'profile'])->middleware(PwaMiddleware::class);
+    $router->name('logout')->get('logout', [PwaController::class, 'logout']); 
     $router->name('offline')->get('/offline.html', [PwaController::class, 'offline']);
 });
 
 $router->name('ajax.')->prefix('ajax')->group(function (Router $router){
     $router->name('item')->get('item', [AjaxController::class, 'item']);
     $router->name('item.signal')->get('item/signal', [AjaxController::class, 'itemSignal']);
+    $router->name('enrollment.logs')->get('enrollment/{eid}/logs', [AjaxController::class, 'enrollmentLogs']);
+    $router->name('myCourses.stats')->get('my-courses/stats', [AjaxController::class, 'myCoursesStats']);
 });
 
+
+
+// this route must be at the end of file
 $router->get('/{slug}', [PageController::class, 'find']);

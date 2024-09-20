@@ -57,7 +57,6 @@ const getAuthSetting = async () => {
 
 const setCurrentCard = (data) => {
     currentCard.value = data.cardName;
-    console.log(data);
 
     if(data.verifideField){
         currentVerifideField.value=data.verifideField;

@@ -1,96 +1,48 @@
-@section('title', 'دوره‌های من')
-        <!doctype html>
+<?php $count = count($enrollments??[]); ?>
+<!doctype html>
 <html lang="fa">
 <head>
-    @include('sdk.pages.landing-partials.head')
-    @include('sdk.pwa._partials.styles')
-    <style>
-        button:hover, .btn:hover {
-            opacity: 0.8;
-            background: var(--primary) !important;
-            border-color: var(--primary) !important;
-        }
-        .card-product {
-            border: 1px solid var(--primary-70) !important;
-            border-radius: 10px;
-            margin: 7px 2%;
-            width: 96%;
-            padding: 12px 16px 12px 5px;
-            background-size: cover !important;
-            background: linear-gradient(180deg, var(--primary-50), rgb(255 255 255 / 70%));
-        }
-        .card-product:hover {
-            background: linear-gradient(180deg, var(--primary-50), rgb(255 255 255 / 70%)) !important;
-            opacity: 0.8;
-        }
-
-        .card-product .content .icon {
-            margin-top: 7px;
-        }
-        .card-product .content {
-            align-items: flex-start;
-        }
-
-
-        .card-product .progress-circle{
-            height: 32px;
-        }
-        .progress{
-            text-align: center;
-            font-size: 9px;
-            padding-left: 11px;
-            line-height: 13px;
-        }
-        .progress span{
-            z-index: 99999;
-            position: absolute;
-            text-align: center;
-            color:var(--primary-50);
-        }
-        .cpbadge{
-            background-color: var(--primary-15);
-            color: var(--primary);
-            padding: 3px 7px;
-            font-size: 10px;
-            margin-right: 5px;
-            border-radius: 3px;
-        }
-    </style>
+@include('sdk.pwa._partials.head')
+@include('sdk.pwa._partials.styles')
 </head>
 <body>
-<div class="base-content">
-    <div class="navbar">
-        <a href="{{ site_url('') }}" class="brand">
-            <img src="{{ $data['logo_url'] }}" alt="{{ $data['brand_name'] }}">
-        </a>
+<div class="base-content wpad">
+    @include('sdk.pwa._partials.top-nav')
+    @if($count>10)
+    <div class="findwrap">
+        <input id="find" data-parent=".card-product" data-content=".card-product .title" type="text" placeholder="جستجو در دوره های من" >
+        <small id="findStat"></small>
     </div>
-    <div class="card-status" style="margin-top:70px">
-        <span class="title">دوره‌های من</span>
-        <small class="subtitle"><?=to_persian_num(count($courses))?> دوره خرید شده</small>
-    </div>
-    
+    @endif
     <div class="card-product-parent">
-        @if(count($courses))
-            @foreach($courses as $e)
+        <div class="title-row">
+            <span class="title">دوره های ثبت نام شده</span>
+            <span class="stat"><?=to_persian_num($count)?> دوره</span>
+        </div>
+        <div>
+        @if(count($enrollments??[]))
+            @foreach($enrollments as $e)
                 <?php 
-                    $title = str_replace('','',$e['product']['title']);
+                    $product = $e['entity'];
+                    $title = str_replace('','',$product['title']);
                     $progress = $e['progress_percent'];
                 ?>
-                <a href="<?=site_url("pwa/course-{$e['product']['id']}/player")?>?e={{$e['id']}}" class="card-product">
+                <a href="<?=site_url("pwa/course-{$product['id']}/screen")?>?e={{$e['id']}}" class="card-product my-course"
+                style="background: linear-gradient(240deg, #fff, rgba(0,0,0,0.5)), url(<?=$product['banner_url']['medium']['url']?>);">
                     <span class="content">
-                        <span class="icon " style="--bg: var(--primary)">
+                        <!-- <span class="icon " style="--bg: var(--primary)">
                             @if($progress >=100)
                             <span class="fa-solid fa-circle-check number mb-auto" style="z-index: 99;color: var(--primary-15);font-size: 24px;"></span>
                             @else
                             <span class="fa-solid fa-play number mb-auto" style="z-index: 99;color: var(--primary-15);font-size: 20px;"></span>
                             @endif
-                        </span>
+                        </span> -->
                         <span class="text">
-                            <span class="title"><?=$title?></span>
+                            <span class="title" style="font-size: 18px;"><?=$title?></span>
                             <span class="content">
-                                <small class="subtitle"><?=to_persian_num($e['product']['items_count'])?> جلسه<?php // ($progress>=100) ? ' <span class="cpbadge">کامل دیده اید</span>' :''; ?></small>
+                                <small class="subtitle" style="font-size: 11px;color:#555">آخرین مشاهده در <?=to_persian_date($e['last_log_date'], '%d %B %Y')?></small>
                                 <!-- <span class="progress me-auto" style="width: 100px;height:13px;--w: <?=$progress?>%"><span><?=to_persian_num($progress)?>٪</span></span> -->
-                                <?=circleProgressbar($progress,'sm','me-auto')?>
+                                <?=circleProgressbar($progress,'sm','me-auto', '','#ccc')?>
                             </span>
                         </span>
                     </span>
@@ -101,17 +53,18 @@
                 شما هنوز در هیچ دوره ای ثبت نام نکرده اید
             </div>
             <div class="text-center" style="margin-top:20px">
-                <button class="button primary sm" style="padding:5px 40px" onclick="location.href='{{site_url('courses')}}#start-courses'">مشاهده لیست دوره ها</button>
+                <button class="button primary sm" style="padding:5px 40px" onclick="location.href='<?=site_url('pwa/dashboard')?>#start-courses'">بازگشت به داشبورد</button>
             </div>
         @endif
+        </div>
+
     </div>
     <div class="h200"></div>
 
 </div>
 @include('sdk.pwa._partials.bottom-nav')
-<script type="module" src="{{ core_asset('resources/assets/js/jquery.js') }}"></script>
-<script type="module" src="{{ core_asset('resources/assets/minimal-landing/js/client.js') }}"></script>
 @include('sdk._common.components.error-messages')
+@include('sdk.pwa._partials.scripts')
 
 <script>
 document.querySelectorAll('.card-product').forEach(function(element) {
