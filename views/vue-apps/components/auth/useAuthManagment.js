@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import { endLoading, startLoading } from "@/js/utilities/loading.js";
 import { postData } from "@/js/utilities/common.js";
 import { authApi } from "@/js/utilities/apiPath.js";
-import { lspDomain, lspOrigin } from "./useAuth.js";
+import { lspDomain, lspOrigin, showIframe } from "./useAuth.js";
 import { useAuthStore } from "../../stores/authStore.js";
 import { messages } from "@/js/utilities/static-messages.js";
 import { deleteTokenCookies } from "@/js/utilities/logout.js";
@@ -18,7 +18,7 @@ export const useAuthManagment = (
     const clientIframe = document.getElementById("client_iframe");
     const { expireAt } = useAuthStore();
     const pathName = window.location.pathname;
-    const checkLoginLoading=ref(false);
+    const checkLoginLoading = ref(false);
     const authRequest = async (method, url, data, btnRef, actions) => {
         try {
             startLoading(btnRef.value);
@@ -43,11 +43,13 @@ export const useAuthManagment = (
 
                 endLoading(btnRef.value);
 
-                postData(
-                    clientIframe,
-                    { token: auth.token, origin: lspOrigin },
-                    clientUrl
-                );
+                if (showIframe) {           
+                    postData(
+                        clientIframe,
+                        { token: auth.token, origin: lspOrigin },
+                        clientUrl
+                    );
+                }
 
                 toast(response.message.text);
                 Cookies.remove("currentCard");
@@ -112,15 +114,15 @@ export const useAuthManagment = (
         const token = Cookies.get('token');
         if (token && pathName.includes('/pwa/auth')) {
             try {
-                checkLoginLoading.value=true;
+                checkLoginLoading.value = true;
                 const userInfo = await get(authApi.PROFILE);
-                if (userInfo.status) {       
-                     window.location.href ="/pwa/dashboard";
+                if (userInfo.status) {
+                    window.location.href = "/pwa/dashboard";
                 } else {
-                    toast(messages.LOGIN_AGAIN,'danger');
+                    toast(messages.LOGIN_AGAIN, 'danger');
                     deleteTokenCookies();
                     window.location.href = "/pwa/auth";
-                    checkLoginLoading.value=false;
+                    checkLoginLoading.value = false;
                 }
             } catch (error) {
                 console.log(error);
@@ -131,7 +133,7 @@ export const useAuthManagment = (
     return {
         handleSubmitWithPassword,
         sendToken,
-        goToCard,checkLoginLoading,
-        authRequest,checkLogin
+        goToCard, checkLoginLoading,
+        authRequest, checkLogin
     };
 };
