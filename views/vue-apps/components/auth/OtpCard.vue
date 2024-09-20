@@ -10,13 +10,13 @@ import {
 import { endLoading, startLoading } from "@/js/utilities/loading";
 import { post } from "@/js/utilities/httpClient/httpClient";
 import Cookies from "js-cookie";
-import { Form } from 'vee-validate';
-import { authApi } from '@/js/utilities/apiPath';
-import { postData } from '@/js/utilities/common';
-import { lspDomain, lspOrigin, showIframe } from './useAuth';
-import Button from './common/Button.vue';
-import { useOtpManagment } from './useOtpManagment';
-import { useAuthStore } from '../../stores/authStore';
+import { Form } from "vee-validate";
+import { authApi } from "@/js/utilities/apiPath";
+import { postData } from "@/js/utilities/common";
+import { lspDomain, lspOrigin, showIframe } from "./useAuth";
+import Button from "./common/Button.vue";
+import { useOtpManagment } from "./useOtpManagment";
+import { useAuthStore } from "../../stores/authStore";
 import { messages } from "@/js/utilities/static-messages.js";
 import { deleteTokenCookies } from "@/js/utilities/logout";
 import OtpFields from "./common/OtpFields.vue";
@@ -67,36 +67,55 @@ const handleSubmit = async () => {
         return;
       }
 
-            deleteTokenCookies()
-            Cookies.set("token", response.result.auth.token,{expires: expireAt,domain:lspDomain});
-            endLoading(submitVerifFormBtn.value);
-            if (showIframe) {
-                postData(clientIframe,{token:response.result.auth.token,origin:lspOrigin},props.clientUrl);   
-            }
-            toast(response.message.text);
-            Cookies.remove("currentCard");
-            Cookies.remove("uniqueKey");
-            const redirectPath = response.result.redirect_path;
-            window.location.href = `${redirectPath}`;
-        } else {
-            endLoading(submitVerifFormBtn.value);
-            toast(response.message.text?response.message.text:messages.SOMETHING_WENT_WRONG, "danger");
-        }
-    } catch (error) {
-        console.log(error);
+      deleteTokenCookies();
+      Cookies.set("token", response.result.auth.token, {
+        expires: expireAt,
+        domain: lspDomain,
+      });
+      endLoading(submitVerifFormBtn.value);
+      if (showIframe) {
+        postData(
+          clientIframe,
+          { token: response.result.auth.token, origin: lspOrigin },
+          props.clientUrl
+        );
+      }
+      toast(response.message.text);
+      Cookies.remove("currentCard");
+      Cookies.remove("uniqueKey");
+      const redirectPath = response.result.redirect_path;
+      if (pathName.includes("/pwa/auth")) {
+        window.location.href = "/pwa/dashboard";
+      } else {
+        window.location.href = `${redirectPath}`;
+      }
+    } else {
+      endLoading(submitVerifFormBtn.value);
+      toast(
+        response.message.text
+          ? response.message.text
+          : messages.SOMETHING_WENT_WRONG,
+        "danger"
+      );
     }
-}
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-onMounted(()=>{
-    startCountDown()
-})
-onUnmounted(()=>{
-    clearOtpInterval()
-})
-watch(()=>resetOtpInputs.value,(prev)=>{
+onMounted(() => {
+  startCountDown();
+});
+onUnmounted(() => {
+  clearOtpInterval();
+});
+watch(
+  () => resetOtpInputs.value,
+  (prev) => {
     console.log(prev);
-    otpCode.value='';
-})
+    otpCode.value = "";
+  }
+);
 </script>
 
 <template>
