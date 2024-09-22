@@ -20,16 +20,16 @@ function removeTagsKeepContents(selector) {
     });
 }
 
-function toggleMoreText() {
-    var textContainer = document.querySelector('.longtextwrap');
-    var button = document.querySelector('.moretext');
+function toggleMoreText(e) {
+    const  button = $(e.target);    
+    const textContainer=button.closest('.longtextwrap');
 
-    if (textContainer.classList.contains('expanded')) {
-        textContainer.classList.remove('expanded');
-        button.textContent = "ادامه توضیحات ...";
+    if (textContainer.hasClass('expanded')) {
+        textContainer.removeClass('expanded');
+        button.text("ادامه توضیحات ...");
     } else {
-        textContainer.classList.add('expanded');
-        button.textContent = "بستن توضیحات";
+        textContainer.addClass('expanded');
+        button.text("بستن توضیحات");
     }
 }
 

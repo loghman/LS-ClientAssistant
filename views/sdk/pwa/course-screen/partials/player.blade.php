@@ -42,7 +42,7 @@
 <div class="longtextwrap">
     <?php if($len > 400): ?>
         <div class="longtext"><?= $item['description']?></div>
-        <span class="moretext" onclick="toggleMoreText()">ادامه توضیحات ...</span>
+        <span class="moretext" onclick="toggleMoreText(event)">ادامه توضیحات ...</span>
     <?php else: ?>
         <div class="alltext"><?= $item['description']?></div>
     <?php endif; ?>
