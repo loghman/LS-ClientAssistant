@@ -13,7 +13,7 @@ import Cookies from "js-cookie";
 import { Form } from "vee-validate";
 import { authApi } from "@/js/utilities/apiPath";
 import { postData } from "@/js/utilities/common";
-import { lspDomain, lspOrigin } from "./useAuth";
+import { lspDomain, lspOrigin, showIframe } from "./useAuth";
 import Button from "./common/Button.vue";
 import { useOtpManagment } from "./useOtpManagment";
 import { useAuthStore } from "../../stores/authStore";
@@ -73,16 +73,17 @@ const handleSubmit = async () => {
         domain: lspDomain,
       });
       endLoading(submitVerifFormBtn.value);
-      postData(
-        clientIframe,
-        { token: response.result.auth.token, origin: lspOrigin },
-        props.clientUrl
-      );
+      if (showIframe) {
+        postData(
+          clientIframe,
+          { token: response.result.auth.token, origin: lspOrigin },
+          props.clientUrl
+        );
+      }
       toast(response.message.text);
       Cookies.remove("currentCard");
       Cookies.remove("uniqueKey");
       const redirectPath = response.result.redirect_path;
-
       if (pathName.includes("/pwa/auth")) {
         window.location.href = "/pwa/dashboard";
       } else {
@@ -103,12 +104,6 @@ const handleSubmit = async () => {
 };
 
 onMounted(() => {
-  isMobileDevice.value = checkDeviceType();
-
-  if (isMobileDevice.value) {
-    window.scrollTo({ top: "0", behavior: "smooth" });
-  }
-
   startCountDown();
 });
 onUnmounted(() => {
@@ -117,6 +112,7 @@ onUnmounted(() => {
 watch(
   () => resetOtpInputs.value,
   (prev) => {
+    console.log(prev);
     otpCode.value = "";
   }
 );

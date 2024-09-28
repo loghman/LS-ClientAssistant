@@ -71,6 +71,9 @@ export default defineConfig({
     "import.meta.env.CLIENT_URL": process.env.CLIENT_URL ? JSON.stringify(
         process.env.CLIENT_URL
     ):null,
+    "import.meta.env.SHOW_IFRAME": process.env.SHOW_IFRAME ? JSON.stringify(
+        process.env.SHOW_IFRAME
+    ):null,
 },
   // server: {
   //   // Change the host to your desired URL
