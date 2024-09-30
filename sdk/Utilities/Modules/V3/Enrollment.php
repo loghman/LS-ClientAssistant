@@ -9,7 +9,6 @@ use Ls\ClientAssistant\Helpers\Response;
 
 class Enrollment
 {
-
     public static function get(string $id, ModuleFilter $filter = null): Collection
     {
         try {
@@ -21,7 +20,6 @@ class Enrollment
         }
     }
 
-    
     public static function list(ModuleFilter $filter = null): Collection
     {
         try {
@@ -43,6 +41,4 @@ class Enrollment
             return Response::parseException($exception);
         }
     }
-
-    
 }
