@@ -19,6 +19,15 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="theme-color" content="#ffffff">
     <style>
+        <?php
+            $bgColor ='#' . ($_GET['color'] ?? '272727');
+            $bgt = $_GET['bgt'] ?? '70';
+        ?>
+        .page-form{
+            background: <?=$bgColor?> url(https://up.7learn.com/1/bg/bgt-<?=$bgt?>.png) !important;
+            background-repeat:repeat-x !important;
+        } 
+        
         .progressbar{
             display: flex;
             flex-direction: row-reverse;

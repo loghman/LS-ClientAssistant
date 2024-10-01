@@ -1351,3 +1351,21 @@ function formatSizeUnits($bytes) {
     }
     return $bytes;
 }
+
+
+function colorPercent($hexColor, $percent) {
+    $hexColor = str_replace('#', '', $hexColor);
+    if (strlen($hexColor) == 6) {
+        $r = hexdec(substr($hexColor, 0, 2));
+        $g = hexdec(substr($hexColor, 2, 2));
+        $b = hexdec(substr($hexColor, 4, 2));
+    } else {
+        return false; // کد رنگ نامعتبر
+    }
+    $percent = max(0, min(100, $percent));
+    $factor = $percent / 100;
+    $r = round($r * (1 - $factor) + 255 * $factor);
+    $g = round($g * (1 - $factor) + 255 * $factor);
+    $b = round($b * (1 - $factor) + 255 * $factor);
+    return sprintf("#%02x%02x%02x", $r, $g, $b);
+}
