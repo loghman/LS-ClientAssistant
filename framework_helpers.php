@@ -364,7 +364,7 @@ if (!function_exists('get_cookie_domain')) {
             return '';
         }
 
-        // Example: .7learn.com
+        // Example: .your-site.com
         return ".$secondLevelDomain.$topLevelDomain";
     }
 }
