@@ -8,7 +8,6 @@ use Ls\ClientAssistant\Core\Router\WebResponse;
 use Ls\ClientAssistant\Services\ObjectCache;
 use Ls\ClientAssistant\Utilities\Modules\Enrollment;
 use Ls\ClientAssistant\Utilities\Modules\LMSProduct;
-use Ls\ClientAssistant\Utilities\Modules\User;
 use Ls\ClientAssistant\Utilities\Modules\V3\Enrollment as V3Enrollment;
 use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
 
@@ -62,13 +61,12 @@ class AjaxController
             return JsonResponse::forbidden('Invalid Request'); 
         $enrollments = V3Enrollment::list(
             ModuleFilter::new()
-                ->otherFilters('type', 'lms')
                 ->search('entity_type', 'lms_products')
                 ->search('user_id', $user['id'])
                 ->includes('entity')
                 ->perPage(500)
                 ->orderBy('last_log_date')->sortedBy('DESC')
-        )->get('result');
+        )->get('data');
         if ($user['id'] != $enrollments[0]['user_id'])
             return JsonResponse::forbidden('Invalid Request'); 
 
@@ -92,7 +90,7 @@ class AjaxController
         ModuleFilter::new()
             ->includes('enrollmentLogs')
             ->excludes('entity')
-        )->get('result');
+        )->get('data');
         if(!is_numeric($enrollment_id) || $enrollment['user_id'] != $user['id'] )
             return JsonResponse::forbidden('Invalid Request'); 
 
