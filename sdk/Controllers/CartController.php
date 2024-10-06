@@ -34,7 +34,7 @@ class CartController
     public function gateways(Request $request)
     {
         $cart = Cart::screen(['coupon', 'lmsProductItems.entity', 'lmsProductItems.coupon'])['data'] ?? [];
-        $gateways = Gateway::list()->get('result');
+        $gateways = Gateway::list()->get('data');
         $defaultGateway = Gateway::getDefault($gateways, $request->get('gateway'));
         $eligibleResponse = [];
         $snapPay = Gateway::findSnapPay($gateways);
