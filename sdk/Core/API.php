@@ -45,7 +45,7 @@ class API
         $response = self::parseData($response, $httpCode);
 
         if ($httpCode === Response::HTTP_MULTI_STATUS && isset($response['data']['redirect'])) {
-            header('Location: '.$response['data']['redirect'], true, $response['result']['code']);
+            header('Location: '.$response['data']['redirect'], true, $response['data']['code']);
             exit;
         }
 
