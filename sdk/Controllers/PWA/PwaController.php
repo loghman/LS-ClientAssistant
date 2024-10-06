@@ -6,15 +6,11 @@ use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\Router\WebResponse;
 use Ls\ClientAssistant\Services\ObjectCache;
 use Ls\ClientAssistant\Utilities\Modules\Authentication;
-use Ls\ClientAssistant\Utilities\Modules\Enrollment;
 use Ls\ClientAssistant\Utilities\Modules\LMSProduct;
 use Ls\ClientAssistant\Utilities\Modules\User;
-use Ls\ClientAssistant\Utilities\Modules\V3\BannerPosition;
 use Ls\ClientAssistant\Utilities\Modules\V3\CmsPost;
 use Ls\ClientAssistant\Utilities\Modules\V3\Enrollment as V3Enrollment;
-use Ls\ClientAssistant\Utilities\Modules\V3\LMSProduct as V3LMSProduct;
 use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
-use Ls\ClientAssistant\Utilities\Tools\Token;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class PwaController
@@ -26,12 +22,11 @@ class PwaController
 
         $enrollments = V3Enrollment::list(
             ModuleFilter::new()
-                ->otherFilters('type', 'lms')
                 ->search('entity_type', 'lms_products')
                 ->search('user_id', $user['id'])
                 ->includes('entity')
                 ->orderBy('last_log_date')->sortedBy('DESC')
-        )->get('result');
+        )->get('data');
         $pagetitle = "داشبورد";
         return WebResponse::view('sdk.pwa.dashboard.index', compact('pagetitle','user','enrollments','data'));
     }
@@ -43,13 +38,12 @@ class PwaController
 
         $enrollments = V3Enrollment::list(
             ModuleFilter::new()
-                ->otherFilters('type', 'lms')
                 ->search('entity_type', 'lms_products')
                 ->search('user_id', $user['id'])
                 ->includes('entity')
                 ->perPage(500)
                 ->orderBy('last_log_date')->sortedBy('DESC')
-        )->get('result');
+        )->get('data');
 
         $pagetitle = "دوره های من";
         return WebResponse::view('sdk.pwa.my-courses.index', compact('pagetitle','enrollments','data'));
@@ -154,14 +148,14 @@ class PwaController
         if($request->get('keyword')){
             $posts['latest'] = CmsPost::list(
                 $filter->search('title',"%".$request->get('keyword')."%",'like')->perPage(200)
-                )->get('result');
+                )->get('data');
         }else{
             $key = "blog-posts-20";
             if(obc_exists($key)){
                 $posts = obc_get($key);
             }else{
-                $posts['latest'] = CmsPost::list($filter)->get('result');
-                $posts['featured'] = CmsPost::list($filter->perPage(10))->get('result');
+                $posts['latest'] = CmsPost::list($filter)->get('data');
+                $posts['featured'] = CmsPost::list($filter->perPage(10))->get('data');
                 $posts = obc_write($key,$posts);
             }
         }
@@ -178,7 +172,7 @@ class PwaController
             $post = obc_get($key);
         }else{
             $post = obc_write($key, CmsPost::get($post_id,ModuleFilter::new()
-                ->includes('comments','attachments'))->get('result')
+                ->includes('comments','attachments'))->get('data')
             );
         }
         $pagetitle = $post['title'];

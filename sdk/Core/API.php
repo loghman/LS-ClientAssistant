@@ -42,10 +42,10 @@ class API
         }
         curl_close($curl);
 
-        $response = self::parseData($response);
+        $response = self::parseData($response, $httpCode);
 
-        if ($httpCode === Response::HTTP_MULTI_STATUS && isset($response['result']['redirect'])) {
-            header('Location: '.$response['result']['redirect'], true, $response['result']['code']);
+        if ($httpCode === Response::HTTP_MULTI_STATUS && isset($response['data']['redirect'])) {
+            header('Location: '.$response['data']['redirect'], true, $response['result']['code']);
             exit;
         }
 
@@ -90,7 +90,7 @@ class API
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
-        return self::parseData($response);
+        return self::parseData($response, $httpCode);
     }
 
     public static function post(string $uri, array $formParams = [], array $headers = []): Collection
@@ -111,7 +111,7 @@ class API
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
-        return self::parseData($response);
+        return self::parseData($response, $httpCode);
     }
 
     public static function patch(string $uri, array $formParams = [], array $headers = []): Collection
@@ -133,7 +133,7 @@ class API
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
-        return self::parseData($response);
+        return self::parseData($response, $httpCode);
     }
 
     public static function delete(string $uri, array $formParams = [], array $headers = []): Collection
@@ -154,21 +154,24 @@ class API
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
-        return self::parseData($response);
+        return self::parseData($response, $httpCode);
     }
 
-    public static function parseData($response): Collection
+    public static function parseData($response, $statusCode): Collection
     {
         $data = json_decode($response ?? '', true);
 
+        $data['status_code'] = $statusCode;
         if (isset($data['data']['data'])) {
             return collect(Paginator::setLink($data));
         } else if(is_array($data)) {
             if(!isset($data['success'])) {
                 $data['success'] = $data['status'] ?? false;
+                unset($data['status']);
             }
             if(!isset($data['data'])) {
                 $data['data'] = $data['result'] ?? [];
+                unset($data['result']);
             }
             if(!isset($data['message']) && isset($data['errors'])) {
                 $data['message'] = is_array($data['errors']) ? $data['errors'][0] : ($data['errors'] ?? '');

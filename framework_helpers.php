@@ -165,7 +165,7 @@ if (!function_exists('is_active_uri_param')) {
 }
 
 if (!function_exists('abort')) {
-    function abort($code, $message = '', $buttonText = null, $buttonUrl = null, array $headers = [])
+    function abort(int $code, string $message = '', string $buttonText = null, string $buttonUrl = null, array $headers = [])
     {
         http_response_code($code);
         foreach ($headers as $header) header($header);
@@ -179,9 +179,9 @@ if (!function_exists('abort')) {
 }
 
 if (!function_exists('send_abort_notification')) {
-    function send_abort_notification($code): void
+    function send_abort_notification(int $code): void
     {
-        if (!filter_var(env('ABORT_NOTIFICATION'), FILTER_VALIDATE_BOOLEAN)) return;
+        if (empty(env('TELEGRAM_ABORT_TOPIC_ID')) || !filter_var(env('ABORT_NOTIFICATION'), FILTER_VALIDATE_BOOLEAN)) return;
         $redisClient = Ls\ClientAssistant\Core\Cache::getRedisInstance();
         $url = get_current_url();
         $referer = $_SERVER['HTTP_REFERER'] ?? null;
@@ -365,7 +365,7 @@ if (!function_exists('get_cookie_domain')) {
             return '';
         }
 
-        // Example: .7learn.com
+        // Example: .your-site.com
         return ".$secondLevelDomain.$topLevelDomain";
     }
 }
@@ -1372,4 +1372,22 @@ function formatSizeUnits($bytes) {
         $bytes = '';
     }
     return $bytes;
+}
+
+
+function colorPercent($hexColor, $percent) {
+    $hexColor = str_replace('#', '', $hexColor);
+    if (strlen($hexColor) == 6) {
+        $r = hexdec(substr($hexColor, 0, 2));
+        $g = hexdec(substr($hexColor, 2, 2));
+        $b = hexdec(substr($hexColor, 4, 2));
+    } else {
+        return false; // کد رنگ نامعتبر
+    }
+    $percent = max(0, min(100, $percent));
+    $factor = $percent / 100;
+    $r = round($r * (1 - $factor) + 255 * $factor);
+    $g = round($g * (1 - $factor) + 255 * $factor);
+    $b = round($b * (1 - $factor) + 255 * $factor);
+    return sprintf("#%02x%02x%02x", $r, $g, $b);
 }
