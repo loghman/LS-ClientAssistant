@@ -1296,7 +1296,7 @@ if(! function_exists('get_current_theme')){
     {
         $theme =  Theme::get_current_theme();
         if($theme != null){
-            return $theme['result'];
+            return $theme['data'];
         }
         return  null;
     }
