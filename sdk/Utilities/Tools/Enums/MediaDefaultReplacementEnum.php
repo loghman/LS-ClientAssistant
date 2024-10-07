@@ -17,4 +17,5 @@ class MediaDefaultReplacementEnum
     public const TEACHER_AVATAR = 'teacher_avatar';
     public const GALLERY = 'gallery';
     public const ATTACHMENT = 'attachment';
+    public const POST_THUMBNAIL = 'post_thumbnail';
 }
