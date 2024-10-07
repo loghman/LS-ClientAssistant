@@ -10,6 +10,7 @@ use Ls\ClientAssistant\Utilities\Modules\Enrollment;
 use Ls\ClientAssistant\Utilities\Modules\LMSProduct;
 use Ls\ClientAssistant\Utilities\Modules\V3\Enrollment as V3Enrollment;
 use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
+use Ls\ClientAssistant\Utilities\Tools\Enums\MediaConversionEnum;
 
 class AjaxController
 {
@@ -76,7 +77,8 @@ class AjaxController
             $data['prodcuts'][$e['entity']['id']]['title'] = $e['entity']['title'];
             $data['prodcuts'][$e['entity']['id']]['price'] = $e['entity']['price']['main'];
             $data['prodcuts'][$e['entity']['id']]['is_on_sale'] = $e['entity']['is_on_sale'];
-            $data['prodcuts'][$e['entity']['id']]['banner_url'] = $e['entity']['banner_url']['medium']['url'];
+//            $data['prodcuts'][$e['entity']['id']]['banner_url'] = $e['entity']['banner_url']['medium']['url'];
+            $data['prodcuts'][$e['entity']['id']]['banner'] = get_media_url($e['entity']['banner'], '', MediaConversionEnum::MEDIUM_THUMBNAIL);
             $data['progress_percents'][$e['id']] = $e['progress_percent'];
             $data['last_log_dates'][$e['id']] = to_persian_date($e['last_log_date'],'%d %B %y');
         }

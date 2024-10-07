@@ -8,9 +8,11 @@
     @elseif($data['player_type'] == 'kavimo')
         <script src="https://stream.7learn.com/<?=$item['main_video']['stream_id']?>/embed"></script>
     @else
-        @if(filter_var($item['main_video']['full_url'], FILTER_VALIDATE_URL))
+        @if(filter_var(get_media_url($item['main_video']), FILTER_VALIDATE_URL))
+{{--        @if(filter_var($item['main_video']['full_url'], FILTER_VALIDATE_URL))--}}
         <video controls autoplay class="w-100 base-radius overflow-hidden">
-            <source src="{{ $item['main_video']['full_url'] }}" type="video/mp4"/>
+            <source src="{{ get_media_url($item['main_video']) }}" type="video/mp4"/>
+{{--            <source src="{{ $item['main_video']['full_url'] }}" type="video/mp4"/>--}}
         </video>
         @else
             <div>ویدیوی این جلسه مشکل دارد و یا اینکه هنوز منتشر نشده است.</div>
@@ -29,7 +31,7 @@
 <?php if(!empty($item['other_attachments'])): ?>
 <div class="attachments">
 <?php foreach($item['other_attachments'] as $atch): ?>
-<a href="<?=$atch['full_url']?>" target="_blank" class="atlink"> 
+<a href="<?=get_media_url($atch)?>" target="_blank" class="atlink">
     <span class="title"><b><i class="fa-solid fa-download"></i></b> <?=str_replace(['پیوست ','پیوست'],'',$atch['title'])?></span>
     <span class="size me-auto"><?=to_persian_num(formatSizeUnits($atch['size']))?></span>
 </a>

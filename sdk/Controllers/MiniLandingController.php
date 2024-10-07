@@ -22,7 +22,7 @@ class MiniLandingController
 
         $brandNameEn = setting('brand_name_en');
         $currentUser = current_user();
-        $introVideo = $product['meta']['intro_video']['url'] ?? ($product['meta']['demo_video_urls'][0] ?? '');
+        $introVideo = get_media_url($product['intro_video'], $product['meta']['demo_video_urls'][0] ?? '');
         $productDuration = 0;
         if (isset($product['attachment_duration_sum']['hours']) && $product['attachment_duration_sum']['hours'] !== 0) {
             $productDuration = product_duration_to_string_summary($product['attachment_duration_sum']['hours']);
@@ -35,7 +35,7 @@ class MiniLandingController
                 'brandNameEn',
                 'currentUser',
                 'introVideo',
-                'productDuration',
+                'productDuration'
             )
         );
     }
@@ -79,7 +79,7 @@ class MiniLandingController
 
         $brandNameEn = setting('brand_name_en');
         $currentUser = current_user();
-        $introVideo = $product['meta']['intro_video']['url'] ?? ($product['meta']['demo_video_urls'][0] ?? '');
+        $introVideo = get_media_url($product['intro_video'], $product['meta']['demo_video_urls'][0] ?? '');
         $productDuration = 0;
         if (isset($product['attachment_duration_sum']['hours']) && $product['attachment_duration_sum']['hours'] !== 0) {
             $productDuration = product_duration_to_string_summary($product['attachment_duration_sum']['hours']);
@@ -92,7 +92,7 @@ class MiniLandingController
                 'brandNameEn',
                 'currentUser',
                 'introVideo',
-                'productDuration',
+                'productDuration'
             )
         );
     }

@@ -109,7 +109,7 @@
         <div class="swiper-wrapper">
         @foreach($enrollments as $e)
             <?php $product = $e['entity'];?>
-            <a href="<?=site_url("pwa/course-{$product['id']}/screen?e={$e['id']}")?>" class="bnavi swiper-slide enroll-slide" style="background: linear-gradient(0deg, var(--primary-50), rgba(0,0,0,0.3)), url(<?=$product['banner_url']['medium']['url']?>);"> 
+            <a href="<?=site_url("pwa/course-{$product['id']}/screen?e={$e['id']}")?>" class="bnavi swiper-slide enroll-slide" style="background: linear-gradient(0deg, var(--primary-50), rgba(0,0,0,0.3)), url(<?=get_media_url($product['banner'])?>);">
                 <span><?=$product['title']?></span>
             </a>
         @endforeach
