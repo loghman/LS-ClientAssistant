@@ -32,7 +32,7 @@
         @if(get_media_url($user['avatar']) != '')
 {{--        @if(!empty($user['avatar_url']))--}}
 {{--        <img height="120" width="120" class="profile-image" src="<?=$user['avatar_url']?>" alt="تصویر پروفایل شما">--}}
-        <img height="120" width="120" class="profile-image" src="<?=get_media_url($user['avatar'], '', \Ls\ClientAssistant\Utilities\Tools\Enums\MediaConversionEnum::MEDIUM_THUMBNAIL)?>" alt="تصویر پروفایل شما">
+        <img height="120" width="120" class="profile-image" src="<?=get_media_url($user['avatar'], get_default_media(\Ls\ClientAssistant\Utilities\Tools\Enums\MediaDefaultReplacementEnum::AVATAR), \Ls\ClientAssistant\Utilities\Tools\Enums\MediaConversionEnum::MEDIUM_THUMBNAIL)?>" alt="تصویر پروفایل شما">
         @endif
         <div class="profile-row"><?=(strlen($user['display_name']) < 3 ? $user['real_name'] : $user['display_name'])?></div>
         <div class="profile-row"><?= to_persian_num((new DateTime())->diff(new DateTime($user['created_at']))->days) ?> روز با <?=$data['brand_name']?></div>
