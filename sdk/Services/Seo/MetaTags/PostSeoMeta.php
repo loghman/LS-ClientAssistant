@@ -60,20 +60,27 @@ class PostSeoMeta extends SeoMeta
     public function getOpenGraphTags()
     {
         $openGraph = '';
-        foreach ($this->post['seo']['og'] ?? [] as $openGraphKey => $openGraphValue)
-            if (!empty($openGraphValue))
+        foreach ($this->post['seo']['og'] ?? [] as $openGraphKey => $openGraphValue) {
+            if (!empty($openGraphValue) && !is_array($openGraphValue)) {
                 $openGraph .= "<meta property='og:$openGraphKey' content='$openGraphValue' />" . PHP_EOL;
-
-
+            }
+        }
         if (empty($this->post['seo']['og']['article:author']))
             $openGraph .= "<meta property='og:article:author' content='{$this->post['author']['display_name']}' />" . PHP_EOL;
 
-        if (empty($this->post['seo']['og']['image']) and !empty($this->post['thumbnail'])) {
+        if (!empty($this->post['thumbnail'])) {
             $thumbnail = get_media_url($this->post['thumbnail']);
-//            list($width, $height, $type, $attr) = getimagesize($this->post['thumbnail']);
+            $imageWidth = $this->post['seo']['og']['image']['width'] ?? 768;
+            $imageHeight = $this->post['seo']['og']['image']['height'] ?? 1024;
+            $imageAlt = $this->post['seo']['og']['image']['alt'] ?? $this->post['title'];
+            $imageType = $this->post['seo']['og']['image']['type'] ?? null;
             $openGraph .= "<meta property='og:image' content='$thumbnail' />" . PHP_EOL;
-            $openGraph .= "<meta property='og:image:width' content='768' />" . PHP_EOL;
-            $openGraph .= "<meta property='og:image:height' content='1024' />" . PHP_EOL;
+            $openGraph .= "<meta property='og:image:width' content='$imageWidth' />" . PHP_EOL;
+            $openGraph .= "<meta property='og:image:height' content='$imageHeight' />" . PHP_EOL;
+            $openGraph .= "<meta property='og:image:alt' content='$imageAlt' />" . PHP_EOL;
+            if (!empty($imageType)) {
+                $openGraph .= "<meta property='og:image:type' content='$imageType' />" . PHP_EOL;
+            }
         }
 
         if (empty($this->post['seo']['og']['locale']))
