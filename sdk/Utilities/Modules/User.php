@@ -323,7 +323,7 @@ class User extends ModuleUtility
     
     public static function tokenExists(): ?string
     {
-        return $_COOKIE['token'] ?? false;
+        return $_COOKIE['token'] ?? null;
     }
 
     public static function resume($id): Collection
