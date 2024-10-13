@@ -3,7 +3,7 @@
         <div class="full ms-auto">
             @if($product['mainTeacherFaculty'] != null)
 {{--                <img src="{{ $product['mainTeacherFaculty']['avatar_url']['small']['url'] }}" alt="{{ $product['mainTeacherFaculty']['display_name'] }}" class="avatar">--}}
-                <img src="{{ get_media_url($product['mainTeacherFaculty']['avatar'], '', \Ls\ClientAssistant\Utilities\Tools\Enums\MediaConversionEnum::SMALL_THUMBNAIL) }}" alt="{{ $product['mainTeacherFaculty']['display_name'] }}" class="avatar">
+                <img src="{{ get_media_url($product['mainTeacherFaculty']['avatar'], get_default_media(\Ls\ClientAssistant\Utilities\Tools\Enums\MediaDefaultReplacementEnum::AVATAR), \Ls\ClientAssistant\Utilities\Tools\Enums\MediaConversionEnum::SMALL_THUMBNAIL) }}" alt="{{ $product['mainTeacherFaculty']['display_name'] }}" class="avatar">
                 <div class="text">
                     <small class="subtitle">مدرس دوره</small>
                     <span class="title sm">{{ $product['mainTeacherFaculty']['display_name'] }}</span>
