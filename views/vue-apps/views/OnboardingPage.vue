@@ -45,12 +45,10 @@ const getAuthSetting = async () => {
             userInfo.value = userInfoRes.result;
             isLoading.value = false;
         } else {
-            // toast('خطایی رخ داده', 'danger');
             isLoading.value = false;
         }
     } catch (error) {
         isLoading.value = false;
-        toast('خطایی رخ داده','danger');
         console.log(error);
     }
 };
