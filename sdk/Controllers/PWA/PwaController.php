@@ -6,11 +6,15 @@ use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\Router\WebResponse;
 use Ls\ClientAssistant\Services\ObjectCache;
 use Ls\ClientAssistant\Utilities\Modules\Authentication;
+use Ls\ClientAssistant\Utilities\Modules\Enrollment;
 use Ls\ClientAssistant\Utilities\Modules\LMSProduct;
 use Ls\ClientAssistant\Utilities\Modules\User;
+use Ls\ClientAssistant\Utilities\Modules\V3\BannerPosition;
 use Ls\ClientAssistant\Utilities\Modules\V3\CmsPost;
 use Ls\ClientAssistant\Utilities\Modules\V3\Enrollment as V3Enrollment;
+use Ls\ClientAssistant\Utilities\Modules\V3\LMSProduct as V3LMSProduct;
 use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
+use Ls\ClientAssistant\Utilities\Tools\Token;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class PwaController
@@ -31,6 +35,60 @@ class PwaController
         return WebResponse::view('sdk.pwa.dashboard.index', compact('pagetitle','user','enrollments','data'));
     }
 
+    public function courses(Request $request)
+    {
+        $user = current_user();
+        $data = self::shered_data();
+        $key = 'LmsOnSaleCourses';
+        if(ObjectCache::exists($key)){    // cache is disabled!!!!!!
+            $courses = ObjectCache::get($key);
+        }else{
+            $courses = V3LMSProduct::list(
+                ModuleFilter::new()
+                    ->search('is_on_sale', '1')
+                    ->perPage(500)
+                    ->orderBy('id')->sortedBy('DESC')
+            )->get('result');
+            $courses = ObjectCache::write($key, $courses?? []);
+        }
+        // dd($courses[1]);
+
+        $pagetitle = "لیست محصولات";
+        return WebResponse::view('sdk.pwa.shopping.course-list', compact('pagetitle','courses','data'));
+    }
+    public function course(Request $request,string $slug)
+    {
+        $user = current_user();
+        $user['isLmsManager'] = in_array('lms:update',$user['permissions']??[]) ? 1 : 0;
+        $userToken = $request->cookies->get('token');
+        $data = self::shered_data();
+
+        $key = "course($slug)-land";
+        if(ObjectCache::exists($key)){
+            $course = ObjectCache::get($key);
+        }else{ 
+            $course = V3LMSProduct::get(
+                $slug, ModuleFilter::new()
+                    ->includes('mainTeacherFaculty')
+                    ->withCounts('items')
+            )->get('result');
+            if(is_null($course['id'])){
+                return new RedirectResponse(site_url('pwa/courses'), 302, []);
+            }
+            unset($course['enrollment'],$course['resume_item']);
+            $course['chapters'] = LMSProduct::chapters($course['id'], $userToken)['data']['items'];
+            foreach ($course['chapters'] as $i => $ch) 
+                if(!$ch['is_published'] || !is_null($ch['deleted_at']) || $ch['type_en'] != 'chapter')
+                    unset($course['chapters'][$i]);
+            $course = ObjectCache::write($key, $course);
+        }
+        // dd($course);
+        // dd($course['teacherFaculty']);
+        $pagetitle = "{$course['title']}";
+        return WebResponse::view('sdk.pwa.shopping.course-single', compact('pagetitle','data','course','user'));
+    } 
+
+
     public function my_courses(Request $request)
     {
         $user = current_user();
@@ -47,21 +105,6 @@ class PwaController
 
         $pagetitle = "دوره های من";
         return WebResponse::view('sdk.pwa.my-courses.index', compact('pagetitle','enrollments','data'));
-    }
-
-    public function courses(Request $request)
-    {
-        $user = current_user();
-        $data = self::shered_data();
-        $key = __FILE__.__LINE__.$user['id'];
-        if(0 and ObjectCache::exists($key)){    // cache is disabled!!!!!!
-            $courses = ObjectCache::get($key);
-        }else{
-            $courses = ObjectCache::write($key, User::courses($request->cookies->get('token'))['data']['data'] ?? []);
-        }
-
-        $pagetitle = "همه دوره ها";
-        return WebResponse::view('sdk.pwa.my-courses.index', compact('pagetitle','courses','data'));
     }
 
     public function course_screen(Request $request,string $product_id)
@@ -106,32 +149,6 @@ class PwaController
         }
         $pagetitle = "{$item['title']}";
         return WebResponse::view('sdk.pwa.pages.item-screen', compact('pagetitle','data','course','item'));
-    } 
-    public function course_screen_links(Request $request,string $product_id)
-    {
-        $user = current_user(); 
-        $allowed_positions = ['platform_owner','marketing_manager','educational_manager','manager','system_admin'];
-        if(count(array_intersect($allowed_positions,$user['positions_name_en']??[])) <=0){
-            abort(404,'دسترسی برای شما مجاز نیست'); 
-        }        
-        $key = "course($product_id)-with-chapters";
-        if(ObjectCache::exists($key)){
-            $course = ObjectCache::get($key);
-        }else{
-            $course = LMSProduct::get($product_id)['data'];
-            $course['chapters'] = LMSProduct::chapters($product_id, $request->cookies->get('token'))['data']['items'];
-            $course = ObjectCache::write($key, $course);
-        }
-        $links[0] = ['id'=>'id','type'=>'type','title'=>'title','link'=>'link'];
-        $row=1;
-        foreach ($course['chapters'] as $chapter) {
-            $links[$row++] = ['id'=>$chapter['id'],'type'=>'سرفصل','title'=>$chapter['title'],'link'=>''];
-            foreach ($chapter['items'] as $item) {
-                $links[$row++] = ['id'=>$item['id'],'type'=>'جلسه','title'=>$item['title'],'link'=>site_url("pwa/item/p{$item['product_id']}i{$item['id']}/screen")];
-            }
-        }
-        $pagetitle = "لینک های دوره {$course['title']}";
-        return WebResponse::view('sdk.pwa.pages.course-links', compact('pagetitle','course','links'));
     } 
 
     public function blog(Request $request)
@@ -190,6 +207,7 @@ class PwaController
         }else{
             $courses = ObjectCache::write($key, User::courses($request->cookies->get('token'))['data']['data'] ?? []);
         }
+        unset($user['password'],$user['national_code']);
         $pagetitle = "پروفایل من";
         return WebResponse::view('sdk.pwa.profile.index', compact('pagetitle','user','courses','data'));
     }

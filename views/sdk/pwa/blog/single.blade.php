@@ -21,7 +21,7 @@
         padding-top: 150px !important;
         padding-bottom: 40px !important;
         background-size: cover !important;
-        background: linear-gradient(0deg, var(--primary-50), rgba(0,0,0,0.4)), url(<?= $post['thumbnail']['medium']['url'] ?>);
+        background: linear-gradient(0deg, var(--primary-50), rgba(0,0,0,0.4)), url(<?= $post['thumbnail']['url'] ?? '' ?>);
     }
     .bghead .pbar{
         position: absolute;
@@ -32,6 +32,8 @@
 </head>
 
 <body>
+    @include('sdk.pwa._partials.sidebar-desktop')
+
     <div class="base-content">
         <div class="card-status bghead m-0 shadow-inset pt pb">
             <div>
@@ -54,7 +56,7 @@
             <span><i class="fa-regular fa-eye"></i> <?=to_persian_num(171 + $post['meta']['views'])?> بازدید</span>
         </div>
         <div class="content wpad">
-            <?=$post['content']['full']?>
+            <?=planetContentFilter($post['content']['full'])?>
             <div class="content-footer">
                 <a href="<?=site_url('pwa/dashboard')?>"><i class="fa-solid fa-house"></i> صفحه اصلی</a>
                 <a href="<?=site_url('pwa/blog')?>"><i class="fa-solid fa-newspaper"></i> همه مقالات</a>

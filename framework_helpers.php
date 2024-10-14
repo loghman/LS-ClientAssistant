@@ -1391,3 +1391,14 @@ function colorPercent($hexColor, $percent) {
     $b = round($b * (1 - $factor) + 255 * $factor);
     return sprintf("#%02x%02x%02x", $r, $g, $b);
 }
+
+function planetContentFilter($html) {
+    $pattern = '/<img\s+(.*?)(width|height)=["\']\d+["\']([^>]*)>/i';
+    $replacement = function($matches) {
+        $attributes = $matches[1] . $matches[3];
+        $attributes = preg_replace('/\s+(width|height)=["\']\d+["\']/', '', $attributes);
+        return "<img $attributes>";
+    };
+    $result = preg_replace_callback($pattern, $replacement, $html);
+    return $result;
+}
