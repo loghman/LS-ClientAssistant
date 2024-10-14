@@ -183,7 +183,6 @@
         padding-bottom: 20px !important;
         background-size: cover !important;
         background: linear-gradient(0deg, var(--primary-50), rgba(0,0,0,0.4)), url(<?= get_media_url($course['banner']) ?>);
-        {{--background: linear-gradient(0deg, var(--primary-50), rgba(0,0,0,0.4)), url(<?= $course['banner_url'] ?>);--}}
     }
     .bghead .pbar{
         position: absolute;

@@ -11,7 +11,7 @@ return [
         'course_banner' => env('MEDIA_DEFAULT_REPLACEMENT_COURSE_BANNER', 'img/banners/video-cover.png'),
         'banner' => env('MEDIA_DEFAULT_REPLACEMENT_BANNER', 'img/banners/video-cover.png'),
         'logo' => env('MEDIA_DEFAULT_REPLACEMENT_LOGO', 'img/icons/logo-icon.svg'),
-        'avatar' => env('MEDIA_DEFAULT_REPLACEMENT_AVATAR', 'img/icons/logo-icon.svg'),
+        'avatar' => env('MEDIA_DEFAULT_REPLACEMENT_AVATAR', 'img/icons/gravatar.jpeg'),
         'teacher_avatar' => env('MEDIA_DEFAULT_REPLACEMENT_TEACHER_AVATAR', 'img/icons/gravatar.jpeg'),
         'gallery' => env('MEDIA_DEFAULT_REPLACEMENT_GALLERY', 'img/icons/logo-icon.svg'),
         'attachment' => env('MEDIA_DEFAULT_REPLACEMENT_ATTACHMENT', 'img/icons/logo-icon.svg'),
