@@ -68,7 +68,7 @@ class HookController
 
         $response = Hook::sendFile($hook['id'], $data);
         if (!$response['success']) {
-            return JsonResponse::badRequest($response['message']['text']);
+            return JsonResponse::badRequest($response['message']);
         }
 
         if($request->get('toast-message') && $request->get('toast-status-code')){
