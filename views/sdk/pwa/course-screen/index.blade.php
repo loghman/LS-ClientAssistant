@@ -2,7 +2,7 @@
 <html lang="fa">
 <head>
 @include('sdk.pwa._partials.head')
-{{--@include('sdk.pwa._partials.styles')--}}
+@include('sdk.pwa._partials.styles')
 <style>
     button:hover, .btn:hover {
         opacity: 0.8;
@@ -182,8 +182,7 @@
         padding-top: 90px !important;
         padding-bottom: 20px !important;
         background-size: cover !important;
-        background: linear-gradient(0deg, var(--primary-50), rgba(0,0,0,0.4)), url(<?= get_media_url($course['banner']) ?>);
-        {{--background: linear-gradient(0deg, var(--primary-50), rgba(0,0,0,0.4)), url(<?= $course['banner_url'] ?>);--}}
+        background: linear-gradient(0deg, var(--primary-50), rgba(0,0,0,0.4)), url(<?= $course['banner']['url'] ?>);
     }
     .bghead .pbar{
         position: absolute;
@@ -194,6 +193,8 @@
 </head>
 
 <body>
+    @include('sdk.pwa._partials.sidebar-desktop')
+
     <div class="base-content">
         <div class="card-status bghead m-0 shadow-inset pt pb">
             <div>

@@ -52,7 +52,6 @@
     .lastseens.swiper {
       height: 200px;
     }
-
     .lastseens .swiper-slide {
         width: 90% !important;
         display: flex;
@@ -60,27 +59,33 @@
         justify-content: center;
         border-radius: 10px;
         font-size: 20px;
-        color:#333333;
+        color:#ffffff;
         font-weight: bold;
         background-size: cover !important;
         align-items: flex-end;
         padding: 0 30px 30px 30px; 
     }
 
+    @media (min-width: 1200px) {
+        .lastseens .swiper-slide {
+            width: 40% !important;
+        }
+    }
 
     
 </style>
 </head>
 <body>
+@include('sdk.pwa._partials.sidebar-desktop')
 <div class="base-content">
     @include('sdk.pwa._partials.top-nav')
-<div>
-
+    
+    <div>
     @if($posts['featured'] ?? false)
     <div dir="rtl" class="swiper lastseens wpad tpad10">
         <div class="swiper-wrapper">
         @foreach($posts['featured'] as $p)
-            <a href="<?=site_url("pwa/blog/{$p['id']}")?>" class="bnavi swiper-slide enroll-slide" style="background: linear-gradient(0deg, var(--primary-50), rgba(0,0,0,0.3)), url(<?=$p['thumbnail']['medium']['url']?>);"> 
+            <a href="<?=site_url("pwa/blog/{$p['id']}")?>" class="bnavi swiper-slide enroll-slide" style="background: linear-gradient(0deg, #000,rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.1) 100%), url(<?=$p['thumbnail']['url']?>);"> 
             <!-- <span class="badge-light"><?=$p['main_category']['name_fa']?></span><br> -->
             <span><?=to_persian_num($p['title'])?></span>
             </a>
@@ -114,7 +119,7 @@
                 $title = $p['title'];
                 if(mb_strlen($p['title']) > 35)
                     $title = mb_substr($title,0,33) . "...";
-                $thumb1 = $p['thumbnail']['medium']['url'];
+                $thumb1 = $p['thumbnail']['url']??'';
                 if(strlen($thumb1) < 7)
                     $thumb1 = "https://up.7Learn.com/1/default.png";
                 $isSearch = isset($_GET['keyword']);

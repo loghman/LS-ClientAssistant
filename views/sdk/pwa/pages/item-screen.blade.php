@@ -175,7 +175,7 @@
         padding-top: 40px !important;
         padding-bottom: 100px !important;
         background-size: cover !important;
-        background: linear-gradient(0deg, var(--primary-50), rgba(0,0,0,0.4)), url(<?= get_media_url($course['banner']) ?>);
+        background: linear-gradient(0deg, var(--primary-50), rgba(0,0,0,0.4)), url(<?= $course['banner']['url'] ?? '' ?>);
     }
     </style>
 </head>

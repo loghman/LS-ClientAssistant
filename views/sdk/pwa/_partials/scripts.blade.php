@@ -170,6 +170,6 @@ if(findInput){
         resultDiv.style.display = 'none';
         findInput.focus();
     });
-
+    
 }
 </script>
