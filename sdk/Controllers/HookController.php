@@ -20,7 +20,7 @@ class HookController
 
     public function landing(Request $request, $slug)
     {
-        $hook = Hook::get($slug)['result'];
+        $hook = Hook::get($slug)['data'];
         $seoMeta = seo_meta('hook', $hook);
         $user = current_user();
 
@@ -46,7 +46,7 @@ class HookController
 
     public function download(Request $request, $slug)
     {
-        $hook = Hook::get($slug)['result'];
+        $hook = Hook::get($slug)['data'];
         if (!$hook) {
             return JsonResponse::notFound('هوک پیدا نشد');
         }
@@ -67,15 +67,15 @@ class HookController
         ];
 
         $response = Hook::sendFile($hook['id'], $data);
-        if (!$response['status']) {
-            return JsonResponse::badRequest($response['message']['text']);
+        if (!$response['success']) {
+            return JsonResponse::badRequest($response['message']);
         }
 
         if($request->get('toast-message') && $request->get('toast-status-code')){
             return JsonResponse::json($request->get('toast-message'), $request->get('toast-status-code'));
         }
 
-        $shortLink = $response['result']['short_link'] ?? '';
+        $shortLink = $response['data']['short_link'] ?? '';
         $brandName = setting('brand_name_fa');
         $redirectTime = (int)setting('hook_showable_redirection_time');
         $subClass = 'ls-client-hook-';
@@ -100,7 +100,7 @@ class HookController
             return JsonResponse::badRequest('type نامعتبر');
         }
 
-        $hook = Hook::get($slug)['result'];
+        $hook = Hook::get($slug)['data'];
         if(!$hook){
             return JsonResponse::notFound('قلاب پیدا نشد');
         }

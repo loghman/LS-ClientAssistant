@@ -25,6 +25,7 @@
 </style>
 </head>
 <body>
+@include('sdk.pwa._partials.sidebar-desktop')
 <div class="base-content">
     @include('sdk.pwa._partials.top-nav')
 

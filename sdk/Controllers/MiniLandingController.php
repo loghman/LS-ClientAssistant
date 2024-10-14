@@ -13,7 +13,7 @@ class MiniLandingController
     public function index(string $slug)
     {
         $filter = ModuleFilter::new()
-            ->includes('media', 'productGifts', 'mainTeacherFaculty', 'chapters.log', 'chapters.publishedItems.log', 'chapters.media', 'chapters.publishedItems.media');
+            ->includes('media', 'productGifts', 'mainTeacherFaculty', 'publishedChapters.log', 'publishedChapters.publishedItems.log', 'publishedChapters.media', 'publishedChapters.publishedItems.media');
         $response = LMSProduct::get($slug, $filter);
         if (! $response->get('success')) {
             abort(404, 'محصول پیدا نشد');
@@ -70,7 +70,7 @@ class MiniLandingController
     public function quickPay(string $slug)
     {
         $filter = ModuleFilter::new()
-            ->includes('media', 'productGifts', 'mainTeacherFaculty', 'chapters.log', 'chapters.publishedItems.log', 'chapters.media', 'chapters.publishedItems.media');
+            ->includes('media', 'productGifts', 'mainTeacherFaculty', 'publishedChapters.log', 'publishedChapters.publishedItems.log', 'publishedChapters.media', 'publishedChapters.publishedItems.media');
         $response = LMSProduct::get($slug, $filter);
         if (! $response->get('success')) {
             abort(404, 'محصول پیدا نشد');

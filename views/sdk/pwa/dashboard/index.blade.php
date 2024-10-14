@@ -60,18 +60,24 @@
         justify-content: center;
         border-radius: 10px;
         font-size: 20px;
-        color:#333333;
+        color:#ffffff;
         font-weight: bold;
         background-size: cover !important;
         align-items: flex-end;
+        text-align: center;
         padding: 0 30px 30px 30px; 
     }
 
-
+    @media (min-width: 1200px) {
+        .lastseens .swiper-slide {
+            width: 40% !important;
+        }
+    }
     
 </style>
 </head>
 <body>
+@include('sdk.pwa._partials.sidebar-desktop')
 <div class="base-content">
     @include('sdk.pwa._partials.top-nav')
 
@@ -109,7 +115,7 @@
         <div class="swiper-wrapper">
         @foreach($enrollments as $e)
             <?php $product = $e['entity'];?>
-            <a href="<?=site_url("pwa/course-{$product['id']}/screen?e={$e['id']}")?>" class="bnavi swiper-slide enroll-slide" style="background: linear-gradient(0deg, var(--primary-50), rgba(0,0,0,0.3)), url(<?=get_media_url($product['banner'])?>);">
+            <a href="<?=site_url("pwa/course-{$product['id']}/screen?e={$e['id']}")?>" class="bnavi swiper-slide enroll-slide" style="background: linear-gradient(0deg, #000,rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.1) 100%), url(<?=$product['banner']['url']??''?>);"> 
                 <span><?=$product['title']?></span>
             </a>
         @endforeach

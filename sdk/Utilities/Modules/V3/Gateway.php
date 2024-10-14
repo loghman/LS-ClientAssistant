@@ -22,7 +22,7 @@ class Gateway
 
     public static function getDefault(array $gateways = [], ?int $default = null): ?array
     {
-        $gateways = empty($gateways) ? self::list()->get('result') : $gateways;
+        $gateways = empty($gateways) ? self::list()->get('data') : $gateways;
 
         if (null !== $default) {
             foreach ($gateways as $gateway) {

@@ -2,10 +2,10 @@
     <div class="info">
         <div class="full ms-auto">
             @if($product['mainTeacherFaculty'] != null)
-                <img src="{{ get_media_url($product['mainTeacherFaculty']['avatar'], get_default_media(\Ls\ClientAssistant\Utilities\Tools\Enums\MediaDefaultReplacementEnum::AVATAR), \Ls\ClientAssistant\Utilities\Tools\Enums\MediaConversionEnum::SMALL_THUMBNAIL) }}" alt="{{ $product['mainTeacherFaculty']['display_name'] }}" class="avatar">
+                <img src="{{ get_media_url($product['mainTeacherFaculty']['avatar'], get_default_media(\Ls\ClientAssistant\Utilities\Tools\Enums\MediaDefaultReplacementEnum::AVATAR), \Ls\ClientAssistant\Utilities\Tools\Enums\MediaConversionEnum::SMALL_THUMBNAIL) }}" alt="{{ $product['mainTeacherFaculty']['full_name'] }}" class="avatar">
                 <div class="text">
                     <small class="subtitle">مدرس دوره</small>
-                    <span class="title sm">{{ $product['mainTeacherFaculty']['display_name'] }}</span>
+                    <span class="title sm">{{ $product['mainTeacherFaculty']['full_name'] }}</span>
                 </div>
             @endif
         </div>
@@ -15,16 +15,16 @@
                 <small class="subtitle">ساعت</small>
             </div>
         @endif
-        @if($product['published_items_except_chapter_and_heading_count']>0)
+        @if($product['item_count']>0)
             <div>
-                <span class="title">{{ to_persian_num($product['published_items_except_chapter_and_heading_count']) }}</span>
+                <span class="title">{{ to_persian_num($product['item_count']) }}</span>
                 <small class="subtitle">جلسه</small>
             </div>
         @endif
     </div>
     <div class="accordions">
-        @foreach($product['chapters'] as $i => $chapter)
-            <div class="accordion {{count($product['chapters']) === 1 ? 'expanded' : ''}}">
+        @foreach($product['publishedChapters'] as $i => $chapter)
+            <div class="accordion {{count($product['publishedChapters']) === 1 ? 'expanded' : ''}}">
                 <div class="header">
                     <span class="i-align-right-2 number"></span>
                     <span class="title">{{ $chapter['title'] }}</span>

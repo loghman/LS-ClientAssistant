@@ -1,6 +1,6 @@
 <div class="accordions">
-    @foreach($product['chapters'] as $i => $chapter)
-        <div class="accordion {{count($product['chapters']) === 1 ? 'expanded' : ''}}">
+    @foreach($product['publishedChapters'] as $i => $chapter)
+        <div class="accordion {{count($product['publishedChapters']) === 1 ? 'expanded' : ''}}">
             <div class="header">
                 <span class="i-align-right-2 number"></span>
                 <span class="title">{{ $chapter['title'] }}</span>
