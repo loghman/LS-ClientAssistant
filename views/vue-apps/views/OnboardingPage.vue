@@ -10,11 +10,13 @@ import {
 import { useAuthStore } from "../stores/authStore"; 
 import OnboardingForm from "../components/auth/OnboardingForm.vue";
 import OtpCard from "../components/auth/OtpCard.vue";
+import ErrorMsg from "../components/auth/common/ErrorMsg.vue";
 
 defineComponent({
     components: {
         Loading,
         OtpCard,
+        ErrorMsg
     },
 });
 const props = defineProps({
@@ -23,6 +25,7 @@ const props = defineProps({
 const authStore = useAuthStore();
 
 ////refs////
+const showErrorMsg = ref(false);
 const isLoading = ref(false);
 const currentVerifideField = ref('');
 const authSetting = ref({
@@ -46,6 +49,7 @@ const getAuthSetting = async () => {
             isLoading.value = false;
         } else {
             isLoading.value = false;
+            showErrorMsg.value = true;
         }
     } catch (error) {
         isLoading.value = false;
@@ -82,8 +86,9 @@ onBeforeMount(() => {
                             </div>
                         </a>
                     </div>
+                    <ErrorMsg v-if="showErrorMsg"></ErrorMsg>
                     <!-- /////onboarding card -->
-                    <div class="content pt-0">
+                    <div v-else class="content pt-0">
                         <Loading v-model:active="isLoading" :can-cancel="false" :is-full-page="true"
                             :backgroundColor="'var(--primary)'" :color="'var(--primary)'" />
                         <div v-if="!isLoading">

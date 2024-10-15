@@ -13,6 +13,7 @@ import Cookies from "js-cookie";
 import { authApi } from "@/js/utilities/apiPath";
 import { useAuthManagment } from "../components/auth/useAuthManagment";
 import { toastErrorMessages } from "@/js/utilities/error-handler";
+import ErrorMsg from "../components/auth/common/ErrorMsg.vue";
 
 defineComponent({
   components: {
@@ -20,11 +21,13 @@ defineComponent({
     OtpCard,
     PriorityOneCard,
     PriorityTwoCard,
+    ErrorMsg
   },
 });
 
 const authStore = useAuthStore();
 ////refs////
+const showErrorMsg = ref(false);
 const isLoading = ref(false);
 const clientUrl = ref(URLS.CLIENT_URL);
 const authSetting = ref({
@@ -71,7 +74,6 @@ const currentInitial = Cookies.get("currentCard")
 const currentCard = ref(currentInitial);
 const prevCard = ref("priority_one_card");
 let otpHelp = ref("");
-const defaultError = "متاسفانه مشکلی پیش آمده است. لطفا مجدد تلاش کنید.";
 const { checkLogin, checkLoginLoading } = useAuthManagment();
 
 const getAuthSetting = async () => {
@@ -91,6 +93,7 @@ const getAuthSetting = async () => {
     } else {
       toastErrorMessages(response);
       isLoading.value = false;
+      showErrorMsg.value = true;
     }
   } catch (error) {
     isLoading.value = false;
@@ -147,8 +150,9 @@ onBeforeMount(() => {
               </div>
             </a>
           </div>
+          <ErrorMsg v-if="showErrorMsg"></ErrorMsg>
           <!-- /////login cards -->
-          <div class="content align-items-center">
+          <div v-else class="content align-items-center">
             <Loading
               v-model:active="isLoading"
               :can-cancel="false"
