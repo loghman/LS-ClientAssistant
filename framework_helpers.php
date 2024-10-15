@@ -1310,7 +1310,7 @@ if (! function_exists('create_unique_id')) {
 }
 
 if (! function_exists('get_media_url')) {
-    function get_media_url(array $media, string $defaultMedia = '', string $conversion = MediaConversionEnum::ORIGINAL): string
+    function get_media_url(?array $media, string $defaultMedia = '', string $conversion = MediaConversionEnum::ORIGINAL): string
     {
         return Media::getMediaUrl($media, $defaultMedia, $conversion);
     }

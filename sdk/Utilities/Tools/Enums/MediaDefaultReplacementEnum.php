@@ -18,4 +18,5 @@ class MediaDefaultReplacementEnum
     public const GALLERY = 'gallery';
     public const ATTACHMENT = 'attachment';
     public const POST_THUMBNAIL = 'post_thumbnail';
+    public const DEFAULT = 'default';
 }

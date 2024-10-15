@@ -16,5 +16,6 @@ return [
         'gallery' => env('MEDIA_DEFAULT_REPLACEMENT_GALLERY', 'img/icons/logo-icon.svg'),
         'attachment' => env('MEDIA_DEFAULT_REPLACEMENT_ATTACHMENT', 'img/icons/logo-icon.svg'),
         'post_thumbnail' => env('MEDIA_DEFAULT_REPLACEMENT_POST_THUMBNAIL', 'img/banners/video-cover.png'),
+        'default' => env('MEDIA_DEFAULT_REPLACEMENT_DEFAULT', 'img/banners/logo-icon.svg'),
     ],
 ];
