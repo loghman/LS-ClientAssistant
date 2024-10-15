@@ -199,7 +199,6 @@ class PwaController
     public function profile(Request $request)
     {    
         $user = current_user();
-//        $user['avatar_url'] = str_replace('s=80','s=240',$user['avatar_url']);
         $data = self::shered_data();
         $key = __FILE__.__LINE__.$user['id'];
         if(ObjectCache::exists($key)){ 

@@ -8,7 +8,6 @@
             <div class="card-action">
                 <div class="gift"></div>
                 <span class="content pb-0 justify-content-center">
-{{--                    <img loading="lazy" class="icon" src="{{ $gift['meta']['icon_multi_color']['small']['url'] ?? $gift['meta']['banner_url']['small']['url'] }}">--}}
                     <img loading="lazy"
                          class="icon"
                          src="{{

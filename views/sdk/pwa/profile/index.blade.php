@@ -30,8 +30,8 @@
     @include('sdk.pwa._partials.top-nav')
 
     <div class="profile-content">
-        @if(!empty($user['avatar_url']??''))
-        <img height="120" width="120" class="profile-image" src="<?=$user['avatar_url']?>" alt="تصویر پروفایل شما">
+        @if(get_media_url($user['avatar']) != '')
+        <img height="120" width="120" class="profile-image" src="<?=$user['avatar']['url'] ?? ''?>" alt="تصویر پروفایل شما">
         @endif
         <div class="profile-row"><?=(strlen($user['display_name']) < 3 ? $user['real_name'] : $user['display_name'])?></div>
         <div class="profile-row"><?= to_persian_num((new DateTime())->diff(new DateTime($user['created_at']))->days) ?> روز با <?=$data['brand_name']?></div>

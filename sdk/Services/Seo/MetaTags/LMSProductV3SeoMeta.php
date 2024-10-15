@@ -63,7 +63,6 @@ class LMSProductV3SeoMeta extends SeoMeta
         $openGraph .= "<meta property='og:updated_time' content='$updatedTime' />" . PHP_EOL;
 
         if (!empty($this->banner)) {
-//        if (!empty($this->banner_url)) {
             $bannerUrl = get_media_url($this->banner);
 //            list($width, $height, $type, $attr) = getimagesize($bannerUrl);
             $openGraph .= "<meta property='og:image' content='{$bannerUrl}' />" . PHP_EOL;
@@ -88,9 +87,7 @@ class LMSProductV3SeoMeta extends SeoMeta
         $twitterTags = '';
 
         if (!empty($this->banner)) {
-//        if (!empty($this->banner_url)) {
             $bannerUrl = get_media_url($this->banner);
-//            $bannerUrl = $this->banner_url;
             $twitterTags .= "<meta name='twitter:title' content='$this->title' />" . PHP_EOL;
             $twitterTags .= "<meta name='twitter:card' content='summary_large_image' />" . PHP_EOL;
             $twitterTags .= "<meta name='twitter:image' content='{$bannerUrl}' />" . PHP_EOL;
