@@ -44,6 +44,11 @@ class API
 
         $response = self::parseData($response, $httpCode);
 
+        if($httpCode === Response::HTTP_FORBIDDEN && $response->get('message') === 'You are not logged in.') {
+            User::clearUserKeyCookie();
+            exit;
+        }
+
         if ($httpCode === Response::HTTP_MULTI_STATUS && isset($response['data']['redirect'])) {
             header('Location: '.$response['data']['redirect'], true, $response['data']['code']);
             exit;
@@ -90,7 +95,14 @@ class API
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
-        return self::parseData($response, $httpCode);
+        $response = self::parseData($response, $httpCode);
+
+        if($httpCode === Response::HTTP_FORBIDDEN && $response->get('message') === 'You are not logged in.') {
+            User::clearUserKeyCookie();
+            exit;
+        }
+
+        return $response;
     }
 
     public static function post(string $uri, array $formParams = [], array $headers = []): Collection
@@ -111,7 +123,14 @@ class API
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
-        return self::parseData($response, $httpCode);
+        $response = self::parseData($response, $httpCode);
+
+        if($httpCode === Response::HTTP_FORBIDDEN && $response->get('message') === 'You are not logged in.') {
+            User::clearUserKeyCookie();
+            exit;
+        }
+
+        return $response;
     }
 
     public static function patch(string $uri, array $formParams = [], array $headers = []): Collection
@@ -133,7 +152,14 @@ class API
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
-        return self::parseData($response, $httpCode);
+        $response = self::parseData($response, $httpCode);
+
+        if($httpCode === Response::HTTP_FORBIDDEN && $response->get('message') === 'You are not logged in.') {
+            User::clearUserKeyCookie();
+            exit;
+        }
+
+        return $response;
     }
 
     public static function delete(string $uri, array $formParams = [], array $headers = []): Collection
@@ -154,7 +180,14 @@ class API
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
-        return self::parseData($response, $httpCode);
+        $response = self::parseData($response, $httpCode);
+
+        if($httpCode === Response::HTTP_FORBIDDEN && $response->get('message') === 'You are not logged in.') {
+            User::clearUserKeyCookie();
+            exit;
+        }
+
+        return $response;
     }
 
     public static function parseData($response, $statusCode): Collection
