@@ -90,7 +90,7 @@ $router->name('pageEditor.store')->post('/page-meta/updateForm', function (Reque
         'key' => $request->request->get('key'),
         'meta_type' => $request->request->get('meta_type'),
         'default_value' => $request->request->get('default_value') ?? '',
-    ], ['Authorization: Bearer ' . $request->cookies->get('token')]);
+    ]);
 
     if (!$pageMeta['success']) {
         return JsonResponse::unprocessableEntity($pageMeta->get('message') ?? 'مشکلی رخ داده است.');

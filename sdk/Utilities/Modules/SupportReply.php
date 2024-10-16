@@ -15,9 +15,7 @@ class SupportReply
             return API::post(sprintf("v1/support/topic/%s/reply", $data['topic_id']), [
                 'content' => $data['content'],
                 'attachment' => $data['attachment'] ?? null,
-            ], [
-                'Authorization: Bearer ' . $userToken,
-            ] + $headers);
+            ], $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -31,9 +29,7 @@ class SupportReply
             return API::put(sprintf("v1/support/topic/%s/reply/%s", $data['topic_id'], $data['reply_id']), [
                 'content' => $data['content'],
                 'attachment' => $data['attachment'] ?? null,
-            ], [
-                'Authorization: Bearer ' . $userToken,
-            ] + $headers);
+            ], $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -44,9 +40,7 @@ class SupportReply
     public static function like(int $topicId, int $replyId, string $userToken, array $headers = []): Collection
     {
         try {
-            return API::post(sprintf("v1/support/topic/%s/reply/%s", $topicId, $replyId), [], [
-                'Authorization: Bearer ' . $userToken,
-            ] + $headers);
+            return API::post(sprintf("v1/support/topic/%s/reply/%s", $topicId, $replyId), [], $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -57,9 +51,7 @@ class SupportReply
     public static function delete(int $topicId, int $replyId, string $userToken, array $headers = []): Collection
     {
         try {
-            return API::delete(sprintf("v1/support/topic/%s/reply/%s", $topicId, $replyId), [], [
-                'Authorization: Bearer ' . $userToken,
-            ] + $headers);
+            return API::delete(sprintf("v1/support/topic/%s/reply/%s", $topicId, $replyId), [], $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -70,9 +62,7 @@ class SupportReply
     public static function verify(int $topicId, int $replyId, string $userToken, array $headers = []): Collection
     {
         try {
-            return API::put(sprintf("v1/support/topic/%s/reply/%s/verify", $topicId, $replyId), [], [
-                    'Authorization: Bearer ' . $userToken,
-                ] + $headers);
+            return API::put(sprintf("v1/support/topic/%s/reply/%s/verify", $topicId, $replyId), [], $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {

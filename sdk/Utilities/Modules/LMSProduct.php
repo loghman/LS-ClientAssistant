@@ -80,9 +80,7 @@ class LMSProduct extends ModuleUtility
 
             return API::getOrFromCache($cacheKey, $cacheConfig, 'v1/lms/product/rich', [
                 'methods' => $methods,
-            ], [
-                    'Authorization: Bearer ' . $userToken,
-                ] + $headers);
+            ], $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -95,9 +93,7 @@ class LMSProduct extends ModuleUtility
         try {
             return API::get('v1/lms/product/rich', [
                 'methods' => $methods,
-            ], [
-                    'Authorization: Bearer ' . $userToken,
-                ] + $headers);
+            ], $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -132,16 +128,10 @@ class LMSProduct extends ModuleUtility
 
     public static function chapters(int $productId, string $userToken = null, array $with = []): Collection
     {
-        $headers = [];
-        if (!is_null($userToken)) {
-            $headers = [
-                'Authorization: Bearer ' . $userToken,
-            ];
-        }
         try {
             return API::get(sprintf('v1/lms/product/%s/chapters', $productId), [
                 'with' => json_encode($with),
-            ], $headers);
+            ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -171,9 +161,7 @@ class LMSProduct extends ModuleUtility
     public static function chapterStats(int $productId, int $chapterId, string $userToken, array $headers = []): Collection
     {
         try {
-            return API::get(sprintf('v1/lms/product/%s/chapter/%s/stats', $productId, $chapterId), [], [
-                    'Authorization: Bearer ' . $userToken,
-                ] + $headers);
+            return API::get(sprintf('v1/lms/product/%s/chapter/%s/stats', $productId, $chapterId), [], $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -183,11 +171,8 @@ class LMSProduct extends ModuleUtility
 
     public static function chaptersWithUserData(int $productId, string $userToken): Collection
     {
-        $headers = [
-            'Authorization: Bearer ' . $userToken,
-        ];
         try {
-            return API::get(sprintf('v1/lms/product/%s/chapters-with-user-data', $productId), [], $headers);
+            return API::get(sprintf('v1/lms/product/%s/chapters-with-user-data', $productId));
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -276,9 +261,7 @@ class LMSProduct extends ModuleUtility
                 'section' => $data['section'] ?? null,
                 'community' => $data['community'] ?? null,
                 'department' => $data['department'] ?? null,
-            ], [
-                    'Authorization: Bearer ' . $userToken,
-                ] + $headers);
+            ], $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -327,11 +310,8 @@ class LMSProduct extends ModuleUtility
 
     public static function isProductItemLocked(int $itemId, string $userToken): Collection
     {
-        $headers = [
-            'Authorization: Bearer ' . $userToken,
-        ];
         try {
-            return API::get(sprintf('v1/lms/product-item/%s/is-locked', $itemId), [], $headers);
+            return API::get(sprintf('v1/lms/product-item/%s/is-locked', $itemId));
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {

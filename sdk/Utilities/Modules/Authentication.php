@@ -134,8 +134,7 @@ class Authentication
         try {
             return API::post(
                 'v1/auth/reset-password',
-                array_merge($data, ['password' => $password, 'password_confirmation' => $confirmed]),
-                ['Authorization: Bearer ' . $userToken]
+                array_merge($data, ['password' => $password, 'password_confirmation' => $confirmed])
             );
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
@@ -167,7 +166,6 @@ class Authentication
             return API::post(
                 'v1/auth/verification-fields/verify',
                 array_merge($data, compact('input', 'otp')),
-                ['Authorization: Bearer ' . $userToken]
             );
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
@@ -184,7 +182,6 @@ class Authentication
             return API::post(
                 'v1/auth/mobile/update',
                 ['input' => $mobile],
-                ['Authorization: Bearer ' . $userToken]
             );
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
@@ -201,7 +198,6 @@ class Authentication
             return API::post(
                 'v1/auth/email/update',
                 ['input' => $email],
-                ['Authorization: Bearer ' . $userToken]
             );
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);

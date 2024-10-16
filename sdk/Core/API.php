@@ -83,8 +83,11 @@ class API
         curl_setopt_array($curl, [
             CURLOPT_URL => $url,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => $method,
             CURLOPT_HTTPHEADER => $headers,
             CURLOPT_HEADER => true,
@@ -147,6 +150,7 @@ class API
 
     private static function handleHeaders(array $headers): array
     {
+        $headers = self::removeAuthorizationHeader($headers);
         $ip = IP::get();
         $cookies = self::mergeCookies();
         $version = InstalledVersions::getVersion('ls/client-assistant');
@@ -157,12 +161,16 @@ class API
             'REAL-HTTP-CLIENT-IP: '.$ip,
             'REAL-HTTP-CLIENT-AGENT: '.($_SERVER['HTTP_USER_AGENT'] ?? ''),
             'REAL-HTTP-CLIENT-REFERRER: '.($_SERVER['HTTP_REFERER'] ?? ''),
-            'Authorization: Bearer '.User::getToken(),
             "Cookie: $cookies",
             'LSPWEB-SDK-VERSION: '.$version,
         ];
 
-        return array_merge($defaultHeaders, $headers);
+        $userToken = User::getToken();
+        if (null !== $userToken) {
+            $defaultHeaders[] = 'Authorization: Bearer '.User::getToken();
+        }
+
+        return array_unique(array_merge($defaultHeaders, $headers));
     }
 
     private static function mergeCookies(): string
@@ -182,5 +190,12 @@ class API
         User::clearUserKeyCookie();
         Token::token()->remove();
         header("Refresh: 0");
+    }
+
+    private static function removeAuthorizationHeader(array $headers): array
+    {
+        return array_filter($headers, function ($header) {
+            return ! str_contains(strtolower($header), 'authorization: bearer');
+        });
     }
 }

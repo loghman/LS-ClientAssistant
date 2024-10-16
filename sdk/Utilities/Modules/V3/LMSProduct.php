@@ -56,9 +56,7 @@ class LMSProduct extends Cacher
     public static function listOpus(ModuleFilter $filter = null,$userToken)
     {
         try {
-            return API::get('client/v3/lms/opus/',$filter ? $filter->all() : [],[
-                'Authorization: Bearer ' . $userToken,
-            ]);
+            return API::get('client/v3/lms/opus/',$filter ? $filter->all() : []);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -75,8 +73,6 @@ class LMSProduct extends Cacher
                 'description' => $data['description'],
                 'media_file' => $data['media_file'] ?? null,
                 'source_file' => $data['source_file'] ?? null,
-            ], [
-                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
