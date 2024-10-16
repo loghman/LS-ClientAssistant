@@ -40,13 +40,12 @@ class API
 
     public static function getOrFromCache(
         string $cacheKey,
-        array $config,
+        array  $config,
         string $uri,
-        array $queryParam = [],
-        array $headers = []
-    ): Collection
-    {
-        if (!$config['is_active']) {
+        array  $queryParam = [],
+        array  $headers = []
+    ): Collection {
+        if (! $config['is_active']) {
             return self::get($uri, $queryParam, $headers);
         }
 
@@ -57,7 +56,7 @@ class API
         }
 
         $data = self::get($uri, $queryParam, $headers);
-        $expire = ((int)$config['expiration_time']) * 60;
+        $expire = ((int) $config['expiration_time']) * 60;
         $redisClient->set($cacheKey, json_encode($data->toArray()));
         $redisClient->expire($cacheKey, $expire);
         $redisClient->disconnect();
@@ -81,10 +80,15 @@ class API
             $url .= '?'.http_build_query($queryParams);
         }
 
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt_array($curl, [
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_CUSTOMREQUEST => $method,
+            CURLOPT_HTTPHEADER => $headers,
+            CURLOPT_HEADER => true,
+        ]);
 
         if (in_array($method, ['POST', 'PUT', 'PATCH', 'DELETE'])) {
             curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($formParams));
@@ -96,9 +100,15 @@ class API
 
         $response = curl_exec($curl);
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        $headerSize = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+        $effectiveUrl = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
+
+        $headers = substr($response, 0, $headerSize);
+        $body = substr($response, $headerSize);
+
         curl_close($curl);
 
-        return self::processResponse($response, $httpCode);
+        return self::processResponse($body, $httpCode, $headers, $effectiveUrl);
     }
 
     private static function processResponse($response, $httpCode): Collection
