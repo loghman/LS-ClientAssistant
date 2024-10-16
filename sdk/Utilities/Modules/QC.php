@@ -64,9 +64,7 @@ class QC extends ModuleUtility
                 'item_id' => $data['item_id'],
                 'rate' => $data['rate'],
                 'comment' => $data['comment'] ?? null,
-            ], [
-                'Authorization: Bearer ' . $userToken,
-            ] + $headers);
+            ], $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -81,9 +79,7 @@ class QC extends ModuleUtility
                 'review_id' => $data['review_id'],
                 'rate' => $data['rate'] ?? null,
                 'comment' => $data['comment'] ?? null,
-            ], [
-                    'Authorization: Bearer ' . $userToken,
-                ] + $headers);
+            ], $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {

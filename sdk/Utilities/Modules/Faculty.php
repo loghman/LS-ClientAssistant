@@ -36,8 +36,6 @@ class Faculty
         try {
             return API::get('v1/lms/faculty/rich', [
                 'methods' => $methods,
-            ], [
-                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);

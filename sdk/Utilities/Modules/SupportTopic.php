@@ -105,9 +105,7 @@ class SupportTopic extends ModuleUtility
                 'order_by' => $orderBy,
                 'per_page' => $perPage,
                 'mine' => true,
-            ], [
-                'Authorization: Bearer ' . $userToken,
-            ] + $headers);
+            ], $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -126,9 +124,7 @@ class SupportTopic extends ModuleUtility
                 'section' => $data['section'] ?? null,
                 'community' => $data['community'] ?? null,
                 'department' => $data['department'] ?? null,
-            ], [
-                'Authorization: Bearer ' . $userToken,
-            ] + $headers);
+            ], $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -141,8 +137,6 @@ class SupportTopic extends ModuleUtility
         try {
             return API::get('v1/support/topic/rich', [
                 'methods' => $methods,
-            ], [
-                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);

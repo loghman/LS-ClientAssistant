@@ -129,8 +129,6 @@ class CMS extends ModuleUtility
 
             return API::getOrFromCache($cacheKey, $cacheConfig, 'v1/cms/rich', [
                 'methods' => $methods,
-            ], [
-                'Authorization: Bearer ' . $userToken,
             ]);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);

@@ -69,9 +69,7 @@ class TwoFaBasedAuth
             return API::post('v1/auth/reset-password', [
                 'password' => $password,
                 'password_confirmation' => $passwordConfirmation
-            ], [
-                'Authorization: Bearer ' . $barerToken,
-            ] + $headers);
+            ], $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
@@ -82,9 +80,7 @@ class TwoFaBasedAuth
     public static function logout(string $barerToken, array $headers = []): Collection
     {
         try {
-            return API::get('v1/auth/logout', [], [
-                'Authorization' => 'Bearer ' . $barerToken
-            ] + $headers);
+            return API::get('v1/auth/logout', [], $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (Exception $exception) {
