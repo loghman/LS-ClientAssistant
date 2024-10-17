@@ -124,7 +124,7 @@ class API
             die;
         }
 
-        if ($httpCode === Response::HTTP_FORBIDDEN && $responseData['message'] === 'You are not logged in.') {
+        if (self::isUserNotLoggedIn($responseData)) {
             self::manuallyLogout();
         }
 
@@ -197,5 +197,12 @@ class API
         return array_filter($headers, function ($header) {
             return ! str_contains(strtolower($header), 'authorization: bearer');
         });
+    }
+
+    public static function isUserNotLoggedIn(array $response): bool
+    {
+        return $response['status_code'] === Response::HTTP_FORBIDDEN
+            && str_contains($response['message'], 'not logged in')
+            && null !== User::getToken();
     }
 }
