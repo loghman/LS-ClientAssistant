@@ -17,10 +17,11 @@ import { lspDomain, lspOrigin, showIframe } from "./useAuth";
 import Button from "./common/Button.vue";
 import { useOtpManagment } from "./useOtpManagment";
 import { useAuthStore } from "../../stores/authStore";
-import { messages } from "@/js/utilities/static-messages.js";
 import { deleteTokenCookies } from "@/js/utilities/logout";
 import OtpFields from "./common/OtpFields.vue";
-import { checkDeviceType } from "@/js/utilities/common";
+import { toastErrorMessages } from "@/js/utilities/error-handler";
+import { toastSuccessMessage } from "@/js/utilities/success-handler";
+
 const clientIframe = document.getElementById("client_iframe");
 const props = defineProps({
   prevCard: String,
@@ -32,7 +33,6 @@ const reSendTokenBtnRef = ref(null);
 const otpCode = ref("");
 const submitVerifFormBtn = ref(null);
 const emit = defineEmits(["goToCard"]);
-const isMobileDevice = ref(false);
 const pathName = window.location.pathname;
 
 const {
@@ -80,7 +80,7 @@ const handleSubmit = async () => {
           props.clientUrl
         );
       }
-      toast(response.message.text);
+      toastSuccessMessage(response);
       Cookies.remove("currentCard");
       Cookies.remove("uniqueKey");
       const redirectPath = response.result.redirect_path;
@@ -91,12 +91,7 @@ const handleSubmit = async () => {
       }
     } else {
       endLoading(submitVerifFormBtn.value);
-      toast(
-        response.message.text
-          ? response.message.text
-          : messages.SOMETHING_WENT_WRONG,
-        "danger"
-      );
+      toastErrorMessages(response);
     }
   } catch (error) {
     console.log(error);
