@@ -48,7 +48,7 @@ class PwaController
                     ->search('is_on_sale', '1')
                     ->perPage(500)
                     ->orderBy('id')->sortedBy('DESC')
-            )->get('result');
+            )->get('data');
             $courses = ObjectCache::write($key, $courses?? []);
         }
         // dd($courses[1]);
@@ -71,7 +71,7 @@ class PwaController
                 $slug, ModuleFilter::new()
                     ->includes('mainTeacherFaculty')
                     ->withCounts('items')
-            )->get('result');
+            )->get('data');
             if(is_null($course['id'])){
                 return new RedirectResponse(site_url('pwa/courses'), 302, []);
             }

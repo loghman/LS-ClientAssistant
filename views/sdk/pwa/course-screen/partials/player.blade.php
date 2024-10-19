@@ -8,7 +8,7 @@
     @elseif(0 && $data['player_type'] == 'kavimo')
         <script src="https://stream.7learn.com/<?=$item['main_video']['stream_id']?>/embed"></script>
     @else
-        @if(filter_var(get_media_url($item['main_video'], FILTER_VALIDATE_URL))
+        @if(filter_var(get_media_url($item['main_video'], FILTER_VALIDATE_URL)))
         <video controls autoplay class="w-100 base-radius overflow-hidden">
             <source src="{{ get_media_url($item['main_video']) }}" type="video/mp4"/>
         </video>
