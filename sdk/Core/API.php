@@ -124,13 +124,13 @@ class API
             die;
         }
 
-        if (self::isUserNotLoggedIn($responseData)) {
-            self::manuallyLogout();
+        if ($httpCode === Response::HTTP_MULTI_STATUS && isset($responseData['result']['redirect'])) {
+            header('Location: '.$responseData['result']['redirect'], true, $responseData['result']['code']);
+            exit;
         }
 
-        if ($httpCode === Response::HTTP_MULTI_STATUS && isset($responseData['data']['redirect'])) {
-            header('Location: '.$responseData['data']['redirect'], true, $responseData['data']['code']);
-            exit;
+        if (self::isUserNotLoggedIn($responseData)) {
+            self::manuallyLogout();
         }
 
         if (isset($responseData['data']['data'])) {
@@ -142,6 +142,8 @@ class API
             $responseData['data'] = $responseData['data'] ?? $responseData['result'] ?? [];
             $responseData['message'] = $responseData['message'] ?? ($responseData['errors'][0] ?? '');
 
+            unset($responseData['status']);
+            unset($responseData['result']);
             return collect($responseData);
         }
 
