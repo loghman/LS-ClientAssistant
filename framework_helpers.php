@@ -165,17 +165,33 @@ if (!function_exists('is_active_uri_param')) {
 }
 
 if (!function_exists('abort')) {
-    function abort(int $code, string $message = '', string $buttonText = null, string $buttonUrl = null, array $headers = [])
-    {
+    function abort(
+        int    $code,
+        string $message = '',
+        string $buttonText = null,
+        string $buttonUrl = null,
+        array  $headers = []
+    ) {
         http_response_code($code);
-        foreach ($headers as $header) header($header);
+        foreach ($headers as $header) {
+            header($header);
+        }
 
         send_abort_notification($code);
 
-        \Ls\ClientAssistant\Core\Router\WebResponse::view("errors.$code", compact('code', 'message', 'buttonText', 'buttonUrl'));
+        if (\Ls\ClientAssistant\Core\Router\WebResponse::viewExist("errors.$code")) {
+            \Ls\ClientAssistant\Core\Router\WebResponse::view(
+                "errors.$code",
+                compact('code', 'message', 'buttonText', 'buttonUrl')
+            );
+        } else {
+            \Ls\ClientAssistant\Core\Router\WebResponse::view(
+                "sdk.default-error",
+                compact('code', 'message', 'buttonText', 'buttonUrl')
+            );
+        }
         die();
     }
-
 }
 
 if (!function_exists('send_abort_notification')) {
@@ -223,10 +239,20 @@ if (!function_exists('send_abort_notification')) {
 }
 
 if (!function_exists('get_or_fail')) {
-    function get_or_fail($response, $message = null, $buttonText = null, $buttonUrl = null)
+    function get_or_fail($response, $defaultMessage = null, $buttonText = null, $buttonUrl = null)
     {
-        if (empty($response['data']) || empty($response)) {
-            abort(404, $message, $buttonText, $buttonUrl);
+        $defaultMessage = $defaultMessage ?? 'مشکلی رخ داده است، لطفا مجددا تلاش کنید';
+        $status = $response['status_code'] ?? $response['status'] ?? 500;
+        $message = ! empty($response['message']) ? $response['message'] : $defaultMessage;
+
+        if ($status === 422 || (isset($response['success']) && $response['success'] !== true)) {
+            if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+                throw \Ls\ClientAssistant\Exceptions\UnprocessableContent::instance($message);
+            }
+        }
+
+        if ($status !== 200) {
+            abort($status, $message, $buttonText, $buttonUrl);
         }
 
         return $response;

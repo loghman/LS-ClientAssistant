@@ -20,6 +20,8 @@ use Illuminate\Events\Dispatcher;
 use Illuminate\Routing\Router;
 use Illuminate\Http\Request;
 use Illuminate\Container\Container;
+use Ls\ClientAssistant\Core\Router\JsonResponse;
+use Ls\ClientAssistant\Exceptions\UnprocessableContent;
 
 class Kernel
 {
@@ -131,10 +133,14 @@ class Kernel
 
     protected function sendRequestThroughRouter($request)
     {
-        return (new Pipeline($this->container))
-            ->send($request)
-            ->through($this->globalMiddlewares)
-            ->then($this->dispatchToRouter());
+        try {
+            return (new Pipeline($this->container))
+                ->send($request)
+                ->through($this->globalMiddlewares)
+                ->then($this->dispatchToRouter());
+        }catch (UnprocessableContent $exception) {
+            return JsonResponse::unprocessableEntity($exception->getMessage());
+        }
     }
 
     protected function dispatchToRouter()

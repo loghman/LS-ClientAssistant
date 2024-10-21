@@ -14,12 +14,8 @@ class MiniLandingController
     {
         $filter = ModuleFilter::new()
             ->includes('productGifts', 'mainTeacherFaculty', 'publishedChapters.log', 'publishedChapters.publishedItems.log');
-        $response = LMSProduct::get($slug, $filter);
-        if (! $response->get('success')) {
-            abort(404, 'محصول پیدا نشد');
-        }
+        $response = get_or_fail(LMSProduct::get($slug, $filter));
         $product = $response->get('data');
-
         $brandNameEn = setting('brand_name_en');
         $currentUser = current_user();
         $introVideo = get_media_url($product['intro_video'], $product['meta']['demo_video_urls'][0] ?? '');
@@ -42,10 +38,7 @@ class MiniLandingController
 
     public function payDetails(string $slug)
     {
-        $response = LMSProduct::get($slug);
-        if (! $response->get('success')) {
-            return JsonResponse::notFound('محصول پیدا نشد.');
-        }
+        $response = get_or_fail(LMSProduct::get($slug));
         $product = $response->get('data');
         if (! $product['is_on_sale']) {
             return JsonResponse::notFound('ثبت نام این دوره در حال حاضر متوقف شده است.');
@@ -71,12 +64,8 @@ class MiniLandingController
     {
         $filter = ModuleFilter::new()
             ->includes('productGifts', 'mainTeacherFaculty', 'publishedChapters.log', 'publishedChapters.publishedItems.log');
-        $response = LMSProduct::get($slug, $filter);
-        if (! $response->get('success')) {
-            abort(404, 'محصول پیدا نشد');
-        }
+        $response = get_or_fail(LMSProduct::get($slug, $filter));
         $product = $response->get('data');
-
         $brandNameEn = setting('brand_name_en');
         $currentUser = current_user();
         $introVideo = get_media_url($product['intro_video'], $product['meta']['demo_video_urls'][0] ?? '');
