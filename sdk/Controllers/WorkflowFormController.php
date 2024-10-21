@@ -21,11 +21,7 @@ class WorkflowFormController
         }else{
             $response = ObjectCache::write($key, TaskManager::formData($workflow));
         }
-        
-        if (!$response->get('success')) {
-            abort(404);
-        }
-
+        $response = get_or_fail($response);
         $workflowData = $response->get('data');
 
         $courses = [];
@@ -76,9 +72,7 @@ class WorkflowFormController
             'source' => $request->get('source'),
         ]);
 
-        if (!$response->get('success')) 
-            return JsonResponse::unprocessableEntity($response->get('message') ?? 'مطممئن شوید اطلاعات فرم را به درستی وارد کرده اید');
-        
+        $response = get_or_fail($response, 'مطممئن شوید اطلاعات فرم را به درستی وارد کرده اید');
         if (mb_substr($firstName, -1) === 'ا') // نادیا عزیز => نادیای عزیز
             $firstName .= 'ی';
 

@@ -165,21 +165,33 @@ if (!function_exists('is_active_uri_param')) {
 }
 
 if (!function_exists('abort')) {
-    function abort(int $code, string $message = '', string $buttonText = null, string $buttonUrl = null, array $headers = [])
-    {
+    function abort(
+        int    $code,
+        string $message = '',
+        string $buttonText = null,
+        string $buttonUrl = null,
+        array  $headers = []
+    ) {
         http_response_code($code);
-        foreach ($headers as $header) header($header);
+        foreach ($headers as $header) {
+            header($header);
+        }
 
         send_abort_notification($code);
 
-        if (!\Ls\ClientAssistant\Core\Router\WebResponse::viewExist("errors.$code")) {
-            $code = 404;
+        if (\Ls\ClientAssistant\Core\Router\WebResponse::viewExist("errors.$code")) {
+            \Ls\ClientAssistant\Core\Router\WebResponse::view(
+                "errors.$code",
+                compact('code', 'message', 'buttonText', 'buttonUrl')
+            );
+        } else {
+            \Ls\ClientAssistant\Core\Router\WebResponse::view(
+                "sdk.default-error",
+                compact('code', 'message', 'buttonText', 'buttonUrl')
+            );
         }
-
-        \Ls\ClientAssistant\Core\Router\WebResponse::view("errors.$code", compact('code', 'message', 'buttonText', 'buttonUrl'));
         die();
     }
-
 }
 
 if (!function_exists('send_abort_notification')) {
