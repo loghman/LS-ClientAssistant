@@ -15,7 +15,10 @@ class StaticCache
         if(!empty($_COOKIE['token']??''))
             return false;
 
-        if ($_SERVER['REQUEST_METHOD'] != 'GET') 
+            if ($_SERVER['REQUEST_METHOD'] != 'GET') 
+            return false;
+
+        if (!self::shouldCacheUrl()) 
             return false;
 
         return true;
@@ -34,7 +37,7 @@ class StaticCache
             return;
         
         self::init();
-        if (file_exists(self::$cacheFile) && (time() - self::EXPIRE_TIME) < filemtime(self::$cacheFile)) {
+        if ( file_exists(self::$cacheFile) && (time() - self::EXPIRE_TIME) < filemtime(self::$cacheFile)) {
             $fileContent = file_get_contents(self::$cacheFile);
             if (strlen($fileContent) < 200) {
                 return;
@@ -54,7 +57,6 @@ class StaticCache
 
     public static function end()
     {
-
         if (!self::isCacheEnable()) 
             return;
         
@@ -72,7 +74,6 @@ class StaticCache
         if(empty($cacheContent))
             return;
         
-
         $cachedfile = fopen(self::$cacheFile, 'w+');
         if(!is_valid_json($cacheContent))
             fwrite($cachedfile, "<!-- cached:" . date('Y-m-d H:i:s', filemtime(self::$cacheFile)) . " -->\n");
@@ -90,5 +91,22 @@ class StaticCache
                 unlink($file);
             }
         }
+    }
+    
+    private static function shouldCacheUrl()
+    {
+        $currentUri = $_SERVER['REQUEST_URI'];
+        $mustCacheKeywords = ['course','blog','news','cat','tag','topic','community'];
+        $notCacheKeywords = ['auth','login','password','register','logout'];
+
+        foreach ($mustCacheKeywords as $keyword)
+            if(str_contains($currentUri,$keyword) )
+                return true;
+
+        foreach ($notCacheKeywords as $keyword)
+            if(str_contains($currentUri,$keyword))
+                return false;
+            
+        return true;
     }
 }
