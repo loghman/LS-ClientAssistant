@@ -22,7 +22,10 @@ class CartController
 
     public function checkout(Request $request)
     {
-        $cart = Cart::screen(['coupon', 'lmsProductItems.entity', 'lmsProductItems.coupon'])['data'] ?? [];
+        $response = get_or_fail(
+            Cart::screen(['coupon', 'lmsProductItems.entity', 'lmsProductItems.coupon'])
+        );
+        $cart = $response['data'] ?? [];
         $defaultGateway = Gateway::getDefault([], $request->get('gateway'));
         $view = WebResponse::viewExist('salesflow.cart.index') ?
             'salesflow.cart.index' :
@@ -33,7 +36,10 @@ class CartController
 
     public function gateways(Request $request)
     {
-        $cart = Cart::screen(['coupon', 'lmsProductItems.entity', 'lmsProductItems.coupon'])['data'] ?? [];
+        $response = get_or_fail(
+            Cart::screen(['coupon', 'lmsProductItems.entity', 'lmsProductItems.coupon'])
+        );
+        $cart = $response['data'] ?? [];
         $gateways = Gateway::list()->get('data');
         $defaultGateway = Gateway::getDefault($gateways, $request->get('gateway'));
         $eligibleResponse = [];
@@ -59,65 +65,58 @@ class CartController
             );
         }
 
-        $res = Cart::addItem(
-            base64_decode($request->get('et')),
-            (int) $request->get('ei'),
-            $request->get('coupon'),
-            $request->getClientIp()
+        $response = get_or_fail(
+            Cart::addItem(
+                base64_decode($request->get('et')),
+                (int) $request->get('ei'),
+                $request->get('coupon'),
+                $request->getClientIp()
+            )
         );
 
-        if (! $res->get('success')) {
-            return JsonResponse::unprocessableEntity($res->get('message') ?? '');
-        }
-
         return JsonResponse::success(
-            $res->get('message'),
+            $response->get('message'),
             ['backUrl' => route('cart.checkout')]
         );
     }
 
     public function delete(Request $request, $itemId)
     {
-        $res = Cart::deleteItem($itemId);
-        if (! $res->get('success')) {
-            return JsonResponse::unprocessableEntity($res->get('message') ?? '');
-        }
+        $response = get_or_fail(
+            Cart::deleteItem($itemId)
+        );
 
-        return JsonResponse::success($res->get('message'));
+        return JsonResponse::success($response->get('message'));
     }
 
     public function applyCoupon(Request $request, $cart)
     {
-        $res = Coupon::apply(
-            $request->cookies->get('token'),
-            $cart,
-            $request->request->get('coupon')
+        $response = get_or_fail(
+            Coupon::apply(
+                $request->cookies->get('token'),
+                $cart,
+                $request->request->get('coupon')
+            )
         );
 
-        if (! $res->get('success')) {
-            return JsonResponse::unprocessableEntity($res->get('message') ?? '');
-        }
-
         return JsonResponse::success(
-            $res->get('message'),
+            $response->get('message'),
             ['backUrl' => route('cart.checkout')]
         );
     }
 
     public function unapplyCoupon(Request $request, $cart, $coupon)
     {
-        $res = Coupon::unapply(
-            $request->cookies->get('token'),
-            $cart,
-            $coupon
+        $response = get_or_fail(
+            Coupon::unapply(
+                $request->cookies->get('token'),
+                $cart,
+                $coupon
+            )
         );
 
-        if (! $res->get('success')) {
-            return JsonResponse::unprocessableEntity($res->get('message') ?? '');
-        }
-
         return JsonResponse::success(
-            $res->get('message'),
+            $response->get('message'),
             ['backUrl' => route('cart.checkout')]
         );
     }
