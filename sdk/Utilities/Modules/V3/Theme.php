@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Helpers\Response;
 
-class Theme
+class Theme extends Cacher
 {
     public static function get_current_theme(): Collection
     {

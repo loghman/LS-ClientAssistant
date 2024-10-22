@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Helpers\Response;
 
-class CMS
+class CMS extends Cacher
 {
     public static function index(ModuleFilter $filter = null) : Collection
     {

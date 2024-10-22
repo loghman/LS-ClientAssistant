@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Helpers\Response;
 
-class Enrollment
+class Enrollment extends Cacher
 {
     public static function get(string $id, ModuleFilter $filter = null): Collection
     {
