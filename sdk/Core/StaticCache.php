@@ -97,12 +97,12 @@ class StaticCache
     {
         $currentUri = $_SERVER['REQUEST_URI'];
         $mustCacheKeywords = ['course','blog','news','cat','tag','topic','community'];
-        $notCacheKeywords = ['auth','login','password','register','logout'];
 
         foreach ($mustCacheKeywords as $keyword)
             if(str_contains($currentUri,$keyword) )
                 return true;
 
+        $notCacheKeywords = ['auth','login','register','logout','cart','pay','forget','verif','otp','sign','password'];
         foreach ($notCacheKeywords as $keyword)
             if(str_contains($currentUri,$keyword))
                 return false;
