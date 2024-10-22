@@ -6,15 +6,12 @@ use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\Router\WebResponse;
 use Ls\ClientAssistant\Services\ObjectCache;
 use Ls\ClientAssistant\Utilities\Modules\Authentication;
-use Ls\ClientAssistant\Utilities\Modules\Enrollment;
 use Ls\ClientAssistant\Utilities\Modules\LMSProduct;
 use Ls\ClientAssistant\Utilities\Modules\User;
-use Ls\ClientAssistant\Utilities\Modules\V3\BannerPosition;
 use Ls\ClientAssistant\Utilities\Modules\V3\CmsPost;
 use Ls\ClientAssistant\Utilities\Modules\V3\Enrollment as V3Enrollment;
 use Ls\ClientAssistant\Utilities\Modules\V3\LMSProduct as V3LMSProduct;
 use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
-use Ls\ClientAssistant\Utilities\Tools\Token;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class PwaController
