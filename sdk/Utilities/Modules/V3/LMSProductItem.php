@@ -30,4 +30,15 @@ class LMSProductItem extends Cacher
             return Response::parseException($exception);
         }
     }
+
+    public static function navigate(int $id, ModuleFilter $filter = null): Collection
+    {
+        try {
+            return API::get("client/v3/lms/product-item/{$id}/navigate", $filter ? $filter->all() : []);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
 }

@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Helpers\Response;
 
-class HR
+class HR extends Cacher
 {
     public static function list(ModuleFilter $filter = null): Collection
     {

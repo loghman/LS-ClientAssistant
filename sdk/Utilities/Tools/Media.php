@@ -2,10 +2,10 @@
 
 namespace Ls\ClientAssistant\Utilities\Tools;
 
-use App\Core\Media\Enums\MediaDefaultReplacementEnum;
 use Ls\ClientAssistant\Helpers\Config;
 use Ls\ClientAssistant\Utilities\Tools\Enums\MediaCollectionEnum;
 use Ls\ClientAssistant\Utilities\Tools\Enums\MediaConversionEnum;
+use Ls\ClientAssistant\Utilities\Tools\Enums\MediaDefaultReplacementEnum;
 
 class Media
 {
@@ -45,7 +45,7 @@ class Media
     private static function handleDefaultMedia(string $defaultMedia): string
     {
         if ($defaultMedia === '') {
-            return get_default_media(\Ls\ClientAssistant\Utilities\Tools\Enums\MediaDefaultReplacementEnum::DEFAULT);
+            return get_default_media(MediaDefaultReplacementEnum::DEFAULT);
         }
 
         return $defaultMedia;

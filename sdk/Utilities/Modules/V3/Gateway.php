@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Helpers\Response;
 
-class Gateway
+class Gateway extends Cacher
 {
     public static function list(): Collection
     {

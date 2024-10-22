@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Helpers\Response;
 
-class BannerPosition
+class BannerPosition extends Cacher
 {
     private static $base = 'client/v3/marketing/promotion-position';
 

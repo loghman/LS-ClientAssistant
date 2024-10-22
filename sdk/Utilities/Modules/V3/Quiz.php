@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Helpers\Response;
 
-class Quiz
+class Quiz extends Cacher
 {
     public static function find(ModuleFilter $filter = null): Collection
     {
