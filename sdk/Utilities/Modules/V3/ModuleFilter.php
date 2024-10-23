@@ -93,7 +93,7 @@ class ModuleFilter
         return $this;
     }
 
-    public function otherFilters(string $column, mixed $value): self
+    public function otherParams(string $column, mixed $value): self
     {
         $this->{$column} = $value;
 

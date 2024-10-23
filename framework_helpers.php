@@ -172,6 +172,10 @@ if (!function_exists('abort')) {
 
         send_abort_notification($code);
 
+        if (!\Ls\ClientAssistant\Core\Router\WebResponse::viewExist("errors.$code")) {
+            $code = 404;
+        }
+
         \Ls\ClientAssistant\Core\Router\WebResponse::view("errors.$code", compact('code', 'message', 'buttonText', 'buttonUrl'));
         die();
     }
