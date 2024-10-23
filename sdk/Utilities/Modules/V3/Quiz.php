@@ -31,12 +31,10 @@ class Quiz
         }
     }
 
-    public static function storeAnswer(int $quizId, int $questionId, mixed $answer): Collection
+    public static function storeAnswer(ModuleFilter $filter = null): Collection
     {
         try {
-            return API::post('client/v3/core/answer', [
-                'quiz_id' => $quizId, 'question_id' => $questionId, 'answer' => $answer
-            ]);
+            return API::post('client/v3/core/answer', $filter ? $filter->all() : []);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -44,12 +42,10 @@ class Quiz
         }
     }
 
-    public static function storeAnswersheet(int $quizId): Collection
+    public static function storeAnswersheet(ModuleFilter $filter = null): Collection
     {
         try {
-            return API::post('client/v3/core/answersheet', [
-                'quiz_id' => $quizId
-            ]);
+            return API::post('client/v3/core/answersheet', $filter ? $filter->all() : []);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -68,10 +64,10 @@ class Quiz
         }
     }
 
-    public static function signalAnswer(int $answerId, array $data): Collection
+    public static function signalAnswer(int $answerId, ModuleFilter $filter = null): Collection
     {
         try {
-            return API::patch('client/v3/core/answer/'.$answerId, $data);
+            return API::patch('client/v3/core/answer/'.$answerId, $filter ? $filter->all() : []);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
