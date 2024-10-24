@@ -593,7 +593,8 @@
         .sidebar .sidelinks{
             position: fixed;
             width: 240px;
-            top:80px;
+            min-height: 700px;
+            background: #ffffff;
         }
 
         .sidebar a {

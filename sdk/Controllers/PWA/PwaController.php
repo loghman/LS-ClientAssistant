@@ -176,6 +176,7 @@ class PwaController
                 $posts = obc_write($key,$posts);
             }
         }
+        unset($posts['latest']['meta'],$posts['featured']['meta']);
         $pagetitle = "وبلاگ " . $data['brand_name'];
         return WebResponse::view('sdk.pwa.blog.list', compact('pagetitle','data','posts'));
     } 
