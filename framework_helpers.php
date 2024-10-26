@@ -239,10 +239,18 @@ if (!function_exists('send_abort_notification')) {
 }
 
 if (!function_exists('get_or_fail')) {
-    function get_or_fail($response, $message = null, $buttonText = null, $buttonUrl = null)
+    function get_or_fail($response, $defaultMessage = null, $buttonText = null, $buttonUrl = null)
     {
-        if (empty($response['data']) || empty($response)) {
-            abort(404, $message, $buttonText, $buttonUrl);
+        $defaultMessage = $defaultMessage ?? 'مشکلی رخ داده است، لطفا مجددا تلاش کنید';
+        $status = $response['status_code'] ?? $response['status'] ?? 500;
+        $message = ! empty($response['message']) ? $response['message'] : $defaultMessage;
+        if ($status === 422 || (isset($response['success']) && $response['success'] !== true)) {
+            if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+                throw \Ls\ClientAssistant\Exceptions\UnprocessableContent::instance($message);
+            }
+        }
+        if ($status !== 200) {
+            abort($status, $message, $buttonText, $buttonUrl);
         }
 
         return $response;
