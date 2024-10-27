@@ -20,10 +20,14 @@ class HookController
 
     public function landing(Request $request, $slug)
     {
-        $response = get_or_fail(Hook::get($slug));
-        $hook = $response['data'];
+        $hook = Hook::get($slug)['data'];
         $seoMeta = seo_meta('hook', $hook);
         $user = current_user();
+
+        if (!$hook) {
+            abort(404, 'صفحه مورد نظر پیدا نشد');
+        }
+
         $showLoginForm = false;
         if (!empty($user)) {
             Token::token($hook['id'], $this->hookCookieName)->remove();
@@ -42,8 +46,11 @@ class HookController
 
     public function download(Request $request, $slug)
     {
-        $response = get_or_fail(Hook::get($slug));
-        $hook = $response['data'];
+        $hook = Hook::get($slug)['data'];
+        if (!$hook) {
+            return JsonResponse::notFound('هوک پیدا نشد');
+        }
+
         $user = current_user();
         if (empty($user) && $hook['fields']['conditions']['required_login']) {
             Token::token($hook['id'], $this->hookCookieName)->weeks()->save();
@@ -59,9 +66,10 @@ class HookController
             'email' => $request->get('email'),
         ];
 
-        $response = get_or_fail(
-            Hook::sendFile($hook['id'], $data)
-        );
+        $response = Hook::sendFile($hook['id'], $data);
+        if (!$response['success']) {
+            return JsonResponse::badRequest($response['message']);
+        }
 
         if($request->get('toast-message') && $request->get('toast-status-code')){
             return JsonResponse::json($request->get('toast-message'), $request->get('toast-status-code'));
@@ -92,7 +100,11 @@ class HookController
             return JsonResponse::badRequest('type نامعتبر');
         }
 
-        $hook = get_or_fail(Hook::get($slug))['data'];
+        $hook = Hook::get($slug)['data'];
+        if(!$hook){
+            return JsonResponse::notFound('قلاب پیدا نشد');
+        }
+
         Hook::signal($hook['id'], [
             'type' => 'view',
             'url' => $request->headers->get('referer'),
