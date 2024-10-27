@@ -34,26 +34,28 @@ class AuthVerificationController
 
     public function send(Request $request)
     {
-        $response = get_or_fail(
-            Authentication::sendVerificationCode(
-                $request->get('input'),
-                ['g-recaptcha-response' => $request->get('g-recaptcha-response')]
-            )
+        $response = Authentication::sendVerificationCode(
+            $request->get('input'),
+            ['g-recaptcha-response' => $request->get('g-recaptcha-response')]
         );
+        if (!$response->get('success')) {
+            return JsonResponse::unprocessableEntity($response->get('message'));
+        }
 
         return JsonResponse::success($response->get('message'));
     }
 
     public function verify(Request $request)
     {
-        $response = get_or_fail(
-            Authentication::verifyVerificationFields(
-                $request->cookies->get('token'),
-                $request->get('input'),
-                $request->get('otp'),
-                ['g-recaptcha-response' => $request->get('g-recaptcha-response')]
-            )
+        $response = Authentication::verifyVerificationFields(
+            $request->cookies->get('token'),
+            $request->get('input'),
+            $request->get('otp'),
+            ['g-recaptcha-response' => $request->get('g-recaptcha-response')]
         );
+        if (!$response->get('success')) {
+            return JsonResponse::unprocessableEntity($response->get('message'));
+        }
 
         return JsonResponse::success($response->get('message'));
     }
