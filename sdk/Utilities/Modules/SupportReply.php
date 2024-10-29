@@ -14,7 +14,7 @@ class SupportReply
         try {
             return API::post(sprintf("v1/support/topic/%s/reply", $data['topic_id']), [
                 'content' => $data['content'],
-                'attachment' => $data['attachment'] ?? null,
+                'unique_id' => $data['unique_id'] ?? null,
             ], $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
