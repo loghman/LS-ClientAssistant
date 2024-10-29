@@ -261,6 +261,7 @@ class LMSProduct extends ModuleUtility
                 'section' => $data['section'] ?? null,
                 'community' => $data['community'] ?? null,
                 'department' => $data['department'] ?? null,
+                'unique_id' => $data['unique_id'] ?? null,
             ], $headers);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
