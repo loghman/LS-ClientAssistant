@@ -231,11 +231,27 @@ class PwaController
 
     public function getManifestData(): array
     {
-        $logo_url = empty(setting('logo_icon_url')) ? setting('logo_url') : setting('logo_icon_url');
-        $mime_type = get_headers($logo_url, 1)['Content-Type'];
-        $data = self::shered_data();
-        $data['theme_color'] = '#ffffff';
-        $data['mime_type'] = $mime_type;
+        // $logo_url = empty(setting('logo_icon_url')) ? setting('logo_url') : setting('logo_icon_url');
+        // $mime_type = get_headers($logo_url, 1)['Content-Type'];
+        // $data = self::shered_data();
+        // $data['mime_type'] = $mime_type;
+        $data = array_merge($data,[
+            // 'pwa_orientation'       => setting('pwa_orientation'),
+            // 'pwa_display'           => setting('pwa_display'),
+            // 'pwa_dir'               => setting('pwa_dir'),
+            'pwa_icon_512_maskable' => setting('pwa_icon-512-maskable'),
+            'pwa_icon-512'          => setting('pwa_icon-512'),
+            'pwa_icon_192_maskable' => setting('pwa_icon-192-maskable'),
+            'pwa_icon_192'          => setting('pwa_icon-192'),
+            'pwa_lang'              => setting('pwa_lang'),
+            'pwa_scope'             => setting('pwa_scope'),
+            'pwa_theme_color'       => setting('pwa_theme_color'),
+            'pwa_background_color'  => setting('pwa_background_color'),
+            'pwa_start_url'         => setting('pwa_start_url'),
+            'pwa_description'       => setting('pwa_description'),
+            'pwa_short_name'        => setting('pwa_short_name'),
+            'pwa_name'              => setting('pwa_name'),
+        ]);
         return $data;
     }
 

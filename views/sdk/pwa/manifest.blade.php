@@ -1,10 +1,10 @@
 {
-  "id": "<?=md5($brand_name)?>",
-  "name": "<?=$brand_name?>",
-  "short_name": "<?=$brand_name?>",
-  "description": "اپلیکیشن <?=$brand_name?>",
+  "id": "<?=md5($pwa_name)?>",
+  "name": "<?=$pwa_name?>",
+  "short_name": "<?=$pwa_short_name?>",
+  "description": "اپلیکیشن <?=$pwa_description?>",
   "start_url": "/pwa/dashboard",
-  "scope": "/",
+  "scope": "<?=$pwa_scope?>",
   "display": "standalone",
   "display_override": ["tabbed", "standalone", "fullscreen"],
   "tab_strip": {
@@ -15,26 +15,41 @@
   "orientation": "portrait",
   "categories": [
     "education",
-    "eleaning"
+    "elearning"
   ],
+
   "related_applications": [{
       "platform": "webapp",
       "url": "<?=site_url('manifest.json')?>"
     }
   ],
-  "background_color": "#ffffff",
-  "theme_color": "<?=$theme_color?>",
-  "lang": "fa-IR",
+  "background_color": "<?=$pwa_background_color?>",
+  "theme_color": "<?=$pwa_theme_color?>",
+  "lang": "<?=$pwa_lang?>",
   "icons": [
     {
-      "src": "https://up.7learn.com/1/mdm/madam-192-maskable.png",
+      "src": "<?=$pwa_icon_192_maskable?>",
       "sizes": "192x192",
-      "type": "<?=$mime_type?>"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "https://up.7learn.com/1/mdm/madam-512-maskable.png",
+      "src": "<?=$pwa_icon_192_maskable?>",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "<?=$pwa_icon_512_maskable?>",
       "sizes": "512x512",
-      "type": "<?=$mime_type?>"
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "<?=$pwa_icon_512_maskable?>",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
 
@@ -45,7 +60,7 @@
 
   "url_handlers": [
     {
-      "origin": "<?=site_url('/*')?>"
+      "origin": "<?=site_url('*')?>"
     }
   ]  
 }
