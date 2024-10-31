@@ -32,5 +32,17 @@ class CmsPost extends Cacher
             return Response::parseException($exception);
         }
     }
+
+    public static function getBySlug($slug): Collection
+    {
+        $filter = ModuleFilter::new()->search('slug',$slug);
+        try {
+            return API::get('client/v3/cms/post', $filter ? $filter->all() : []);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
     
 }
