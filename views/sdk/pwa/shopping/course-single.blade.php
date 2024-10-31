@@ -150,14 +150,21 @@ if (!preg_match('/' . implode('|', ['.jpg','.png','.webp']) . '/', $thumb))
             ;
             /* box-shadow: 0px -10px 20px rgba(0, 0, 0, 0.1); */
         }
+        @media screen and (min-width:900px) {
+            @media screen and (min-width: 900px) {
+                .stick {
+                    width: 48%;
+                    left: 20%;
+                    padding-right: 20px;
+                }
+            }
+        }
 
         .stick button,
         .stick button:active,
         .stick button:visited {
             background: #ffffff !important;
-            ;
             color: var(--primary) !important;
-            ;
         }
 
         .stick .stat {
@@ -180,7 +187,7 @@ if (!preg_match('/' . implode('|', ['.jpg','.png','.webp']) . '/', $thumb))
         }
 
         #payOptions  a {
-            flex-direction: column;
+            padding: 5px 25px !important;
             border-radius: var(--base-radius);
             padding: var(--base-gutter);
             padding-left: calc(var(--base-gutter)* 1.5);
@@ -188,8 +195,18 @@ if (!preg_match('/' . implode('|', ['.jpg','.png','.webp']) . '/', $thumb))
             background: var(--primary-10);
             display: flex;
             align-items: center;
-            gap: var(--base-gutter);
             margin-top: 20px;
+        }
+
+        #payOptions  a:hover {
+            background: var(--primary-20);
+        }
+
+        #payOptions a .text{
+            display: block;
+        }
+        #payOptions a .gateway{
+            text-align: center;
         }
 
     </style>
@@ -317,7 +334,7 @@ if (!preg_match('/' . implode('|', ['.jpg','.png','.webp']) . '/', $thumb))
     @include('sdk.pwa._partials.bottom-nav')
     <script type="module" src="{{ core_asset('resources/assets/js/jquery.js') }}"></script>
     <script type="module" src="{{ core_asset('resources/assets/minimal-landing/js/client.js') }}"></script>
-    @include('sdk._common.components.error-messages');
+    @include('sdk._common.components.error-messages')
     @include('sdk.pwa._partials.scripts')
 
     <script>

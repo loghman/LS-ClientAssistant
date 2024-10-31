@@ -16,21 +16,24 @@
             'coupon' => $product['primaryCampaign']['coupon_label'] ?? null,
         ]) }}">
         <span class="text">
-            <span class="title">
+            <span class="title gateway">
                 @if ($product['final_price']['main'] == 0)
-                    <img style="width: 50px;height: 28px;" class="icon"
-                        src="https://up.7learn.com/z/s/2024/05/hot-sale-qJP7.svg">
+                    <img style="width: 50px;height: 28px;" class="icon" src="https://up.7learn.com/z/s/2024/05/hot-sale-qJP7.svg">
                     ثبت نام
                 @else
-                    <img style="width: 50px;height: 50px;" src="{{ $gateway['thumbnail'] }}"
-                        alt="{{ $gateway['name_en'] }}" class="icon">
+                    <img style="width: 50px;height: 50px;" src="{{ $gateway['thumbnail'] }}"  alt="{{ $gateway['name_en'] }}" class="icon">
+                    <div>
                     @if($isSnap)
                         {{ $eligibleResponse['response']['title_message'] }}
                     @else
                         {{ $gateway['name_fa'] }}
                     @endif
+                </div>
                 @endif
             </span>
+        </span>
+        <span class="text me-auto align-items-left text-left">
+            <div>
             @if($isSnap)
                 @if(!empty($eligibleResponse['response']['description']))
                     <span class="subtitle fa-number">{{ $eligibleResponse['response']['description'] }}</span>
@@ -41,8 +44,7 @@
                         {{ to_persian_num($product['primaryCampaign']['discount_amount']) }}</span>
                 @endif
             @endif
-        </span>
-        <span class="text me-auto align-items-left text-left">
+            </div>
             @if(!$gateway['isInstallmentPaymentAvailable'] || $gateway['isDiscountAvailable'])
                 <span class="title">
                     @if($product['price']['main'] > $product['final_price']['main'])

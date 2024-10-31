@@ -23,6 +23,20 @@ $defaultThumb = "https://up.7learn.com/1/course.jpg";
         padding:0 15px 0 15px !important;
     }
 
+    @media screen and (min-width:900px) {
+        .clist{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .course-card{
+            width: 48%;
+            height: 0;
+            padding: 0;
+            padding-bottom: 27%;
+            display: block;
+        }
+    }
 </style>
 </head>
 @include('sdk.pwa._partials.sidebar-desktop')
