@@ -233,8 +233,8 @@ class PwaController
     {
         // $logo_url = empty(setting('logo_icon_url')) ? setting('logo_url') : setting('logo_icon_url');
         // $mime_type = get_headers($logo_url, 1)['Content-Type'];
-        // $data = self::shered_data();
         // $data['mime_type'] = $mime_type;
+        $data = self::shered_data();
         $data = array_merge($data,[
             // 'pwa_orientation'       => setting('pwa_orientation'),
             // 'pwa_display'           => setting('pwa_display'),
