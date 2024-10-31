@@ -71,9 +71,7 @@
     @include('sdk._common.components.error-messages');
     @include('sdk.pwa._partials.scripts')
 
-<script>
-
-</script>
+<script>sendPostView(<?=$post['id']?>);</script>
 
 </body>
 

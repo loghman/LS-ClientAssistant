@@ -1,4 +1,12 @@
 <script>
+function sendPostView(pid) {
+    fetch("<?=site_url("pwa/add-post-views")?>", {
+        method: "POST",
+        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+        body: `pid=${encodeURIComponent(pid)}`
+    });
+}
+
 document.querySelectorAll('[data-copy]').forEach(element => {
     element.addEventListener('click', function(event) {
         event.stopPropagation();

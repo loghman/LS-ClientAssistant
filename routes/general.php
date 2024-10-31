@@ -182,6 +182,7 @@ $router->name('pwa.')->prefix('pwa')->group(function (Router $router){
 
     $router->name('blog')->get('blog', [PwaController::class, 'blog'])->middleware(PwaMiddleware::class); 
     $router->name('blog.single')->get('blog/{id}', [PwaController::class, 'blog_single'])->middleware(PwaMiddleware::class); 
+    $router->name('blog.single.addviews')->post('add-post-views', [PwaController::class, 'add_post_views']);
     $router->name('profile')->get('profile', [PwaController::class, 'profile'])->middleware(PwaMiddleware::class);
     $router->name('logout')->get('logout', [PwaController::class, 'logout']); 
     $router->name('offline')->get('/offline.html', [PwaController::class, 'offline']);
