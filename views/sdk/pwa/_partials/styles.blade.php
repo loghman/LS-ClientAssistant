@@ -616,4 +616,10 @@
             display: none
         }
     }
+    h2.pay-title{
+        text-align:center !important;
+        font-size:24px !important;
+        font-weight:600 !important;
+        margin-bottom:20px;
+    }
 </style>

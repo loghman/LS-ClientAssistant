@@ -1,5 +1,7 @@
 <i class="toggle-icon i-bottom" style="cursor: pointer"></i>
-<span class="title justify-content-center text-center mb">{{$product['final_price']['main'] > 0 ? 'درگاه و روش پرداخت خود را انتخاب کنید' : 'همین الان ثبت نام کن'}}</span>
+<h2 class="pay-title">
+<?= $product['final_price']['main'] > 0 ? '<span class="fasl">ثبت نام</span> و انتخاب روش پرداخت' : 'به <span class="fasl">رایگان</span> ثبت نام کنید' ?>
+</h2> 
 @foreach ($gateways->get('data') as $gateway)
     @php($isSnap = str_contains(strtolower($gateway['name_en']), 'snap'))
     @if($isSnap && (empty($eligibleResponse['successful'])
@@ -7,7 +9,7 @@
             || $product['final_price']['main'] == 0))
         @continue
     @endif
-    <a class="success"
+    <a class="success gateway-item"
         href="{{ route('payment.qPay', [
             'gateway' => $gateway['id'],
             'et' => base64_encode('lms_products'),
@@ -15,11 +17,10 @@
             'slug' => $product['slug'],
             'coupon' => $product['primaryCampaign']['coupon_label'] ?? null,
         ]) }}">
-        <span class="text">
-            <span class="title gateway">
+        <div class="text gw-logo">
                 @if ($product['final_price']['main'] == 0)
                     <img style="width: 50px;height: 28px;" class="icon" src="https://up.7learn.com/z/s/2024/05/hot-sale-qJP7.svg">
-                    ثبت نام
+                    ثبت نام رایگان
                 @else
                     <img style="width: 50px;height: 50px;" src="{{ $gateway['thumbnail'] }}"  alt="{{ $gateway['name_en'] }}" class="icon">
                     <div>
@@ -30,9 +31,8 @@
                     @endif
                 </div>
                 @endif
-            </span>
-        </span>
-        <span class="text me-auto align-items-left text-left">
+        </div>
+        <div class="text gw-desc">
             <div>
             @if($isSnap)
                 @if(!empty($eligibleResponse['response']['description']))
@@ -50,8 +50,12 @@
                     @if($product['price']['main'] > $product['final_price']['main'])
                         <span class="strike">{{ to_persian_num($product['price']['human']) }}</span>
                     @endif
-                    <span @if($product['final_price']['main'] == 0) style="color: green; font-weight: bolder;" @endif>
+                    <span>
+                        @if($product['final_price']['main'] == 0) 
+                        برای فعال شدن سریع محصول <b>کلیک کنید</b>                    
+                        @else
                         {{ to_persian_num($product['final_price']['human']) }}
+                        @endif
                     </span>
                 </span>
             @else
@@ -64,10 +68,8 @@
                     @else
                         پرداخت نقدی
                     @endif
-                @else
-                    ثبت نام کنید
                 @endif
             </span>
-        </span>
+        </div>
     </a>
 @endforeach

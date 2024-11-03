@@ -187,11 +187,11 @@ if (!preg_match('/' . implode('|', ['.jpg','.png','.webp']) . '/', $thumb))
         }
 
         #payOptions  a {
-            padding: 5px 25px !important;
+            padding: 0 !important;
             border-radius: var(--base-radius);
             padding: var(--base-gutter);
             padding-left: calc(var(--base-gutter)* 1.5);
-            border: solid 1px var(--primary);
+            border: solid 1px var(--primary-50);
             background: var(--primary-10);
             display: flex;
             align-items: center;
@@ -208,6 +208,40 @@ if (!preg_match('/' . implode('|', ['.jpg','.png','.webp']) . '/', $thumb))
         #payOptions a .gateway{
             text-align: center;
         }
+
+    @media screen and (min-width:800px) {
+        #payOptions a {
+            width:70%;
+            margin: 10px auto;
+        }
+        #stickybar{
+            display:none !important;
+        }
+    }
+
+    .gateway-item{
+        flex-direction: column;
+    }
+    .gateway-item .gw-logo{
+        width: 100%;
+        background: var(--primary-20);
+        border-radius: 10px 10px 0 0;
+        padding: 0 20px;
+    }
+    .gateway-item .gw-logo *{
+        display: inline-block;
+    }
+    .gateway-item .gw-logo img{
+        vertical-align: middle;
+        width:32px !important;
+        height:32px !important;
+        margin-left: 5px;
+    }
+    .gateway-item .gw-desc{
+        width: 100%;
+        text-align: right !important;
+        padding: 10px 20px;
+    }
 
     </style>
 </head>
@@ -313,10 +347,11 @@ if (!preg_match('/' . implode('|', ['.jpg','.png','.webp']) . '/', $thumb))
                     </div>
                 @endforeach
             </div>
+            <div id="pay"></div> 
             <div id="payOptions"><span class="loader"></span></div>
         </div>
     </div>
-    <div class="stick rMaxW">
+    <div class="stick rMaxW" id="stickybar">
         <div class="stat">
             @if ($course['price']['main'] == 0)
                 <span>رایگان</span>
@@ -370,6 +405,37 @@ if (!preg_match('/' . implode('|', ['.jpg','.png','.webp']) . '/', $thumb))
             const finalPrice = <?=$course['final_price']['main']?>; // این مقدار را با قیمت واقعی کورس جایگزین کنید
             payBtn.textContent = finalPrice > 0 ? 'پرداخت و ثبت نام' : 'ثبت نام رایگان';
         });
+
+        document.addEventListener('DOMContentLoaded', function() {
+    var stickyBar = document.getElementById('stickybar');
+    var lastScrollPosition = 0;
+    var ticking = false;
+
+    function updateStickyBar(scrollPos) {
+        var pageHeight = document.documentElement.scrollHeight;
+        var viewportHeight = window.innerHeight;
+        var bottomThreshold = pageHeight - viewportHeight - 600;
+
+        if (scrollPos > bottomThreshold) {
+            stickyBar.style.display = 'none';
+        } else {
+            stickyBar.style.display = 'flex';
+        }
+    }
+
+    window.addEventListener('scroll', function(e) {
+        lastScrollPosition = window.scrollY;
+
+        if (!ticking) {
+            window.requestAnimationFrame(function() {
+                updateStickyBar(lastScrollPosition);
+                ticking = false;
+            });
+
+            ticking = true;
+        }
+    });
+});
     </script>
 
 </body>
