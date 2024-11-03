@@ -68,6 +68,11 @@
         padding: 0 30px 30px 30px; 
     }
 
+    .swiper-pagination{
+        text-align: center;
+        margin-top: -15px;
+    }
+
     @media (min-width: 1200px) {
         .lastseens .swiper-slide {
             width: 40% !important;
@@ -94,17 +99,20 @@
         </a>
     </div>
 
+<?php if(isset($slider)): ?>
+<?php if(count($slider['banners'])): ?>
 <div class="swiper app-slider wpad">
     <div class="swiper-wrapper">
-        <a class="swiper-slide bnavi" href="https://madamcakes.com/book1"> 
-            <img src="https://up.7learn.com/1/mdm/book1.jpg" alt="">
-        </a>
-        <a class="swiper-slide bnavi" href="https://madamcakes.com/book2">
-            <img src="https://up.7learn.com/1/mdm/book2.jpg" alt="">
-        </a>
+        <?php foreach($slider['banners'] as $banner): ?>
+            <a class="swiper-slide bnavi" href="<?=$banner['link']?>"> 
+                <img src="<?=$banner['image']['url']?>" alt="<?=strtok($banner['image']['original_name'],'.')?>">
+            </a>
+        <?php endforeach; ?>
     </div>
     <div class="swiper-pagination"></div>
 </div>
+<?php endif; ?>
+<?php endif; ?>
 
 <div>
     <div class="title-row wpad">
@@ -136,6 +144,7 @@ new Swiper(".app-slider", {
         delay: 5000,
         disableOnInteraction: false,
     },
+    pagination: {el: ".swiper-pagination"},
     spaceBetween: 30,
     centeredSlides: true,
     cssMode:true,

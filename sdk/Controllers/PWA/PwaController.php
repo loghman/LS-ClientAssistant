@@ -9,6 +9,7 @@ use Ls\ClientAssistant\Utilities\Modules\Authentication;
 use Ls\ClientAssistant\Utilities\Modules\CMS;
 use Ls\ClientAssistant\Utilities\Modules\LMSProduct;
 use Ls\ClientAssistant\Utilities\Modules\User;
+use Ls\ClientAssistant\Utilities\Modules\V3\BannerPosition;
 use Ls\ClientAssistant\Utilities\Modules\V3\CmsPost;
 use Ls\ClientAssistant\Utilities\Modules\V3\Enrollment as V3Enrollment;
 use Ls\ClientAssistant\Utilities\Modules\V3\LMSProduct as V3LMSProduct;
@@ -21,7 +22,12 @@ class PwaController
     {
         $user = current_user();
         $data = self::shered_data();
-
+        $key = 'app-dash-slider-top';
+        if (obc_exists($key)) { 
+            $slider = obc_get($key);
+        } else {
+            $slider = obc_write($key, BannerPosition::getBySlug("app-slider-top")['data'][0] ?? []);
+        }
         $enrollments = V3Enrollment::list(
             ModuleFilter::new()
                 ->search('entity_type', 'lms_products')
@@ -30,7 +36,7 @@ class PwaController
                 ->orderBy('last_log_date')->sortedBy('DESC')
         )->get('data');
         $pagetitle = "داشبورد";
-        return WebResponse::view('sdk.pwa.dashboard.index', compact('pagetitle', 'user', 'enrollments', 'data'));
+        return WebResponse::view('sdk.pwa.dashboard.index', compact('pagetitle','slider', 'user', 'enrollments', 'data'));
     }
 
     public function courses(Request $request)
