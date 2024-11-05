@@ -20,10 +20,11 @@ class LMSProduct extends Cacher
         }
     }
 
-    public static function get(string $slug, ModuleFilter $filter = null): Collection
+    public static function get(string $slug, ModuleFilter $filter = null, string $field = null): Collection
     {
         try {
-            return API::get('client/v3/lms/product/' . $slug, $filter ? $filter->all() : []);
+            $path = $field ? "$slug/$field" : $slug;
+            return API::get('client/v3/lms/product/' . $path, $filter ? $filter->all() : []);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {

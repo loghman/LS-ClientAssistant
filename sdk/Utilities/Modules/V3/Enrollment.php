@@ -9,10 +9,11 @@ use Ls\ClientAssistant\Helpers\Response;
 
 class Enrollment extends Cacher
 {
-    public static function get(string $id, ModuleFilter $filter = null): Collection
+    public static function get(string $id, ModuleFilter $filter = null, string $field = null): Collection
     {
         try {
-            return API::get('client/v3/lms/enrollment/' . $id, $filter ? $filter->all() : []);
+            $path = $field ? "$id/$field" : $id;
+            return API::get('client/v3/lms/enrollment/' . $path, $filter ? $filter->all() : []);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
