@@ -22,7 +22,7 @@ class Setting
             if(obc_exists($key)){
                 self::$settings = obc_get($key);
             }else{
-                $response = API::get('v1/platform/settings', ['keys' => Config::get('endpoints.required_settings')]);
+                $response = API::get('v1/platform/settings');
                 self::$settings = obc_write($key, collect($response['data']) ); 
             }
         } catch (Exception $exception) {
