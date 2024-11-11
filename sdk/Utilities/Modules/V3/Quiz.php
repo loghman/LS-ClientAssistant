@@ -9,21 +9,11 @@ use Ls\ClientAssistant\Helpers\Response;
 
 class Quiz extends Cacher
 {
-    public static function find(ModuleFilter $filter = null): Collection
+    public static function find(int $id, ModuleFilter $filter = null, string $field = null): Collection
     {
         try {
-            return API::get('client/v3/core/quiz/show', $filter ? $filter->all() : []);
-        } catch (ClientException $exception) {
-            return Response::parseClientException($exception);
-        } catch (\Exception $exception) {
-            return Response::parseException($exception);
-        }
-    }
-
-    public static function getQuestionById(int $id, ModuleFilter $filter = null): Collection
-    {
-        try {
-            return API::get('client/v3/core/question/'.$id, $filter ? $filter->all() : []);
+            $path = $field ? "$id/$field" : $id;
+            return API::get('client/v3/core/quiz/'.$path, $filter ? $filter->all() : []);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
