@@ -12,7 +12,7 @@ class Media
     public static function getMediaUrl(?array $media, string $defaultMedia = '', string $conversion = MediaConversionEnum::ORIGINAL): string
     {
         if (!self::isValidMedia($media)) {
-            return self::handleDefaultMedia($defaultMedia);
+            return $defaultMedia;
         }
 
         if ($conversion === MediaConversionEnum::ORIGINAL) {
@@ -40,14 +40,5 @@ class Media
         }
 
         return is_valid_url($defaultMedia) ? $defaultMedia : asset_url($defaultMedia);
-    }
-
-    private static function handleDefaultMedia(string $defaultMedia): string
-    {
-        if ($defaultMedia === '') {
-            return get_default_media(MediaDefaultReplacementEnum::DEFAULT);
-        }
-
-        return $defaultMedia;
     }
 }
