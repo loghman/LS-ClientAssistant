@@ -85,6 +85,5 @@ document.querySelectorAll('.card-product').forEach(function(element) {
 });
 </script>
 
-
 </body>
 </html>

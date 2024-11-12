@@ -16,6 +16,7 @@
             'ei' => $product['id'],
             'slug' => $product['slug'],
             'coupon' => $product['primaryCampaign']['coupon_label'] ?? null,
+            'payback_url' => site_url('pwa/payback/###payment_id###')
         ]) }}">
         <div class="text gw-logo">
                 @if ($product['final_price']['main'] == 0)

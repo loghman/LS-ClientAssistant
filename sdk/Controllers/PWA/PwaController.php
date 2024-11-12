@@ -23,7 +23,7 @@ class PwaController
         $user = current_user();
         $data = self::shered_data();
         $key = 'app-dash-slider-top';
-        if (obc_exists($key)) { 
+        if (obc_exists($key)) {
             $slider = obc_get($key);
         } else {
             $slider = obc_write($key, BannerPosition::getBySlug("app-slider-top")['data'][0] ?? []);
@@ -36,7 +36,7 @@ class PwaController
                 ->orderBy('last_log_date')->sortedBy('DESC')
         )->get('data');
         $pagetitle = "داشبورد";
-        return WebResponse::view('sdk.pwa.dashboard.index', compact('pagetitle','slider', 'user', 'enrollments', 'data'));
+        return WebResponse::view('sdk.pwa.dashboard.index', compact('pagetitle', 'slider', 'user', 'enrollments', 'data'));
     }
 
     public function courses(Request $request)
@@ -82,9 +82,11 @@ class PwaController
             }
             unset($course['enrollment'], $course['resume_item']);
             $course['chapters'] = LMSProduct::chapters($course['id'], $userToken)['data']['items'];
-            foreach ($course['chapters'] as $i => $ch)
-                if (!$ch['is_published'] || !is_null($ch['deleted_at']) || $ch['type_en'] != 'chapter')
+            foreach ($course['chapters'] as $i => $ch) {
+                if (!$ch['is_published'] || !is_null($ch['deleted_at']) || $ch['type_en'] != 'chapter') {
                     unset($course['chapters'][$i]);
+                }
+            }
             $course = ObjectCache::write($key, $course);
         }
         // dd($course);
@@ -150,7 +152,9 @@ class PwaController
                     break;
                 }
             }
-            if ($item) break;
+            if ($item) {
+                break;
+            }
         }
         $pagetitle = "{$item['title']}";
         return WebResponse::view('sdk.pwa.pages.item-screen', compact('pagetitle', 'data', 'course', 'item'));
@@ -229,11 +233,13 @@ class PwaController
 
     public function add_post_views(Request $request)
     {
-        if(!$request->has('pid'))
+        if (!$request->has('pid')) {
             return;
+        }
         $post_id = $request->get('pid');
-        if(!is_numeric($post_id))
+        if (!is_numeric($post_id)) {
             return;
+        }
         CMS::signal($post_id, 'views', 1);
     }
 
@@ -255,7 +261,7 @@ class PwaController
         // $mime_type = get_headers($logo_url, 1)['Content-Type'];
         // $data['mime_type'] = $mime_type;
         $data = self::shered_data();
-        $data = array_merge($data,[
+        $data = array_merge($data, [
             // 'pwa_orientation'       => setting('pwa_orientation'),
             // 'pwa_display'           => setting('pwa_display'),
             // 'pwa_dir'               => setting('pwa_dir'),
@@ -293,3 +299,4 @@ class PwaController
         usleep($ms * 1000); // delay for display loading animation in front
     }
 }
+

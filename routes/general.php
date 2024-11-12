@@ -178,7 +178,7 @@ $router->name('pwa.')->prefix('pwa')->group(function (Router $router){
     $router->name('courses')->get('courses', [PwaController::class, 'courses'])->middleware(PwaMiddleware::class); 
     $router->name('course')->get('course/{slug}', [PwaController::class, 'course'])->middleware(PwaMiddleware::class); 
     $router->name('cart')->get('cart', [PwaController::class, 'cart'])->middleware(PwaMiddleware::class); 
-    $router->name('payback')->get('payback', [PwaController::class, 'payback'])->middleware(PwaMiddleware::class); 
+    $router->name('payback')->get('payback/{payment_id}', [PaymentController::class, 'pwa_callback'])->middleware(PwaMiddleware::class); 
 
     $router->name('blog')->get('blog', [PwaController::class, 'blog'])->middleware(PwaMiddleware::class); 
     $router->name('blog.single')->get('blog/{id}', [PwaController::class, 'blog_single'])->middleware(PwaMiddleware::class); 
