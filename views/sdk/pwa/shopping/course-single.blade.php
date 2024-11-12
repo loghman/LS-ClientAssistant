@@ -356,7 +356,7 @@ if (!preg_match('/' . implode('|', ['.jpg','.png','.webp']) . '/', $thumb))
             @if ($course['price']['main'] == 0)
                 <span>رایگان</span>
             @elseif($course['price']['main'] == $course['final_price']['main'])
-                <span><?= to_persian_num($crs['price']['readable']) ?> تومان</span>
+                <span><?= to_persian_num($course['price']['readable']) ?> تومان</span>
             @else
                 <del style="margin-left: 20px"><?= to_persian_num($course['price']['readable']) ?>
                     تومان</del><br><span><?= to_persian_num($course['final_price']['readable']) ?> تومان</span>
@@ -406,7 +406,7 @@ if (!preg_match('/' . implode('|', ['.jpg','.png','.webp']) . '/', $thumb))
             payBtn.textContent = finalPrice > 0 ? 'پرداخت و ثبت نام' : 'ثبت نام رایگان';
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
     var stickyBar = document.getElementById('stickybar');
     var lastScrollPosition = 0;
     var ticking = false;
@@ -425,13 +425,11 @@ if (!preg_match('/' . implode('|', ['.jpg','.png','.webp']) . '/', $thumb))
 
     window.addEventListener('scroll', function(e) {
         lastScrollPosition = window.scrollY;
-
         if (!ticking) {
             window.requestAnimationFrame(function() {
                 updateStickyBar(lastScrollPosition);
                 ticking = false;
             });
-
             ticking = true;
         }
     });

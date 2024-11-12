@@ -34,18 +34,17 @@ class PaymentController
     public function qPay(Request $request, ?int $gateway = null)
     {
         $gateway = $gateway ?? Gateway::getDefault()['id'];
+        $payback_url = $request->get('payback_url',site_url('payment/###payment_id###')); 
         $res = Payment::qPay(
             base64_decode($request->get('et')),
             (int)$request->get('ei'),
             $gateway,
-            site_url('payment/###payment_id###'),
+            $payback_url,
             $request->get('coupon'),
         );
-
         if (!$res->get('success')) {
             $_SESSION['error_messages'] = (array)$res->get('message');
-
-            return new RedirectResponse(route('landing.mini', $request->get('slug')), 302, []);
+            return new RedirectResponse(route('pwa.myCourses'), 302, []);
         }
 
         return new RedirectResponse($res['data']['link'], 302, []);
@@ -58,6 +57,13 @@ class PaymentController
         }
 
         return WebResponse::redirect("payment/succeed/$paymentId");
+    }
+
+    public function pwa_callback(int $paymentId, Request $request)
+    {
+        $logo = setting('logo_icon_url') ?? setting('logo_url') ?? '';
+        $status = (int)$request->status;
+        return WebResponse::view('sdk.pwa.pages.payback', compact('status','logo'));
     }
 
     public function successForm(int $paymentId, Request $request)

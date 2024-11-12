@@ -58,6 +58,7 @@ $defaultThumb = "https://up.7learn.com/1/course.jpg";
         @if($count)
             @foreach($courses as $crs)
                 <?php 
+                    if($crs['dont_list']) continue;
                     $title = str_replace('','',$crs['title']);
                     $thumb = $crs['banner']['url'] ?? '';
                     if (!preg_match('/' . implode('|', ['.jpg','.png','.webp']) . '/', $thumb)) 

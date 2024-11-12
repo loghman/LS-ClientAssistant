@@ -9,6 +9,8 @@ class ObjectCache
     private static $validtime = 3600;
     
     public static function exists($key){
+        if(env('CACHE_DISABLED',false))
+            return false;        
         $filepath = self::$cacheFolder . md5($key) . self::$ext;
         return file_exists($filepath) && (time() - filemtime($filepath) < self::$validtime);
     }
