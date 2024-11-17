@@ -181,3 +181,33 @@ if(findInput){
     
 }
 </script>
+
+
+<div id="pageloader">
+    <img src="{{ $data['logo_url'] }}" alt="{{ $data['brand_name'] }}">
+    <div id="typewriter"></div>
+</div>
+
+<script>
+
+    document.querySelectorAll('.bnavi').forEach(function(element) {
+        element.addEventListener('click', function(event) {
+            const pageloader = document.getElementById('pageloader');
+            pageloader.classList.add('show');
+            // typeWriter(sabrText + "", "typewriter", 30);
+        });
+    });
+    document.querySelectorAll('.fnavi').forEach(function(element) {
+        element.addEventListener('submit', function(event) {
+            const pageloader = document.getElementById('pageloader');
+            pageloader.classList.add('show');
+            document.activeElement.blur();
+        });
+    });
+
+    document.querySelectorAll('.bottom-nav .bnavi').forEach(link => {
+        if (link.href === window.location.href) {
+            link.classList.add('active');
+        }
+    });
+</script>
