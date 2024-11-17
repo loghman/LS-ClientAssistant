@@ -1,7 +1,9 @@
 @if (isset($uniqueId))
 <div class="d-flex align-items-center w-100">
     <label class="ms-3" for="file{{$id}}">
-        <input type="file" class="d-none uploader" data-collection_name={{$collectionName}} data-unique_id="{{$uniqueId}}" id="file{{$id}}" upload="false">
+        <input type="file" class="d-none uploader" data-collection_name={{$collectionName}}
+         data-unique_id="{{$uniqueId}}" data-max_size={{$maxSize}}  
+         data-allowed_file="{{ implode(',', (array) $allowedFileFormats) }}" id="file{{$id}}" upload="false">
         <i class="si-folder-upload"></i>
         <span class="fw-700">آپلود فایل</span>
         <div  class="upload-progress">
@@ -18,7 +20,8 @@
 @else
 <div class="d-flex align-items-center w-100">
     <label class="ms-3" for="file{{$id}}">
-        <input type="file" class="d-none uploader" data-collection_name={{$collectionName}} data-ei="{{$ei}}" data-et="{{$et}}" id="file{{$id}}" upload="false">
+        <input type="file" class="d-none uploader" data-collection_name={{$collectionName}} data-ei="{{$ei}}" data-et="{{$et}}" data-max_size={{$maxSize}} 
+         data-allowed_file="{{ implode(',', (array) $allowedFileFormats) }}"  id="file{{$id}}" upload="false">
         <i class="si-folder-upload"></i>
         <span class="fw-700">آپلود فایل</span>
         <div  class="upload-progress">
