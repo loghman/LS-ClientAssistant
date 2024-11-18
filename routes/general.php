@@ -1,4 +1,5 @@
 <?php
+use Ls\ClientAssistant\Controllers\PWA\PwaSimpleController;
 use Ls\ClientAssistant\Services\ObjectCache;
 use Ls\ClientAssistant\Core\StaticCache;
 use Ls\ClientAssistant\Controllers\AuthController;
@@ -174,6 +175,22 @@ $router->name('pwa.')->prefix('pwa')->group(function (Router $router){
     $router->name('myCourses')->get('my-courses', [PwaController::class, 'my_courses'])->middleware(PwaMiddleware::class);
     $router->name('courseScreen')->get('course-{pid}/screen', [PwaController::class, 'course_screen'])->middleware(PwaMiddleware::class);
     $router->name('itemScreen')->get('item/p{pid}i{iid}/screen', [PwaController::class, 'item_screen']);
+    
+    $router->name('simple.')->prefix('simple')->group(function (Router $router){
+        // video
+        $router->name('video')->get('/video/{item_id}/screen', [PwaSimpleController::class, 'video_screen']);
+        // quiz
+        $router->name('quiz.start')->get('/quiz/{item_id}/start', [PwaSimpleController::class, 'quiz_start']);
+        $router->name('quiz.screen')->get('/quiz/{item_id}/screen', [PwaSimpleController::class, 'quiz_screen']);
+        $router->name('quiz.result')->get('/quiz/{item_id}/result', [PwaSimpleController::class, 'quiz_result']);
+        
+        // practice
+        // $router->name('practice.screen')->get('/practice/{item_id}/screen', [PwaSimpleController::class, 'practice_screen']);
+        // $router->name('practice.result')->get('/practice/{item_id}/result', [PwaSimpleController::class, 'practice_result']);
+        // opus
+        // $router->name('opus.form')->get('/opus/{product_id}/form', [PwaSimpleController::class, 'opus_form']);
+
+    });
 
     $router->name('courses')->get('courses', [PwaController::class, 'courses'])->middleware(PwaMiddleware::class); 
     $router->name('course')->get('course/{slug}', [PwaController::class, 'course'])->middleware(PwaMiddleware::class); 
