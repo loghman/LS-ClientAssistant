@@ -19,6 +19,19 @@
             margin-top: 15px;
             padding: 5px 36px;
         }
+        .ajResponse{
+            color:#333;
+            font-weight: 500;
+            font-size: 18px;
+            text-align: center;
+            line-height: 30px;
+        }
+        .ajResponse.success{
+            color:var(--success) !important;
+        }
+        .ajResponse.danger{
+            color:var(--danger) !important;
+        }
     </style>
 </head>
 
