@@ -27,8 +27,9 @@
                     $product = $e['entity'];
                     $title = str_replace('','',$product['title']);
                     $progress = $e['progress_percent'];
+                    $link = str_contains(site_url(), '7learn') ? site_url("pwa/simple/video/{$e['last_seen_item']['item_id']}/screen") : site_url("pwa/course-{$product['id']}/screen?e={$e['id']}") ;
                 ?>
-                <a href="<?=site_url("pwa/course-{$product['id']}/screen")?>?e={{$e['id']}}" class="card-product my-course"
+                <a href="<?=$link?>" class="card-product my-course"
                 style="background: linear-gradient(240deg, #fff, rgba(0,0,0,0.5)), url(<?=$product['banner']['url'] ?? ''?>);">
                     <span class="content">
                         <!-- <span class="icon " style="--bg: var(--primary)">
