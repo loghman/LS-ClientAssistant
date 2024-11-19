@@ -4,30 +4,25 @@ namespace Ls\ClientAssistant\Controllers\PWA;
 
 use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\Router\WebResponse;
-use Ls\ClientAssistant\Services\ObjectCache;
-use Ls\ClientAssistant\Utilities\Modules\Authentication;
-use Ls\ClientAssistant\Utilities\Modules\CMS;
-use Ls\ClientAssistant\Utilities\Modules\LMSProduct;
-use Ls\ClientAssistant\Utilities\Modules\User;
-use Ls\ClientAssistant\Utilities\Modules\V3\BannerPosition;
-use Ls\ClientAssistant\Utilities\Modules\V3\CmsPost;
-use Ls\ClientAssistant\Utilities\Modules\V3\Enrollment as V3Enrollment;
-use Ls\ClientAssistant\Utilities\Modules\V3\LMSProduct as V3LMSProduct;
+use Ls\ClientAssistant\Transformers\PWA\VideoTransformer;
+use Ls\ClientAssistant\Utilities\Modules\V3\LMSProductItem;
 use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class PwaSimpleController
 {
-
     public function video_screen(Request $request, string $item_id)
     {
-        // get: $item->quiz->questions
-        
+        $response = LMSProductItem::get(
+            $item_id,
+            ModuleFilter::new()
+                ->includes('product.log', 'parent', 'media', 'log', 'questions.currentUserAnswer')
+        );
+
         $user = current_user();
         $data = self::shered_data();
-        $video = '';
-        $pagetitle = "item-title-here";
-        return WebResponse::view('sdk.pwa.simple.video.screen', compact('pagetitle','data','video'));
+        $item = VideoTransformer::item($response);
+        $pagetitle = $item->title;
+        return WebResponse::view('sdk.pwa.simple.video.screen', compact('pagetitle','data','item'));
     }
 
     public function quiz_start(Request $request, string $item_id)

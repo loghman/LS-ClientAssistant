@@ -3,13 +3,16 @@
 namespace Ls\ClientAssistant\Controllers\PWA;
 
 use Illuminate\Http\Request;
+use Ls\ClientAssistant\Core\Enums\AnswerStatus;
 use Ls\ClientAssistant\Core\Router\JsonResponse;
 use Ls\ClientAssistant\Core\Router\WebResponse;
 use Ls\ClientAssistant\Services\ObjectCache;
 use Ls\ClientAssistant\Utilities\Modules\Enrollment;
 use Ls\ClientAssistant\Utilities\Modules\LMSProduct;
+use Ls\ClientAssistant\Utilities\Modules\QC;
 use Ls\ClientAssistant\Utilities\Modules\V3\Enrollment as V3Enrollment;
 use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
+use Ls\ClientAssistant\Utilities\Modules\V3\Quiz;
 use Ls\ClientAssistant\Utilities\Tools\Enums\MediaConversionEnum;
 
 class AjaxController
@@ -37,7 +40,7 @@ class AjaxController
             abort(404, 'جلسه مورد نظر شما پیدا نشد');
         }
         $item = $items->keyBy('id')[$item_id];
-        $slen = strlen($item['main_video']['stream_id']);
+        $slen = strlen($item['main_video']['stream_id'] ?? '');
         $data = [
             'player_type' => ($slen > 16) ? 'arvan' : (($slen > 8 ) ? 'kavimo' : 'mp4'),
             'log_type' => $log_type 
@@ -140,5 +143,48 @@ class AjaxController
             return json_decode($response,true);
         }
         curl_close($ch);
+    }
+
+    public function itemReaction(Request $request)
+    {
+        $productId = $request->request->get('product_id');
+        $itemId = $request->request->get('item_id');
+        $rate = $request->request->get('rate');
+        $comment = $request->request->get('comment');
+
+        QC::addReview([
+            'product_id' => $productId,
+            'item_id' => $itemId,
+            'rate' => $rate,
+            'comment' => $comment
+        ], $request->cookies->get('token'));
+
+        return JsonResponse::success('ذخیره شد');
+    }
+
+    public function quizAnswer(int $quizId, int $questionId, Request $request)
+    {
+        if (empty($request->answer)) {
+            return JsonResponse::unprocessableEntity('پاسخی ارسال نشد.');
+        }
+
+        $response = Quiz::storeAnswer(
+            ModuleFilter::new()
+                ->otherParams('quiz_id', $quizId)
+                ->otherParams('question_id', $questionId)
+                ->otherParams('answer', $request->answer)
+        );
+        if (! $response->get('success')) {
+            return JsonResponse::json($response->get('message') , $response->get('status_code'));
+        }
+
+        $answer = $response->get('data');
+        $answerStatus = [
+            'correct' => $answer['status']['name'] === AnswerStatus::Correct->name,
+            'incorrect' => $answer['status']['name'] === AnswerStatus::Incorrect->name,
+            'pending' => !in_array($answer['status']['name'], [AnswerStatus::Correct->name, AnswerStatus::Incorrect->name]),
+        ];
+
+        return JsonResponse::success('پاسخ شما با موفقیت ثبت شد.', $answerStatus);
     }
 }
