@@ -176,7 +176,7 @@ $router->name('pwa.')->prefix('pwa')->group(function (Router $router){
     $router->name('courseScreen')->get('course-{pid}/screen', [PwaController::class, 'course_screen'])->middleware(PwaMiddleware::class);
     $router->name('itemScreen')->get('item/p{pid}i{iid}/screen', [PwaController::class, 'item_screen']);
     
-    $router->name('simple.')->prefix('simple')->group(function (Router $router){
+    $router->name('simple.')->prefix('simple')->middleware(PwaMiddleware::class)->group(function (Router $router){
         // video
         $router->name('video')->get('/video/{item_id}/screen', [PwaSimpleController::class, 'video_screen']);
         // quiz
