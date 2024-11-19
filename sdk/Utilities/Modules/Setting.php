@@ -4,7 +4,6 @@ namespace Ls\ClientAssistant\Utilities\Modules;
 
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\API;
-use Ls\ClientAssistant\Helpers\Config;
 use Exception;
 
 class Setting

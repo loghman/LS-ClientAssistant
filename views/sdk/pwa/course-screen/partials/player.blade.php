@@ -37,7 +37,7 @@
 </div> 
 <?php endif; ?>
 
-<?php $len = strlen($item['description']);?>
+<?php $len = strlen($item['description'] ?? '');?>
 <?php if($len > 3): ?>
 <div class="longtextwrap">
     <?php if($len > 400): ?>

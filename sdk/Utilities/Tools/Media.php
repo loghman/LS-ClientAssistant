@@ -5,7 +5,6 @@ namespace Ls\ClientAssistant\Utilities\Tools;
 use Ls\ClientAssistant\Helpers\Config;
 use Ls\ClientAssistant\Utilities\Tools\Enums\MediaCollectionEnum;
 use Ls\ClientAssistant\Utilities\Tools\Enums\MediaConversionEnum;
-use Ls\ClientAssistant\Utilities\Tools\Enums\MediaDefaultReplacementEnum;
 
 class Media
 {
