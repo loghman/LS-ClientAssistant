@@ -43,14 +43,14 @@ class AjaxController
         $slen = strlen($item['main_video']['stream_id'] ?? '');
         $data = [
             'player_type' => ($slen > 16) ? 'arvan' : (($slen > 8 ) ? 'kavimo' : 'mp4'),
-            'log_type' => $log_type 
+            'log_type' => $log_type
         ];
 
         if($item['main_video']['stream_id']??false){
             $key = __LINE__."arvid".$item['main_video']['stream_id'];
             $arvanConfig = obc_get($key);
             if(!$arvanConfig)
-                $arvanConfig = obc_write($key,$this->getArvanConfig($item['main_video']['stream_id']));    
+                $arvanConfig = obc_write($key,$this->getArvanConfig($item['main_video']['stream_id']));
         }
 
         $data['arvanUrl'] = ($data['player_type'] == 'arvan') ? $arvanConfig['data']['config_url'] : null;
@@ -62,7 +62,7 @@ class AjaxController
     public function myCoursesStats(Request $request){
         $user = current_user();
         if (!$user)
-            return JsonResponse::forbidden('Invalid Request'); 
+            return JsonResponse::forbidden('Invalid Request');
         $enrollments = V3Enrollment::list(
             ModuleFilter::new()
                 ->search('entity_type', 'lms_products')
@@ -72,7 +72,7 @@ class AjaxController
                 ->orderBy('last_log_date')->sortedBy('DESC')
         )->get('data');
         if ($user['id'] != $enrollments[0]['user_id'])
-            return JsonResponse::forbidden('Invalid Request'); 
+            return JsonResponse::forbidden('Invalid Request');
 
         $data['counts'] = count($enrollments);
         foreach($enrollments as $e){
@@ -91,19 +91,19 @@ class AjaxController
     {
         $user = current_user();
         $enrollment = V3Enrollment::get($enrollment_id,
-        ModuleFilter::new()
-            ->includes('enrollmentLogs')
-            ->excludes('entity')
+            ModuleFilter::new()
+                ->includes('enrollmentLogs')
+                ->excludes('entity')
         )->get('data');
         if(!is_numeric($enrollment_id) || $enrollment['user_id'] != $user['id'] )
-            return JsonResponse::forbidden('Invalid Request'); 
+            return JsonResponse::forbidden('Invalid Request');
 
         $data['progress_percent'] = $enrollment['progress_percent'];
         $data['statuses'] = [];
         foreach($enrollment['enrollmentLogs'] as $log){
-            $status = !is_null($log['completed_at']) ? 'completed' : 
-                        (!is_null($log['last_played_at']) ? 'played':
-                        (!is_null($log['last_visited_at']) ? 'visited': '')
+            $status = !is_null($log['completed_at']) ? 'completed' :
+                (!is_null($log['last_played_at']) ? 'played':
+                    (!is_null($log['last_visited_at']) ? 'visited': '')
                 );
             $data['statuses'][$log['product_item_id']] = $status;
         }
@@ -124,7 +124,7 @@ class AjaxController
 
 
     function getArvanConfig($stream_id)
-    {        
+    {
         $apiKey = setting('_env_video_streaming_api_key');
         $url = "https://napi.arvancloud.ir/vod/2.0/videos/$stream_id";
         $ch = curl_init();
@@ -180,9 +180,9 @@ class AjaxController
 
         $answer = $response->get('data');
         $answerStatus = [
-            'correct' => $answer['status']['name'] === AnswerStatus::Correct->name,
-            'incorrect' => $answer['status']['name'] === AnswerStatus::Incorrect->name,
-            'pending' => !in_array($answer['status']['name'], [AnswerStatus::Correct->name, AnswerStatus::Incorrect->name]),
+            'correct' => $answer['status']['value'] === AnswerStatus::Correct,
+            'incorrect' => $answer['status']['value'] === AnswerStatus::Incorrect,
+            'pending' => !in_array($answer['status']['value'], [AnswerStatus::Correct, AnswerStatus::Incorrect]),
         ];
 
         return JsonResponse::success('پاسخ شما با موفقیت ثبت شد.', $answerStatus);
