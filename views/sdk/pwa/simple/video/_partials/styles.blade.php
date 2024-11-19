@@ -180,6 +180,7 @@
 
     a.atlink i {
         font-style: normal;
+        margin-left: 5px;
     }
 
     a.atlink {
