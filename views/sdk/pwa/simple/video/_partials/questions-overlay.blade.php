@@ -13,7 +13,7 @@
                 </label>
             @endforeach
             <div style="display: flex;align-content: space-between;align-items: baseline;">
-                <span style="color:#999;margin-right: 5px;">۳ امتیاز</span>
+                <span style="color:#999;margin-right: 5px;">{{ to_persian_num($question->point) }} امتیاز</span>
                 <button class="btn sm qbtn me-auto">ثبت پاسخ</button>
             </div>
 
