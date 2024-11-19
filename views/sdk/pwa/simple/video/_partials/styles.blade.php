@@ -143,7 +143,7 @@
         display: flex;
         flex-direction: column;
         line-height: 1.7;
-        margin: 5px 0 20px 0;
+        margin: 10px 0;
         background: #fff;
         border:1px solid var(--primary-30);
         padding: 12px 17px;

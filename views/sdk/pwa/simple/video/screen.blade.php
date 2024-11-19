@@ -38,9 +38,9 @@
 <body>
 <div class="base-content">
     <div class="card-status bghead m-0 shadow-inset pt pb" style="padding-top: 0 !important;">
-        <div class="text w-100 text-center">
-            <img src="<?=$data['logo_url']?>" style="max-height: 40px;"><br>
-            <span class="title" style="font-size: 24px;">{{ $item->product->title }}</span><br>
+        <div class="text w-100 text-center" style="padding-top:20px">
+            <img src="<?=$data['logo_url']?>" style="max-height: 30px;">
+            <span class="title" style="font-size: 20px;">{{ $item->product->title }}</span><br>
             <small class="subtitle">{{ $item->chapter->title }}</small>
         </div>
     </div>
@@ -53,7 +53,7 @@
                         <span class="title sm" style="font-weight: 500;">
                                 <span>{{ $item->title }}</span>
                             </span>
-                        <span class="time me-auto">{{ to_persian_num($item->duration) }}</span>
+                        <span class="time me-auto">{{ to_persian_num(strtok($item->duration,'دقیقه')) }} دقیقه</span>
                     </div>
                     <div class="content">
                         <div class="playerbox">
@@ -78,6 +78,7 @@
                                 <span>{{ $item->next->title }}</span>
                             </a>
                         @endif
+                        {{-- @if($item->attachments) --}}
                         <div class="attachments">
                             @foreach($item->attachments as $attachment)
                                 <a href="{{ $attachment->url }}" target="_blank" class="atlink">
@@ -86,6 +87,7 @@
                                 </a>
                             @endforeach
                         </div>
+                        {{-- @endif --}}
                         @if($item->description)
                             <div class="longtextwrap" style="margin-top:-20px;padding:0">
                                 @if(strlen($item->description) > 400)
