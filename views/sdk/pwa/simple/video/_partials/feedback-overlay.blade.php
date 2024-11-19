@@ -46,7 +46,7 @@
                         setTimeout(function () {
                             gotoNext.style.display = 'none'
                             loader.style.display = 'none';
-                            window.location.href = '{{ $item->next->url }}';
+                            window.location.href = '{{ $item->next ? $item->next->url : '' }}';
                         }, 700)
                     });
             });
