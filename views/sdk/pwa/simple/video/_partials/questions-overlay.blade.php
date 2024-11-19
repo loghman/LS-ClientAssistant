@@ -46,8 +46,6 @@
 
         let chooses = []
         form.querySelectorAll("input[type='radio']").forEach(element => {
-            console.log(element)
-            console.log(element.checked)
             if (element.checked) {
                 chooses.push(element.value)
             }

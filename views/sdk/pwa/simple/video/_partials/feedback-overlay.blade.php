@@ -29,6 +29,7 @@
                 const itemId = overlayPanel.getAttribute('data-iid');
                 const rate = this.getAttribute('data-rate');
                 loader.style.display = 'block';
+                gotoNext.style.display = 'block'
                 fetch('{{ $item->reaction_url }}', {
                     method: 'POST',
                     headers: {
@@ -41,7 +42,6 @@
                     })
                 })
                     .finally(error => {
-                        gotoNext.style.display = 'block'
                         signalRequest(itemId, 'completed')
                         setTimeout(function () {
                             gotoNext.style.display = 'none'

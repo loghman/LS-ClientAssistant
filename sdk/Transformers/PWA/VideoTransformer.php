@@ -102,7 +102,7 @@ class VideoTransformer extends BaseTransformer
 
         $attachments = [];
         foreach ($medias as $media) {
-            if ($media['collection_name'] === MediaCollectionEnum::ATTACHMENT) {
+            if (in_array($media['collection_name'], [MediaCollectionEnum::ATTACHMENT, MediaCollectionEnum::ATTACHMENTS])) {
                 $attachments[] = [
                     'url' => $media['url'],
                     'size' => $media['size'],
