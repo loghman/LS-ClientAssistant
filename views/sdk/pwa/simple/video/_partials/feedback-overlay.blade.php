@@ -4,7 +4,7 @@
         <p style="margin-bottom:30px;color:#333">پس از ثبت نظر به جلسه بعد منتقل میشید.</p>
         @foreach($item->videos_feedbacks_emojis as $emojy)
             <div class="erow emoji feedback-emojy" data-rate="{{ $emojy->key }}">
-                <i class="fa-solid fa-face-grin-hearts" style=" color: {{$emojy->color}}; "></i>
+                <i class="fa-solid {{ $emojy->fa_icon }}" style=" color: {{$emojy->color}}; "></i>
                 <span>{{ $emojy->title }}</span>
             </div>
         @endforeach
