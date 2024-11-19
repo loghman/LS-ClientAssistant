@@ -174,6 +174,7 @@ $router->name('pwa.')->prefix('pwa')->group(function (Router $router){
     $router->name('dashboard')->get('dashboard', [PwaController::class, 'dashboard'])->middleware(PwaMiddleware::class);
     $router->name('myCourses')->get('my-courses', [PwaController::class, 'my_courses'])->middleware(PwaMiddleware::class);
     $router->name('courseScreen')->get('course-{pid}/screen', [PwaController::class, 'course_screen'])->middleware(PwaMiddleware::class);
+    $router->name('courseChapters')->get('course/{pid}/chapters', [PwaController::class, 'course_chapters'])->middleware(PwaMiddleware::class);
     $router->name('itemScreen')->get('item/p{pid}i{iid}/screen', [PwaController::class, 'item_screen']);
     
     $router->name('simple.')->prefix('simple')->middleware(PwaMiddleware::class)->group(function (Router $router){

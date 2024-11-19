@@ -3,8 +3,7 @@
         <span style="color:#777;font-size: 14px;">برگشت</span>
         <i class="fa-solid fa-arrow-left" style="color:#777;font-size: 14px;"></i>
     </a>
-
-    <a class="bnavi" href="{{ $item->chapter_url }}" style="width: 70%;justify-content: start;padding-right:24px">
+    <a class="bnavi" href="<?=site_url("pwa/course/{$item->product_id}/chapters?e={$item->product->enrollment->id}")?>" style="width: 70%;justify-content: start;padding-right:24px">
         <!-- <i class="fa-solid fa-bars"></i> -->
         <!-- این پایین درصد پیشرفت کل دوره هست -->
         <?=circleProgressbar($item->product->enrollment->progress_percent,'xs','nav-progress');?>
