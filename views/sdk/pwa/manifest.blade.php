@@ -2,7 +2,7 @@
   "id": "<?=md5($pwa_name)?>",
   "name": "<?=$pwa_name?>",
   "short_name": "<?=$pwa_short_name?>",
-  "description": "اپلیکیشن <?=$pwa_description?>",
+  "description": "<?=$pwa_description?>",
   "start_url": "/pwa/dashboard",
   "scope": "<?=$pwa_scope?>",
   "display": "standalone",
