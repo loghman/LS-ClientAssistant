@@ -134,8 +134,9 @@ class VideoTransformer extends BaseTransformer
                 'quiz_id' => $question['quiz_id'],
                 'second' => $question['payload']['inplay_second'] ?? '',
                 'question' => $question['question'],
-                'options' => $question['payload']['options'] ?? [],
+                'options' => $options = ($question['payload']['options'] ?? []),
                 'point' => $question['max_point'],
+                'multiple_choice' => array_sum(data_get($options, '*.is_correct')) > 1,
                 'answer_url' => route('ajax.quiz.answer', ['quiz_id' => $question['quiz_id'], 'question_id' => $question['id']])
             ];
         }

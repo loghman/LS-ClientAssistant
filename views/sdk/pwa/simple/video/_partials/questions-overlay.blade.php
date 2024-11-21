@@ -8,7 +8,7 @@
               data-qid="{{ $question->id }}">
             @foreach($question->options as $index => $option)
                 <label class="erow emoji">
-                    <input type="radio" name="answer" value="{{ $index }}" class="icheck">
+                    <input type="{{ $question->multiple_choice ? 'checkbox' : 'radio' }}" name="answer" value="{{ $index }}" class="icheck">
                     <span>{{ $option->text }}</span>
                 </label>
             @endforeach
@@ -45,7 +45,7 @@
         loader.style.display = 'block';
 
         let chooses = []
-        form.querySelectorAll("input[type='radio']").forEach(element => {
+        form.querySelectorAll("input[name='answer']").forEach(element => {
             if (element.checked) {
                 chooses.push(element.value)
             }
