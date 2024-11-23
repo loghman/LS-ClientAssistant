@@ -56,6 +56,7 @@ class PwaSimpleController
         return [
             'brand_name'            => setting('brand_name_fa'),
             'logo_url'              => setting('logo_icon_url') ?? setting('logo_url') ?? '',
+            'logotype_url'          => setting('logo_url') ?? setting('logo_icon_url') ?? '',
         ];
     }
 }

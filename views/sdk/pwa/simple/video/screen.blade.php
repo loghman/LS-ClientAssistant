@@ -40,21 +40,14 @@
     <div class="card-status bghead m-0 shadow-inset pt pb" style="padding-top: 0 !important;">
         <div class="text w-100 text-center" style="padding-top:20px">
             <img src="<?=$data['logo_url']?>" style="max-height: 30px;">
-            <span class="title" style="font-size: 20px;">{{ $item->product->title }}</span><br>
-            <small class="subtitle">{{ $item->chapter->title }}</small>
+            <h1 class="title" style="font-size: 20px;margin:20px 0 0 0">{{ $item->title }}</h1>
+            <small class="subtitle">{{ str_replace(["دوره ","وبینار "],"",strtok($item->product->title,"(")) }} <i style="font-size: 9px; padding: 0 3px;" class="fa-solid fa-angles-left"></i> {{ $item->chapter->title }}</small>
         </div>
     </div>
     <div class="content" style="margin-top: -100px;">
         <div class="chapters">
             <div class="accordions">
                 <div class="accordion expanded" data-iid="{{ $item->id }}" data-pid="{{ $item->product_id }}">
-                    <div class="header py-sm expanded" id="{{ $item->id }}">
-                        <span class="picon fa-solid fa-circle-play"></span>
-                        <span class="title sm" style="font-weight: 500;">
-                                <span>{{ $item->title }}</span>
-                            </span>
-                        <span class="time me-auto">{{ to_persian_num(strtok($item->duration,'دقیقه')) }} دقیقه</span>
-                    </div>
                     <div class="content">
                         <div class="playerbox">
                             @if($item->video->stream_url)
@@ -68,7 +61,7 @@
                         @if(! $item->is_completed)
                             <div class="signal-box">
                                 <button class="signal-btn me-auto" data-iid="{{ $item->id }}" onclick="showFeedbackOverlay()">
-                                    <i class="fa-solid fa-circle-check"></i>تماشا کردم
+                                    <i class="fa-solid fa-circle-check"></i>تکمیل این جلسه
                                 </button>
                             </div>
                         @endif
@@ -81,9 +74,11 @@
                         {{-- @if($item->attachments) --}}
                         <div class="attachments">
                             @foreach($item->attachments as $attachment)
+                                <?php $ext = pathinfo($attachment->url, PATHINFO_EXTENSION) ?>
                                 <a href="{{ $attachment->url }}" target="_blank" class="atlink">
                                     <span class="title"><b><i class="fa-solid fa-download"></i></b>{{ $attachment->title }}</span>
-                                    <span class="size me-auto ltr">{{ $attachment->size }}</span>
+                                    <span class="size me-auto ltr "><small class="ext <?=$ext?>">{{$ext}}</small></span>
+                                    {{-- <span class="size me-auto ltr">{{ $attachment->size }}</span> --}}
                                 </a>
                             @endforeach
                         </div>
@@ -130,14 +125,14 @@
         isProgrammaticControl = true;
         video.play();
         if ($('#question-overlay-'+id).attr('data-answerd') === 'true') {
-            $('#question-overlay-'+id).css('display', 'none')
+            $('#question-overlay-'+id).fadeOut(300)
         }
     }
     function pauseAndShowQuestion(id) {
         isProgrammaticControl = true;
         video.pause();
         if ($('#question-overlay-'+id).attr('data-answerd') === 'false') {
-            $('#question-overlay-' + id).css('display', 'block')
+            $('#question-overlay-' + id).fadeIn(300)
         }
     }
 
@@ -172,7 +167,7 @@
     });
 
     function showFeedbackOverlay() {
-        $('#feedback-overlay').css('display', 'block')
+        $('#feedback-overlay').fadeIn(300);
     }
 
     function signalRequest(iid, type) {
@@ -185,6 +180,16 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         signalRequest("{{ $item->id }}",'visited');
+
+        const closeButtons = document.querySelectorAll('.close');
+        closeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const overlay = button.closest('.overlay');
+                if (overlay) {
+                    $('#feedback-overlay').fadeOut(300);
+                }
+            });
+        });
     })
 </script>
 

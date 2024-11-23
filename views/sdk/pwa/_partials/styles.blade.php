@@ -222,6 +222,9 @@
         margin: 10px 0 0 0;
     }
 
+    .longtext *,.alltext * {
+        font-family: iranyekanx, tahoma !important;
+    }
     .singline {
         overflow: hidden;
         text-overflow: ellipsis;

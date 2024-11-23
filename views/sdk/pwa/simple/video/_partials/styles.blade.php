@@ -83,9 +83,9 @@
 
     .accordions .accordion.expanded {
         z-index: 1;
-        border-color: var(--primary) !important;
-        background: var(--primary-5);
-        padding: 0 12px 15px 12px;
+        border: 0 !important;
+        background: none;
+        padding: 0;
     }
 
     .accordions .accordion .content {
@@ -129,8 +129,7 @@
         display: flex;
         flex-direction: row-reverse;
         align-items: center;
-        background: var(--primary-20);
-        padding: 30px 15px 12px 15px;
+        padding: 30px 0 10px 0;
         margin: -20px 0 0 0;
         font-size: 14px;
         border-radius: 15px;
@@ -145,13 +144,15 @@
         line-height: 1.7;
         margin: 10px 0;
         background: #fff;
-        border:1px solid var(--primary-30);
+        border:1px solid var(--primary-20);
         padding: 12px 17px;
         border-radius: 10px;
         min-width: 40%;
     }
     .nextitem small {
-        color:var(--primary-90)
+        color:var(--primary-90);
+        font-size: 14px;
+        padding-bottom:5px;
     }
     .nextitem span {}
 
@@ -176,6 +177,43 @@
 
     .attachments {
         padding: 10px 0;
+    }
+
+    a.atlink small {
+        display: inline-block;
+        font-size: 10px;
+        background: var(--primary);
+        color: #fff;
+        padding: 0 7px !important;
+        line-height: 18px;
+        border-radius: 3px;
+        vertical-align: middle;
+        opacity: 0.9;
+    }
+    a.atlink:hover small {
+        opacity: 1;
+    }
+    
+    .ext.pdf {
+        background: #ee232b;
+    }
+    .ext.ppt,.ext.ppsx,.ext.pptx {
+        background: #d78b03;
+    }
+    .ext.xls,.ext.xlsx{
+        background: #178048;
+    }
+    .ext.doc,.ext.docx {
+        background: #1f5fbf;
+    }
+    .ext.zip,.ext.rar {
+        background: #680579;
+    }
+    .ext.png,.ext.gif,.ext.jpg,.ext.svg {
+        background: #df487c;
+    }
+    .ext.txt,.ext.md {
+        background: #777777;
     }
 
     a.atlink i {
@@ -217,11 +255,23 @@
         overflow-y: scroll;
         z-index: 9999999;
     }
+    .overlay .close{
+        float: left;
+        font-size: 20px;
+        cursor: pointer;
+        color: #777;
+        padding: 0 7px;
+    }
+    .overlay .close:hover{
+        color: #333;
+    }
+
     .overlay-panel{
         background-color: rgba(255,255,255);
         margin: 7%;
         padding: 20px 20px 30px 20px;
         border-radius: 10px;
+        box-shadow: 0 0 64px -20px #ffffff;
     }
     @media screen and (min-width:800px) {
         .overlay-panel{
@@ -248,5 +298,11 @@
         background-color: #f2f2f2;
         border:1px solid #ccc;
     }
-    
+
+    .longtextwrap *{
+        line-height: 32px;
+    }
+    .longtextwrap{
+        padding: 10px !important;
+    }
 </style>
