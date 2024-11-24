@@ -69,15 +69,7 @@ $defaultThumb = "https://up.7learn.com/1/course.jpg";
                     <span class="content">
                         <span class="text">
                             <span class="title" style="font-size: 24px;color:#fff;"><?=str_replace('دوره ','',strtok($title,'('))?></span>
-                            <small class="subtitle" style="font-size: 14px;color:#aaa;margin-top:5px">
-                                @if($crs['price']['main'] == 0)
-                                    <span>رایگان</span>
-                                @elseif($crs['price']['main'] == $crs['final_price']['main'])
-                                    <span><?=to_persian_num($crs['price']['readable'])?> تومان</span>
-                                @else
-                                    <del style="margin-left: 20px"><?=to_persian_num($crs['price']['readable'])?> تومان</del> <span><?=to_persian_num($crs['final_price']['readable'])?> تومان</span>
-                                @endif
-                            </small>
+                            @include('sdk.pwa.shopping._partials.priceline',['course'=>$crs])
                         </span>
                     </span>
                 </a>
