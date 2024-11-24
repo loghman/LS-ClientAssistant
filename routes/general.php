@@ -167,6 +167,7 @@ $router->name('payment.')->prefix('payment')->group(function (Router $router) {
 
 $router->get('manifest.json', [PwaController::class, 'manifest']);  
 // $router->get('site.webmanifest', [PwaController::class, 'manifest']);  
+
 $router->get('service-worker.js', [PwaController::class, 'service_worker']);  
 $router->name('pwa.')->prefix('pwa')->group(function (Router $router){
     $router->name('auth')->get('/auth', [AuthController::class, 'index']);
@@ -176,7 +177,6 @@ $router->name('pwa.')->prefix('pwa')->group(function (Router $router){
     $router->name('courseScreen')->get('course-{pid}/screen', [PwaController::class, 'course_screen'])->middleware(PwaMiddleware::class);
     $router->name('courseChapters')->get('course/{pid}/chapters', [PwaController::class, 'course_chapters'])->middleware(PwaMiddleware::class);
     $router->name('itemScreen')->get('item/p{pid}i{iid}/screen', [PwaController::class, 'item_screen']);
-    
     $router->name('simple.')->prefix('simple')->middleware(PwaMiddleware::class)->group(function (Router $router){
         // video
         $router->name('video')->get('/video/{item_id}/screen', [PwaSimpleController::class, 'video_screen']);
@@ -192,9 +192,8 @@ $router->name('pwa.')->prefix('pwa')->group(function (Router $router){
         // $router->name('opus.form')->get('/opus/{product_id}/form', [PwaSimpleController::class, 'opus_form']);
 
     });
-
     $router->name('courses')->get('courses', [PwaController::class, 'courses'])->middleware(PwaMiddleware::class); 
-    $router->name('course')->get('course/{slug}', [PwaController::class, 'course'])->middleware(PwaMiddleware::class); 
+    $router->name('course')->get('course/{slug}', [PwaController::class, 'course']); 
     $router->name('cart')->get('cart', [PwaController::class, 'cart'])->middleware(PwaMiddleware::class); 
     $router->name('payback')->get('payback/{payment_id}', [PaymentController::class, 'pwa_callback'])->middleware(PwaMiddleware::class); 
 

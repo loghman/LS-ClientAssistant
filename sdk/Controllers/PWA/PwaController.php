@@ -90,7 +90,11 @@ class PwaController
         // dd($course);
         // dd($course['teacherFaculty']);
         $pagetitle = "{$course['title']}";
-        return WebResponse::view('sdk.pwa.shopping.course-single', compact('pagetitle', 'data', 'course', 'user'));
+        if(isset($user['id'])){
+            return WebResponse::view('sdk.pwa.shopping.course-single', compact('pagetitle', 'data', 'course', 'user'));        
+        }else{
+            return WebResponse::view('sdk.pwa.shopping.login', compact('pagetitle', 'data', 'course', 'user'));
+        }
     }
 
 

@@ -1,7 +1,13 @@
-<i class="toggle-icon i-bottom" style="cursor: pointer"></i>
 <h2 class="pay-title">
-<?= $product['final_price']['main'] > 0 ? '<span class="fasl">ثبت نام</span> و انتخاب روش پرداخت' : 'به <span class="fasl">رایگان</span> ثبت نام کنید' ?>
-</h2> 
+@if($product['final_price']['main'] > 0)
+    <i class="fa-solid fa-credit-card" style="margin-bottom: 20px; font-size: 40px; color: var(--primary);"></i><br>
+    <span class="fasl">ثبت نام</span> و پرداخت اینترنتی
+@else
+    <i class="fa-solid fa-gift" style="margin-bottom: 20px; font-size: 40px; color: var(--primary);"></i><br>
+    به <span class="fasl">رایگان</span> ثبت نام کنید
+@endif
+<br><small style="font-size: 15px; font-weight: 300;"><?=$product['title']?></small> 
+</h2>
 @foreach ($gateways->get('data') as $gateway)
     @php($isSnap = str_contains(strtolower($gateway['name_en']), 'snap'))
     @if($isSnap && (empty($eligibleResponse['successful'])
@@ -20,7 +26,7 @@
         ]) }}">
         <div class="text gw-logo">
                 @if ($product['final_price']['main'] == 0)
-                    <img style="width: 50px;height: 28px;" class="icon" src="https://up.7learn.com/z/s/2024/05/hot-sale-qJP7.svg">
+                    <i class="fa-solid fa-gift" style="margin-left: 5px; color: var(--primary);"></i>
                     ثبت نام رایگان
                 @else
                     <img style="width: 50px;height: 50px;" src="{{ $gateway['thumbnail'] }}"  alt="{{ $gateway['name_en'] }}" class="icon">
@@ -41,8 +47,7 @@
                 @endif
             @else
                 @if(isset($product['primaryCampaign']) && !$gateway['isInstallmentPaymentAvailable'])
-                    <span class="subtitle fa-number">با
-                        {{ to_persian_num($product['primaryCampaign']['discount_amount']) }}</span>
+                    <span class="subtitle fa-number">{{ to_persian_num($product['primaryCampaign']['discount_amount']) }}</span>
                 @endif
             @endif
             </div>
