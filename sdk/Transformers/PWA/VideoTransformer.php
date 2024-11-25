@@ -19,7 +19,6 @@ class VideoTransformer extends BaseTransformer
             'is_completed' => (bool)($this->log['completed_at'] ?? null),
             'product' => $this->product($this->product),
             'chapter' => $this->chapter($this->parent),
-            'duration' => $this->videos_duration['human'] ?? null,
             'video' => $this->video($this->media),
             'next' => $this->navigateItem($this->next_item),
             'attachments' => $this->attachments($this->media),

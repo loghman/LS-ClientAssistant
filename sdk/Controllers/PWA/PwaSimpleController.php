@@ -5,7 +5,6 @@ namespace Ls\ClientAssistant\Controllers\PWA;
 use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\Router\WebResponse;
 use Ls\ClientAssistant\Transformers\PWA\VideoTransformer;
-use Ls\ClientAssistant\Utilities\Modules\V3\LMSProduct;
 use Ls\ClientAssistant\Utilities\Modules\V3\LMSProductItem;
 use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
 
