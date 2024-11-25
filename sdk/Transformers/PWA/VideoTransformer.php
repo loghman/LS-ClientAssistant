@@ -16,7 +16,7 @@ class VideoTransformer extends BaseTransformer
             'description' => $this->description['full'] ?? null,
             'product_id' => $this->product_id,
             'videos_feedbacks_emojis' => $this->videos_feedbacks_emojis,
-            'is_completed' => (bool)($this->log['completed_at'] ?? null),
+            'is_completed' => (bool)($this->currentUserEnrollmentLog['completed_at'] ?? null),
             'product' => $this->product($this->product),
             'chapter' => $this->chapter($this->parent),
             'video' => $this->video($this->media),
@@ -34,7 +34,7 @@ class VideoTransformer extends BaseTransformer
         return [
             'slug' => $product['slug'],
             'title' => $product['title'],
-            'enrollment' => $this->enrollment($product['log']),
+            'enrollment' => $this->enrollment($product['currentUserEnrollment']),
         ];
     }
 

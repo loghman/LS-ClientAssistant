@@ -50,9 +50,9 @@
                 <div class="accordion expanded" data-iid="{{ $item->id }}" data-pid="{{ $item->product_id }}">
                     <div class="content">
                         <div class="playerbox">
-                            @if($item->video->stream_url)
+                            @if($item->video && $item->video->stream_url)
                                 <script src="{{ $item->video->stream_url }}"></script>
-                            @elseif($item->video->video_url)
+                            @elseif($item->video && $item->video->video_url)
                                 <video id="itemPlayer" controls="" autoplay="" class="w-100 base-radius overflow-hidden" data-is-completed="{{ $item->is_completed }}">
                                     <source src="{{ $item->video->video_url }}" type="video/mp4"/>
                                 </video>

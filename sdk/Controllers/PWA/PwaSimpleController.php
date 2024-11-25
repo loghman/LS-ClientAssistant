@@ -15,7 +15,7 @@ class PwaSimpleController
         $response = LMSProductItem::get(
             $item_id,
             ModuleFilter::new()
-                ->includes('product.log', 'parent', 'media', 'log', 'questions.currentUserAnswer')
+                ->includes('product.currentUserEnrollment', 'parent', 'media', 'currentUserEnrollmentLog', 'questions.currentUserAnswer')
         );
 
         $user = current_user();
