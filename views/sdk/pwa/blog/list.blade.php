@@ -99,7 +99,7 @@
         <small class="bnavi inbtn" onclick="document.getElementById('sf').submit()"><i class="fa-solid fa-magnifying-glass"></i></small>
     </form>
 
-    @if($_GET['keyword'])
+    @if(isset($_GET['keyword']))
     <div class="title-row wpad">
         <span class="title">نتایج جستجو:</span>
         <a class="stat" href="<?=site_url('pwa/my-courses')?>"><?=to_persian_num(count($posts['latest']))?> مورد</a>
