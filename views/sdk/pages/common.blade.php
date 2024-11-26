@@ -11,7 +11,7 @@
 <div class="container over-header my-4">
         <h1><?= $page['title'] ?></h1>
         <div class="row gx-lg gx-md--lg">
-            <div class="col-xxxl-12 col-xxl-8-5 col-xl-8">
+            <div class="col-xxxl-12">
                 <div class="row g page-content">
                     {!! planetContentFilter($page['content']) !!}
                 </div>
