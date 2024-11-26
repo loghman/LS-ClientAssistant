@@ -20,6 +20,7 @@ use Illuminate\Events\Dispatcher;
 use Illuminate\Routing\Router;
 use Illuminate\Http\Request;
 use Illuminate\Container\Container;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Kernel
 {
@@ -75,7 +76,12 @@ class Kernel
         }
 
         $router->fallback(fn() => abort(404, 'صفحه مورد نظر یافت نشد!'));
-        $response = $this->sendRequestThroughRouter($request);
+
+        try {
+            $response = $this->sendRequestThroughRouter($request);
+        }catch (NotFoundHttpException $exception) {
+            return abort(404, $exception->getMessage());
+        }
 
         return new App($router, $response);
     }
