@@ -50,15 +50,7 @@
                     $product = $e['entity'];
                     $title = str_replace('','',$product['title']);
                     $progress = $e['progress_percent'];
-
-                    $link = site_url("pwa/course-{$product['id']}/screen?e={$e['id']}");
-                    $newPanelDomains = ['7learn','shahrbabak'];
-                    foreach($newPanelDomains as $domain){
-                        if(str_contains(site_url(), $domain)){
-                            $link = site_url("pwa/simple/video/{$e['last_seen_item']['item_id']}/screen");
-                            continue;
-                        }
-                    }
+                    $link = enrollmentNextItemUrl($e);
                 ?>
                 <a href="<?=$link?>" class="card-product my-course" style="background: linear-gradient(240deg, #fff, rgba(0,0,0,0.5)), url(<?=$product['banner']['url'] ?? ''?>);">
                     <span class="content">

@@ -122,8 +122,8 @@
     <div dir="rtl" class="swiper lastseens wpad">
         <div class="swiper-wrapper">
         @foreach($enrollments as $e)
-            <?php $product = $e['entity'];?>
-            <a href="<?=site_url("pwa/course/{$product['id']}/chapters?e={$e['id']}")?>" class="bnavi swiper-slide enroll-slide" style="background: linear-gradient(0deg, #000,rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.1) 100%), url(<?=$product['banner']['url']??''?>);"> 
+            <?php $product = $e['entity']; ?>
+            <a href="<?=enrollmentNextItemUrl($e)?>" class="bnavi swiper-slide enroll-slide" style="background: linear-gradient(0deg, #000,rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.1) 100%), url(<?=$product['banner']['url']??''?>);"> 
                 <span><?=$product['title']?></span>
             </a>
         @endforeach
