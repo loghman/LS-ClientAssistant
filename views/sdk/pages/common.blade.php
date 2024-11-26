@@ -13,37 +13,41 @@
         <div class="row gx-lg gx-md--lg">
             <div class="col-xxxl-12 col-xxl-8-5 col-xl-8">
                 <div class="row g page-content">
-                    {!! $page['content'] !!}
+                    {!! planetContentFilter($page['content']) !!}
                 </div>
             </div>
         </div>
     </div>
-@endsection
-<style>
-    header.square {
-        min-height: 300px !important;
-    }
-    h1{
-        margin: -190px 0 100px 0;
-        text-align: center;
-    }
-    @media (min-width:900px){
-        .page-content{
-            padding: 0 15%;
+    <style>
+        header.square {
+            min-height: 300px !important;
         }
-    }
-    .page-content *{
-        line-height: 32px !important;
-    }
-    .page-content ul{
-        margin: 20px 50px 10px 10px !important;
-        display: block !important;
-    }
-    .page-content ul li{
-        list-style-type: circle;
-        display: list-item !important;
-    }
-</style>
+        h1{
+            margin: -190px 0 100px 0;
+            text-align: center;
+        }
+        img{
+            max-width: 100%;
+        }
+        @media (min-width:900px){
+            .page-content{
+                padding: 0 15%;
+            }
+        }
+        .page-content *{
+            line-height: 32px !important;
+        }
+        .page-content ul{
+            margin: 20px 50px 10px 10px !important;
+            display: block !important;
+        }
+        .page-content ul li{
+            list-style-type: circle;
+            display: list-item !important; 
+        }
+    </style>
+@endsection
+
 @section('modals')@endsection
 @section('footer')
     @include('_common.scripts.highlight')
