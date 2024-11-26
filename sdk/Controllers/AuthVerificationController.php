@@ -34,8 +34,14 @@ class AuthVerificationController
 
     public function send(Request $request)
     {
+        $input = $request->get('input');
+        if (empty($input)) {
+            $label = auth_label();
+
+            return JsonResponse::unprocessableEntity("{$label} را وارد کنید");
+        }
         $response = Authentication::sendVerificationCode(
-            $request->get('input'),
+            $input,
             ['g-recaptcha-response' => $request->get('g-recaptcha-response')]
         );
         if (!$response->get('success')) {
