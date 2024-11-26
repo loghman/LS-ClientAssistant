@@ -105,7 +105,7 @@
     <div class="swiper-wrapper">
         <?php foreach($slider['banners'] as $banner): ?>
             <a class="swiper-slide bnavi" href="<?=$banner['link']?>"> 
-                <img src="<?=$banner['image']['url']?>" alt="<?=strtok($banner['image']['original_name'],'.')?>">
+                <img src="<?=$banner['image']['url']?>" alt="<?=isset($banner['image']['original_name']) ? strtok($banner['image']['original_name'],'.') : ''?>">
             </a>
         <?php endforeach; ?>
     </div>
