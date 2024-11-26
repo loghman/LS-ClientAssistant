@@ -33,7 +33,7 @@
         @if($user['avatar']['url'] ?? '')
             <img height="120" width="120" class="profile-image" src="<?=$user['avatar']['url'] ?? ''?>" alt="تصویر پروفایل شما">
         @endif
-        <div class="profile-row"><?=(strlen($user['display_name']) < 3 ? $user['real_name'] : $user['display_name'])?></div>
+        <div class="profile-row"><?=($user['full_name'])?></div>
         <div class="profile-row"><?= to_persian_num((new DateTime())->diff(new DateTime($user['created_at']))->days) ?> روز با <?=$data['brand_name']?></div>
         <div class="profile-row"><?= to_persian_num($user['mobile']) ?></div>
         @if(count($courses))
