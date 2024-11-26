@@ -38,12 +38,16 @@
             line-height: 32px !important;
         }
         .page-content ul{
-            margin: 20px 50px 10px 10px !important;
+            margin:0 !important;
+            padding: 10px 40px 10px 10px !important;
             display: block !important;
         }
         .page-content ul li{
             list-style-type: circle;
             display: list-item !important; 
+            font-size: 15px !important;
+            font-weight: 400 !important;
+            color: inherit !important;
         }
     </style>
 @endsection
