@@ -32,6 +32,19 @@
         .ajResponse.danger{
             color:var(--danger) !important;
         }
+        @media (min-width: 900px) {
+            body .base-content>.content{
+                max-width: 70%;
+                margin-left: 15%;
+                margin-right: 15%;
+            }
+        }
+
+        @media (min-width: 200px) {
+            .bottom-nav {
+                display: flex !important;
+            }
+        }
     </style>
 </head>
 

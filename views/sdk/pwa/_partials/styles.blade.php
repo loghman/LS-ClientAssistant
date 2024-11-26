@@ -151,6 +151,7 @@
     .card-product.my-course {
         padding: 20px 20px 20px 12px;
         border: 1px solid #ccc !important;
+        background-position: center !important;
     }
 
     .card-product {

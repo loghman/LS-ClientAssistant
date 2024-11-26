@@ -4,6 +4,29 @@
 <head>
 @include('sdk.pwa._partials.head')
 @include('sdk.pwa._partials.styles')
+<style>
+    @media screen and (min-width:900px) {
+        .clist{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .clist .card-product{
+            width: 48%;
+            height: 0;
+            padding: 0;
+            padding-bottom: 27%;
+            display: block;
+            position: relative;
+        }
+        .clist .card-product .text{
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+        }
+    }
+</style>
 </head>
 <body>
 @include('sdk.pwa._partials.sidebar-desktop')
@@ -20,17 +43,24 @@
             <span class="title">دوره های ثبت نام شده</span>
             <span class="stat"><?=to_persian_num($count)?> دوره</span>
         </div>
-        <div>
+        <div class="clist">
         @if(count($enrollments??[]))
             @foreach($enrollments as $e)
                 <?php 
                     $product = $e['entity'];
                     $title = str_replace('','',$product['title']);
                     $progress = $e['progress_percent'];
-                    $link = str_contains(site_url(), '7learn') ? site_url("pwa/simple/video/{$e['last_seen_item']['item_id']}/screen") : site_url("pwa/course-{$product['id']}/screen?e={$e['id']}") ;
+
+                    $link = site_url("pwa/course-{$product['id']}/screen?e={$e['id']}");
+                    $newPanelDomains = ['7learn','shahrbabak'];
+                    foreach($newPanelDomains as $domain){
+                        if(str_contains(site_url(), $domain)){
+                            $link = site_url("pwa/simple/video/{$e['last_seen_item']['item_id']}/screen");
+                            continue;
+                        }
+                    }
                 ?>
-                <a href="<?=$link?>" class="card-product my-course"
-                style="background: linear-gradient(240deg, #fff, rgba(0,0,0,0.5)), url(<?=$product['banner']['url'] ?? ''?>);">
+                <a href="<?=$link?>" class="card-product my-course" style="background: linear-gradient(240deg, #fff, rgba(0,0,0,0.5)), url(<?=$product['banner']['url'] ?? ''?>);">
                     <span class="content">
                         <!-- <span class="icon " style="--bg: var(--primary)">
                             @if($progress >=100)
