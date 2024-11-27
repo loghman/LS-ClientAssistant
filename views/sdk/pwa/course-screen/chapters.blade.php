@@ -42,6 +42,12 @@
             text-overflow: ellipsis;
         }
 
+        @media all and (min-width:600px) {
+            .truncate {
+                width: 90%;
+            }
+        }
+
         .accordions .accordion .header .picon {
             font-size: 18px;
         }
@@ -196,10 +202,11 @@
         .bghead{
             position: relative;
             min-height: 100%;
-            padding-top: 90px !important;
-            padding-bottom: 20px !important;
+            box-shadow: none;
+            padding-top: 160px !important;
+            padding-bottom: 30px !important;
             background-size: cover !important;
-            background: linear-gradient(0deg, var(--primary-50), #fff), url(<?= $course['banner']['url'] ?? '' ?>);
+            background: linear-gradient(0deg, #f3f3f3, rgba(0,0,0,0.3)), url(<?= $course['banner']['url'] ?? '' ?>);
         }
         .bghead .pbar{
             position: absolute;
@@ -213,7 +220,7 @@
 @include('sdk.pwa._partials.sidebar-desktop')
 
 <div class="base-content">
-    <div class="card-status bghead m-0 shadow-inset pt pb">
+    <div class="card-status bghead m-0 pt pb">
         <div>
                 <span class="content">
                     <span class="text">
@@ -234,12 +241,17 @@
             </div>
         @endif
         <div class="chapters">
+            <?php $c = 1; ?>
             @foreach($course['chapters'] as $ii => $ch)
                 <div class="accordions" >
                     @if(count($course['chapters']) > 1)
-                        <div class="fw-700 truncate"><?= "<span class='fasl'>فصل " . to_persian_num($ii+1) . ":</span> " . $ch['title']?></div>
+                        @if($ch['type'] == 1)
+                        <div class="fw-700 truncate"><?= "<span class='fasl'>فصل " . to_persian_num($c++) . ":</span> " . $ch['title']?></div>
+                        @else
+                        <div class="fw-700 truncate heading"><i class="fa-solid fa-bars"></i> &nbsp; <?=$ch['title']?></div>
+                        @endif
                     @endif
-                        <?php $si=1;?>
+                    <?php $si=1;?>
                     @foreach($ch['items'] as $item)
                         <a href="<?=site_url("pwa/simple/video/{$item['id']}/screen")?>" class="itemlink empty <?=$item['log_type'] ?? ''?> <?=($item['id'] == ($_GET['i']??'*')) ? 'default' : ''?>" data-iid="<?=$item['id']?>" data-pid="<?=$item['product_id']?>"
                              data-chid="<?=$item['parent_id']?>" data-t="<?=$item['log_type'] ?? ''?>">

@@ -237,12 +237,20 @@
     .bghead {
         position: relative;
         align-items: center;
+        box-shadow: none;
         min-height: 100%;
         padding-top: 40px !important;
         padding-bottom: 100px !important;
         background-size: cover !important;
         background: linear-gradient(0deg, var(--primary-50), rgba(255, 255, 255, 1));
     }
+
+    /* .bghead{
+            padding-top: 160px !important;
+            padding-bottom: 30px !important;
+            background-size: cover !important;
+            background: linear-gradient(0deg, #f3f3f3, rgba(0,0,0,0.3)), url(<?= $course['banner']['url'] ?? '' ?>);
+        } */
 
     .overlay{
         display: none;

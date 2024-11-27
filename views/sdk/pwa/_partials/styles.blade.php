@@ -626,4 +626,9 @@
         font-weight:600 !important;
         margin-bottom:20px;
     }
+    .heading {
+        margin-top: 20px;
+        color: rgba(0, 0, 0, 0.15);
+        font-size: 18px;
+    }
 </style>
