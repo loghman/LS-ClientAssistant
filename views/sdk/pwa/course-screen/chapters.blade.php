@@ -203,10 +203,16 @@
             position: relative;
             min-height: 100%;
             box-shadow: none;
-            padding-top: 160px !important;
-            padding-bottom: 30px !important;
+            padding-top: 180px !important;
+            padding-bottom: 50px !important;
             background-size: cover !important;
             background: linear-gradient(0deg, #f3f3f3, rgba(0,0,0,0.3)), url(<?= $course['banner']['url'] ?? '' ?>);
+        }
+        @media screen and (max-width: 500px) {
+            .bghead{
+                padding-top: 120px !important;
+                padding-bottom: 20px !important;
+            }
         }
         .bghead .pbar{
             position: absolute;
