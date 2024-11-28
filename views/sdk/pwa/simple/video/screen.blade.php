@@ -45,6 +45,9 @@
                 display: flex !important;
             }
         }
+        video::-webkit-media-controls-fullscreen-button {
+            display: none !important;
+        }
     </style>
 </head>
 
@@ -66,7 +69,7 @@
                             @if($item->video && $item->video->stream_url)
                                 <script src="{{ $item->video->stream_url }}"></script>
                             @elseif($item->video && $item->video->video_url)
-                                <video id="itemPlayer" controls="" autoplay="" class="w-100 base-radius overflow-hidden" data-is-completed="{{ $item->is_completed }}">
+                                <video id="itemPlayer" controls controlsList="nofullscreen" autoplay="" class="w-100 base-radius overflow-hidden" data-is-completed="{{ $item->is_completed }}">
                                     <source src="{{ $item->video->video_url }}" type="video/mp4"/>
                                 </video>
                             @endif
@@ -114,8 +117,9 @@
 </div>
 
 @include('sdk.pwa.simple.video._partials.bottom-nav')
+@if(!$item->is_completed)
 @include('sdk.pwa.simple.video._partials.feedback-overlay')
-
+@endif
 @foreach($item->questions as $question)
     @include('sdk.pwa.simple.video._partials.questions-overlay', compact('question'))
 @endforeach
