@@ -103,7 +103,7 @@
 <?php if(count($slider['banners'])): ?>
 <div class="swiper app-slider wpad">
     <div class="swiper-wrapper">
-        <?php foreach($slider['banners'] as $banner): ?>
+    <?php foreach(array_reverse($slider['banners']) as $banner): ?>
             <a class="swiper-slide bnavi" href="<?=$banner['link']?>"> 
                 <img src="<?=$banner['image']['url']?>" alt="<?=isset($banner['image']['original_name']) ? strtok($banner['image']['original_name'],'.') : ''?>">
             </a>
