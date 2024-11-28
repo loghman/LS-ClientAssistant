@@ -403,8 +403,11 @@
                     const map = data.data.statuses;
                     Object.keys(map).forEach(key => {
                         const element = document.querySelector(`[data-iid="${key}"]`);
-                        if (element && map[key]) 
+                        if (element && map[key])
                             element.classList.add(map[key]);
+                        if (element && map[key] == 'completed'){
+                            element.getElementsByClassName('picon')[0].classList.add('fa-circle-check');
+                        }
                         document.getElementById('pbar').innerHTML = circleProgressbar(data.data.progress_percent,'sm','', '','#ccc');
                     });
                 }
