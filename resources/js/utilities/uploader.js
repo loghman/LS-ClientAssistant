@@ -6,7 +6,7 @@ const checkFileSize = (file, maxFileSize) => {
   const fileSizeInKB = file.size / 1024;
 
   if (maxFileSize && fileSizeInKB > maxFileSize) {
-    toast(`فایل باید حداکثر ${maxFileSize}KB باشد`, "danger");
+    toast(`فایل باید حداکثر ${maxFileSize}KB باشد`, "danger",5000,'',100);
     return false;
   }
 
@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
           onUploadProgress(event, progressBar, progressPercent),
       });
 
-      if (response.status) {
+      if (response.status===true) {
         toast("فایل اپلود شد");
 
         if (progressBar && progressPercent) {
