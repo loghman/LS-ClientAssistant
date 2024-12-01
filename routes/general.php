@@ -23,6 +23,7 @@ use Ls\ClientAssistant\Controllers\PWA\PwaController;
 use Ls\ClientAssistant\Controllers\PWA\AjaxController;
 use Ls\ClientAssistant\Controllers\PWA\CoursePlayerController;
 use Ls\ClientAssistant\Controllers\PWA\MyCoursesController;
+use Ls\ClientAssistant\Controllers\PWA\PwaAuthController;
 use Ls\ClientAssistant\Core\Middlewares\PwaMiddleware;
 
 $router->name('sitemap.')->group(function(Router $router) {
@@ -170,6 +171,7 @@ $router->get('manifest.json', [PwaController::class, 'manifest']);
 
 $router->get('service-worker.js', [PwaController::class, 'service_worker']);  
 $router->name('pwa.')->prefix('pwa')->group(function (Router $router){
+    $router->name('sign')->get('/sign', action: [PwaAuthController::class, 'step1']);
     $router->name('auth')->get('/auth', [AuthController::class, 'index']);
     $router->name('onboarding')->get('/onboarding', [OnboardingController::class, 'index'])->middleware(PwaMiddleware::class);
     $router->name('dashboard')->get('dashboard', [PwaController::class, 'dashboard'])->middleware(PwaMiddleware::class);

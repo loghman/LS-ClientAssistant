@@ -14,6 +14,15 @@ use Ls\ClientAssistant\Services\ObjectCache;
 use Ls\ClientAssistant\Utilities\Tools\Media;
 
 
+function sanitizeInput($data) {
+    if (is_array($data)) {
+        // اگر داده یک آرایه است، به صورت بازگشتی هر المان را سانیتایز کن
+        return array_map('sanitizeInput', $data);
+    } else {
+        return htmlspecialchars($data, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    }
+}
+
 function obc_exists($key){
     return ObjectCache::exists($key);
 }
