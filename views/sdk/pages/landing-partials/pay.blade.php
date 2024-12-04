@@ -49,7 +49,7 @@
                 <i class="fa-solid fa-gift" style="margin-left: 5px; color: var(--primary);"></i>
                 ثبت نام رایگان
             @else
-                <img style="width: 50px;height: 50px;" src="{{ $gateway['thumbnail'] }}"  alt="{{ $gateway['name_en'] }}" class="icon">
+                <img src="{{ $gateway['thumbnail'] }}"  alt="{{ $gateway['name_en'] }}" class="icon">
                 <div>
                 @if($isSnap)
                     {{ $eligibleResponse['response']['title_message'] }}

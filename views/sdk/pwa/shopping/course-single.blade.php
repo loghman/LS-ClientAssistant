@@ -36,13 +36,16 @@ if (!preg_match('/' . implode('|', ['.jpg','.png','.webp']) . '/', $thumb))
         }
 
 
+        .bghead .priceline {
+            color: #545454 !important;
+        }
         .bghead {
             position: relative;
             height: 0;
             width: 100%;
             padding: 56.25% 0 0 0 !important;
             background-size: cover !important;
-            background: linear-gradient(0deg, #000, rgba(0, 0, 0, 0.4) 70%, rgba(0, 0, 0, 0.1) 100%), url(<?= $thumb ?>);
+            background: linear-gradient(0deg, #f3f3f3 0%, rgba(255, 255, 255, 0.2) 50%, rgba(0, 0, 0, 0.7) 100%), url(<?= $thumb ?>);
         }
 
         .bgcaption {
@@ -52,8 +55,13 @@ if (!preg_match('/' . implode('|', ['.jpg','.png','.webp']) . '/', $thumb))
         }
 
         .bgcaption .title {
-            color: #ffffff;
+            color: #000000;
             font-size: 24px;
+            text-shadow: 0px 0px 20px #fff;
+        }
+
+        .bghead.card-status {
+            box-shadow: none !important;
         }
 
         .bghead .pbar {
@@ -151,13 +159,16 @@ if (!preg_match('/' . implode('|', ['.jpg','.png','.webp']) . '/', $thumb))
             /* box-shadow: 0px -10px 20px rgba(0, 0, 0, 0.1); */
         }
         @media screen and (min-width:900px) {
-            @media screen and (min-width: 900px) {
-                .stick {
-                    width: 48%;
-                    left: 20%;
-                    padding-right: 20px;
-                }
+            .stick {
+                width: 48%;
+                left: 20%;
+                padding-right: 20px;
             }
+            .bgcaption .title {
+                font-size: 40px;
+                text-shadow: 0px 0px 20px #fff;
+            }
+            
         }
 
         .stick button,
@@ -172,11 +183,12 @@ if (!preg_match('/' . implode('|', ['.jpg','.png','.webp']) . '/', $thumb))
         }
 
         #payOptions{
-            margin:100px 0 200px 0;
+            margin: 100px 0 200px 0;
             background: #ffffff;
             padding: 20px 10px 40px 10px;
             border-radius: 10px;
-            border: 5px solid var(--primary-50);
+            border: 1px solid var(--primary-70);
+            border-top: 7px solid var(--primary-70);
             display: flex;
             flex-direction: column;
             align-items: stretch;
@@ -240,14 +252,14 @@ if (!preg_match('/' . implode('|', ['.jpg','.png','.webp']) . '/', $thumb))
     }
     .gateway-item .gw-logo img{
         vertical-align: middle;
-        width:32px !important;
-        height:32px !important;
+        width:40px !important;
+        height:40px !important;
         margin-left: 5px;
     }
     .gateway-item .gw-desc{
         width: 100%;
         text-align: right !important;
-        padding: 10px 20px;
+        padding: 10px 15px;
     }
     </style>
 </head>
@@ -255,7 +267,7 @@ if (!preg_match('/' . implode('|', ['.jpg','.png','.webp']) . '/', $thumb))
 <body>
     @include('sdk.pwa._partials.sidebar-desktop')
     <div class="base-content">
-        <div class="card-status bghead m-0 shadow-inset pt pb">
+        <div class="card-status bghead m-0 pt pb">
             <div class="bgcaption">
                 <span class="content">
                     <span class="text">
