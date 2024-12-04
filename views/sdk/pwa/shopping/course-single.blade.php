@@ -268,8 +268,9 @@ if (!preg_match('/' . implode('|', ['.jpg','.png','.webp']) . '/', $thumb))
         </div>
         <div class="content">
             <div class="info">
+                @if(!$enrollment)
                 <a href="#pay" class="btn cta-btn ms-auto" style="margin-left: 20px">ثبت نام سریع</a>
-
+                @endif
                 <div>
                     <span class="title"><?= to_persian_num(count($course['chapters'])) ?></span>
                     <small class="subtitle">سرفصل</small>
@@ -279,6 +280,8 @@ if (!preg_match('/' . implode('|', ['.jpg','.png','.webp']) . '/', $thumb))
                     <small class="subtitle">جلسه</small>
                 </div>
             </div>
+            @if(!$enrollment)
+
             <div id="description">
                 @if (filter_var($course['intro_video']['url'], FILTER_VALIDATE_URL))
                     <video controls autoplay class="w-100 base-radius overflow-hidden">
@@ -345,8 +348,15 @@ if (!preg_match('/' . implode('|', ['.jpg','.png','.webp']) . '/', $thumb))
             </div>
             <div id="pay"></div> 
             <div id="payOptions"><span class="loader"></span></div>
+            @else
+            <div style="text-align: center; background: #fff; padding: 40px; border-radius: 10px;">
+                <p style="margin-bottom: 10px;">شما قبلا در این دوره ثبت نام کرده اید.</p>
+                <p><a class="btn" href="<?=site_url("pwa/course/{$enrollment['entity_id']}/chapters?e={$enrollment['id']}")?>">مشاهده دوره <?=$course['title']?></a></p>
+            </div>
+            @endif
         </div>
     </div>
+    @if(!$enrollment)
     <div class="stick rMaxW" id="stickybar">
         <div class="stat">
             @if ($course['price']['main'] == 0)
@@ -362,6 +372,8 @@ if (!preg_match('/' . implode('|', ['.jpg','.png','.webp']) . '/', $thumb))
             <?= $course['final_price']['main'] > 0 ? 'پرداخت و ثبت نام' : 'ثبت نام رایگان' ?>
         </button>
     </div>
+    @endif
+
     @include('sdk.pwa._partials.bottom-nav')
     <script type="module" src="{{ core_asset('resources/assets/js/jquery.js') }}"></script>
     <script type="module" src="{{ core_asset('resources/assets/minimal-landing/js/client.js') }}"></script>

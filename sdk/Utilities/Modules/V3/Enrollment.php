@@ -32,6 +32,34 @@ class Enrollment extends Cacher
         }
     }
 
+    public static function has($user_id,$product_id)
+    {
+        $filter = ModuleFilter::new()
+        ->search('user_id',$user_id ?? -1)->searchJoin('and')
+        ->search('entity_type',"lms_products")->searchJoin('and')
+        ->search('entity_id',$product_id);
+        try {
+            $result = API::get('client/v3/lms/enrollment', $filter ? $filter->all() : []);
+            return $result['data'][0] ?? false;
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
+    public static function forUser($user_id)
+    {
+        $filter = ModuleFilter::new()->search('user_id',$user_id ?? -1);
+        try {
+            return API::get('client/v3/lms/enrollment', $filter ? $filter->all() : []);
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
     public static function aps(array $parameters): Collection
     {
         try {

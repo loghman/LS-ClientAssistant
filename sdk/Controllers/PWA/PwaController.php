@@ -87,13 +87,12 @@ class PwaController
                     unset($course['chapters'][$i]);
             $course = ObjectCache::write($key, $course);
         }
-        // dd($course);
-        // dd($course['teacherFaculty']);
+        $enrollment = V3Enrollment::has($user['id'],$course['id']);  
         $pagetitle = "{$course['title']}";
         if(isset($user['id'])){
-            return WebResponse::view('sdk.pwa.shopping.course-single', compact('pagetitle', 'data', 'course', 'user'));        
+            return WebResponse::view('sdk.pwa.shopping.course-single', compact('pagetitle', 'data', 'course', 'user','enrollment'));        
         }else{
-            return WebResponse::view('sdk.pwa.shopping.login', compact('pagetitle', 'data', 'course', 'user'));
+            return WebResponse::view('sdk.pwa.shopping.login', compact('pagetitle', 'data', 'course', 'user','enrollment'));
         }
     }
 
