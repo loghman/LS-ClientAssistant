@@ -46,6 +46,7 @@ if (!preg_match('/' . implode('|', ['.jpg','.png','.webp']) . '/', $thumb))
             padding: 56.25% 0 0 0 !important;
             background-size: cover !important;
             background: linear-gradient(0deg, #f3f3f3 0%, rgba(255, 255, 255, 0.2) 50%, rgba(0, 0, 0, 0.7) 100%), url(<?= $thumb ?>);
+            margin-top: -10px !important;
         }
 
         .bgcaption {
@@ -267,6 +268,8 @@ if (!preg_match('/' . implode('|', ['.jpg','.png','.webp']) . '/', $thumb))
 <body>
     @include('sdk.pwa._partials.sidebar-desktop')
     <div class="base-content">
+        @include('sdk.pwa._partials.top-nav')
+
         <div class="card-status bghead m-0 pt pb">
             <div class="bgcaption">
                 <span class="content">

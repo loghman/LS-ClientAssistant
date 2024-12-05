@@ -7,10 +7,10 @@
     <i class="fa-solid fa-layer-group"></i>
         <span>وبلاگ</span>
     </a>
-    {{-- <a class="bnavi" href="<?=site_url('pwa/courses')?>">
+    <a class="bnavi" href="<?=site_url('pwa/courses')?>">
         <i class="fa-solid fa-cart-shopping"></i>
         <span>خرید</span>
-    </a>  --}}
+    </a> 
     <a class="bnavi" href="<?=site_url('pwa/my-courses')?>">
         <i class="fa-solid fa-play"></i>
         <span>دوره های من</span>

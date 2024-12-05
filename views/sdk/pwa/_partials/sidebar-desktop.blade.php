@@ -1,5 +1,9 @@
 <section class="sidebar" id="sidebar">
     <div class="sidelinks">
+        {{-- <a href="<?= site_url('') ?>" class="homelink">
+            <img src="<?=$data['logo_url']?>" alt="لوگو">
+            <span><?=$data['brand_name']?></span>
+        </a> --}}
         <a href="<?= site_url('pwa/dashboard') ?>">
             <i class="fa-solid fa-house"></i>
             <span>داشبورد</span>
@@ -8,10 +12,10 @@
             <i class="fa-solid fa-play"></i>
             <span>دوره های من</span>
         </a>
-        {{-- <a href="<?= site_url('pwa/courses') ?>">
+        <a href="<?= site_url('pwa/courses') ?>">
             <i class="fa-solid fa-cart-shopping"></i>
             <span>خرید</span>
-        </a> --}}
+        </a>
         <a href="<?= site_url('pwa/blog') ?>">
             <i class="fa-solid fa-layer-group"></i>
             <span>وبلاگ</span>

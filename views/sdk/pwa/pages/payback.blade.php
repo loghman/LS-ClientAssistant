@@ -173,9 +173,17 @@
         align-items: center;
         min-height: 100%;
         padding-top: 40px !important;
-        padding-bottom: 100px !important;
+        padding-bottom: 80px !important;
         background-size: cover !important;
         background: linear-gradient(0deg, <?=$status ? "#a5e1a7" : "#e1ada5" ?>, #fff);
+    }
+    .txid{
+        font-size: 16px;
+        background: #fff;
+        padding: 2px 20px 2px 20px;
+        border-radius: 30px;
+        margin-top: 10px;
+        display: inline-block;
     }
     </style>
 </head>
@@ -184,9 +192,12 @@
     <div class="base-content">
         @if($status)
         <div class="card-status bghead m-0 shadow-inset pt pb">
-            <div class="text w-100 text-center" style="margin-top: 120px;color: #006004;">
+            <div class="text w-100 text-center" style="margin-top: 60px;color: #006004;">
                 <i class="fa-solid fa-circle-check" style="font-size: 32px;"></i><br>
                 <span class="title" style="font-size: 24px;">با تشکر از پرداخت شما</span><br>
+                @if($payment['ref_id'] ?? false)
+                <small class="txid">شماره تراکنش: <?=to_persian_num($payment['ref_id'])?></small>
+                @endif
             </div>
         </div>
         <div class="content" style="margin-top: 30px;text-align: center;font-size: 20px">

@@ -576,7 +576,7 @@
         }
     }
 
-    @media (min-width: 1200px) {
+    @media (min-width: 1000px) {
 
         html,
         .navbar,
@@ -594,11 +594,26 @@
             /* min-height: 600px; */
             background: #fff;
         }
-        .sidebar .sidelinks{
+
+        a.homelink {
+            margin: -37px 0px -3px;
+        }
+
+        .sidebar a.homelink img {
+            width: 24px;
+            display: inline-block;
+            vertical-align: middle;
+            margin: 0 0 0 2px;
+        }
+        .sidebar .sidelinks {
             position: fixed;
+            display: flex;
+            flex-direction: column;
             width: 240px;
-            min-height: 700px;
+            min-height: 100%;
+            padding: 65px 0 0 0;
             background: #ffffff;
+            bottom: 0;
         }
 
         .sidebar a {

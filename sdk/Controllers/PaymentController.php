@@ -7,6 +7,7 @@ use Ls\ClientAssistant\Helpers\Config;
 use Ls\ClientAssistant\Utilities\Modules\Payment;
 use Illuminate\Http\Request;
 use Ls\ClientAssistant\Utilities\Modules\V3\Gateway;
+use Ls\ClientAssistant\Utilities\Modules\V3\Payment as V3Payment;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class PaymentController
@@ -63,7 +64,9 @@ class PaymentController
     {
         $logo = setting('logo_icon_url') ?? setting('logo_url') ?? '';
         $status = (int)$request->status;
-        return WebResponse::view('sdk.pwa.pages.payback', compact('status','logo'));
+        // get payment object here
+        $payment = V3Payment::get($paymentId)['data'];
+        return WebResponse::view('sdk.pwa.pages.payback', compact('status','logo','payment'));
     }
 
     public function successForm(int $paymentId, Request $request)
