@@ -86,7 +86,6 @@
         <div class="swiper-wrapper">
         @foreach($posts['featured'] as $p)
             <a href="<?=site_url("pwa/blog/{$p['id']}")?>" class="bnavi swiper-slide enroll-slide" style="background: linear-gradient(0deg, #000,rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.1) 100%), url(<?=$p['thumbnail']['url']?>);"> 
-            <!-- <span class="badge-light"><?=$p['main_category']['name_fa']?></span><br> -->
             <span><?=to_persian_num($p['title'])?></span>
             </a>
         @endforeach
