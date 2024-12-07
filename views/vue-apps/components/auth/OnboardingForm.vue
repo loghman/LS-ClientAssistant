@@ -30,7 +30,6 @@ defineComponent({
 const props = defineProps({
   registrationFields: Object,
   userInfo: Object,
-  apiKey: String,
   currentVerifideField: String,
 });
 const customAxios = axios.create({
@@ -71,9 +70,7 @@ const excludedFields = [
 const shouldShowField = computed(
   () => (field) => !excludedFields.includes(field.name)
 );
-const { handleUploadFile, avatarUrl, uploadPercent } = useOnboardingManagment(
-  props.apiKey
-);
+const { handleUploadFile, avatarUrl, uploadPercent } = useOnboardingManagment();
 
 const handleAvatarChange = async (event) => {
   file.value = event.target.files[0];

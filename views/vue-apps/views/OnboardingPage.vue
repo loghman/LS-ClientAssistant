@@ -19,9 +19,7 @@ defineComponent({
         ErrorMsg
     },
 });
-const props = defineProps({
-    apiKey: String,
-});
+
 const authStore = useAuthStore();
 
 ////refs////
@@ -93,7 +91,7 @@ onBeforeMount(() => {
                                 :backgroundColor="'var(--primary)'" :color="'var(--primary)'" />
                         </div>
                         <div v-else>
-                            <OnboardingForm v-show="currentCard === 'onboarding_card'" :apiKey="apiKey"
+                            <OnboardingForm v-show="currentCard === 'onboarding_card'"
                                 :userInfo="userInfo" @goToCard="setCurrentCard"
                                 :registrationFields="authSetting.registrationFields"
                                 :currentVerifideField="currentVerifideField" />

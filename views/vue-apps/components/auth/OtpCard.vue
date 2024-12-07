@@ -94,8 +94,7 @@ onUnmounted(() => {
 });
 watch(
   () => resetOtpInputs.value,
-  (prev) => {
-    console.log(prev);
+  () => {
     otpCode.value = "";
   }
 );

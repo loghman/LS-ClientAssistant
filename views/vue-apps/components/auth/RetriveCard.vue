@@ -47,7 +47,7 @@ const handleSetCode = (otp) => {
   code.value = otp;
 };
 
-function onInvalidSubmit({ values }) {
+function onInvalidSubmit() {
   toast("لطفا فرم را بادقت پر کنید.", "warning");
 }
 
@@ -60,7 +60,7 @@ onMounted(() => {
 });
 watch(
   () => resetOtpInputs.value,
-  (prev) => {
+  () => {
     code.value = "";
   }
 );
