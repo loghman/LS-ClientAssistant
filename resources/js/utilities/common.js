@@ -1,22 +1,5 @@
 const mobileBreakPoint= 768;
 
-export const postData = (iframe, data, target) => {
-  if (iframe) {
-    iframe.contentWindow.postMessage(data, target);
-  } else {
-    console.error("Iframe not found.");
-  }
-};
-
-export const createIframe = (target, src) => {
-  const iframe = document.createElement("iframe");
-  iframe.id = "client_iframe";
-  iframe.src = src;
-  iframe.width = "1";
-  iframe.height = "1";
-  target.append(iframe);
-};
-
 export const secondsToTimeFormat = (time) => {
   const seconds = Math.floor(time);
   const pad = (num) => String(num).padStart(2, "0");

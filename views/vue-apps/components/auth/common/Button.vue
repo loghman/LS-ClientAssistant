@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, defineEmits } from "vue";
+import { ref } from "vue";
 
 const props = defineProps({
     text: String,
@@ -16,17 +16,25 @@ const emit = defineEmits(["handleClick"]);
 const handleClick = () => {
     emit("handleClick");
 }
+
+// Define a ref to hold the button or link element
+const buttonRef = ref(null);
+
+// Expose the ref to the parent
+defineExpose({
+  buttonRef,
+});
 </script>
 
 <template>
-    <template v-if="notBtn">
+    <template v-if="notBtn" ref="buttonRef">
         <a class="btn" :class="className" @click="handleClick">
             <i class="icon" :class="iconClass"></i>
             {{ text }}
         </a>
     </template>
     <template v-else>
-        <button :type="type" class="btn" :class="className" @click="handleClick">
+        <button :type="type" ref="buttonRef" class="btn" :class="className" @click="handleClick">
             <i class="icon" :class="iconClass"></i>
             {{ text }}
         </button>

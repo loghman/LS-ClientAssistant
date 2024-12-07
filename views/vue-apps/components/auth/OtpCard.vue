@@ -1,7 +1,5 @@
 <script setup>
 import {
-  defineProps,
-  defineEmits,
   ref,
   onMounted,
   onUnmounted,
@@ -12,8 +10,7 @@ import { post } from "@/js/utilities/httpClient/httpClient";
 import Cookies from "js-cookie";
 import { Form } from "vee-validate";
 import { authApi } from "@/js/utilities/apiPath";
-import { postData } from "@/js/utilities/common";
-import { lspDomain, lspOrigin, showIframe } from "./useAuth";
+import { lspDomain } from "./useAuth";
 import Button from "./common/Button.vue";
 import { useOtpManagment } from "./useOtpManagment";
 import { useAuthStore } from "../../stores/authStore";
@@ -22,10 +19,8 @@ import OtpFields from "./common/OtpFields.vue";
 import { toastErrorMessages } from "@/js/utilities/error-handler";
 import { toastSuccessMessage } from "@/js/utilities/success-handler";
 
-const clientIframe = document.getElementById("client_iframe");
 const props = defineProps({
   prevCard: String,
-  clientUrl: String,
   help: String,
 });
 const { expireAt, uniqueKey } = useAuthStore();
@@ -60,7 +55,7 @@ const handleSubmit = async () => {
   try {
     startLoading(submitVerifFormBtn.value);
     const response = await post(authApi.AUTH, data);
-    if (response.status) {
+    if (response.status === true) {
       if (props.prevCard === "onboarding_card") {
         goToCard("onboarding_card", "", uniqueKey);
         toast("تایید شد");
@@ -73,13 +68,6 @@ const handleSubmit = async () => {
         domain: lspDomain,
       });
       endLoading(submitVerifFormBtn.value);
-      if (showIframe) {
-        postData(
-          clientIframe,
-          { token: response.result.auth.token, origin: lspOrigin },
-          props.clientUrl
-        );
-      }
       toastSuccessMessage(response);
       Cookies.remove("currentCard");
       Cookies.remove("uniqueKey");
@@ -116,53 +104,30 @@ watch(
 <template>
   <Form autocomplete="off" class="card form-card">
     <div class="header d-flex align-items-center">
-      <Button
-        text="بازگشت"
-        className="outlined sm hover-anim"
-        @handleClick="goToCard(prevCard)"
-        iconClass="si-arrow-right-r mb-0  fs-20"
-      ></Button>
+      <Button text="بازگشت" className="outlined sm hover-anim" @handleClick="goToCard(prevCard)"
+        iconClass="si-arrow-right-r mb-0  fs-20"></Button>
     </div>
     <div class="fields-frame">
-      <small class="t-small mt-neg-12"
-        >کد فرستاده شده برای
-        <span class="user-login"> {{ uniqueKey }} </span> را وارد کنید</small
-      >
+      <small class="t-small mt-neg-12">کد فرستاده شده برای
+        <span class="user-login"> {{ uniqueKey }} </span> را وارد کنید</small>
       <OtpFields @setOtpCode="handleSetOtp" />
 
-      <button
-        ref="submitVerifFormBtn"
-        type="button"
-        class="btn-primary w-100 btn-submit"
-        @click="handleSubmit"
-      >
+      <button ref="submitVerifFormBtn" type="button" class="btn-primary w-100 btn-submit" @click="handleSubmit">
         <span>ادامه</span><i class="si-arrow-left-r"></i>
       </button>
-      <button
-        :disabled="isBtnDisabled"
-        ref="reSendTokenBtnRef"
-        type="button"
-        class="btn-outline-primary w-100 send-code"
-        @click="resendCode(uniqueKey, reSendTokenBtnRef)"
-      >
+      <button :disabled="isBtnDisabled" ref="reSendTokenBtnRef" type="button"
+        class="btn-outline-primary w-100 send-code" @click="resendCode(uniqueKey, reSendTokenBtnRef)">
         <i class="si-comment-text-r"></i>
         <span>ارسال مجدد (</span>
-        <span
-          ><span class="text-danger-85 countdown-num">{{
-            countDownTimer
-          }}</span>
-          ثانیه</span
-        >
+        <span><span class="text-danger-85 countdown-num">{{
+          countDownTimer
+        }}</span>
+          ثانیه</span>
         <span>)</span>
       </button>
 
-      <Button
-        v-if="prevCard === 'priority_one_card'"
-        text="ورود با رمز ثابت"
-        className="disabeled w-100 mt-2"
-        @handleClick="goToCard('pass_card')"
-        iconClass="si-arrow-left-r mb-0  fs-20"
-      ></Button>
+      <Button v-if="prevCard === 'priority_one_card'" text="ورود با رمز ثابت" className="disabeled w-100 mt-2"
+        @handleClick="goToCard('pass_card')" iconClass="si-arrow-left-r mb-0  fs-20"></Button>
 
       <small v-if="props.help" class="help-text">
         {{ props.help }}

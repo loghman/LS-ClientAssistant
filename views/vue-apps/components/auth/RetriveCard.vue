@@ -1,7 +1,5 @@
 <script setup>
 import {
-  defineProps,
-  defineEmits,
   ref,
   defineComponent,
   onMounted,
@@ -20,7 +18,6 @@ import OtpFields from "./common/OtpFields.vue";
 const props = defineProps({
   cardName: String,
   prevCard: String,
-  clientUrl: String,
 });
 const { uniqueKey } = useAuthStore();
 const reSendTokenBtnRef = ref(null);
@@ -43,7 +40,7 @@ const {
   resendCode,
   resetOtpInputs,
 } = useOtpManagment();
-const { authRequest } = useAuthManagment(props.clientUrl);
+const { authRequest } = useAuthManagment();
 const schema = createRetriveValidationSchema();
 
 const handleSetCode = (otp) => {
