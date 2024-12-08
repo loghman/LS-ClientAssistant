@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, onUnmounted, ref , defineEmits} from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import InputOtp from 'primevue/inputotp';
 import { checkDeviceType } from '@/js/utilities/common';
 const props = defineProps({

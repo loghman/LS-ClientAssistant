@@ -39,7 +39,7 @@ const emit = defineEmits(["goToRetrive"]);
 const goToCard = (cardName, uniqueKey) => {
     emit("goToRetrive", { cardName, uniqueKey });
 }
-const { sendToken } = useAuthManagment('', '', sendTokenBtnRef, goToCard);
+const { sendToken } = useAuthManagment('', goToCard);
 
 const handleGoToRetriveCard = () => {
     if (props.priority === 'password') {
@@ -47,9 +47,9 @@ const handleGoToRetriveCard = () => {
             toast("لطفا شماره موبایل یا ایمیل خود را وارد نمایید.", "danger")
             return
         }
-        sendToken({ uniqueKey: fieldVal.value, retrivePass: true })
+        sendToken({ uniqueKey: fieldVal.value, retrivePass: true }, sendTokenBtnRef.value)
     } else {
-        sendToken({ uniqueKey: uniqueKey, retrivePass: true })
+        sendToken({ uniqueKey: uniqueKey, retrivePass: true }, sendTokenBtnRef.value)
     }
 }
 onMounted(() => {

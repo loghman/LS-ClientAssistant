@@ -28,16 +28,16 @@ export const useOtpManagment = () => {
   const resendCode = async (uniqueKey, reSendTokenBtnRef) => {
     resetOtpInputs.value = !resetOtpInputs.value;
     try {
-      startLoading(reSendTokenBtnRef.value);
+      startLoading(reSendTokenBtnRef, "spinner-left secondary");
       const response = await post(authApi.SENDTOKEN, { unique_key: uniqueKey });
       if (response.status) {
-        endLoading(reSendTokenBtnRef.value);
+        endLoading(reSendTokenBtnRef, "spinner-left secondary");
         toast("کد ورود، مجددا ارسال شد");
         countDownTimer.value = 120;
         isBtnDisabled.value = true;
         startCountDown();
       } else {
-        endLoading(reSendTokenBtnRef.value);
+        endLoading(reSendTokenBtnRef, "spinner-left secondary");
         toastErrorMessages(response);
       }
     } catch (error) {

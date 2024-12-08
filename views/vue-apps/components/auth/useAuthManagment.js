@@ -2,22 +2,15 @@
 import { post, put, get } from "@/js/utilities/httpClient/httpClient.js";
 import Cookies from "js-cookie";
 import { endLoading, startLoading } from "@/js/utilities/loading.js";
-import { postData } from "@/js/utilities/common.js";
 import { authApi } from "@/js/utilities/apiPath.js";
-import { lspDomain, lspOrigin, showIframe } from "./useAuth.js";
+import { lspDomain } from "./useAuth.js";
 import { useAuthStore } from "../../stores/authStore.js";
 import { messages } from "@/js/utilities/static-messages.js";
 import { deleteTokenCookies } from "@/js/utilities/logout.js";
 import { ref } from "vue";
 import { toastSuccessMessage } from "@/js/utilities/success-handler.js";
 import { toastErrorMessages } from "@/js/utilities/error-handler.js";
-export const useAuthManagment = (
-  clientUrl,
-  submitBtnRef,
-  sendTokenBtnRef,
-  goToCard
-) => {
-  const clientIframe = document.getElementById("client_iframe");
+export const useAuthManagment = (submitBtnRef, goToCard) => {
   const { expireAt } = useAuthStore();
   const pathName = window.location.pathname;
   const checkLoginLoading = ref(false);
@@ -33,30 +26,19 @@ export const useAuthManagment = (
         throw new Error(`Unsupported method: ${method}`);
       }
 
-      if (response.status) {
+      if (response.status === true) {
         const { auth } = response.result;
 
         deleteTokenCookies();
-
         Cookies.set("token", auth.token, {
           expires: expireAt,
           domain: lspDomain,
         });
 
         endLoading(btnRef.value);
-
-        if (showIframe) {
-          postData(
-            clientIframe,
-            { token: auth.token, origin: lspOrigin },
-            clientUrl
-          );
-        }
-
         toastSuccessMessage(response);
         Cookies.remove("currentCard");
         Cookies.remove("uniqueKey");
-
         const redirectPath = response.result.redirect_path;
 
         if (pathName.includes("/pwa/auth")) {
@@ -84,15 +66,13 @@ export const useAuthManagment = (
     };
     authRequest("post", authApi.AUTH, data, submitBtnRef, actions);
   };
-  const sendToken = async (values) => {
+  const sendToken = async (values,btnRef) => {
     const unique_key = values.uniqueKey;
     try {
-      startLoading(sendTokenBtnRef.value);
-      sendTokenBtnRef.value.$el?.classList.add("spinner-left");
+      startLoading(btnRef);
       const response = await post(authApi.SENDTOKEN, { unique_key });
-      if (response.status) {
-        endLoading(sendTokenBtnRef.value);
-        sendTokenBtnRef.value.$el?.classList.remove("spinner-left");
+      if (response.status===true) {
+        endLoading(btnRef);
         toastSuccessMessage(response);
         if (values.retrivePass) {
           goToCard("retrive_card", unique_key);
@@ -100,8 +80,7 @@ export const useAuthManagment = (
           goToCard("otpCard", unique_key);
         }
       } else {
-        endLoading(sendTokenBtnRef.value);
-        sendTokenBtnRef.value.$el?.classList.remove("spinner-left");
+        endLoading(btnRef);
         toastErrorMessages(response);
       }
       return response;

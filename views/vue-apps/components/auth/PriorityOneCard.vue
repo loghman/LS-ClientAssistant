@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, defineEmits, ref } from "vue";
+import { ref } from "vue";
 import { Form } from 'vee-validate';
 import { createValidationSchema } from "./createValidation.js";
 import { useAuthManagment } from "./useAuthManagment.js";
@@ -10,7 +10,6 @@ import FormHeader from "./common/FormHeader.vue";
 const props = defineProps({
     authTitle: String,
     priority1: Object,
-    clientUrl: String,
 });
 
 const emit = defineEmits(["goToCard"]);
@@ -26,7 +25,7 @@ const goToCard = (cardName, uniqueKey) => {
 const goToRetrive = (data) => {
     emit("goToCard", { cardName: data.cardName, uniqueKey: data.uniqueKey });
 }
-const { sendToken } = useAuthManagment(props.clientUrl, submitBtnRef, sendTokenBtnRef, goToCard);
+const { sendToken } = useAuthManagment(submitBtnRef, goToCard);
 const handleGoToPassCard = (values) => {
     goToCard('pass_card', values.uniqueKey)
 }
@@ -37,7 +36,7 @@ function onInvalidSubmit() {
 </script>
 
 <template>
-    <Form v-if="priority1.authType === 'otp'" @submit="(values) => sendToken(values)" @invalid-submit="onInvalidSubmit"
+    <Form v-if="priority1.authType === 'otp'" @submit="(values) => sendToken(values,sendTokenBtnRef.buttonRef)" @invalid-submit="onInvalidSubmit"
         :validation-schema="schema" class="card form-card" autocomplete="off">
         <!-- :title="authTitle" -->
         <FormHeader></FormHeader>

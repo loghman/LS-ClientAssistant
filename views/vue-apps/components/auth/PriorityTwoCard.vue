@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, defineEmits, ref } from "vue";
+import { ref } from "vue";
 import { Form } from 'vee-validate';
 import {  createValidationSchema } from "./createValidation.js";
 import { useAuthManagment } from "./useAuthManagment.js";
@@ -10,7 +10,6 @@ import FormHeader from "./common/FormHeader.vue";
 const props = defineProps({
     authTitle: String,
     priority2: Object,
-    clientUrl: String,
 });
 
 const sendTokenBtnRef = ref(null);
@@ -24,11 +23,11 @@ const goToCard = (cardName, uniqueKey) => {
     emit("goToCard", { cardName, uniqueKey });
 }
 
-const { sendToken } = useAuthManagment(props.clientUrl, submitBtnRef, sendTokenBtnRef, goToCard);
+const { sendToken } = useAuthManagment( submitBtnRef, goToCard);
 const handleGoToPassCard=(values)=>{
     goToCard('pass_card',values.uniqueKey)
 }
-function onInvalidSubmit({ values, errors, results }) {
+function onInvalidSubmit() {
     toast("لطفا فرم را بادقت پر کنید.",'warning');
 }
 </script>
@@ -50,7 +49,7 @@ function onInvalidSubmit({ values, errors, results }) {
             </small>
         </div>
     </Form>
-    <Form v-if="priority2.authType === 'otp'" @submit="(values) => sendToken(values)" @invalid-submit="onInvalidSubmit"
+    <Form v-if="priority2.authType === 'otp'" @submit="(values) => sendToken(values,sendTokenBtnRef.value.buttonRef)" @invalid-submit="onInvalidSubmit"
         :validation-schema="schema" class="card form-card">
        <!-- :title="authTitle" -->
        <FormHeader></FormHeader>

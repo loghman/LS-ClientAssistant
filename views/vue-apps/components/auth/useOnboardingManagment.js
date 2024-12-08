@@ -9,7 +9,7 @@ export const useOnboardingManagment = () => {
   const avatarUrl = ref(null);
   const onUploadProgress = (progressEvent) => {
     const { loaded, total } = progressEvent;
-    let percent = Math.floor((loaded * 100) / total);
+    const percent = Math.floor((loaded * 100) / total);
     if (percent <= 100) {
       uploadPercent.value = percent;
     }
