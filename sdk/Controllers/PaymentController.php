@@ -66,7 +66,8 @@ class PaymentController
         $status = (int)$request->status;
         // get payment object here
         $payment = V3Payment::get($paymentId)['data'];
-        return WebResponse::view('sdk.pwa.pages.payback', compact('status','logo','payment'));
+        $pagetitle = 'نتیجه پرداخت';
+        return WebResponse::view('sdk.pwa.pages.payback', compact('status','logo','payment','pagetitle'));
     }
 
     public function successForm(int $paymentId, Request $request)
