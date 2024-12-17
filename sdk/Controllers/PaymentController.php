@@ -63,11 +63,12 @@ class PaymentController
     public function pwa_callback(int $paymentId, Request $request)
     {
         $logo = setting('logo_icon_url') ?? setting('logo_url') ?? '';
+        $data = self::shered_data();
         $status = (int)$request->status;
         // get payment object here
         $payment = V3Payment::get($paymentId)['data'];
         $pagetitle = 'نتیجه پرداخت';
-        return WebResponse::view('sdk.pwa.pages.payback', compact('status','logo','payment','pagetitle'));
+        return WebResponse::view('sdk.pwa.pages.payback', compact('data','status','logo','payment','pagetitle'));
     }
 
     public function successForm(int $paymentId, Request $request)
@@ -100,5 +101,14 @@ class PaymentController
             'sdk.salesflow.payment.payment-failed';
 
         return WebResponse::view($view, ['payment' => $payment['data']]);
+    }
+
+    private static function shered_data()
+    {
+        return [
+            'brand_name'            => setting('brand_name_fa'),
+            'logo_url'              => setting('logo_icon_url') ?? setting('logo_url') ?? '',
+            'logotype_url'          => setting('logo_url') ?? setting('logo_icon_url') ?? '',
+        ];
     }
 }
