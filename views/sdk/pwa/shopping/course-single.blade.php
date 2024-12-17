@@ -298,14 +298,14 @@ if (!preg_match('/' . implode('|', ['.jpg','.png','.webp']) . '/', $thumb))
             @if(!$enrollment)
 
             <div id="description">
-                @if (filter_var($course['intro_video']['url'], FILTER_VALIDATE_URL))
+                @if (filter_var($course['intro_video']['url']??'', FILTER_VALIDATE_URL))
                     <video controls autoplay class="w-100 base-radius overflow-hidden">
                         <source src="{{ $course['intro_video']['url'] }}" type="video/mp4" />
                     </video>
                 @endif
 
                 <?php
-                $desc = planetContentFilter($course['description']['full']);
+                $desc = planetContentFilter($course['description']['full']??'');
                 $len = strlen($desc);
                 ?>
                 <?php if($len > 3): ?>
