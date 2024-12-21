@@ -8425,15 +8425,14 @@ small {
 }
 .page-form #msg {
   display: none;
-  background: rgba(255, 255, 255, 0.97);
   position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  top: 10px;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
   text-align: center;
   z-index: 999;
-  font-size: 30px;
+  font-size: 24px;
   padding: 10% 12%;
 }
 
@@ -9719,7 +9718,7 @@ button.outline-danger,
         </div>
     </div>
 </div>
-<div id="msg"></div>
+<div id="msg" class="card"></div>
 
 <script src="{{ asset_url('js/jquery.min.js') }}"></script>
 <script type="module" src="{{ core_asset('resources/assets/js/jss.js') }}"></script>
@@ -9823,7 +9822,7 @@ button.outline-danger,
         let msg = document.getElementById('msg');
         msg.style.display = 'block';
         msg.innerHTML = "🙏<br><br>" + response.response.message +
-        '<br><br><br><a href="{{setting('client_url')}}" class="badge sm">بازگشت به {{setting('brand_name_fa')}}</a>';
+        '<br><br><br><a href="{{setting('client_url')}}" class="btn sm">بازگشت به {{setting('brand_name_fa')}}</a>';
     }
 
 </script>
