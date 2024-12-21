@@ -8417,15 +8417,14 @@ small {
 }
 .page-form #msg {
   display: none;
-  background: rgba(255, 255, 255, 0.97);
   position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  top: 10px;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
   text-align: center;
   z-index: 999;
-  font-size: 30px;
+  font-size: 24px;
   padding: 10% 12%;
 }
 
