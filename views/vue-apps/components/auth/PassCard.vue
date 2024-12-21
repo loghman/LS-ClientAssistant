@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, defineEmits, ref, defineComponent, computed } from "vue";
+import { ref, defineComponent, computed } from "vue";
 import { Form } from 'vee-validate';
 import { createValidationSchema } from "./createValidation.js";
 import { useAuthManagment } from "./useAuthManagment.js";
@@ -11,7 +11,6 @@ import { useAuthStore } from "../../stores/authStore.js";
 const props = defineProps({
     authTitle: String,
     priority1: Object,
-    clientUrl: String,
     prevCard: String,
 });
 defineComponent({
@@ -29,7 +28,7 @@ const goToCard =async (cardName) => {
 }
 const handleGoToCard= async (cardName)=>{
     if (cardName==='otpCard') {
-      const response=  await sendToken({uniqueKey:uniqueKey});
+      const response=  await sendToken({uniqueKey:uniqueKey},sendTokenBtnRef.value.buttonRef);
       if (!response.status) {
         uniqueKeyErrorMsg.value=response.errors;
         return;
@@ -46,7 +45,7 @@ const otpBtnCard= computed(()=>{
     return props.priority1.authType === 'otp'?'priority_one_card':'otpCard'
 })
 const schema = createValidationSchema('password');
-const { handleSubmitWithPassword,sendToken } = useAuthManagment(props.clientUrl,submitBtnRef, sendTokenBtnRef, goToCard);
+const { handleSubmitWithPassword,sendToken } = useAuthManagment(submitBtnRef, goToCard);
 
 function onInvalidSubmit() {
     toast("لطفا فرم را بادقت پر کنید.", 'warning');
