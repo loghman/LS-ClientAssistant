@@ -35,13 +35,13 @@
             <label class="fw-700">نام شما</label>
             <input type="text" name="full_name" required="required" placeholder="مثلا: لقمان آوند">
         </div>
-        <div class="input-group sm mt-2">
+        <div class="input-group sm">
             <label class="fw-700">شماره موبایل</label>
             <input class="ltr text-start" type="text" name="mobile" required="required"
                 placeholder="091xxxxxxxx">
         </div>
         @if(setting('crm_has_email_field'))
-            <div class="input-group sm mt-2">
+            <div class="input-group sm">
                 <label class="fw-700">ایمیل شما</label>
                 <input class="ltr text-start" type="email" name="email" required="required"
                     placeholder="yourName@domain.com">
