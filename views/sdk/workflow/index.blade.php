@@ -8668,7 +8668,7 @@ input[type=checkbox].lg, input[type=radio].lg {
   height: 22px;
 }
 input[type=checkbox] {
-  background-image: url("../img/icons/form_checkbox.svg") !important;
+  background-image: url("https://up.7learn.com/1/img/icon/form/form_checkbox.svg") !important;
   background-size: 0;
 }
 input[type=checkbox]:checked {
@@ -8676,12 +8676,12 @@ input[type=checkbox]:checked {
 }
 input[type=radio] {
   border-radius: 50%;
-  background-image: url("../img/icons/form_radio.svg") !important;
+  background-image: url("https://up.7learn.com/1/img/icon/form/form_radio.svg") !important;
 }
 input.switch {
   height: 21px;
   width: 35px;
-  background-image: url("../img/icons/form_switch.svg") !important;
+  background-image: url("https://up.7learn.com/1/img/icon/form/form_switch.svg") !important;
   background-size: contain !important;
   border-radius: var(--input-switch-radius);
   transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
@@ -8689,7 +8689,7 @@ input.switch {
 }
 input.switch:checked {
   background-position: right center;
-  background-image: url("../img/icons/form_switch_active.svg") !important;
+  background-image: url("https://up.7learn.com/1/img/icon/form/form_switch_active.svg") !important;
 }
 
 label {
@@ -8771,7 +8771,7 @@ select {
   background-position-x: 20px;
   background-position-y: var(--select-icon-position-y);
   appearance: none;
-  background-image: url("../img/icons/form_select.svg");
+  background-image: url("https://up.7learn.com/1/img/icon/form/form_select.svg");
 }
 
 textarea {
@@ -8933,7 +8933,7 @@ input.jump-next-input::placeholder {
   height: var(--card-checked-checkbox-space);
   border: solid 1px var(--secondary-30);
   background-size: 0;
-  background-image: url("../img/icons/form_checkbox_black.svg") !important;
+  background-image: url("https://up.7learn.com/1/img/icon/form/form_checkbox_black.svg") !important;
   transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   background-repeat: no-repeat;
   background-position: center;
@@ -8981,7 +8981,7 @@ input.jump-next-input::placeholder {
   border: solid 1px var(--secondary-30);
   background-color: var(--card-checked-theme);
   background-size: 0;
-  background-image: url("../img/icons/form_checkbox.svg") !important;
+  background-image: url("https://up.7learn.com/1/img/icon/form/form_checkbox.svg") !important;
   transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   background-repeat: no-repeat;
   background-position: center;
