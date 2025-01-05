@@ -74,13 +74,13 @@
                         برای فعال شدن سریع محصول <b>کلیک کنید</b>                   
                         @else
                             @if(!$isSnap)
-                                {{ to_persian_num($product['final_price']['human']) }}
+                                {{ to_persian_num($product['final_price']['readable']) }} تومان
                             @endif
                         @endif
                     </span>
                 </span>
             @else
-                {{ to_persian_num($product['price']['human']) }}
+                {{ to_persian_num($product['price']['readable']) }} تومان
             @endif
             <span class="subtitle">
                 @if($product['final_price']['main'] > 0)
