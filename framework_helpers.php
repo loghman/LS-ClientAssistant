@@ -302,6 +302,13 @@ if (!function_exists('current_user_id')) {
     }
 }
 
+if (!function_exists('is_logged_in')) {
+    function is_logged_in()
+    {
+        return \Ls\ClientAssistant\Utilities\Modules\User::getCurrent()['data']['id'] ?? false;
+    }
+}
+
 if (!function_exists('current_user_token')) {
     function current_user_token(): ?string
     {
