@@ -92,7 +92,7 @@ const handleSubmitForm = async (values, actions) => {
       endLoading(submitBtnRef.value);
       toastSuccessMessage(response);
       const redirectPath = response.result?.redirect_path || URLS.APP_URL;
-      window.location.href = `${redirectPath}`;
+      window.location.href = getBackUrl();
     } else {
       endLoading(submitBtnRef.value);
       if (response.errors) {

@@ -42,9 +42,9 @@ export const useAuthManagment = (submitBtnRef, goToCard) => {
         const redirectPath = response.result.redirect_path;
 
         if (pathName.includes("/pwa/auth")) {
-          window.location.href = "/pwa/dashboard";
+          window.location.href = getBackUrl();
         } else {
-          window.location.href = `${redirectPath}`;
+          window.location.href = getBackUrl();
         }
       } else {
         endLoading(btnRef.value);
@@ -95,11 +95,11 @@ export const useAuthManagment = (submitBtnRef, goToCard) => {
         checkLoginLoading.value = true;
         const userInfo = await get(authApi.PROFILE);
         if (userInfo.status) {
-          window.location.href = "/pwa/dashboard";
+          window.location.href = getBackUrl();
         } else {
           toast(messages.LOGIN_AGAIN, "danger");
           deleteTokenCookies();
-          window.location.href = "/pwa/auth";
+          window.location.href = getBackUrl();
           checkLoginLoading.value = false;
         }
       } catch (error) {

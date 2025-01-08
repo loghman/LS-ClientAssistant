@@ -73,9 +73,9 @@ const handleSubmit = async () => {
       Cookies.remove("uniqueKey");
       const redirectPath = response.result.redirect_path;
       if (pathName.includes("/pwa/auth")) {
-        window.location.href = "/pwa/dashboard";
+        window.location.href = getBackUrl();
       } else {
-        window.location.href = `${redirectPath}`;
+        window.location.href = getBackUrl();
       }
     } else {
       endLoading(submitVerifFormBtn.value);
