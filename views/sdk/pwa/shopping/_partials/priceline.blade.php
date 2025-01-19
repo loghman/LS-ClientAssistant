@@ -1,4 +1,4 @@
-<small class="priceline subtitle" style="font-size: 14px;color:#aaa;margin-top:5px">
+<small class="priceline subtitle lg opacity-75">
     @if($course['price']['main'] == 0)
         <span>رایگان</span>
     @elseif($course['price']['main'] == $course['final_price']['main'])

@@ -1,7 +1,6 @@
 <div class="navbar">
-    <a href="{{ site_url('') }}" class="navlogo">
-        <img src="{{ $data['logo_url'] }}" alt="{{ $data['brand_name'] }}">  
-        <span><?=$pagetitle?></span>
-    </a> 
+    <img class="icon" src="<?=$data['logo_url']?>" alt="<?=$data['brand_name']?>">
+    <span class="title">
+        <?=$pagetitle?>
+    </span>
 </div>
-<div class="navgap"></div>

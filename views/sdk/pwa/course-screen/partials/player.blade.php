@@ -19,7 +19,7 @@
     </div>
         <div class="signal-box">
         @if($data['log_type'] != 'completed')
-            <button class="signal-btn me-auto" data-iid="<?=$item['id']?>" onclick="signalRequest(this,'completed')"><i class="fa-solid fa-circle-check"></i> تماشا کردم</button>
+            <button class="signal-btn me-auto btn" data-iid="<?=$item['id']?>" onclick="signalRequest(this,'completed')"><i class="fa-solid fa-circle-check"></i> تماشا کردم</button>
             @else
             <span><span class="i-check-circle" style="font-size: 20px; color: var(--primary); vertical-align: text-bottom;"></span> قبلا این جلسه را مشاهده کرده اید.</span>
             @endif
@@ -29,7 +29,7 @@
 <?php if(!empty($item['other_attachments'])): ?>
 <div class="attachments">
 <?php foreach($item['other_attachments'] as $atch): ?>
-    <a href="<?=get_media_url($atch)?>" target="_blank" class="atlink">
+    <a href="<?=get_media_url($atch)?>" target="_blank" class="atlink btn light">
     <span class="title"><b><i class="fa-solid fa-download"></i></b> <?=str_replace(['پیوست ','پیوست'],'',$atch['title'])?></span>
     <span class="size me-auto"><?=to_persian_num(formatSizeUnits($atch['size']))?></span>
 </a>

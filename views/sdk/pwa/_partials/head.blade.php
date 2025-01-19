@@ -3,11 +3,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title><?=$pagetitle ?? ''?></title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 
 <meta name="csrf-token" content="">
-<link rel="dns-prefetch" id="storage_url" href="{{ base_storage_url() }}"/>
-<link rel="preconnect" href="{{ base_storage_url() }}"/>
+<link rel="dns-prefetch" id="storage_url" href="{{ base_storage_url() }}" />
+<link rel="preconnect" href="{{ base_storage_url() }}" />
 <link rel="apple-touch-icon" sizes="180x180" href="{{ $data['logo_url'] }}">
 <link rel="icon" type="image/png" sizes="32x32" href="{{ $data['logo_url'] }}">
 <link rel="icon" type="image/png" sizes="16x16" href="{{ $data['logo_url'] }}">
@@ -25,6 +25,18 @@
     {!! $theme['rendered_css'] !!}
 @endif
 <link rel="manifest" href="<?=site_url('manifest.json')?>">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+<link rel="stylesheet" href="https://cdn.planet.bz/font-icon/font-awesome/css/all.min.css" />
+<link rel="stylesheet" href="https://cdn.planet.bz/font-icon/font-awesome/css/regular.min.css" />
+<link rel="stylesheet" href="https://cdn.planet.bz/font-icon/font-awesome/css/solid.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+
+
+    $(document).ready(function () {
+        $("a.accordion").on("click", function (event) {
+            event.preventDefault();
+            window.location.href = $(this).attr("href");
+        });
+    });
+</script>
