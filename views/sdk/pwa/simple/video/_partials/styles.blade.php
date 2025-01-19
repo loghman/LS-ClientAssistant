@@ -1,16 +1,4 @@
 <style>
-    button:hover,
-    .btn:hover {
-        opacity: 0.8;
-        background: var(--primary) !important;
-        border-color: var(--primary) !important;
-    }
-
-    .card-product .title {
-        font-size: 22px;
-        padding-bottom: 8px;
-    }
-
     .progress {
         text-align: center;
         font-size: 11px;
@@ -39,57 +27,8 @@
         text-overflow: ellipsis;
     }
 
-    .accordions .accordion .header .picon {
-        font-size: 18px;
-    }
-
     .completed .picon {
         color: var(--primary);
-    }
-
-    .accordions .accordion .header .time {
-        font-size: 11px;
-        font-weight: 300;
-        opacity: 0.7;
-    }
-
-    .accordions .accordion .header {
-        background: none !important;
-        gap: 7px;
-    }
-
-    .accordions .accordion .header:after {
-        margin-right: 10px;
-        font-size: 12px;
-    }
-
-    .accordions .accordion .content {
-        padding: 0 !important;
-    }
-
-    .accordions {
-        margin-top: 10px;
-    }
-
-    .accordions .accordion {
-        border: 1px solid #e7e7e7 !important;
-        border-radius: 5px;
-        border-top-right-radius: 5px !important;
-        border-top-left-radius: 5px !important;
-        padding: 0 12px;
-        background-color: var(--primary-1);
-        margin-bottom: 5px;
-    }
-
-    .accordions .accordion.expanded {
-        z-index: 1;
-        border: 0 !important;
-        background: none;
-        padding: 0;
-    }
-
-    .accordions .accordion .content {
-        background: none !important;
     }
 
     .playerbox {
@@ -122,17 +61,6 @@
         border: 0;
         z-index: 50;
         border-radius: 10px;
-    }
-
-
-    .signal-box {
-        display: flex;
-        flex-direction: row-reverse;
-        align-items: center;
-        padding: 30px 0 10px 0;
-        margin: -20px 0 0 0;
-        font-size: 14px;
-        border-radius: 15px;
     }
     .nextitem:hover {
         background: var(--primary-15);
@@ -168,32 +96,6 @@
             width: 100%;
         }
     }
-
-    .signal-box button {
-        padding: 0px 20px;
-        border-radius: 7px;
-        font-size: 14px;
-    }
-
-    .attachments {
-        padding: 10px 0;
-    }
-
-    a.atlink small {
-        display: inline-block;
-        font-size: 10px;
-        background: var(--primary);
-        color: #fff;
-        padding: 0 7px !important;
-        line-height: 18px;
-        border-radius: 3px;
-        vertical-align: middle;
-        opacity: 0.9;
-    }
-    a.atlink:hover small {
-        opacity: 1;
-    }
-    
     .ext.pdf {
         background: #ee232b;
     }
@@ -215,42 +117,6 @@
     .ext.txt,.ext.md {
         background: #777777;
     }
-
-    a.atlink i {
-        font-style: normal;
-        margin-left: 5px;
-    }
-
-    a.atlink {
-        display: flex;
-        background: #fff;
-        border-radius: 5px;
-        margin: 5px auto;
-        padding: 5px 15px;
-        font-size: 14px;
-    }
-
-    a.atlink .size {
-        font-size: 9px;
-    }
-
-    .bghead {
-        position: relative;
-        align-items: center;
-        box-shadow: none;
-        min-height: 100%;
-        padding-top: 40px !important;
-        padding-bottom: 100px !important;
-        background-size: cover !important;
-        background: linear-gradient(0deg, var(--primary-50), rgba(255, 255, 255, 1));
-    }
-
-    /* .bghead{
-            padding-top: 160px !important;
-            padding-bottom: 30px !important;
-            background-size: cover !important;
-            background: linear-gradient(0deg, #f3f3f3, rgba(0,0,0,0.3)), url(<?= $course['banner']['url'] ?? '' ?>);
-        } */
 
     .overlay{
         display: none;
@@ -277,7 +143,7 @@
     .overlay-panel{
         background-color: rgba(255,255,255);
         margin: 7%;
-        padding: 20px 20px 30px 20px;
+        padding: 20px;
         border-radius: 10px;
         box-shadow: 0 0 64px -20px #ffffff;
     }
@@ -295,16 +161,15 @@
     .overlay-panel .erow{
         display: block;
         background-color: #f7f7f7;
-        border:1px solid #f7f7f7;
         padding: 10px 15px;
-        border-radius: 5px;
+        border-radius: var(--card-radius);
         margin-top: 10px;
         font-size: 20px;
+        transition: all ease-in-out .1s;
     }
     .overlay-panel .erow:hover{
         cursor: pointer;
-        background-color: #f2f2f2;
-        border:1px solid #ccc;
+        background-color:rgb(235, 235, 235);
     }
 
     .longtextwrap *{
