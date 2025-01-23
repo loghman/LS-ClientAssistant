@@ -1,5 +1,6 @@
 <?php
 use Ls\ClientAssistant\Controllers\PWA\PwaSimpleController;
+use Ls\ClientAssistant\Controllers\QPayController;
 use Ls\ClientAssistant\Services\ObjectCache;
 use Ls\ClientAssistant\Core\StaticCache;
 use Ls\ClientAssistant\Controllers\AuthController;
@@ -21,8 +22,6 @@ use Ls\ClientAssistant\Controllers\SiteMapController;
 
 use Ls\ClientAssistant\Controllers\PWA\PwaController;
 use Ls\ClientAssistant\Controllers\PWA\AjaxController;
-use Ls\ClientAssistant\Controllers\PWA\CoursePlayerController;
-use Ls\ClientAssistant\Controllers\PWA\MyCoursesController;
 use Ls\ClientAssistant\Controllers\PWA\PwaAuthController;
 use Ls\ClientAssistant\Core\Middlewares\PwaMiddleware;
 
@@ -165,6 +164,20 @@ $router->name('payment.')->prefix('payment')->group(function (Router $router) {
         ->get('/failed/{paymentId}', [PaymentController::class, 'failureForm']);
 });
 
+$router->name('qpay.')->prefix('qpay')->group(function (Router $router) {
+    $router->name('index')
+        ->post('/', [QPayController::class, 'index']);
+
+    $router->name('send-token')
+        ->post('/send-token', [QPayController::class, 'sendToken']);
+
+    $router->name('auth')
+        ->post('/auth', [QPayController::class, 'auth']);
+
+    $router->name('pay')
+        ->post('/pay', [QPayController::class, 'pay'])
+        ->middleware(AuthMiddleware::class);
+});
 
 $router->get('manifest.json', [PwaController::class, 'manifest']);  
 // $router->get('site.webmanifest', [PwaController::class, 'manifest']);  
