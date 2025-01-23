@@ -17,10 +17,10 @@ class PwaSimpleController
             ModuleFilter::new()
                 ->includes('product.currentUserEnrollment', 'parent', 'media', 'currentUserEnrollmentLog', 'questions.currentUserAnswer')
         );
-
         $user = current_user();
         $data = self::shered_data();
         $item = VideoTransformer::item($response);
+        $item->type = (object)$response['data']['type'];
         $pagetitle = $item->title;
         return WebResponse::view('sdk.pwa.simple.video.screen', compact('pagetitle','data','item'));
     }

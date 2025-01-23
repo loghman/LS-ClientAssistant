@@ -151,6 +151,9 @@ class PwaController
     }
     public function item_screen(Request $request, string $product_id, string $item_id)
     {
+        if(!env('ALLOW_FREE_ACCESS',false))
+            return new RedirectResponse(site_url('pwa/auth'), 302, []);
+
         $user = current_user();
         $userToken = $request->cookies->get('token');
         $data = self::shered_data();
@@ -174,6 +177,27 @@ class PwaController
         }
         $pagetitle = "{$item['title']}";
         return WebResponse::view('sdk.pwa.pages.item-screen', compact('pagetitle', 'data', 'course', 'item'));
+    }
+
+    public function chapter_screen(Request $request, string $product_id, string $chapter_id)
+    {
+        if(!env('ALLOW_FREE_ACCESS',false))
+            return new RedirectResponse(site_url('pwa/auth'), 302, []);
+        
+        $user = current_user();
+        $user['isLmsManager'] = in_array('lms:update', $user['permissions'] ?? []) ? 1 : 0;
+        $userToken = $request->cookies->get('token');
+        $data = self::shered_data();
+        $key = "course($product_id)-with-chapters";
+        if (ObjectCache::exists($key)) {
+            $course = ObjectCache::get($key);
+        } else {
+            $course = LMSProduct::get($product_id)['data'];
+            $course['chapters'] = LMSProduct::chapters($product_id, $userToken)['data']['items'];
+            $course = ObjectCache::write($key, $course);
+        }
+        $pagetitle = "{$course['title']}";
+        return WebResponse::view('sdk.pwa.course-screen.chapter-screen', compact('pagetitle', 'data', 'course', 'user','chapter_id'));
     }
 
     public function blog(Request $request)

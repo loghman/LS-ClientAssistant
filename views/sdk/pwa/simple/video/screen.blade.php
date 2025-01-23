@@ -60,6 +60,21 @@
                 width: 100%;
             }
         }
+
+        .embedbox{
+            background-color: var(--primary-20); !important;
+            padding: 10px;
+            min-height: 230px;
+        }
+        .embedbox iframe,.embedbox video{
+            border: 0;
+            border-radius: 7px;
+            margin-bottom: 10px;
+        }
+        .h_iframe-aparat_embed_frame{
+            margin-bottom: 10px;
+        }
+
     </style>
 </head>
 
@@ -74,17 +89,31 @@
                     <i style="font-size: 9px; padding: 0 3px;" class="fa-solid fa-angles-left"></i>
                     {{ $item->chapter->title }}</small>
             </div>
-            <div class="wpad tpad bpad" style="margin-top: -100px;">
+            <div class="wpad tpad bpad" style="margin-top: -100px;z-index: 3;">
+                
+                @if($item->video)
                 <div class="playerbox base-radius">
-                    @if($item->video && $item->video->stream_url)
+                    @if($item->video->stream_url)
+                        {{-- TODO: TOFIX --}}
                         <script src="{{ $item->video->stream_url }}"></script>
-                    @elseif($item->video && $item->video->video_url)
+                    @elseif($item->video->video_url)
                         <video id="itemPlayer" controls controlsList="nofullscreen" autoplay=""
                             class="w-100 base-radius overflow-hidden" data-is-completed="{{ $item->is_completed }}">
                             <source src="{{ $item->video->video_url }}" type="video/mp4" />
                         </video>
                     @endif
                 </div>
+                @endif
+                @if ($item->type->name == 'Text')
+                <div class="embedbox base-radius" style="margin-top: 10px">
+                    @if($item->description)
+                        {!! $item->description !!}
+                    @else
+                    <p>این جلسه هنوز محتوایی ندارد</p>
+                    @endif
+                </div>
+                @endif
+
                 <div class="flex items-center gap-base bottom-video tpad-half">
                     @if($item->next)
                         <a class="btn light justify-start truncate flex-1" href="{{ $item->next->url }}">
@@ -105,7 +134,7 @@
                 {{-- @if($item->attachments) --}}
                 <div class="attachments">
                     @foreach($item->attachments as $attachment)
-                        <?php    $ext = pathinfo($attachment->url, PATHINFO_EXTENSION) ?>
+                        <?php $ext = pathinfo($attachment->url, PATHINFO_EXTENSION) ?>
                         <a href="{{ $attachment->url }}" target="_blank" class="atlink btn light">
                             <span class="title"><b><i class="fa-solid fa-download"></i></b>{{ $attachment->title }}</span>
                             <span class="size me-auto ltr "><small class="ext <?=$ext?>">{{$ext}}</small></span>
@@ -114,7 +143,7 @@
                     @endforeach
                 </div>
                 {{-- @endif --}}
-                @if($item->description)
+                @if($item->description && $item->type->name != 'Text')
                     <div class="longtextwrap" style="margin-top:-20px;padding:0">
                         @if(strlen($item->description) > 400)
                             <div class="longtext">{!! $item->description !!}</div>
@@ -124,6 +153,7 @@
                         @endif
                     </div>
                 @endif
+                <div class="h200"></div>
             </div>
         </div>
 

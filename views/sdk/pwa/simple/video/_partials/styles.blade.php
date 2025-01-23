@@ -96,27 +96,6 @@
             width: 100%;
         }
     }
-    .ext.pdf {
-        background: #ee232b;
-    }
-    .ext.ppt,.ext.ppsx,.ext.pptx {
-        background: #d78b03;
-    }
-    .ext.xls,.ext.xlsx{
-        background: #178048;
-    }
-    .ext.doc,.ext.docx {
-        background: #1f5fbf;
-    }
-    .ext.zip,.ext.rar {
-        background: #680579;
-    }
-    .ext.png,.ext.gif,.ext.jpg,.ext.svg {
-        background: #df487c;
-    }
-    .ext.txt,.ext.md {
-        background: #777777;
-    }
 
     .overlay{
         display: none;

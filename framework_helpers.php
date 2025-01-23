@@ -1428,14 +1428,12 @@ function enrollmentNextItemUrl($enrollment) {
     $enroll_id = $enrollment['id'];
     $product_id = $enrollment['entity_id'];
     $nextItemId = $enrollment['last_seen_item']['item_id'];
-    $newPanelDomains = ['7learn','shahrbabak'];
-    foreach($newPanelDomains as $domain){
-        if(str_contains(site_url(), $domain)){
-            if($nextItemId && is_numeric($nextItemId))
-                return site_url("pwa/simple/video/$nextItemId/screen");
-            return site_url("pwa/course/{$product_id}/chapters?e={$enroll_id}");
-        }
-    }
-    // madamcakes and old ux
-    return site_url("pwa/course-{$product_id}/screen?e={$enroll_id}");
+    // old  panel just for madamcakes
+    if(str_contains(site_url(), 'madamcake'))
+        return site_url("pwa/course-{$product_id}/screen?e={$enroll_id}");
+
+    // new panel for others
+    if($nextItemId && is_numeric($nextItemId))
+        return site_url("pwa/simple/video/$nextItemId/screen");
+    return site_url("pwa/course/{$product_id}/chapters?e={$enroll_id}");
 }
