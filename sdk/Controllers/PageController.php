@@ -16,11 +16,16 @@ class PageController
             abort(404, 'برگه مورد نظر یافت نشد');
         }
         $seoMeta = seo_meta('post', $page);
-
+        
         if(!WebResponse::viewExist("pages.page.single")){
             WebResponse::view('sdk.pages.common', compact('page', 'seoMeta'));
         }
-
+        
         WebResponse::view("pages.page.single", compact('page', 'seoMeta'));
+    }
+
+    public function ckStyles(Request $request){
+        header("Content-type: text/css");
+        WebResponse::view("sdk._common.ckstyles");  
     }
 }

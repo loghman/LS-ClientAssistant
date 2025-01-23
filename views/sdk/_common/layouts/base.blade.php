@@ -2,7 +2,8 @@
 <html dir="rtl" lang="fa">
 <head>
     @include('sdk._common.layouts.head')
-    <link rel="manifest" href="<?=site_url('manifest.json')?>">
+    <link rel="manifest" href="{{site_url('manifest.json')}}">
+    <link rel="stylesheet" href="{{site_url('ckstyle.css')}}">
 </head>
 <body @include('_common.layouts.body-class')>
 {!! setting('top_of_body_script') !!}
