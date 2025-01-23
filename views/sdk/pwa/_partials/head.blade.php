@@ -31,12 +31,13 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
-
-
-    $(document).ready(function () {
-        $("a.accordion").on("click", function (event) {
+document.addEventListener('DOMContentLoaded', function() {
+    const accordionLinks = document.querySelectorAll('a.accordion');
+    accordionLinks.forEach(function(link) {
+        link.addEventListener('click', function(event) {
             event.preventDefault();
-            window.location.href = $(this).attr("href");
+            window.location.href = this.getAttribute('href');
         });
     });
+});
 </script>

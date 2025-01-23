@@ -171,6 +171,7 @@ $router->get('manifest.json', [PwaController::class, 'manifest']);
 
 $router->get('service-worker.js', [PwaController::class, 'service_worker']);  
 $router->name('pwa.')->prefix('pwa')->group(function (Router $router){
+    $router->name('index')->get('',function(){redirect(site_url('pwa/dashboard'));});
     $router->name('sign')->get('/sign', action: [PwaAuthController::class, 'step1']);
     $router->name('auth')->get('/auth', [AuthController::class, 'index']);
     $router->name('onboarding')->get('/onboarding', [OnboardingController::class, 'index'])->middleware(PwaMiddleware::class);
@@ -215,6 +216,7 @@ $router->name('ajax.')->prefix('ajax')->group(function (Router $router){
     $router->name('myCourses.stats')->get('my-courses/stats', [AjaxController::class, 'myCoursesStats']);
     $router->name('item.reaction')->post('item/reaction', [AjaxController::class, 'itemReaction']);
     $router->name('quiz.answer')->post('/{quiz_id}/{question_id}/answer', [AjaxController::class, 'quizAnswer']);
+    $router->name('appLog')->get('appLog', [AjaxController::class, 'appLog']);  
 });
 
 

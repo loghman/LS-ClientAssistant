@@ -17,13 +17,16 @@
         @endif
     @endif
     </div>
-        <div class="signal-box">
+    @if(is_logged_in())
+    <div class="signal-box">
         @if($data['log_type'] != 'completed')
             <button class="signal-btn me-auto btn" data-iid="<?=$item['id']?>" onclick="signalRequest(this,'completed')"><i class="fa-solid fa-circle-check"></i> تماشا کردم</button>
-            @else
+        @else
             <span><span class="i-check-circle" style="font-size: 20px; color: var(--primary); vertical-align: text-bottom;"></span> قبلا این جلسه را مشاهده کرده اید.</span>
-            @endif
-        </div> 
+        @endif
+    </div> 
+    @endif
+
 @endif
 
 <?php if(!empty($item['other_attachments'])): ?>

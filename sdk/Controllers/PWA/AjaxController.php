@@ -3,6 +3,7 @@
 namespace Ls\ClientAssistant\Controllers\PWA;
 
 use Illuminate\Http\Request;
+use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Core\Enums\AnswerStatus;
 use Ls\ClientAssistant\Core\Router\JsonResponse;
 use Ls\ClientAssistant\Core\Router\WebResponse;
@@ -85,6 +86,18 @@ class AjaxController
             $data['last_log_dates'][$e['id']] = to_persian_date($e['last_log_date'],'%d %B %y');
         }
         return JsonResponse::success('success', $data);
+    }
+
+    public function appLog(Request $request){
+        $key = "applog-1h";
+        if(!empty($_COOKIE[$key] ?? '')){
+            echo "hold";
+            return;
+        }
+        API::post('client/v3/core/user-last-activity-log');
+        setcookie($key,date('Y-m-d H:i:s'), time() + 36000, '/');
+        echo "sent";
+        return;
     }
 
     public function enrollmentLogs(Request $request,string $enrollment_id)

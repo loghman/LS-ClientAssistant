@@ -92,6 +92,7 @@
                     console.log('Service Worker failed:', error);
                 });
         });
+
     }
     function typeWriter(text, elementId, speed) {
         let i = 0;
@@ -210,4 +211,8 @@
             link.classList.add('active');
         }
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch("{{site_url('ajax/appLog')}}");
+    }); 
 </script>
