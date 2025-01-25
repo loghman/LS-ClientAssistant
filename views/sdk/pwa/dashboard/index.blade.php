@@ -66,8 +66,7 @@
                 </a>
             </div>
 
-            <?php if (isset($slider)): ?>
-            <?php    if (count($slider['banners'])): ?>
+            <?php if(isset($slider['banners']) && count($slider['banners']) > 0): ?>
             <div class="swiper app-slider wpad">
                 <div class="swiper-wrapper">
                     <?php        foreach (array_reverse($slider['banners']) as $banner): ?>
@@ -80,7 +79,6 @@
                 <div class="swiper-pagination"></div>
             </div>
             <?php    endif; ?>
-            <?php endif; ?>
 
             <div>
                 <div class="title-row wpad tpad bpad-half m-0">
