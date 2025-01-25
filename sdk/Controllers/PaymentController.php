@@ -6,7 +6,9 @@ use Ls\ClientAssistant\Core\Router\WebResponse;
 use Ls\ClientAssistant\Helpers\Config;
 use Ls\ClientAssistant\Utilities\Modules\Payment;
 use Illuminate\Http\Request;
+use Ls\ClientAssistant\Utilities\Modules\V3\Cart;
 use Ls\ClientAssistant\Utilities\Modules\V3\Gateway;
+use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
 use Ls\ClientAssistant\Utilities\Modules\V3\Payment as V3Payment;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -101,6 +103,21 @@ class PaymentController
             'sdk.salesflow.payment.payment-failed';
 
         return WebResponse::view($view, ['payment' => $payment['data']]);
+    }
+
+    public function invoiceScreen(string $hashId)
+    {
+        $filter = ModuleFilter::new()
+            ->includes('user', 'lmsProductItems', 'lmsProductItems.entity', 'payments', 'coupon');
+        $invoice = Cart::get($hashId, $filter)->get('data');
+        if (null === $invoice || empty($invoice['type']['name']) || $invoice['type']['name'] === 'CART') {
+            abort(404);
+        }
+
+        return WebResponse::view(
+            'sdk.salesflow.invoice.index',
+            compact('invoice')
+        );
     }
 
     private static function shered_data()
