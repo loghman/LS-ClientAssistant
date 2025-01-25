@@ -5,13 +5,13 @@ namespace Ls\ClientAssistant\Utilities\Modules\V3;
 #[\AllowDynamicProperties]
 class ModuleFilter
 {
-    private string $includes = '';
-    private string $excludes = '';
-    private string $withCount = '';
-    private string $search = '';
-    private string $searchFields = '';
+    private ?string $includes = null;
+    private ?string $excludes = null;
+    private ?string $withCount = null;
+    private ?string $search = null;
+    private ?string $searchFields = null;
     private string $searchJoin = 'or';
-    private string $orderBy = '';
+    private ?string $orderBy = null;
     private string $sortedBy;
     private int $page;
     private int $per_page;
@@ -100,7 +100,7 @@ class ModuleFilter
         return $this;
     }
 
-    private function concat(string $string, string $concat, string $separator = ','): string
+    private function concat(?string $string, string $concat, string $separator = ','): string
     {
         if (empty($string)) {
             return $concat;
@@ -111,6 +111,8 @@ class ModuleFilter
 
     public function all(): array
     {
-        return array_filter(get_object_vars($this));
+        return array_filter(get_object_vars($this), function ($value) {
+            return !is_null($value);
+        });
     }
 }
