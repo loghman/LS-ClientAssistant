@@ -53,8 +53,11 @@ class PaymentController
         return new RedirectResponse($res['data']['link'], 302, []);
     }
 
-    public function callback(int $paymentId, Request $request)
+    public function callback(int|string $paymentId, Request $request)
     {
+        if (!is_numeric($paymentId)) {
+            abort(404);
+        }
         if ((int)$request->status === 0) {
             return WebResponse::redirect("payment/failed/$paymentId");
         }

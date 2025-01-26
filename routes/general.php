@@ -164,7 +164,7 @@ $router->name('payment.')->prefix('payment')->group(function (Router $router) {
         ->get('/failed/{paymentId}', [PaymentController::class, 'failureForm']);
 
     $router->name('invoice-screen')
-        ->get('/failed/{hashid}', [PaymentController::class, 'invoiceScreen']);
+        ->get('/invoice/{hashid}', [PaymentController::class, 'invoiceScreen']);
 });
 
 $router->name('qpay.')->prefix('qpay')->group(function (Router $router) {
