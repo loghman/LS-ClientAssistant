@@ -371,6 +371,7 @@
 
         .alert.success .heading .btn {
             margin-right: auto;
+            min-width: 100px;
         }
 
         .alert .subtitle {
@@ -462,6 +463,23 @@
             .d-none-responsive {
                 display: none;
             }
+
+            .alert.success .heading span {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .alert {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+
+            .alert.success .heading .btn {
+                font-size: 14px;
+                padding: 10px 5px;
+                justify-content: center;
+            }
         }
 
 
@@ -475,7 +493,7 @@
 
 <body>
 <h1 class="t-heading text-center">فاکتور پرداخت</h1>
-@if(empty($invoice['checked_at']))
+@if(empty($invoice['checked_at']) || $invoice['status']['name'] === 'CANCELED')
     <div class="alert danger">
         <div class="content">
             <h3 class="heading">پیش فاکتور شما تایید نشده است</h3>
@@ -555,29 +573,29 @@
         @if(count($invoice['payments']) > 0)
             @php($touchActive = false)
             @foreach($invoice['payments'] as $payment)
-                @php($isDiv = empty($invoice['checked_at']) || $payment['status']['name'] === 'PAID' || $touchActive)
+                @php($isDiv = empty($invoice['checked_at']) || $invoice['status']['name'] === 'CANCELED' || $payment['status']['name'] === 'PAID' || $touchActive)
                 <{{ $isDiv ? 'div' : 'a href='. $payment['payment_link'] }} class="item {{ $payment['status']['name'] === 'PAID' ? 'success' : '' }}">
-                    <span class="t-text">
+                <span class="t-text">
                         @if($payment['is_installment'])
-                            <span class="bold">قسط {{ number_to_letter_persian($loop->iteration) }}</span>
-                        @else
-                            <span class="bold">پرداخت آنلاین</span>
-                        @endif
+                        <span class="bold">قسط {{ number_to_letter_persian($loop->iteration) }}</span>
+                    @else
+                        <span class="bold">پرداخت آنلاین</span>
+                    @endif
                         <span class="date">({{ $payment['due_date']['diff_for_human'] }} تا سررسید  ، {{ $payment['due_date']['jalali']['day'] }} {{ $payment['due_date']['jalali']['month_name'] }})</span>
                     </span>
-                    <div class="row">
-                        <span class="t-text bold">{{ $payment['amount']['readable'] }} تومان</span>
-                        @if($payment['status']['name'] === 'PAID')
-                            <span class="d-none-responsive">|</span>
-                            <span class="t-text bold text-success">{{ $payment['status']['to_persian'] }}</span>
-                        @else
-                            <span class="btn {{ $isDiv ? 'gray' : '' }}" {{ $isDiv ? 'disabled=disabled' : '' }}>
+                <div class="row">
+                    <span class="t-text bold">{{ $payment['amount']['readable'] }} تومان</span>
+                    @if($payment['status']['name'] === 'PAID')
+                        <span class="d-none-responsive">|</span>
+                        <span class="t-text bold text-success">{{ $payment['status']['to_persian'] }}</span>
+                    @else
+                        <span class="btn {{ $isDiv ? 'gray' : '' }}" {{ $isDiv ? 'disabled=disabled' : '' }}>
                       پرداخت
                       <i class="fa fa-arrow-left" aria-hidden="true"></i>
                     </span>
-                        @endif
-                    </div>
-                </{{ $isDiv ? 'div' : 'a' }}>
+                    @endif
+                </div>
+            </{{ $isDiv ? 'div' : 'a' }}>
             @php($touchActive = $payment['status']['name'] !== 'PAID')
         @endforeach
     @endif
