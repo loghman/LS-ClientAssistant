@@ -475,7 +475,14 @@
 
 <body>
 <h1 class="t-heading text-center">فاکتور پرداخت</h1>
-@if(request()->has('status') && (int) request('status') === 0)
+@if(empty($invoice['checked_at']))
+    <div class="alert danger">
+        <div class="content">
+            <h3 class="heading">پیش فاکتور شما تایید نشده است</h3>
+            <p class="subtitle">پیش فاکتور شما در انتظار تایید بخش مالی می باشد، و پس از تایید قابل پرداخت خواهد بود و از طریق پیامک به شما اطلاع رسانی می شود.</p>
+        </div>
+    </div>
+@elseif(request()->has('status') && (int) request('status') === 0)
     <div class="alert danger">
         <div class="content">
             <h3 class="heading">فرآیند‍ پرداخت ناموفق بود</h3>
@@ -487,7 +494,8 @@
         <div class="content">
             <h3 class="heading">
                 <i class="fa-solid fa-check text-success"></i>
-                <span>پرداخت با موفقیت انجام شد</span>
+                @php($transactionId = collect($invoice['payments'])->where('status.name', '=', 'PAID')->last()['transaction_id'] ?? '')
+                <span>پرداخت شما با کدپیگیری<span style="opacity: .75"> {{ $transactionId }} </span>با موفقیت انجام شد</span>
                 <a href="{{ route('panel.course.list') }}" class="btn success">دوره‌های من</a>
             </h3>
         </div>
@@ -547,7 +555,7 @@
         @if(count($invoice['payments']) > 0)
             @php($touchActive = false)
             @foreach($invoice['payments'] as $payment)
-                @php($isDiv = $payment['status']['name'] === 'PAID' || $touchActive)
+                @php($isDiv = empty($invoice['checked_at']) || $payment['status']['name'] === 'PAID' || $touchActive)
                 <{{ $isDiv ? 'div' : 'a href='. $payment['payment_link'] }} class="item {{ $payment['status']['name'] === 'PAID' ? 'success' : '' }}">
                     <span class="t-text">
                         @if($payment['is_installment'])
