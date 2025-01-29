@@ -8,7 +8,6 @@ use Ls\ClientAssistant\Utilities\Modules\User;
 use Ls\ClientAssistant\Utilities\Modules\V3\Authentication;
 use Illuminate\Http\Request;
 use Ls\ClientAssistant\Utilities\Modules\V3\LMSProduct;
-use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
 use Ls\ClientAssistant\Utilities\Modules\V3\Payment;
 
 class QPayController
@@ -28,7 +27,7 @@ class QPayController
             return WebResponse::view('sdk.salesflow.qpay.index', compact('message', 'backUrl', 'otpLength', 'data'));
         }
 
-        $response = LMSProduct::get($request->entity_id, ModuleFilter::new()->otherParams('check_dont_list', false), 'id');
+        $response = LMSProduct::get($request->entity_id, null, 'id', true);
         if (! $response->get('success')) {
             $message = $response->get('message');
             return WebResponse::view('sdk.salesflow.qpay.index', compact('message', 'backUrl', 'otpLength', 'data'));
