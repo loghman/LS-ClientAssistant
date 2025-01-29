@@ -29,7 +29,11 @@ class LMSProductV3SeoMeta extends SeoMeta
 
     public function getCanonical()
     {
-        return "<link rel='canonical' href='$this->currentUrl' />" . PHP_EOL;
+        if($this->product['is_event']){
+            return "<link rel='canonical' href='$this->currentUrl' />" . PHP_EOL;
+        }else{
+            return "<link rel='canonical' href='".(route("lms.course",["slug"=>$this->product['slug']]))."' />" . PHP_EOL;
+        }
     }
 
     public function getMetaTags()

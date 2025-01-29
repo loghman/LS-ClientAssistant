@@ -727,6 +727,35 @@ if (!function_exists('to_verta')) {
     }
 }
 
+
+if (!function_exists('formatPrice')) {
+    function formatPrice($price) {
+        // ساخت آبجکت برای ذخیره نتیجه
+        $result = new stdClass();
+        
+        // بررسی بازه‌های مختلف قیمت
+        if ($price <= 0) {
+            $result->number = 'رایگان';
+            $result->currency = '';
+        } elseif ($price < 1000) {
+            $result->number = $price;
+            $result->currency = 'تومان';
+        } elseif ($price >= 1000 && $price < 1000000) {
+            $result->number = number_format($price / 1000,2);
+            $result->currency = 'هزار تومان';
+        } elseif ($price >= 1000000 && $price < 1000000000) {
+            $result->number = number_format($price / 1000000,2);
+            $result->currency = 'میلیون تومان';
+        } else {
+            $result->number = number_format($price / 1000000000,2);
+            $result->currency = 'میلیارد تومان';
+        }
+        $result->number = to_persian_num($result->number);
+        return (array)$result;
+    }
+}
+
+
 if (!function_exists('to_persian_price')) {
     function to_persian_price($price, $no_span = 0, $round = 0, $postfix = null): string
     {
@@ -1437,3 +1466,4 @@ function enrollmentNextItemUrl($enrollment) {
         return site_url("pwa/simple/video/$nextItemId/screen");
     return site_url("pwa/course/{$product_id}/chapters?e={$enroll_id}");
 }
+
