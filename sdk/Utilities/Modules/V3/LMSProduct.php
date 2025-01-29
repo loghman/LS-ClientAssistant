@@ -20,11 +20,24 @@ class LMSProduct extends Cacher
         }
     }
 
-    public static function get(string $slug, ModuleFilter $filter = null, string $field = null): Collection
+    public static function get(string $slug, ModuleFilter $filter = null, string $field = null, bool $rowData = false): Collection
     {
         try {
             $path = $field ? "$slug/$field" : $slug;
-            return API::get('client/v3/lms/product/' . $path, $filter ? $filter->all() : []);
+            $response =  API::get('client/v3/lms/product/' . $path, $filter ? $filter->all() : []);
+
+            if (!$rowData && $response->get('success')) {
+                $product = $response->get('data');
+                if (is_valid_url($product['custom_landing'])) {
+                    header('Location: '.$product['custom_landing'], true, Response::HTTP_MOVED_PERMANENTLY);
+                    exit;
+                }
+                if ($product['dont_list']) {
+                    return collect(['success' => false, 'data' => [], 'message' => 'این دوره یافت نشد.']);
+                }
+            }
+
+            return $response;
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
