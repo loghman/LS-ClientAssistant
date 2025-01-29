@@ -750,6 +750,10 @@ if (!function_exists('formatPrice')) {
             $result->number = number_format($price / 1000000000,2);
             $result->currency = 'میلیارد تومان';
         }
+        if(strpos($result->number, '.') !== false ){
+            $result->number = rtrim(rtrim($result->number, '0'), '.');
+        }
+
         $result->number = to_persian_num($result->number);
         return (array)$result;
     }
