@@ -12,7 +12,7 @@
         <h1><?= $page['title'] ?></h1>
         <div class="row gx-lg gx-md--lg">
             <div class="col-xxxl-12">
-                <div class="row g page-content">
+                <div class="row g page-content ck-content">
                     {!! planetContentFilter($page['content']) !!}
                 </div>
             </div>

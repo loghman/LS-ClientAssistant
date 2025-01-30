@@ -238,5 +238,5 @@ $router->name('ajax.')->prefix('ajax')->group(function (Router $router){
 
 
 // this route must be at the end of file
-$router->get('/ckstyle.css', [PageController::class, 'ckStyles']);
+$router->get('/assets/ckstyle.css', [PageController::class, 'ckStyles']);
 $router->get('/{slug}', [PageController::class, 'find']); 
