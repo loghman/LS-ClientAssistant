@@ -2,6 +2,7 @@
 
 @section('heads')
     @include('sdk._common.layouts.head')
+    <link rel="stylesheet" href="<?=site_url('assets/ckstyle.css')?>">
 @endsection
 
 @section('body')

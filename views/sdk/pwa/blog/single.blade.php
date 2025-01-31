@@ -28,7 +28,7 @@
                         <?=to_persian_num(171 + $post['meta']['views'])?> بازدید</span>
                 </div>
             </div>
-            <div class="content wpad tpad">
+            <div class="content ck-content wpad tpad">
                 <?=planetContentFilter($post['content']['full'])?>
                 <div class="content-footer tpad">
                     <a class="btn" href="<?=site_url('pwa/dashboard')?>"><i class="fa-solid fa-house"></i> صفحه اصلی</a>
