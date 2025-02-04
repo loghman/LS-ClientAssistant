@@ -203,7 +203,7 @@
             function updateAuthState() {
                 buttonCountdown.removeClass('hidden');
                 button.addClass('bg-primary-500 hover:bg-primary-600').removeClass('bg-gray-500 hover:bg-gray-600');
-                buttonLabel.text('ورود و پرداخت');
+                buttonLabel.text('ورود و ادامه');
                 otpInput.prop('disabled', false).removeClass('disable');
                 form.find('input[name="step"]').val('auth');
             }
@@ -401,7 +401,7 @@
                         type="submit"
                         class="countdown-target wizard-toggle relative w-full shrink-0 inline-flex items-center gap-3 justify-center rounded-lg bg-primary-500 px-5 py-4 text-sm font-medium text-white shadow-xs hover:bg-primary-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
                 >
-                    <span id="button-label">ورود و پرداخت</span>
+                    <span id="button-label">ورود و ادامه</span>
                     <span id="button-countdown" class="text-base pt-1 absolute left-5 opacity-50" data-countdown="02:00"></span>
                 </button>
             </form>
