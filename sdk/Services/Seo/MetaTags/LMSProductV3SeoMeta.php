@@ -9,6 +9,7 @@ class LMSProductV3SeoMeta extends SeoMeta
     private $seo;
     private $description = null;
     private $title = null;
+    private $banner = null;
     private $currentUrl;
 
     public function __construct($product)
@@ -16,6 +17,7 @@ class LMSProductV3SeoMeta extends SeoMeta
         $this->product = $product;
         $this->meta = $product['meta'];
         $this->seo = $product['seo'];
+        $this->banner = $product['banner']['url'];
         $this->currentUrl = get_current_url(true);
         if (!empty($this->product['description']['full']) or !empty($this->seo['description']))
             $this->description = sub_words(strip_tags($this->seo['description'] ?? $this->product['description']['full']), 165);
@@ -59,19 +61,15 @@ class LMSProductV3SeoMeta extends SeoMeta
     {
 
         $openGraph = '';
-
         $openGraph .= "<meta property='og:title' content='{$this->title}' />" . PHP_EOL;
+        $openGraph .= "<meta property='og:image' content='{$this->banner}' />" . PHP_EOL;
         $openGraph .= "<meta property='og:image:alt' content='{$this->title}' />" . PHP_EOL;
         $openGraph .= "<meta property='og:url' content='$this->currentUrl' />" . PHP_EOL;
         $updatedTime = date('Y-m-d\TH:i:s+03:30', strtotime($this->product['updated_at']['main']));
         $openGraph .= "<meta property='og:updated_time' content='$updatedTime' />" . PHP_EOL;
 
         if (!empty($this->banner)) {
-            $bannerUrl = get_media_url($this->banner);
-//            list($width, $height, $type, $attr) = getimagesize($bannerUrl);
-            $openGraph .= "<meta property='og:image' content='{$bannerUrl}' />" . PHP_EOL;
-            $openGraph .= "<meta property='og:image:width' content='768' />" . PHP_EOL;
-            $openGraph .= "<meta property='og:image:height' content='1024' />" . PHP_EOL;
+            $openGraph .= "<meta property='og:image' content='{$this->banner}' />" . PHP_EOL;
         }
 
         if (!is_null($this->description))
@@ -91,10 +89,9 @@ class LMSProductV3SeoMeta extends SeoMeta
         $twitterTags = '';
 
         if (!empty($this->banner)) {
-            $bannerUrl = get_media_url($this->banner);
             $twitterTags .= "<meta name='twitter:title' content='$this->title' />" . PHP_EOL;
             $twitterTags .= "<meta name='twitter:card' content='summary_large_image' />" . PHP_EOL;
-            $twitterTags .= "<meta name='twitter:image' content='{$bannerUrl}' />" . PHP_EOL;
+            $twitterTags .= "<meta name='twitter:image' content='{$this->banner}' />" . PHP_EOL;
             if (!empty($this->description)) {
                 $twitterTags .= "<meta name='twitter:description' content='$this->description' />" . PHP_EOL;
             }
