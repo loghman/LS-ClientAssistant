@@ -47,7 +47,7 @@
         <div class="longtext"><?= $item['description']?></div>
         <span class="moretext" onclick="toggleMoreText(event)">ادامه توضیحات ...</span>
     <?php else: ?>
-        <div class="alltext"><?= $item['description']?></div>
+        <div class="alltext" style="display: contents;"><?= $item['description']?></div> 
     <?php endif; ?>
 </div>
 <?php endif; ?>
