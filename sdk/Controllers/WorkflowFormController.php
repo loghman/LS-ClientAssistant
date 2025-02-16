@@ -10,6 +10,7 @@ use Ls\ClientAssistant\Services\ObjectCache;
 use Ls\ClientAssistant\Utilities\Modules\TaskManager;
 use Ls\ClientAssistant\Utilities\Modules\V3\LMSProduct;
 use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
+use Symfony\Component\HttpFoundation\JsonResponse as SymfonyJsonResponse;
 
 class WorkflowFormController
 {
@@ -21,7 +22,7 @@ class WorkflowFormController
         }else{
             $response = ObjectCache::write($key, TaskManager::formData($workflow));
         }
-        
+
         if (!$response->get('success')) {
             abort(404);
         }
@@ -76,9 +77,10 @@ class WorkflowFormController
             'source' => $request->get('source'),
         ]);
 
-        if (!$response->get('success')) 
-            return JsonResponse::unprocessableEntity($response->get('message') ?? 'مطممئن شوید اطلاعات فرم را به درستی وارد کرده اید');
-        
+        if (!$response->get('success')) {
+            return new SymfonyJsonResponse($response->toArray(), $response->get('status_code'));
+        }
+
         if (mb_substr($firstName, -1) === 'ا') // نادیا عزیز => نادیای عزیز
             $firstName .= 'ی';
 

@@ -15,10 +15,14 @@ const checkFileSize = (file, maxFileSize) => {
 
 const checkAllowedFile = (type, allowedTypes) => {
   const fileType = type.split("/")[1];
-  const isAllowed = allowedTypes.includes(fileType);
+
+  const isAllowed = allowedTypes.includes(fileType) || allowedTypes.includes(type);
 
   if (!isAllowed) {
-    toast(`نوع فایل باید ${allowedTypes.join(", ")} باشد.`, "danger");
+    toast(
+        `نوع فایل باید یکی از موارد زیر باشد: ${allowedTypes.join(", ")}.`,
+        "danger"
+    );
   }
 
   return isAllowed;
@@ -44,6 +48,15 @@ document.addEventListener("DOMContentLoaded", function () {
     uploader.addEventListener("change", handleFileChange);
   });
 
+  document.querySelectorAll('.cancel-upload')
+      .forEach(function (elm) {
+        elm.addEventListener('click', function () {
+          const wrapper = this.parentElement.parentElement.parentElement.parentElement;
+          wrapper.querySelector('.uploaded-file').classList.add('d-none');
+          wrapper.querySelector('.uploading-box').classList.remove('d-none');
+        })
+      })
+
   async function handleFileChange(event) {
     const fileInput = event.target;
     const file = fileInput.files[0];
@@ -59,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const allowedTypes = dataset.allowed_file?.split(",") || [];
     const isAllowedFile = allowedTypes.length === 0 || checkAllowedFile(file.type, allowedTypes);
     const isAllowedSize = !maxSize || checkFileSize(file, maxSize);
-    
+
     if (!isAllowedFile || !isAllowedSize) return;
 
     if (dataset.unique_id) {
@@ -79,11 +92,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function uploadFile(file, url, dataset, fileInput) {
     const progressBar = fileInput
-      .closest("label")
-      .querySelector(".progress-bar");
+        .closest("label")
+        .querySelector(".progress-bar");
     const progressPercent = fileInput
-      .closest("label")
-      .querySelector(".progress-percent");
+        .closest("label")
+        .querySelector(".progress-percent");
     try {
       const formData = new FormData();
       formData.append("file", file);
@@ -94,16 +107,20 @@ document.addEventListener("DOMContentLoaded", function () {
       if (dataset.unique_id) {
         formData.append("unique_id", dataset.unique_id);
       }
+      if (dataset.media_custom_rule) {
+        formData.append('media_custom_rule', dataset.media_custom_rule);
+      }
 
       const response = await post(url, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
         onUploadProgress: (event) =>
-          onUploadProgress(event, progressBar, progressPercent),
+            onUploadProgress(event, progressBar, progressPercent),
       });
 
       if (response.status===true) {
+
         toast("فایل اپلود شد");
 
         if (progressBar && progressPercent) {
@@ -111,12 +128,31 @@ document.addEventListener("DOMContentLoaded", function () {
           progressBar.style.width = "0%";
         }
         fileInput.value = "";
+
+        const uploadedFile = fileInput.parentElement
+            .parentElement.parentElement
+            .querySelector('.uploaded-file');
+
+        if (uploadedFile) {
+          const fileParentElement = fileInput.parentElement.parentElement;
+          fileParentElement.classList.add('d-none');
+          uploadedFile.querySelector('input[type=hidden].response-value').value = response.result.id;
+
+          if (response.result.type === 'image') {
+            uploadedFile.querySelector('.file').innerHTML = '<img src="'+ response.result.small_thumbnail.url+'" />';
+            uploadedFile.querySelector('.content .download-file').href = response.result.small_thumbnail.url;
+          } else {
+            uploadedFile.querySelector('.file').innerHTML = '<span class="type">'+ response.result.type +'</span>';
+          }
+
+          uploadedFile.classList.remove('d-none');
+        }
       } else {
         toast(
-          response.message.text
-            ? response.message.text
-            : messages.SOMETHING_WENT_WRONG,
-          "danger"
+            response.message.text
+                ? response.message.text
+                : messages.SOMETHING_WENT_WRONG,
+            "danger"
         );
         if (progressBar && progressPercent) {
           progressPercent.classList.add("d-none");
