@@ -162,10 +162,10 @@ $router->name('payment.')->prefix('payment')->group(function (Router $router) {
 
     $router->name('failureForm')
         ->get('/failed/{paymentId}', [PaymentController::class, 'failureForm']);
-
-    $router->name('invoice-screen')
-        ->get('/invoice/{hashid}', [PaymentController::class, 'invoiceScreen']);
 });
+
+$router->name('payment.invoice-screen')
+    ->get('/inv/{hashid}', [PaymentController::class, 'invoiceScreen']);
 
 $router->name('qpay.')->prefix('qpay')->group(function (Router $router) {
     $router->name('index')
