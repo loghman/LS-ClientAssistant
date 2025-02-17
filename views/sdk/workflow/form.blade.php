@@ -42,6 +42,7 @@
                 'name' => "var[{$variable['name_en']}]",
                 'choices' => isset($variable['payload']['choices']) ? array_merge(['' => $variable['name_fa']], $variable['payload']['choices']) : [],
                 'classes' => 'sm fw-700',
+                'expanded' => false,
             ])
         @endforeach
     @endif

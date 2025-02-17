@@ -9802,7 +9802,8 @@ button.outline-danger,
     });
     document.querySelectorAll('.next-step').forEach(function(element) {
         element.addEventListener('click', function(e) {
-            let input_id = element.getAttribute('data-required') ;
+            e.preventDefault();
+            let input_id = element.getAttribute('data-required');
             if(input_id != null){
                 filled = document.getElementById(input_id).value.length > 0;
                 if(!filled){
