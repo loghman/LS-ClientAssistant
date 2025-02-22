@@ -9819,7 +9819,7 @@ button.outline-danger,
         let msg = document.getElementById('msg');
         msg.style.display = 'block';
         msg.innerHTML = "🙏<br><br>" + response.response.message +
-        '<br><br><br><a href="{{setting('client_url')}}" class="btn sm">بازگشت به {{setting('brand_name_fa')}}</a>';
+        '<br><br><br><a href="{{setting('_env_client_url')}}" class="btn sm">بازگشت به {{setting('brand_name_fa')}}</a>';
     }
 
 </script>

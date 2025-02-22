@@ -370,8 +370,8 @@ if (!function_exists('get_cookie_domain')) {
         $foreignHostUrl = null;
         if (env('CORE_URL')) {
             $foreignHostUrl = parse_url(env('CORE_URL'), PHP_URL_HOST);
-        } elseif (!is_null(setting('client_url'))) {
-            $foreignHostUrl = parse_url(setting('client_url'), PHP_URL_HOST);
+        } elseif (!is_null(setting('_env_client_url'))) {
+            $foreignHostUrl = parse_url(setting('_env_client_url'), PHP_URL_HOST);
         }
 
         if (is_null($currentHostUrl) || is_null($foreignHostUrl) || $currentHostUrl == $foreignHostUrl) {
