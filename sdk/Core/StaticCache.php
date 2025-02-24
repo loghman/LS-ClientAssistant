@@ -99,13 +99,22 @@ class StaticCache
     private static function shouldCacheUrl()
     {
         $currentUri = $_SERVER['REQUEST_URI'];
-        $mustCacheKeywords = ['course','blog','news','cat','tag','topic','community'];
+        $mustCacheKeywords = [
+            'course','blog','news','cat',
+            'tag','topic','community',
+        ];
 
         foreach ($mustCacheKeywords as $keyword)
             if(str_contains($currentUri,$keyword) )
                 return true;
 
-        $notCacheKeywords = ['auth','login','register','logout','cart','pay','forget','verif','otp','sign','password'];
+        $notCacheKeywords = [
+            'auth','login','register','logout',
+            'cart','pay','forget','verif',
+            'otp','sign','password',
+            // inv for invoice page
+            'inv',
+        ];
         foreach ($notCacheKeywords as $keyword)
             if(str_contains($currentUri,$keyword))
                 return false;
