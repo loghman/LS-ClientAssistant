@@ -161,8 +161,7 @@
             showMessage("{{ $message }}");
             @endif
 
-            function startCountdown(time) {
-                let lastStep = "{{ $data['step'] }}";
+            function startCountdown(time, lastStep) {
                 const interval = setInterval(() => {
                     const currentStep = form.find('input[name="step"]').val();
 
@@ -216,7 +215,7 @@
                 form.find('input[name="step"]').val('sendToken');
             }
 
-            startCountdown(countDownTime);
+            startCountdown(countDownTime, "{{ $data['step'] }}");
 
             form.on('submit', function (event) {
                 event.preventDefault();
@@ -275,7 +274,7 @@
                     body: JSON.stringify(data),
                 }).then(response => {
                     if (response.ok) {
-                        return response.json().then(() => startCountdown(countDownTime));
+                        return response.json().then(() => startCountdown(countDownTime, form.find('input[name="step"]').val()));
                     } else {
                         return response.json().then(errorData => showMessage(errorData.message));
                     }
