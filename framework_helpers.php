@@ -368,6 +368,8 @@ if (!function_exists('get_cookie_domain')) {
     {
         $currentHostUrl = parse_url(request()->url(), PHP_URL_HOST);
         $foreignHostUrl = null;
+        $specialDomains = ['ac.ir', 'gov.ir', 'co.ir'];
+
         if (env('CORE_URL')) {
             $foreignHostUrl = parse_url(env('CORE_URL'), PHP_URL_HOST);
         } elseif (!is_null(setting('_env_client_url'))) {
@@ -381,6 +383,15 @@ if (!function_exists('get_cookie_domain')) {
         $urlParts = explode('.', $currentHostUrl);
         $topLevelDomain = end($urlParts);
         $secondLevelDomain = $urlParts[count($urlParts) - 2] ?? '';
+
+        if (count($urlParts) > 2) {
+            $domainEnd = $urlParts[count($urlParts) - 2] . '.' . $urlParts[count($urlParts) - 1];
+            if (in_array($domainEnd, $specialDomains)) {
+                $subDomain = $urlParts[count($urlParts) - 3];
+                return ".$subDomain.$domainEnd";
+            }
+        }
+
         if (empty($secondLevelDomain)) {
             return '';
         }
