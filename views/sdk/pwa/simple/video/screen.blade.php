@@ -70,6 +70,8 @@
             border: 0;
             border-radius: 7px;
             margin-bottom: 10px;
+            max-width: 100%;
+            width: 100%; 
         }
         .h_iframe-aparat_embed_frame{
             margin-bottom: 10px;
