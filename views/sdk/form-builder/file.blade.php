@@ -1,5 +1,5 @@
 @php($isMinimal = isset($type) && $type === 'minimal')
-<div class="{{ $isMinimal ? 'step' : '' }} {{ $expanded ? 'expanded' : '' }} w-100"
+<div class="{{ $isMinimal ? 'step' : '' }} {{ isset($expanded) && $expanded ? 'expanded' : '' }} w-100"
      data-qid="{{ $variable['id'] }}">
 
     @php($uniqueId = create_unique_id())
