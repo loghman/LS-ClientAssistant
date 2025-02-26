@@ -1,4 +1,4 @@
-<div class="{{ isset($type) && $type === 'minimal' ? 'step' : '' }} w-100 {{ $expanded ? 'expanded' : '' }}"
+<div class="{{ isset($type) && $type === 'minimal' ? 'step' : '' }} w-100 {{ isset($expanded) && $expanded ? 'expanded' : '' }}"
      data-qid="{{ $variable['id'] }}">
     <label class="qLabel">{{ $placeholder ?? ''  }}</label>
 
