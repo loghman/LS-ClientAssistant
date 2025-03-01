@@ -91,6 +91,7 @@ class FilterBuilderService
     public function addSort(string $field, string $direction): self
     {
         $this->validateField($field);
+
         if (! in_array($direction, ['asc', 'desc'], true)) {
             throw new InvalidArgumentException("Sort direction must be either 'asc' or 'desc'.");
         }
@@ -161,7 +162,7 @@ class FilterBuilderService
         $filters = [];
         foreach ($this->filters as $key => $value) {
             if (is_array($value) && in_array($key, ['search', 'searchFields', 'orderBy', 'sortedBy'])) {
-                $value = implode(';', $value). ';';
+                $value = $this->implodeValues($value , $key);
             }
             $filters[$key] = $value;
         }
@@ -169,6 +170,13 @@ class FilterBuilderService
         return $filters;
     }
 
+    private function implodeValues(array $values, string $key): string
+    {
+        if ($key === 'sortedBy') {
+            return count($values) < 1 ? implode(';', $values) : implode('', $values);
+        }
+        return implode(';', $values) . ';';
+    }
 
     public function buildUrl(): string
     {
