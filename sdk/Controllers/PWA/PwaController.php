@@ -9,7 +9,7 @@ use Ls\ClientAssistant\Utilities\Modules\Authentication;
 use Ls\ClientAssistant\Utilities\Modules\CMS;
 use Ls\ClientAssistant\Utilities\Modules\LMSProduct;
 use Ls\ClientAssistant\Utilities\Modules\User;
-use Ls\ClientAssistant\Utilities\Modules\V3\BannerPosition;
+use Ls\ClientAssistant\Utilities\Modules\V3\BannerPositionSliders;
 use Ls\ClientAssistant\Utilities\Modules\V3\CmsPost;
 use Ls\ClientAssistant\Utilities\Modules\V3\Enrollment as V3Enrollment;
 use Ls\ClientAssistant\Utilities\Modules\V3\LMSProduct as V3LMSProduct;
@@ -23,11 +23,13 @@ class PwaController
         $user = current_user();
         $data = self::shered_data();
         $key = 'app-dash-slider-top';
-        if (obc_exists($key)) { 
+
+        if (obc_exists($key)) {
             $slider = obc_get($key);
         } else {
-            $slider = obc_write($key, BannerPosition::getBySlug("app-slider-top")['data'][0] ?? []);
+            $slider = obc_write($key, BannerPositionSliders::getBySlug("app-slider-top")['data'] ?? []);
         }
+
         $enrollments = V3Enrollment::list(
             ModuleFilter::new()
                 ->search('entity_type', 'lms_products')
@@ -35,7 +37,9 @@ class PwaController
                 ->includes('entity')
                 ->orderBy('last_log_date')->sortedBy('DESC')
         )->get('data');
+
         $pagetitle = "داشبورد";
+
         return WebResponse::view('sdk.pwa.dashboard.index', compact('pagetitle','slider', 'user', 'enrollments', 'data'));
     }
 
@@ -87,10 +91,10 @@ class PwaController
                     unset($course['chapters'][$i]);
             $course = ObjectCache::write($key, $course);
         }
-        $enrollment = V3Enrollment::has($user['id'],$course['id']);  
+        $enrollment = V3Enrollment::has($user['id'],$course['id']);
         $pagetitle = "{$course['title']}";
         if(isset($user['id'])){
-            return WebResponse::view('sdk.pwa.shopping.course-single', compact('pagetitle', 'data', 'course', 'user','enrollment'));        
+            return WebResponse::view('sdk.pwa.shopping.course-single', compact('pagetitle', 'data', 'course', 'user','enrollment'));
         }else{
             return WebResponse::view('sdk.pwa.shopping.login', compact('pagetitle', 'data', 'course', 'user','enrollment'));
         }
@@ -183,7 +187,7 @@ class PwaController
     {
         if(!env('ALLOW_FREE_ACCESS',false))
             return new RedirectResponse(site_url('pwa/auth'), 302, []);
-        
+
         $user = current_user();
         $user['isLmsManager'] = in_array('lms:update', $user['permissions'] ?? []) ? 1 : 0;
         $userToken = $request->cookies->get('token');
