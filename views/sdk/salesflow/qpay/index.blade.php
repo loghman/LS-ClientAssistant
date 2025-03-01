@@ -284,14 +284,15 @@
             async function makeCart(data) {
                 showMakeCartStep();
 
-                let uc = null;
-                let pcc = null;
+                let uc = {valid: false, discount: 0};
+                let pcc = {valid: false, discount: 0};
                 if (data.user_coupon) {
                     $('.wizard-steps').text('در حال بررسی وضعیت کدتخفیف وارد شده توسط شما...');
                     data.coupon = data.user_coupon;
                     uc = await checkCoupon(data);
                     await delay(1500);
                     if (! uc.valid) {
+                        data.coupon = null;
                         $('.wizard-steps').text(uc.message);
                         await delay(1500);
                     }
@@ -301,15 +302,17 @@
                     $('.wizard-steps').text('در حال بررسی وضعیت کدتخفیف کمپین {{ $campaignName }}...');
                     data.coupon = data.primary_campaign_coupon;
                     pcc = await checkCoupon(data);
-                    console.log(pcc)
+                    if (! pcc.valid) {
+                        data.coupon = null;
+                    }
                     await delay(1500);
                 }
-                if (uc && uc.valid && uc.discount > pcc.discount) {
+                if (uc.valid && uc.discount > pcc.discount) {
                     $('.wizard-steps').text('کد تخفیف وارد شده توسط شما تخفیف بیشتری اعمال میکرد...');
                     data.coupon = data.user_coupon;
                     await delay(1500);
                 }
-                if (pcc && pcc.valid && pcc.discount > uc.discount) {
+                if (pcc.valid && pcc.discount > uc.discount) {
                     $('.wizard-steps').text('کد تخفیف کمپین {{ $campaignName }} تخفیف بیشتری اعمال میکرد...');
                     data.coupon = data.primary_campaign_coupon;
                     await delay(1500);
