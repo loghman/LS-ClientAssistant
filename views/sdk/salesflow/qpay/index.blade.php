@@ -281,8 +281,51 @@
                 });
             }
 
-            function makeCart(data) {
-                runWizard();
+            async function makeCart(data) {
+                showMakeCartStep();
+
+                let uc = null;
+                let pcc = null;
+                if (data.user_coupon) {
+                    $('.wizard-steps').text('در حال بررسی وضعیت کدتخفیف وارد شده توسط شما...');
+                    data.coupon = data.user_coupon;
+                    uc = await checkCoupon(data);
+                    await delay(1500);
+                    if (! uc.valid) {
+                        $('.wizard-steps').text(uc.message);
+                        await delay(1500);
+                    }
+                }
+
+                if (data.primary_campaign_coupon) {
+                    $('.wizard-steps').text('در حال بررسی وضعیت کدتخفیف کمپین {{ $campaignName }}...');
+                    data.coupon = data.primary_campaign_coupon;
+                    pcc = await checkCoupon(data);
+                    console.log(pcc)
+                    await delay(1500);
+                }
+                if (uc && uc.valid && uc.discount > pcc.discount) {
+                    $('.wizard-steps').text('کد تخفیف وارد شده توسط شما تخفیف بیشتری اعمال میکرد...');
+                    data.coupon = data.user_coupon;
+                    await delay(1500);
+                }
+                if (pcc && pcc.valid && pcc.discount > uc.discount) {
+                    $('.wizard-steps').text('کد تخفیف کمپین {{ $campaignName }} تخفیف بیشتری اعمال میکرد...');
+                    data.coupon = data.primary_campaign_coupon;
+                    await delay(1500);
+                }
+                const steps = ['در حال افزودن به سبد خرید', 'به سبد خرید افزوده شد', 'در حال انتقال به درگاه پرداخت'];
+
+                let currentStep = 0;
+                const interval = setInterval(() => {
+                    if (currentStep < steps.length) {
+                        $('.wizard-steps').text(steps[currentStep]);
+                        currentStep++;
+                    } else {
+                        clearInterval(interval);
+                        $('.some-section').addClass('completed');
+                    }
+                }, 1500);
 
                 fetch("{{ route('qpay.pay') }}", {
                     method: "POST",
@@ -300,20 +343,32 @@
                 });
             }
 
-            function runWizard() {
-                const steps = ['در حال افزودن به سبد خرید', 'به سبد خرید افزوده شد', 'در حال انتقال به درگاه پرداخت'];
-                let currentStep = 0;
+            const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-                showMakeCartStep();
-                const interval = setInterval(() => {
-                    if (currentStep < steps.length) {
-                        $('.wizard-steps').text(steps[currentStep]);
-                        currentStep++;
-                    } else {
-                        clearInterval(interval);
-                        $('.some-section').addClass('completed');
-                    }
-                }, 1500);
+            async function checkCoupon(data) {
+                try {
+                    const response = await fetch("{{ route('qpay.coupon') }}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-Requested-With": "XMLHttpRequest",
+                        },
+                        body: JSON.stringify(data),
+                    });
+
+                    const json = await response.json();
+                    return {
+                        valid: json.data.valid,
+                        discount: json.data.discount_amount ?? 0,
+                        message: json.message
+                    };
+                } catch (error) {
+                    return {
+                        valid: false,
+                        discount: 0,
+                        message: 'عدم پاسخگویی سرور.'
+                    };
+                }
             }
 
             function showAuthStep() {
@@ -327,7 +382,6 @@
             }
 
             function showMessage(message) {
-                console.log(message)
                 updateWizardAlert('bg-red-800');
                 toggleSteps(error, authStep, false);
                 toggleSteps(error, makeCartStep, false);

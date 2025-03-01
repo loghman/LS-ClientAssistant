@@ -7,6 +7,7 @@ use Ls\ClientAssistant\Core\Router\WebResponse;
 use Ls\ClientAssistant\Utilities\Modules\User;
 use Ls\ClientAssistant\Utilities\Modules\V3\Authentication;
 use Illuminate\Http\Request;
+use Ls\ClientAssistant\Utilities\Modules\V3\Coupon;
 use Ls\ClientAssistant\Utilities\Modules\V3\LMSProduct;
 use Ls\ClientAssistant\Utilities\Modules\V3\Payment;
 
@@ -21,6 +22,7 @@ class QPayController
         $uniqueKey = $request->mobile ?? $request->email;
         $data['unique_key'] = $uniqueKey;
         $data['step'] = null;
+        $data['user_coupon'] = $data['coupon'] ?? null;
 
         if (!$userLoggedIn && !$uniqueKey || !$request->entity_id || !$request->entity_type || !$request->gateway) {
             $message = 'اطلاعات ارسال شده نامعتبر است.';
@@ -33,7 +35,8 @@ class QPayController
             return WebResponse::view('sdk.salesflow.qpay.index', compact('message', 'backUrl', 'otpLength', 'data'));
         }
         $product = $response->get('data');
-        $data['coupon'] = isset($product['primaryCampaign']) ? $product['primaryCampaign']['coupon_label'] : null;
+        $data['primary_campaign_coupon'] = isset($product['primaryCampaign']) ? $product['primaryCampaign']['coupon_label'] : null;
+        $campaignName = isset($product['primaryCampaign']) ? $product['primaryCampaign']['title'] : null;
 
         $data['step'] = $userLoggedIn ? 'makeCart' : 'auth';
 
@@ -41,11 +44,11 @@ class QPayController
             $response = Authentication::sendToken($uniqueKey);
             if (! $response->get('success')) {
                 $message = $response->get('message');
-                return WebResponse::view('sdk.salesflow.qpay.index', compact('message', 'backUrl', 'otpLength', 'data'));
+                return WebResponse::view('sdk.salesflow.qpay.index', compact('message', 'backUrl', 'otpLength', 'data', 'campaignName'));
             }
         }
 
-        return WebResponse::view('sdk.salesflow.qpay.index', compact('backUrl', 'otpLength', 'data'));
+        return WebResponse::view('sdk.salesflow.qpay.index', compact('backUrl', 'otpLength', 'data', 'campaignName'));
     }
 
     public function sendToken(Request $request)
@@ -71,6 +74,20 @@ class QPayController
             $response->get('message'),
             $response->get('status_code'),
             $response->get('success') ? $response->get('data') : $response->get('errors', [])
+        );
+    }
+
+    public function coupon(Request $request)
+    {
+        $response = Coupon::check($request->all());
+
+        return JsonResponse::json(
+            $response->get('message'),
+            $response->get('status_code'),
+            [
+                'valid' => $response->get('success'),
+                'discount_amount' => $response->get('data')['discount_amount'] ?? null
+            ]
         );
     }
 

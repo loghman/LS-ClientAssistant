@@ -177,6 +177,9 @@ $router->name('qpay.')->prefix('qpay')->group(function (Router $router) {
     $router->name('auth')
         ->post('/auth', [QPayController::class, 'auth']);
 
+    $router->name('coupon')
+        ->post('/coupon', [QPayController::class, 'coupon']);
+
     $router->name('pay')
         ->post('/pay', [QPayController::class, 'pay'])
         ->middleware(AuthMiddleware::class);
