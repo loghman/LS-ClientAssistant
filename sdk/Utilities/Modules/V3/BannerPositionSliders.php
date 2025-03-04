@@ -2,21 +2,32 @@
 
 namespace Ls\ClientAssistant\Utilities\Modules\V3;
 
+use Carbon\Carbon;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
 use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Helpers\Response;
+use Ls\ClientAssistant\Services\FilterBuilderService;
 
-class BannerPosition extends Cacher
+class BannerPositionSliders extends Cacher
 {
     private static $base = 'client/v3/marketing/promotion-position';
 
     public static function getBySlug($slug): Collection
     {
-        $filter = ModuleFilter::new()->search('slug',$slug)->includes('banners');
-        
+        $today = Carbon::today()->toDateString();
+
+        $base_filter = (new FilterBuilderService(self::$base))
+            ->includeRelation(['banner_position'])
+            ->addComparisonFilter('starts_at', '<=', $today)
+            ->addComparisonFilter('ends_at', '>=', $today)
+            ->addComparisonFilter('bannerPosition.slug', '=', $slug)
+            ->addSort('sort_order', 'desc')
+            ->setPage('2')
+            ->buildUrl();
+
         try {
-            return API::get(self::$base, $filter ? $filter->all() : []);
+            return API::get($base_filter);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {

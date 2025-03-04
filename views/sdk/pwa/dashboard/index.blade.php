@@ -66,19 +66,18 @@
                 </a>
             </div>
 
-            <?php if(isset($slider['banners']) && count($slider['banners']) > 0): ?>
-            <div class="swiper app-slider wpad">
-                <div class="swiper-wrapper">
-                    <?php        foreach (array_reverse($slider['banners']) as $banner): ?>
-                    <a class="swiper-slide bnavi" href="<?=$banner['link']?>">
-                        <img src="<?=$banner['image']['url']?>"
-                            alt="<?=isset($banner['image']['original_name']) ? strtok($banner['image']['original_name'], '.') : ''?>">
-                    </a>
-                    <?php        endforeach; ?>
+                <?php if(isset($sliders) && count($sliders) > 0): ?>
+                <div class="swiper app-slider wpad">
+                    <div class="swiper-wrapper">
+                            <?php foreach($sliders as $slider): ?>
+                        <a class="swiper-slide bnavi" href="<?=$slider['link']?>">
+                            <img src="<?=$slider['image']['url']?>" alt="<?=isset($slider['image']['original_name']) ? strtok($slider['image']['original_name'],'.') : ''?>">
+                        </a>
+                        <?php endforeach; ?>
+                    </div>
+                    <div class="swiper-pagination"></div>
                 </div>
-                <div class="swiper-pagination"></div>
-            </div>
-            <?php    endif; ?>
+                <?php    endif; ?>
 
             <div>
                 <div class="title-row wpad tpad bpad-half m-0">
