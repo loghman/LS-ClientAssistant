@@ -7,6 +7,7 @@
     <link rel="manifest" href="https://7learn.com/manifest.json"/>
     <link rel="stylesheet" href="https://up.7learn.com/1/css/yekan/font.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+    <link rel="icon" href="{{ setting('favicon') }}">
     <style>
         :root {
             --gutter: 20px;
