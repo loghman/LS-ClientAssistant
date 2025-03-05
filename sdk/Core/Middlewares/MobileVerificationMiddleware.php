@@ -25,9 +25,7 @@ class MobileVerificationMiddleware
         if (in_array('mobile', $verificationFields) && !User::mobileVerified()) {
             $refer = $request->url();
             redirect(
-                setting('user_have_access_to_panel', false)
-                    ? core_url("verification-fields/verify?refer={$refer}")
-                    : site_url("verification-fields/verify?refer={$refer}")
+                site_url("verification-fields/verify?refer={$refer}")
             );
         }
 

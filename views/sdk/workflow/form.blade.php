@@ -15,7 +15,7 @@
             'classes' => 'sm fw-700',
         ])
     @else
-        <input type="hidden" name="entity_type" value="{{ $entityType }}">
+        <input type="hidden" name="entity_type" value="{{ $entityType ?? 'lms_products' }}">
         <input type="hidden" name="entity_id" value="{{ $entityId }}">
     @endif
     <div class="input-group sm">
