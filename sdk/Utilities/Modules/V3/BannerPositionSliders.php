@@ -11,7 +11,7 @@ use Ls\ClientAssistant\Services\FilterBuilderService;
 
 class BannerPositionSliders extends Cacher
 {
-    private static $base = 'client/v3/marketing/promotion-position';
+    private static $base = 'client/v3/marketing/banner-position-slides';
 
     public static function getBySlug($slug): Collection
     {
@@ -23,7 +23,6 @@ class BannerPositionSliders extends Cacher
             ->addComparisonFilter('ends_at', '>=', $today)
             ->addComparisonFilter('bannerPosition.slug', '=', $slug)
             ->addSort('sort_order', 'desc')
-            ->setPage('2')
             ->buildUrl();
 
         try {
