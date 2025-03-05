@@ -55,13 +55,13 @@ class PaymentController
 
     public function callback(int|string $paymentId, Request $request)
     {
-        if (!is_numeric($paymentId)) {
-            abort(404);
-        }
-        if ((int)$request->status === 0) {
-            return WebResponse::redirect("payment/failed/$paymentId");
-        }
+        if(!str_contains(site_url(), '7learn'))
+            return $this->pwa_callback($paymentId,$request); 
 
+        if (!is_numeric($paymentId)) 
+            abort(404);
+        if ((int)$request->status === 0) 
+            return WebResponse::redirect("payment/failed/$paymentId");
         return WebResponse::redirect("payment/succeed/$paymentId");
     }
 

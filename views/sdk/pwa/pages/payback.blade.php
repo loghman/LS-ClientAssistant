@@ -181,7 +181,7 @@
 </head>
 
 <body>
-    <div class="base-content">
+    <div class="base-content" style="margin: 0 auto">
         @if($status)
             <div class="card-status bghead m-0 shadow-inset pt pb">
                 <div class="text w-100 text-center" style="margin-top: 60px;color: #006004;">
@@ -210,7 +210,7 @@
                 <img src="<?=$logo ?? ''?>" style="max-width: 64px">
                 <div style="padding: 0 20px">در فرایند پرداخت شما مشکلی پیش آمده است. در صورت نیاز می توانید با پشتیبانی در
                     تماس باشید</div>
-                <div><a href="<?=site_url('pwa/courses')?>" class="btn" style="min-width: 70%; margin-top: 30px;">اقدام برای
+                <div><a href="<?=site_url('pwa/courses')?>" class="btn" style="min-width: 70%; margin: 30px auto;">اقدام برای
                         پرداخت مجدد</a></div>
             </div>
         @endif
@@ -219,7 +219,7 @@
     @include('sdk.pwa._partials.bottom-nav')
     <script type="module" src="{{ core_asset('resources/assets/js/jquery.js') }}"></script>
     <script type="module" src="{{ core_asset('resources/assets/minimal-landing/js/client.js') }}"></script>
-    @include('sdk._common.components.error-messages');
+    @include('sdk._common.components.error-messages')
     @include('sdk.pwa._partials.scripts')
 
 
