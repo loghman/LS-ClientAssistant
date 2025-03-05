@@ -1,7 +1,6 @@
-<!DOCTYPE html>
-<html lang="fa">
+@extends('sdk._common.layouts.foundation')
 
-<head>
+@section('heads')
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>جزئیات پرداخت</title>
@@ -489,148 +488,150 @@
             }
         }
     </style>
-</head>
+@endsection
 
-<body>
-<h1 class="t-heading text-center">فاکتور پرداخت</h1>
-@if($invoice['status']['name'] !== 'PAID')
-    @if(empty($invoice['checked_at']) || $invoice['status']['name'] === 'CANCELED')
-        <div class="alert danger">
-            <div class="content">
-                <h3 class="heading">پیش فاکتور شما تایید نشده است</h3>
-                <p class="subtitle">پیش فاکتور شما در انتظار تایید بخش مالی می باشد، و پس از تایید قابل پرداخت خواهد بود و از طریق پیامک به شما اطلاع رسانی می شود.</p>
+@section('body')
+    <h1 class="t-heading text-center">فاکتور پرداخت</h1>
+    @if($invoice['status']['name'] !== 'PAID')
+        @if(empty($invoice['checked_at']) || $invoice['status']['name'] === 'CANCELED')
+            <div class="alert danger">
+                <div class="content">
+                    <h3 class="heading">پیش فاکتور شما تایید نشده است</h3>
+                    <p class="subtitle">پیش فاکتور شما در انتظار تایید بخش مالی می باشد، و پس از تایید قابل پرداخت خواهد بود
+                        و از طریق پیامک به شما اطلاع رسانی می شود.</p>
+                </div>
             </div>
-        </div>
-    @elseif(request()->has('status') && (int) request('status') === 0)
-        <div class="alert danger">
-            <div class="content">
-                <h3 class="heading">فرآیند‍ پرداخت ناموفق بود</h3>
-                <p class="subtitle">در صورتی که مبلغی از حساب شما کسر شده, می توانید با پشتیبانی تماس بگیرید</p>
+        @elseif(request()->has('status') && (int) request('status') === 0)
+            <div class="alert danger">
+                <div class="content">
+                    <h3 class="heading">فرآیند‍ پرداخت ناموفق بود</h3>
+                    <p class="subtitle">در صورتی که مبلغی از حساب شما کسر شده, می توانید با پشتیبانی تماس بگیرید</p>
+                </div>
             </div>
-        </div>
-    @elseif((int) request('status') === 1)
-        <div class="alert success">
-            <div class="content">
-                <h3 class="heading">
-                    <i class="fa-solid fa-check text-success"></i>
-                    @php($transactionId = collect($invoice['payments'])->where('status.name', '=', 'PAID')->last()['transaction_id'] ?? '')
-                    <span>پرداخت شما با کدپیگیری<span style="opacity: .75"> {{ $transactionId }} </span>با موفقیت انجام شد</span>
-                    <a href="{{ route('panel.course.list') }}" class="btn success">دوره‌های من</a>
-                </h3>
+        @elseif((int) request('status') === 1)
+            <div class="alert success">
+                <div class="content">
+                    <h3 class="heading">
+                        <i class="fa-solid fa-check text-success"></i>
+                        @php($transactionId = collect($invoice['payments'])->where('status.name', '=', 'PAID')->last()['transaction_id'] ?? '')
+                        <span>پرداخت شما با کدپیگیری<span style="opacity: .75"> {{ $transactionId }} </span>با موفقیت انجام شد</span>
+                        <a href="{{ route('panel.course.list') }}" class="btn success">دوره‌های من</a>
+                    </h3>
+                </div>
             </div>
-        </div>
-    @endif
-@endif
-<div class="invoice">
-    <div class="heading">
-        <div class="row">
-            <img class="avatar" src="{{ $invoice['user']['avatar_url'] }}" alt="{{ $invoice['user']['full_name'] }}"/>
-            <div class="col">
-                <span class="t-title">{{ $invoice['user']['full_name'] }}</span>
-            </div>
-        </div>
-        @if($invoice['is_installment'])
-            <span class="t-title text-danger">اقساطی</span>
-        @else
-            <span class="t-title text-primary">نقدی</span>
         @endif
-    </div>
-    <ul class="list">
-        @if(count($invoice['lmsProductItems']) > 0)
-            @foreach($invoice['lmsProductItems'] as $item)
-                <li class="item">
-                    <span class="t-text">{{ $item['entity']['title'] }}</span>
-                    <span class="t-text fw-normal">
+    @endif
+    <div class="invoice">
+        <div class="heading">
+            <div class="row">
+                <img class="avatar" src="{{ $invoice['user']['avatar_url'] }}" alt="{{ $invoice['user']['full_name'] }}"/>
+                <div class="col">
+                    <span class="t-title">{{ $invoice['user']['full_name'] }}</span>
+                </div>
+            </div>
+            @if($invoice['is_installment'])
+                <span class="t-title text-danger">اقساطی</span>
+            @else
+                <span class="t-title text-primary">نقدی</span>
+            @endif
+        </div>
+        <ul class="list">
+            @if(count($invoice['lmsProductItems']) > 0)
+                @foreach($invoice['lmsProductItems'] as $item)
+                    <li class="item">
+                        <span class="t-text">{{ $item['entity']['title'] }}</span>
+                        <span class="t-text fw-normal">
               @if($item['price']['main'] !== $item['final_price']['main'])
-                            <del>{{ $item['price']['readable'] }}</del>
-                        @endif
+                                <del>{{ $item['price']['readable'] }}</del>
+                            @endif
               <span class="prc">{{ $item['final_price']['readable'] }} </span>
               <span class="capacity-full">تومان</span>
               <span class="capacity-short">ت</span>
             </span>
-                </li>
-            @endforeach
-        @endif
-        <li class="item sum">
-            <span class="t-text bold">{{ $invoice['items_count'] }} محصول</span>
-            <span class="t-text bold">
+                    </li>
+                @endforeach
+            @endif
+            <li class="item sum">
+                <span class="t-text bold">{{ $invoice['items_count'] }} محصول</span>
+                <span class="t-text bold">
           @if($invoice['total_price']['main'] !== $invoice['final_price']['main'])
-                    <del>{{ $invoice['total_price']['readable'] }}</del>
-                @endif
+                        <del>{{ $invoice['total_price']['readable'] }}</del>
+                    @endif
           <span class="prc">{{ $invoice['final_price']['readable'] }} </span>
           <span class="capacity-full">تومان</span>
           <span class="capacity-short">ت</span>
         </span>
-        </li>
-        <li class="item last">
-            @if($invoice['is_installment'])
-                <span class="t-title">پرداخت اقساطی</span>
-                <span class="t-title">{{ count($invoice['payments']) }} قسط</span>
-            @else
-                <span class="t-title">پرداخت نقدی</span>
-            @endif
-        </li>
-    </ul>
-    <div class="timeline">
-        @if(count($invoice['payments']) > 0)
-            @php($touchActive = false)
-            @foreach($invoice['payments'] as $payment)
-                @php($isDiv = empty($invoice['checked_at']) || $invoice['status']['name'] === 'CANCELED' || $payment['status']['name'] === 'PAID' || $touchActive)
-                <{{ $isDiv ? 'div' : 'a href='. $payment['payment_link'] }} class="item {{ $payment['status']['name'] === 'PAID' ? 'success' : '' }}">
-                <span class="t-text">
+            </li>
+            <li class="item last">
+                @if($invoice['is_installment'])
+                    <span class="t-title">پرداخت اقساطی</span>
+                    <span class="t-title">{{ count($invoice['payments']) }} قسط</span>
+                @else
+                    <span class="t-title">پرداخت نقدی</span>
+                @endif
+            </li>
+        </ul>
+        <div class="timeline">
+            @if(count($invoice['payments']) > 0)
+                @php($touchActive = false)
+                @foreach($invoice['payments'] as $payment)
+                    @php($isDiv = empty($invoice['checked_at']) || $invoice['status']['name'] === 'CANCELED' || $payment['status']['name'] === 'PAID' || $touchActive)
+                        <{{ $isDiv ? 'div' : 'a href='. $payment['payment_link'] }} class
+                        ="item {{ $payment['status']['name'] === 'PAID' ? 'success' : '' }}">
+                        <span class="t-text">
                     @if($payment['is_installment'])
-                        <span class="bold">قسط {{ number_to_letter_persian($loop->iteration) }}</span>
-                    @else
-                        <span class="bold">پرداخت آنلاین</span>
-                    @endif
-                    @if(! empty($payment['due_date']))
-                        <span class="date">({{ $payment['due_date']['diff_for_human'] }} تا سررسید  ، {{ $payment['due_date']['jalali']['day'] }} {{ $payment['due_date']['jalali']['month_name'] }})</span>
-                    @endif
+                                <span class="bold">قسط {{ number_to_letter_persian($loop->iteration) }}</span>
+                            @else
+                                <span class="bold">پرداخت آنلاین</span>
+                            @endif
+                            @if(! empty($payment['due_date']))
+                                <span class="date">({{ $payment['due_date']['diff_for_human'] }} تا سررسید  ، {{ $payment['due_date']['jalali']['day'] }} {{ $payment['due_date']['jalali']['month_name'] }})</span>
+                            @endif
                 </span>
-                <div class="row">
-                    <span class="t-text bold">{{ $payment['amount']['readable'] }} تومان</span>
-                    @if($payment['status']['name'] === 'PAID')
-                        <span class="d-none-responsive">|</span>
-                        <span class="t-text bold text-success">{{ $payment['status']['to_persian'] }}</span>
-                    @else
-                        <span class="btn {{ $isDiv ? 'gray' : '' }}" {{ $isDiv ? 'disabled=disabled' : '' }}>
+                        <div class="row">
+                            <span class="t-text bold">{{ $payment['amount']['readable'] }} تومان</span>
+                            @if($payment['status']['name'] === 'PAID')
+                                <span class="d-none-responsive">|</span>
+                                <span class="t-text bold text-success">{{ $payment['status']['to_persian'] }}</span>
+                            @else
+                                <span class="btn {{ $isDiv ? 'gray' : '' }}" {{ $isDiv ? 'disabled=disabled' : '' }}>
                       پرداخت
                       <i class="fa fa-arrow-left" aria-hidden="true"></i>
                     </span>
-                    @endif
-                </div>
-            </{{ $isDiv ? 'div' : 'a' }}>
-            @php($touchActive = $payment['status']['name'] !== 'PAID')
+                            @endif
+                        </div>
+        </{{ $isDiv ? 'div' : 'a' }}>
+        @php($touchActive = $payment['status']['name'] !== 'PAID')
         @endforeach
-    @endif
-</div>
-<div class="heading last">
-    @if($invoice['is_installment'])
-        @if($invoice['paid_progress_percent'] != 100)
-            @if($invoice['installment_paid_count'] > 0)
-                <span class="t-text bold">{{ $invoice['installment_paid_count'] }} از {{ count($invoice['payments']) }} قسط پرداخت شده</span>
+        @endif
+    </div>
+    <div class="heading last">
+        @if($invoice['is_installment'])
+            @if($invoice['paid_progress_percent'] != 100)
+                @if($invoice['installment_paid_count'] > 0)
+                    <span class="t-text bold">{{ $invoice['installment_paid_count'] }} از {{ count($invoice['payments']) }} قسط پرداخت شده</span>
+                @else
+                    <span class="t-text bold">تاکنون قسطی پرداخت نشده</span>
+                @endif
+                @if($invoice['installment_paid_count'] > 0)
+                    <div class="row">
+                        <div class="progress" style="--w: {{ $invoice['paid_progress_percent'] }}%"></div>
+                        <span class="t-text bold">{{ $invoice['paid_progress_percent'] }}درصد</span>
+                    </div>
+                @endif
             @else
-                <span class="t-text bold">تاکنون قسطی پرداخت نشده</span>
-            @endif
-            @if($invoice['installment_paid_count'] > 0)
-                <div class="row">
-                    <div class="progress" style="--w: {{ $invoice['paid_progress_percent'] }}%"></div>
-                    <span class="t-text bold">{{ $invoice['paid_progress_percent'] }}درصد</span>
-                </div>
+                <div class="text-success bold">تسویه شده</div>
             @endif
         @else
-            <div class="text-success bold">تسویه شده</div>
+            @if($invoice['status']['name'] === 'PAID')
+                <div class="text-success bold">تسویه شده</div>
+            @else
+                <span class="t-text bold">پرداخت نشده</span>
+            @endif
         @endif
-    @else
-        @if($invoice['status']['name'] === 'PAID')
-            <div class="text-success bold">تسویه شده</div>
-        @else
-            <span class="t-text bold">پرداخت نشده</span>
-        @endif
-    @endif
-</div>
-</div>
-<img src="{{ setting('png_logo_url') }}" alt="فثسف" class=brand-logo>
-</body>
+    </div>
+    </div>
+    <img src="{{ setting('png_logo_url') }}" alt="فثسف" class=brand-logo>
+    </body>
 
-</html>
+@endsection
