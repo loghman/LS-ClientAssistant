@@ -9702,7 +9702,7 @@ button.outline-danger,
                 @include('sdk.workflow.form', ['wrapper_classes' => 'd-flex flex-column gap-xxs'])
             </div>
 
-            <img class="form-logo" height="35" src="{{ asset_url('img/icons/logo-white.svg') }}" alt="">
+            <img class="form-logo" height="35" src="{{ setting('logo_url') }}" alt="">
         </div>
     </div>
 </div>
