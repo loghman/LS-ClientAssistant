@@ -18,9 +18,9 @@ export const publicApi={
 }
 export const uploadApi = (apiName, parameters) => {
     if (apiName === 'store') {
-        return `client/v3/core/media/store/${parameters.entityType}/${parameters.entityId}`
+        return `client/v3/media/media/store/${parameters.entityType}/${parameters.entityId}`
 
     } else if (apiName === 'fake_store') {
-        return 'client/v3/core/media/store-fake'
+        return 'client/v3/media/media/store-fake'
     }
 }

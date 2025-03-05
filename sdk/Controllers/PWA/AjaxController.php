@@ -94,7 +94,7 @@ class AjaxController
             echo "hold";
             return;
         }
-        API::post('client/v3/core/user-last-activity-log');
+        API::post('client/v3/user/user-last-activity-log');
         setcookie($key,date('Y-m-d H:i:s'), time() + 36000, '/');
         echo "sent";
         return;
