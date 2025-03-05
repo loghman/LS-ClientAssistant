@@ -3,6 +3,7 @@
 @section('heads')
     @include('sdk._common.layouts.head')
     <link rel="stylesheet" href="<?=site_url('assets/ckstyle.css')?>">
+    <link rel="icon" href="{{ setting('favicon') }}">
 @endsection
 
 @section('body')
