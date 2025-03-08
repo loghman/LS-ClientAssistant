@@ -21,7 +21,7 @@ class AuthController
         if($backurl){
             return $backurl;
         }
-        if(str_contains($_SERVER['HTTP_REFERER'],$_SERVER['HTTP_HOST']))
+        if(isset($_SERVER['HTTP_REFERER']) && str_contains($_SERVER['HTTP_REFERER'],$_SERVER['HTTP_HOST']))
             return $_SERVER['HTTP_REFERER'];
         return site_url('pwa/dashboard');
     }
