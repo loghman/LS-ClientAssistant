@@ -11,6 +11,7 @@
     <title>ورود و عضویت</title>
     <script type="module"  src={{getViteAssetUrl('views/vue-apps/auth.js')}}></script>
     <link rel="stylesheet" href="{{ getViteAssetUrl('views/vue-apps/assets/css/auth.scss') }}">
+    <link rel="icon" href="{{ setting('favicon') }}">
 
     @stack('head')
 
