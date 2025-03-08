@@ -25,9 +25,9 @@ class PwaController
         $key = 'app-dash-slider-top';
 
         if (obc_exists($key)) {
-            $slider = obc_get($key);
+            $sliders = obc_get($key);
         } else {
-            $slider = obc_write($key, BannerPositionSliders::getBySlug("app-slider-top")['data'] ?? []);
+            $sliders = obc_write($key, BannerPositionSliders::getBySlug("app-slider-top")['data'] ?? []);
         }
 
         $enrollments = V3Enrollment::list(
@@ -40,7 +40,7 @@ class PwaController
 
         $pagetitle = "داشبورد";
 
-        return WebResponse::view('sdk.pwa.dashboard.index', compact('pagetitle','slider', 'user', 'enrollments', 'data'));
+        return WebResponse::view('sdk.pwa.dashboard.index', compact('pagetitle','sliders', 'user', 'enrollments', 'data'));
     }
 
     public function courses(Request $request)
