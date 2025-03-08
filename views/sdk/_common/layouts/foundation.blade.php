@@ -3,6 +3,7 @@
 <head>
     @yield('heads')
     <link rel="manifest" href="<?=site_url('manifest.json')?>">
+    <link rel="icon" href="{{ setting('favicon') }}">
 </head>
 <body @include('_common.layouts.body-class')>
 {!! setting('top_of_body_script') !!}
