@@ -10,8 +10,6 @@
     <link rel="stylesheet" href="https://up.7learn.com/1/css/yekan/font.css">
     <link rel="preconnect" href="{{ base_storage_url() }}"/>
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#148ef3">
     <meta name="apple-mobile-web-app-title" content="{{setting('brand_name_en')}}">
     <meta name="application-name" content="{{setting('brand_name_en')}}">
@@ -9703,7 +9701,7 @@ input[type=radio]) {
                     @include('sdk.workflow.form', ['wrapper_classes' => 'd-flex flex-column gap-xxs'])
                 </div>
 
-                <img class="form-logo" height="35" src="{{ asset_url('img/icons/logo-white.svg') }}" alt="">
+                <img class="form-logo" height="35" src="{{ setting('logo_url') }}" alt="">
             </div>
         </div>
     </div>
