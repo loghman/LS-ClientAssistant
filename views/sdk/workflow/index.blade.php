@@ -9,7 +9,6 @@
     <link rel="dns-prefetch" id="storage_url" href="{{ base_storage_url() }}"/>
     <link rel="stylesheet" href="https://up.7learn.com/1/css/yekan/font.css">
     <link rel="preconnect" href="{{ base_storage_url() }}"/>
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#148ef3">
     <meta name="apple-mobile-web-app-title" content="{{setting('brand_name_en')}}">
     <meta name="application-name" content="{{setting('brand_name_en')}}">

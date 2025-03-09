@@ -8,7 +8,6 @@
 <meta name="csrf-token" content="">
 <link rel="dns-prefetch" id="storage_url" href="{{ base_storage_url() }}" />
 <link rel="preconnect" href="{{ base_storage_url() }}" />
-<link rel="apple-touch-icon" sizes="180x180" href="{{ $data['logo_url'] }}">
 <link rel="icon" href="{{ setting('favicon') }}">
 <link rel="mask-icon" href="{{ $data['logo_url'] }}" color="#148ef3">
 <meta name="apple-mobile-web-app-title" content="{{ $data['brand_name'] }}">
