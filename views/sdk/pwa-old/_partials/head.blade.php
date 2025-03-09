@@ -8,7 +8,6 @@
 <meta name="csrf-token" content="">
 <link rel="dns-prefetch" id="storage_url" href="{{ base_storage_url() }}"/>
 <link rel="preconnect" href="{{ base_storage_url() }}"/>
-<link rel="apple-touch-icon" sizes="180x180" href="{{ $data['logo_url'] }}">
 <link rel="icon" type="image/png" sizes="32x32" href="{{ $data['logo_url'] }}">
 <link rel="icon" type="image/png" sizes="16x16" href="{{ $data['logo_url'] }}">
 <link rel="mask-icon" href="{{ $data['logo_url'] }}" color="#148ef3">
