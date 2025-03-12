@@ -76,15 +76,37 @@
                             شده</a>
                     @endif
                 </div>
-                <a href="<?=site_url('pwa/logout')?>" class="btn danger">خروج از حساب کاربری</a>
+                <a data-jsc="footer.update-password"
+                    style="border: 2px solid var(--primary);border-radius:10px;cursor:pointer;font-weight: 600;font-size: 16px;padding: 8px;"
+                    class="text-primary">تغییر
+                    رمز عبور</a>
+                <div class="footer update-password" style="display: none">
+                    <form action="{{ site_url('ajax/profile/update-password') }}" method="POST" data-jsc="ajax-form" style="padding: 10px; background-color: var(--primary-15) !important;!i;!; border-radius: 10px;" data-after-success="refresh">
+                        <input dir="ltr" type="password" name="password" placeholder="پسورد جدید را وارد نمایید"
+                            class="mb-2 text-center">
+                        <input dir="ltr" type="password" name="password_confirmation"
+                            placeholder="پسورد جدید را مجددا وارد نمایید" class="mb-2 text-center">
+                        <button type="submit" class="btn primary w-100">بروزرسانی رمز عبور</button>
+                    </form>
+                </div>
+                <a href="<?=site_url('pwa/logout')?>" class="btn danger mb-2">خروج از حساب کاربری</a>
             </div>
         </div>
     </div>
 
     @include('sdk.pwa._partials.bottom-nav')
     @include('sdk._common.components.error-messages')
-
-
+    <script type="module" src="{{ core_asset('resources/assets/js/jquery.js') }}"></script>
+    <script type="module" src="{{ core_asset('resources/assets/js/jss.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('a[data-jsc="footer.update-password"]')?.addEventListener('click', () => {
+                document.querySelectorAll('.footer.update-password').forEach(el => {
+                    el.style.display = el.style.display === 'none' || el.style.display === '' ? 'block' : 'none';
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

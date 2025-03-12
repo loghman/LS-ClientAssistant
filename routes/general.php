@@ -235,7 +235,8 @@ $router->name('ajax.')->prefix('ajax')->group(function (Router $router){
     $router->name('myCourses.stats')->get('my-courses/stats', [AjaxController::class, 'myCoursesStats']);
     $router->name('item.reaction')->post('item/reaction', [AjaxController::class, 'itemReaction']);
     $router->name('quiz.answer')->post('/{quiz_id}/{question_id}/answer', [AjaxController::class, 'quizAnswer']);
-    $router->name('appLog')->get('appLog', [AjaxController::class, 'appLog']);  
+    $router->name('appLog')->get('appLog', [AjaxController::class, 'appLog']); 
+    $router->name('updatePassword')->post('/profile/update-password', [AjaxController::class, 'updatePassword']); 
 });
 
 
