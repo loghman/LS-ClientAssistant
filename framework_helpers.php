@@ -78,7 +78,8 @@ if (!function_exists('asset_url')) {
 if (!function_exists('core_url')) {
     function core_url(string $path = null)
     {
-        return rtrim(env('CORE_URL') ?? '', '/api/') . '/' . $path;
+        $baseUrl = preg_replace('#/api/$#', '', env('CORE_URL'));
+        return $baseUrl . '/' . ltrim($path ?? '', '/');
     }
 }
 
