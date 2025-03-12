@@ -1470,6 +1470,9 @@ function planetContentFilter($html) {
 
 
 function enrollmentNextItemUrl($enrollment) {
+    if(!empty($enrollment['entity']['external_screen_url']) and is_valid_url($enrollment['entity']['external_screen_url'])){
+        return $enrollment['entity']['external_screen_url'];
+    }
     $enroll_id = $enrollment['id'];
     $product_id = $enrollment['entity_id'];
     $nextItemId = $enrollment['last_seen_item']['item_id'];
