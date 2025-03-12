@@ -200,4 +200,17 @@ class AjaxController
 
         return JsonResponse::success('پاسخ شما با موفقیت ثبت شد.', $answerStatus);
     }
+
+    public function updatePassword(Request $request)
+    {
+        $data = $request->request->all();
+
+        if (empty($data['password']) or empty($data['password_confirmation'])) {
+            return JsonResponse::unprocessableEntity('لطفا تمامی مقادیر را پر کنید');
+        }
+
+        $updatedPassword = \Ls\ClientAssistant\Utilities\Modules\User::updatePassword('', $data['password'], $data['password_confirmation'], $request->cookies->get('token'));
+
+        return JsonResponse::json($updatedPassword->get('message'), ($updatedPassword->get('success') ? 200 : 405));
+    }
 }
