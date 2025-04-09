@@ -37,7 +37,7 @@ class CoreAsset
      */
     protected function assetPath(string $path): string
     {
-        return core_url($path);
+        return env('LSP_URL') . $path;
     }
 
     /**
