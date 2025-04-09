@@ -51,6 +51,7 @@ class WorkflowFormController
                 'entityType' => $request->get('et'),
                 'entityId' => $request->get('ei'),
                 'source' => $request->get('source'),
+                'owner' => $request->get('owner'),
                 'workflowData' => $workflowData,
                 'courses' => $courses,
                 'showWelcomeMessage' => true,
@@ -75,6 +76,7 @@ class WorkflowFormController
             'variable_values' => $request->get('var'),
             'time2call' => $request->get('time2call'),
             'source' => $request->get('source'),
+            'owner_id' => $request->get('owner_id'),
         ]);
 
         if (!$response->get('success')) {
