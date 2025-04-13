@@ -14,9 +14,27 @@ const checkFileSize = (file, maxFileSize) => {
 };
 
 const checkAllowedFile = (type, allowedTypes) => {
-  const fileType = type.split("/")[1];
+// Extract both MIME type and extension
+  const mimeType = type.split('/')[0]; // 'image' in 'image/jpeg'
+  const fileExtension = type.split('/')[1]; // 'jpeg' in 'image/jpeg'
+// Create a mapping of common extensions to their MIME types
+  const extensionMap = {
+    'jpg': 'jpeg',
+    'jpeg': 'jpeg',
+    // Add more as needed
+  };
 
-  const isAllowed = allowedTypes.includes(fileType) || allowedTypes.includes(type);
+  // Check if either:
+  // 1. The exact MIME type is allowed (e.g., 'image/jpeg')
+  // 2. The extension part matches (e.g., 'jpeg')
+  // 3. The mapped extension matches (e.g., 'jpg' → 'jpeg')
+  const isAllowed = allowedTypes.some(allowed => {
+    return (
+        allowed === type || // Full MIME type match
+        allowed === fileExtension || // Extension match
+        (extensionMap[allowed] && extensionMap[allowed] === fileExtension) // Mapped extension
+    );
+  });
 
   if (!isAllowed) {
     toast(
