@@ -80,6 +80,21 @@ class API
             $url .= '?'.http_build_query($queryParams);
         }
 
+        if (in_array($method, ['POST', 'PUT', 'PATCH', 'DELETE'])) {
+            $hasFile = collect($formParams)->filter(fn ($v) => $v instanceof \CURLFile)->isNotEmpty();
+
+            if ($hasFile) {
+                // اگر فایل داریم، JSON نفرست
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $formParams);
+
+                // هدر Content-Type را حذف کنیم چون خود cURL مقدار مناسب ست می‌کنه
+                $headers = array_filter($headers, fn($h) => !str_starts_with(strtolower($h), 'content-type'));
+            } else {
+                // در غیر این صورت JSON معمولی ارسال کن
+                curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($formParams));
+            }
+        }
+
         curl_setopt_array($curl, [
             CURLOPT_URL => $url,
             CURLOPT_RETURNTRANSFER => true,
@@ -92,10 +107,6 @@ class API
             CURLOPT_HTTPHEADER => $headers,
             CURLOPT_HEADER => true,
         ]);
-
-        if (in_array($method, ['POST', 'PUT', 'PATCH', 'DELETE'])) {
-            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($formParams));
-        }
 
         if (! empty($_ENV['IGNORE_SSL']) && ($_ENV['IGNORE_SSL'] === true || $_ENV['IGNORE_SSL'] === 'true')) {
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
