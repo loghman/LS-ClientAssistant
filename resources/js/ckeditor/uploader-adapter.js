@@ -13,7 +13,7 @@ class CKEditorUploadAdapter {
         try {
             const file = await this.loader.file;
             const response = await this.uploadFile(file);
-            return { default: response?.result.url };
+            return { default: response?.data.url };
         } catch (error) {
             console.error(error);
             throw new Error("فایل آپلود نشد!");
@@ -25,7 +25,7 @@ class CKEditorUploadAdapter {
         const formData = new FormData();
         formData.append("file", file);
         formData.append("collection_name", "ckeditor");
-         
+
         let url;
         if (this.options.entity_type) {
             url = uploadApi(
@@ -58,13 +58,13 @@ class CKEditorUploadAdapter {
             });
 
             const responseData = response.data;
-            if (response.status) {
+            if (responseData.success) {
                 console.log("uploaded");
-                return responseData;   
+                return responseData;
             } else {
-                console.log("upload failed"); 
+                console.log("upload failed");
             }
-           
+
         } catch (error) {
             throw new Error(error.response?.data?.error?.message || "..آپلود انجام نشد!");
         }

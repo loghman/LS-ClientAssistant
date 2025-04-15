@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function () {
             onUploadProgress(event, progressBar, progressPercent),
       });
 
-      if (response.status===true) {
+      if (response.success===true) {
 
         toast("فایل اپلود شد");
 
