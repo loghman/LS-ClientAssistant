@@ -1,6 +1,7 @@
 <?php
 use Ls\ClientAssistant\Controllers\PWA\PwaSimpleController;
 use Ls\ClientAssistant\Controllers\QPayController;
+use Ls\ClientAssistant\Controllers\UploadController;
 use Ls\ClientAssistant\Services\ObjectCache;
 use Ls\ClientAssistant\Core\StaticCache;
 use Ls\ClientAssistant\Controllers\AuthController;
@@ -243,4 +244,7 @@ $router->name('ajax.')->prefix('ajax')->group(function (Router $router){
 
 // this route must be at the end of file
 $router->get('/assets/ckstyle.css', [PageController::class, 'ckStyles']);
-$router->get('/{slug}', [PageController::class, 'find']); 
+$router->get('/{slug}', [PageController::class, 'find']);
+
+$router->post('/upload/store-fake', [UploadController::class, 'storeFake']);
+$router->post('/upload/store/{entity_type}/{entity_id}', [UploadController::class, 'store']);

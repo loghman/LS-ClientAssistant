@@ -1,6 +1,7 @@
 import { exposedEnvVariables } from "../../../views/vue-apps/components/auth/useAuth";
 
-const apiBaseUrl = exposedEnvVariables.API_BASE_URL;
+const apiBaseUrl = exposedEnvVariables.API_BASE_URL.replace(/^\/|\/$/g, '')+'/';
+const appUrl = exposedEnvVariables.APP_URL.replace(/^\/|\/$/g, '')+'/';
 
 export const authApi = {
     SETTING: `${apiBaseUrl}v3/auth/setting`,
@@ -18,9 +19,9 @@ export const publicApi={
 }
 export const uploadApi = (apiName, parameters) => {
     if (apiName === 'store') {
-        return `client/v3/media/media/store/${parameters.entityType}/${parameters.entityId}`
+        return `${appUrl}upload/store/${parameters.entityType}/${parameters.entityId}`
 
     } else if (apiName === 'fake_store') {
-        return 'client/v3/media/media/store-fake'
+        return `${appUrl}upload/store-fake`
     }
 }

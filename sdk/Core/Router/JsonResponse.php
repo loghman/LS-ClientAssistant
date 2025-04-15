@@ -11,7 +11,8 @@ class JsonResponse extends SymfonyResponse
     {
         $body = [
             'message' => $msg,
-            'data' => $data
+            'data' => $data,
+            'success' => $status >= SymfonyResponse::HTTP_OK && $status < SymfonyResponse::HTTP_MULTIPLE_CHOICES
         ];
 
         return new SymfonyJsonResponse($body, $status, $headers);
