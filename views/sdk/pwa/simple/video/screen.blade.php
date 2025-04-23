@@ -45,9 +45,9 @@
             }
         }
 
-        video::-webkit-media-controls-fullscreen-button {
+        /* video::-webkit-media-controls-fullscreen-button {
             display: none !important;
-        }
+        } */
 
 
         @media (max-width: 576px) {
@@ -92,14 +92,14 @@
                     {{ $item->chapter->title }}</small>
             </div>
             <div class="wpad tpad bpad" style="margin-top: -100px;z-index: 3;">
-                
+                {{-- controlsList="nofullscreen" --}}
                 @if($item->video)
                 <div class="playerbox base-radius">
                     @if($item->video->stream_url)
                         {{-- TODO: TOFIX --}}
                         <script src="{{ $item->video->stream_url }}"></script>
-                    @elseif($item->video->video_url)
-                        <video id="itemPlayer" controls controlsList="nofullscreen" autoplay=""
+                    @elseif($item->video->video_url) 
+                        <video id="itemPlayer" controls  autoplay=""
                             class="w-100 base-radius overflow-hidden" data-is-completed="{{ $item->is_completed }}">
                             <source src="{{ $item->video->video_url }}" type="video/mp4" />
                         </video>
@@ -109,7 +109,7 @@
                 @if ($item->type->name == 'Text')
                 <div class="embedbox base-radius" style="margin-top: 10px">
                     @if($item->description)
-                        {!! $item->description !!}
+                        {!! str_replace(['<video '],['<video id="itemPlayer" '],$item->description) !!}
                     @else
                     <p>این جلسه هنوز محتوایی ندارد</p>
                     @endif
@@ -228,7 +228,34 @@
             }
         });
 
+        function exitFullscreenForAllVideos() {
+            // Check if any element is in fullscreen mode
+            if (document.fullscreenElement || 
+                document.webkitFullscreenElement || 
+                document.mozFullScreenElement || 
+                document.msFullscreenElement) {
+                
+                // Exit fullscreen mode using the appropriate method for the current browser
+                if (document.exitFullscreen) {
+                document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+                } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+                }
+                
+                console.log("Exited fullscreen mode");
+                return true;
+            } else {
+                console.log("No element is in fullscreen mode");
+                return false;
+            }
+            }
+
         function showFeedbackOverlay() {
+            exitFullscreenForAllVideos();
             $('#feedback-overlay').fadeIn(300);
         }
 
@@ -254,6 +281,7 @@
             });
         })
     </script>
+
 
 </body>
 
