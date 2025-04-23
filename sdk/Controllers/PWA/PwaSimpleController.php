@@ -12,17 +12,23 @@ class PwaSimpleController
 {
     public function video_screen(Request $request, string $item_id)
     {
+        $user = current_user();
+        $data = self::shered_data();
         $response = LMSProductItem::get(
             $item_id,
             ModuleFilter::new()
                 ->includes('product.currentUserEnrollment', 'parent', 'media', 'currentUserEnrollmentLog', 'questions.currentUserAnswer')
         );
-        $user = current_user();
-        $data = self::shered_data();
+        // TODO : Check Enrollment ...
+        if ($response['status_code'] == 403){
+            $message = "شما به این دوره دسترسی ندارید...";
+            return WebResponse::view('sdk.pwa.pages.403',compact('data','message'));
+        }
+            
         $item = VideoTransformer::item($response);
         $item->type = (object)$response['data']['type'];
         $pagetitle = $item->title;
-        return WebResponse::view('sdk.pwa.simple.video.screen', compact('pagetitle','data','item'));
+        return WebResponse::view('sdk.pwa.simple.video.screen', compact('pagetitle', 'data', 'item'));
     }
 
     public function quiz_start(Request $request, string $item_id)
