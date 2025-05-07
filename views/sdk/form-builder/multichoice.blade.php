@@ -1,6 +1,6 @@
 <div class="{{ isset($type) && $type === 'minimal' ? 'step' : '' }} w-100 {{ isset($expanded) && $expanded ? 'expanded' : '' }}"
      data-qid="{{ $variable['id'] }}">
-    <label class="qLabel">{{ $placeholder ?? ''  }}</label>
+    <label class="qLabel">{{ to_persian_num($placeholder) ?? ''  }}</label>
 
     @foreach($choices as $key => $value)
         <label class="qOption" for="o{{$variable['id']}}{{$key}}">

@@ -7,7 +7,7 @@
 
     @if(! empty($workflowData['welcome_message']))
         <div class="step w-100 expanded mt-5">
-            <p class="text-center text-white mb-3 fs-18">{{ $workflowData['welcome_message'] }}</p>
+            <p class="text-center text-white mb-3 fs-20 lh-2">{!! to_persian_num($workflowData['welcome_message']) !!}</p>
             <button class="next-step float-start mx-auto mt-3 bg-transparent btn-start">
                 <span>شروع</span>
                 <svg width="22px" height="22px" viewBox="0 -6.5 38 38" version="1.1"
