@@ -1,5 +1,6 @@
 @extends('sdk._common.layouts.base')
-@section('title', 'پرداخت ناموفق')
+@php($word = $payment['amount'] === 0 ? 'ثبت‌نام' : 'پرداخت')
+@section('title', "$word ناموفق")
 @section('body-class', 'bg-danger-5')
 @section('header-class', 'square md center danger')
 @section('base-content-class', 'lg')
@@ -8,11 +9,11 @@
         <div class="row gy gx justify-content-center">
             <div class="col-xxl-5 col-lg-6">
                 <div class="sticky-sidebar gap-md gap-sm--lg transparent over-header md">
-                    <h1 class="page-title text-center">پرداخت ناموفق</h1>
+                    <h1 class="page-title text-center">{{ $word }} ناموفق</h1>
                     <div class="card padding-md align-items-center text-center">
                         <div class="content">
                             <i class="card-icon si-cross-circle-r text-danger"></i>
-                            <h3 class="card-heading">فرآیند‍ پرداخت ناموفق بود</h3>
+                            <h3 class="card-heading">فرآیند‍ {{ $word }} ناموفق بود</h3>
                             <p class="card-subtitle">در صورتی که مبلغی از حساب شما کسر شده, می توانید با پشتیبانی تماس بگیرید</p>
                         </div>
                         {{-- <div class="footer justify-content-center">
@@ -28,7 +29,7 @@
                         </div> --}}
                         <div class="footer justify-content-center">
                             <a href="{{ route('payment.requestLink', ['cart' => $payment['cart_id'], 'gateway' => $payment['gateway_id']]) }}"
-                               class="btn success">پرداخت مجدد</a>
+                               class="btn success">{{ $word }} مجدد</a>
                             @if(!$payment['isQuickPay'])
                                 <a href="{{ route('cart.checkout') }}" class="btn success">بازگشت به سبد</a>
                             @endif

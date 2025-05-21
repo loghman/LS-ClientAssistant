@@ -179,14 +179,14 @@
         }
     </style>
 </head>
-
+@php($word = $payment['amount']['main'] === 0 ? 'ثبت‌نام' : 'پرداخت')
 <body>
     <div class="base-content" style="margin: 0 auto">
         @if($status)
             <div class="card-status bghead m-0 shadow-inset pt pb">
                 <div class="text w-100 text-center" style="margin-top: 60px;color: #006004;">
                     <i class="fa-solid fa-circle-check" style="font-size: 32px;"></i><br>
-                    <span class="title" style="font-size: 24px;">با تشکر از پرداخت شما</span><br>
+                    <span class="title" style="font-size: 24px;">با تشکر از {{ $word }} شما</span><br>
                     @if($payment['ref_id'] ?? false)
                         <small class="txid">شماره تراکنش: <?=to_persian_num($payment['ref_id'])?></small>
                     @endif
@@ -203,15 +203,15 @@
             <div class="card-status bghead m-0 shadow-inset pt pb">
                 <div class="text w-100 text-center" style="margin-top: 120px;color: #741603">
                     <i class="fa-solid fa-circle-check" style="font-size: 32px;"></i><br>
-                    <span class="title" style="font-size: 24px;">پرداخت ناموفق بود</span><br>
+                    <span class="title" style="font-size: 24px;">{{ $word }} ناموفق بود</span><br>
                 </div>
             </div>
             <div class="content" style="margin-top: 30px;text-align: center;font-size: 20px">
                 <img src="<?=$logo ?? ''?>" style="max-width: 64px">
-                <div style="padding: 0 20px">در فرایند پرداخت شما مشکلی پیش آمده است. در صورت نیاز می توانید با پشتیبانی در
+                <div style="padding: 0 20px">در فرایند {{ $word }} شما مشکلی پیش آمده است. در صورت نیاز می توانید با پشتیبانی در
                     تماس باشید</div>
                 <div><a href="<?=site_url('pwa/courses')?>" class="btn" style="min-width: 70%; margin: 30px auto;">اقدام برای
-                        پرداخت مجدد</a></div>
+                        {{ $word }} مجدد</a></div>
             </div>
         @endif
 
