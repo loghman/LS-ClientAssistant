@@ -35,6 +35,7 @@ class QPayController
             return WebResponse::view('sdk.salesflow.qpay.index', compact('message', 'backUrl', 'otpLength', 'data'));
         }
         $product = $response->get('data');
+        $price = $product['price']['main'];
         $data['primary_campaign_coupon'] = isset($product['primaryCampaign']) ? $product['primaryCampaign']['coupon_label'] : null;
         $campaignName = isset($product['primaryCampaign']) ? $product['primaryCampaign']['title'] : null;
 
@@ -48,7 +49,7 @@ class QPayController
             }
         }
 
-        return WebResponse::view('sdk.salesflow.qpay.index', compact('backUrl', 'otpLength', 'data', 'campaignName'));
+        return WebResponse::view('sdk.salesflow.qpay.index', compact('backUrl', 'otpLength', 'data', 'campaignName', 'price'));
     }
 
     public function sendToken(Request $request)

@@ -317,7 +317,7 @@
                     data.coupon = data.primary_campaign_coupon;
                     await delay(1500);
                 }
-                const steps = ['در حال افزودن به سبد خرید', 'به سبد خرید افزوده شد', 'در حال انتقال به درگاه پرداخت'];
+                const steps = ['در حال افزودن به سبد خرید', 'به سبد خرید افزوده شد', "{{ $price === 0 ? 'در حال ثبت‌نام شما' : 'در حال انتقال به درگاه پرداخت' }}"];
 
                 let currentStep = 0;
                 const interval = setInterval(() => {

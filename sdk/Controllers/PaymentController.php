@@ -69,10 +69,10 @@ class PaymentController
     {
         $logo = setting('logo_icon_url') ?? setting('logo_url') ?? '';
         $data = self::shered_data();
-        $status = (int)$request->status;
         // get payment object here
         $payment = V3Payment::get($paymentId)['data'];
-        $pagetitle = 'نتیجه پرداخت';
+        $status = $payment['status'] === 'PAID';
+        $pagetitle = $payment['amount']['main'] === 0 ? 'نتیجه ثبت‌نام' : 'نتیجه پرداخت';
         return WebResponse::view('sdk.pwa.pages.payback', compact('data','status','logo','payment','pagetitle'));
     }
 
