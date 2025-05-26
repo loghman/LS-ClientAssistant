@@ -53,7 +53,7 @@
         @endif
         <div class="input-group sm">
             <label class="fw-700">نام شما</label>
-            <input type="text" name="full_name" required="required" placeholder="مثلا: لقمان آوند">
+            <input type="text" name="full_name" required="required" placeholder="مثلا: مریم محمدی">
         </div>
         <div class="input-group sm">
             <label class="fw-700">شماره موبایل</label>
