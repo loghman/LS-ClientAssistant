@@ -7,6 +7,7 @@ use Ls\ClientAssistant\Core\Router\WebResponse;
 use Ls\ClientAssistant\Transformers\PWA\VideoTransformer;
 use Ls\ClientAssistant\Utilities\Modules\V3\LMSProductItem;
 use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
+use Ls\ClientAssistant\Utilities\Modules\V3\Quiz;
 
 class PwaSimpleController
 {
@@ -63,5 +64,44 @@ class PwaSimpleController
             'logo_url'              => setting('logo_icon_url') ?? setting('logo_url') ?? '',
             'logotype_url'          => setting('logo_url') ?? setting('logo_icon_url') ?? '',
         ];
+    }
+
+
+    public function practice_screen(Request $request, string $item_id)
+    {
+        $user = current_user();
+        $data = self::shered_data();
+
+        $response = Quiz::find(
+            $item_id,
+            ModuleFilter::new()
+                ->includes('productItem', 'questions.media', 'questions.currentUserAnswer.user', 'currentUserAnswersheet', 'creator'),
+            'product_item_id'
+        );
+
+        if (!$response->get('success')) {
+            if ($response->get('status_code') == 403) {
+                $message = "شما به این تمرین دسترسی ندارید...";
+                return WebResponse::view('sdk.pwa.pages.403', compact('data', 'message'));
+            }
+            abort($response->get('status_code'), $response->get('message'));
+        }
+
+        $resp = LMSProductItem::navigate(
+            $item_id,
+            ModuleFilter::new()
+                ->otherParams('keys', ['next', 'prev'])
+        );
+
+        $prev = $next = null;
+        if ($resp->get('success')) {
+            $prev = $resp->get('data')['prev'];
+            $next = $resp->get('data')['next'];
+        }
+
+        $item = PracticeTransformer::item($response, $prev, $next);
+        $pagetitle = $item->title;
+
+        return WebResponse::view('sdk.pwa.simple.practice.screen', compact('pagetitle', 'data', 'item'));
     }
 }
