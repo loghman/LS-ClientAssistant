@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="fa">
 
-<head>
+<head>ا
     @include('sdk.pwa._partials.head')
     @include('sdk.pwa._partials.styles')
     <style>
@@ -19,7 +19,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .header-content {
@@ -160,13 +160,6 @@
             color: #2c3e50;
         }
 
-        .editor-container {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            overflow: hidden;
-            margin-bottom: 16px;
-        }
-
         .editor-toolbar {
             background-color: #f8f9fa;
             padding: 8px;
@@ -191,11 +184,28 @@
         }
 
         .editor-content {
-            min-height: 200px;
-            padding: 16px;
-            font-size: 16px;
-            line-height: 1.6;
+            width: 100%;
+            min-height: 150px;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #fafafa;
+            font-family: inherit;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+            resize: vertical;
+            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .minimal-textarea:focus {
             outline: none;
+            border-color: #2196F3;
+            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+        }
+
+        .minimal-textarea::placeholder {
+            color: #999;
         }
 
         .file-upload {
@@ -387,8 +397,12 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         @media (max-width: 576px) {
@@ -415,15 +429,15 @@
     <!-- Header -->
     <header class="practice-header">
         <div class="header-content">
-            <button class="back-btn" onclick="history.back()">→</button>
-            <h1 class="header-title">{{ $item->title }}</h1>
+            <button class="back-btn">→</button>
+            <h1 class="header-title">{{ $item->entity->title }}</h1>
             <div style="width: 32px;"></div>
         </div>
     </header>
 
-    <!-- Assignment Details -->
+    {{--    <!-- Assignment Details -->--}}
     <section class="assignment-section">
-        <h2 class="assignment-title">{{ $item->title }}</h2>
+        <h2 class="assignment-title">{{ $item->entity->title }}</h2>
 
         <div class="assignment-meta">
             <div class="meta-item">
@@ -434,10 +448,11 @@
                 <span>⭐</span>
                 <span>{{ $item->questions_point }} نمره</span>
             </div>
-            @if($item->creator && !empty($item->creator['full_name']))
+            @if($item->creator)
                 <div class="meta-item">
-                    <span>👨‍🏫</span>
-                    <span>{{ $item->creator['full_name'] }}</span>
+                    <img src="{{ $item->creator->avatar_url }}" alt="{{ $item->creator->name }}"
+                         style="width: 24px; height: 24px; border-radius: 50%;">
+                    <span>{{ $item->creator->name }}</span>
                 </div>
             @endif
         </div>
@@ -450,11 +465,11 @@
 
         @if(!empty($item->attachments))
             @foreach($item->attachments as $attachment)
-                <div class="attachment-box" onclick="downloadAttachment('{{ $attachment['url'] }}')">
+                <div class="attachment-box" onclick="downloadAttachment('{{ $attachment->url }}')">
                     <span class="attachment-icon">📎</span>
                     <div class="attachment-info">
-                        <div class="attachment-name">{{ $attachment['title'] }}</div>
-                        <div class="attachment-size">{{ $attachment['size'] ?? '' }}</div>
+                        <div class="attachment-name">{{ $attachment->title }}</div>
+                        <div class="attachment-size">{{ $attachment->size ?? '' }}</div>
                     </div>
                     <span>⬇️</span>
                 </div>
@@ -464,23 +479,23 @@
 
     <!-- Questions -->
     @foreach($item->questions as $index => $question)
-        <section class="question-section" id="question-{{ $question['id'] }}">
+        <section class="question-section" id="question-{{ $question->id }}">
             <div class="question-header">
-                <span class="question-number">سوال {{ $index + 1 }}</span>
-                <span class="question-point">{{ $question['max_point'] }} نمره</span>
+                <span class="question-number">{{ $question->label }}</span>
+                <span class="question-point">{{ $question->point }} نمره</span>
             </div>
 
             <div class="question-text">
-                {!! $question['question'] !!}
+                {!! $question->question !!}
             </div>
 
-            @if(!empty($question['media']))
-                @foreach($question['media'] as $media)
-                    <div class="attachment-box" onclick="downloadAttachment('{{ $media['url'] }}')">
+            @if(!empty($question->media))
+                @foreach($question->media as $media)
+                    <div class="attachment-box" onclick="downloadAttachment('{{ $media->url }}')">
                         <span class="attachment-icon">📎</span>
                         <div class="attachment-info">
-                            <div class="attachment-name">{{ $media['title'] }}</div>
-                            <div class="attachment-size">{{ $media['size'] ?? '' }}</div>
+                            <div class="attachment-name">{{ $media->title }}</div>
+                            <div class="attachment-size">{{ $media->size ?? '' }}</div>
                         </div>
                         <span>⬇️</span>
                     </div>
@@ -489,30 +504,30 @@
 
             <!-- Answer Section -->
             <div class="answer-section">
-                @if($question['has_answer'])
+                @if($question->answer)
                     <!-- Show existing answer -->
                     <div class="submitted-answer">
                         <div class="answer-header">
-                            <span class="answer-date">ارسال شده در: {{ $question['current_answer']['created_at'] }}</span>
-                            <span class="answer-status status-{{ $question['current_answer']['status'] }}">
-                                {{ $question['current_answer']['status_label'] }}
+                            <span class="answer-date">ارسال شده در: {{ $question->created_at }}</span>
+                            <span class="answer-status status-{{ $question->answer->status }}">
+                                {{ $question->answer->status_label }}
                             </span>
                         </div>
                         <div class="answer-content">
-                            {!! $question['current_answer']['answer'] !!}
+                            {!! $question->answer->answer !!}
                         </div>
 
-                        @if($question['current_answer']['displayable'] && $question['current_answer']['point'] > 0)
+                        @if($question->answer->displayable && $question->answer->point > 0)
                             <div class="feedback-box">
                                 <div class="feedback-title">نمره دریافتی:</div>
                                 <div class="feedback-content">
-                                    <span class="score">{{ $question['current_answer']['point'] }}/{{ $question['max_point'] }}</span>
+                                    <span class="score">{{ $question->answer->point }}/{{ $question->point }}</span>
                                 </div>
                             </div>
                         @endif
 
-                        @if($question['current_answer']['is_pending'])
-                            <button class="edit-btn" onclick="editAnswer({{ $question['id'] }})">
+                        @if($question->answer->is_pending)
+                            <button class="edit-btn" onclick="editAnswer({{ $question->id }})">
                                 ویرایش پاسخ
                             </button>
                         @endif
@@ -521,30 +536,33 @@
                     <!-- Answer form -->
                     <h3 class="section-title">پاسخ شما</h3>
 
-                    <div id="answerForm-{{ $question['id'] }}">
+                    <div id="answerForm-{{ $question->id }}">
                         <div class="editor-container">
-                            <div class="editor-toolbar">
-                                <button class="toolbar-btn" onclick="formatText('bold', {{ $question['id'] }})"><b>B</b></button>
-                                <button class="toolbar-btn" onclick="formatText('italic', {{ $question['id'] }})"><i>I</i></button>
-                                <button class="toolbar-btn" onclick="formatText('underline', {{ $question['id'] }})"><u>U</u></button>
-                                <button class="toolbar-btn" onclick="formatText('insertUnorderedList', {{ $question['id'] }})">• لیست</button>
-                                <button class="toolbar-btn" onclick="formatText('insertOrderedList', {{ $question['id'] }})">۱. لیست</button>
-                            </div>
-                            <div class="editor-content" contenteditable="true" id="answerEditor-{{ $question['id'] }}">
-                                پاسخ خود را اینجا بنویسید...
-                            </div>
+                          <textarea
+                            class="editor-content"
+                            placeholder="متن خود را اینجا وارد کنید...">
+
+                          </textarea>
                         </div>
 
-                        <div class="file-upload">
-                            <label class="upload-btn">
-                                <span>📎</span>
-                                <span>افزودن پیوست</span>
-                                <input type="file" style="display: none;" onchange="handleFileUpload(event, {{ $question['id'] }})">
-                            </label>
-                            <div id="selectedFile-{{ $question['id'] }}" style="margin-top: 8px; font-size: 14px; color: #666;"></div>
-                        </div>
+                        @if($question->allowed_file_formats)
+                            <div class="file-upload">
+                                <label class="upload-btn">
+                                    <span>📎</span>
+                                    <span>افزودن پیوست</span>
+                                    <input type="file"
+                                           style="display: none;"
+                                           onchange="handleFileUpload(event, {{ $question->id }})"
+                                           accept="{{ implode(',', $question->allowed_file_formats) }}"
+                                           data-max-size="{{ $question->max_file_size }}">
+                                </label>
+                                <div id="selectedFile-{{ $question->id }}"
+                                     style="margin-top: 8px; font-size: 14px; color: #666;"></div>
+                            </div>
+                        @endif
 
-                        <button class="submit-btn" onclick="submitAnswer({{ $question['id'] }})" id="submitBtn-{{ $question['id'] }}">
+                        <button class="submit-btn" onclick="submitAnswer({{ $question->id }})"
+                                id="submitBtn-{{ $question->id }}">
                             ارسال پاسخ
                         </button>
                     </div>
@@ -557,13 +575,13 @@
     @if($item->prev || $item->next)
         <section class="navigation-section">
             @if($item->prev)
-                <a href="{{ $item->prev['url'] }}" class="nav-btn {{ $item->prev['is_locked'] ? 'disabled' : '' }}">
-                    ← {{ $item->prev['title'] }}
+                <a href="{{ $item->prev->url }}" class="nav-btn {{ $item->prev->is_locked ? 'disabled' : '' }}">
+                    ← {{ $item->prev->title }}
                 </a>
             @endif
             @if($item->next)
-                <a href="{{ $item->next['url'] }}" class="nav-btn {{ $item->next['is_locked'] ? 'disabled' : '' }}">
-                    {{ $item->next['title'] }} →
+                <a href="{{ $item->next->url }}" class="nav-btn {{ $item->next->is_locked ? 'disabled' : '' }}">
+                    {{ $item->next->title }} →
                 </a>
             @endif
         </section>
@@ -584,102 +602,8 @@
         document.getElementById('answerEditor-' + questionId).focus();
     }
 
-    // Handle file upload
-    function handleFileUpload(event, questionId) {
-        const file = event.target.files[0];
-        if (file) {
-            selectedFiles[questionId] = file;
-            document.getElementById('selectedFile-' + questionId).textContent = `فایل انتخاب شده: ${file.name}`;
-        }
-    }
-
-    // Submit answer
-    function submitAnswer(questionId) {
-        const editor = document.getElementById('answerEditor-' + questionId);
-        const content = editor.innerHTML;
-
-        if (content.trim() === '' || content === 'پاسخ خود را اینجا بنویسید...') {
-            alert('لطفاً پاسخ خود را وارد کنید');
-            return;
-        }
-
-        // Show loading
-        const submitBtn = document.getElementById('submitBtn-' + questionId);
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span class="loading"></span> در حال ارسال...';
-
-        // Prepare form data
-        const formData = new FormData();
-        formData.append('answer', content);
-        if (selectedFiles[questionId]) {
-            formData.append('attachment', selectedFiles[questionId]);
-        }
-
-        // Get question data
-        const question = @json($item->questions).find(q => q.id === questionId);
-
-        // Send AJAX request
-        fetch(question.answer_url, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Reload page to show submitted answer
-                    location.reload();
-                } else {
-                    alert('خطا در ارسال پاسخ: ' + (data.message || 'خطای نامشخص'));
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = 'ارسال پاسخ';
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('خطا در ارسال پاسخ');
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = 'ارسال پاسخ';
-            });
-    }
-
-    // Edit answer
-    function editAnswer(questionId) {
-        // This would show the edit form - for now just reload
-        location.reload();
-    }
-
-    // Download attachment
-    function downloadAttachment(url) {
-        window.open(url, '_blank');
-    }
-
-    // Clear placeholder text on focus
-    document.addEventListener('DOMContentLoaded', function() {
-        const editors = document.querySelectorAll('[id^="answerEditor-"]');
-        editors.forEach(editor => {
-            editor.addEventListener('focus', function() {
-                if (this.innerHTML === 'پاسخ خود را اینجا بنویسید...') {
-                    this.innerHTML = '';
-                }
-            });
-
-            editor.addEventListener('blur', function() {
-                if (this.innerHTML.trim() === '') {
-                    this.innerHTML = 'پاسخ خود را اینجا بنویسید...';
-                }
-            });
-        });
-
-        // Send visit signal
-        signalRequest("{{ $item->id }}", 'visited');
-    });
-
     function signalRequest(iid, type) {
-        var url = '{{ route("ajax.item.signal") }}';
+        var url = '{{ $item->signal_url }}';
         var params = 'itemId=' + encodeURIComponent(iid) + '&type=' + encodeURIComponent(type);
         var xhr = new XMLHttpRequest();
         xhr.open('GET', url + '?' + params, true);
