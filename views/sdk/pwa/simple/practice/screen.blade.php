@@ -441,25 +441,6 @@
             display: none;
         }
 
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #4A90E2;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
         @media (max-width: 576px) {
             .assignment-meta {
                 flex-direction: column;
@@ -541,16 +522,16 @@
 @include('sdk.pwa._partials.scripts')
 
 <script>
-    // File handling
+    // File selection handler
     function handleFileSelect(input) {
-        const file = input.files[0];
-        const selectedFileDiv = input.closest('.file-upload').querySelector('.selected-file');
+        const selectedFileDiv = input.parentElement.parentElement.querySelector('.selected-file');
         
-        if (file) {
+        if (input.files && input.files[0]) {
+            const file = input.files[0];
             const maxSize = parseInt(input.dataset.maxSize) || 10485760; // 10MB default
             
             if (file.size > maxSize) {
-                alert('حجم فایل بیش از حد مجاز است.');
+                toast('حجم فایل بیش از حد مجاز است.', 'danger');
                 input.value = '';
                 selectedFileDiv.textContent = '';
                 return;
@@ -568,49 +549,6 @@
         const sizes = ['Bytes', 'KB', 'MB', 'GB'];
         const i = Math.floor(Math.log(bytes) / Math.log(k));
         return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-    }
-
-    // Form submission
-    function submitAnswer(event, form) {
-        event.preventDefault();
-        
-        const submitBtn = form.querySelector('.submit-btn');
-        const submitText = submitBtn.querySelector('.submit-text');
-        const loading = submitBtn.querySelector('.loading');
-        
-        // Show loading state
-        submitBtn.disabled = true;
-        submitText.classList.add('hidden');
-        loading.classList.remove('hidden');
-        
-        const formData = new FormData(form);
-        
-        fetch(form.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Refresh the page to show the submitted answer
-                window.location.reload();
-            } else {
-                alert(data.message || 'خطایی رخ داد. لطفاً دوباره تلاش کنید.');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('خطایی رخ داد. لطفاً دوباره تلاش کنید.');
-        })
-        .finally(() => {
-            // Reset loading state
-            submitBtn.disabled = false;
-            submitText.classList.remove('hidden');
-            loading.classList.add('hidden');
-        });
     }
 
     // Edit answer functionality

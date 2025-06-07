@@ -1,13 +1,22 @@
+@php
+    $uniqueId=create_unique_id();
+@endphp
 <!-- Answer form -->
 <h3 class="section-title">پاسخ شما</h3>
 
-<form action="{{ $question->answer_url }}" method="POST" enctype="multipart/form-data" onsubmit="submitAnswer(event, this)">
+<form action="{{ $question->answer_url }}"
+      method="POST"
+      enctype="multipart/form-data"
+      data-jsc="ajax-form"
+      enctype="multipart/form-data" data-after-success="refresh"
+>
 
     @switch($question->type)
         @case('descriptive')
+            <input type="hidden" name="answer[unique_id]" value="{{$uniqueId}}">
             <div class="editor-container">
                 <textarea
-                    name="answer"
+                    name="answer[text]"
                     class="editor-content"
                     placeholder="متن خود را اینجا وارد کنید..."
                     required></textarea>
@@ -15,6 +24,7 @@
             @break
             
         @case('file')
+            <input type="hidden" name="answer" value="{{ $uniqueId }}">
             @if($question->allowed_file_formats)
                 <div class="file-upload">
                     <label class="upload-btn">
@@ -55,9 +65,6 @@
     @endswitch
 
     <button type="submit" class="submit-btn">
-        <span class="submit-text">ارسال پاسخ</span>
-        <span class="loading hidden">
-            <span style="display: inline-block; width: 20px; height: 20px; border: 3px solid #f3f3f3; border-top: 3px solid #4A90E2; border-radius: 50%; animation: spin 1s linear infinite;"></span>
-        </span>
+        ارسال پاسخ
     </button>
 </form> 
