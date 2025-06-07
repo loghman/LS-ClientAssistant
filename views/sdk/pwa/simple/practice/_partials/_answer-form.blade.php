@@ -8,8 +8,7 @@
       method="POST"
       enctype="multipart/form-data"
       data-jsc="ajax-form"
-      enctype="multipart/form-data" data-after-success="refresh"
->
+      data-after-success="refresh">
 
     @switch($question->type)
         @case('descriptive')

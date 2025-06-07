@@ -7,8 +7,12 @@
         </span>
     </div>
     
-    <div class="answer-content">
+    <!-- Show submitted answer in disabled form -->
+    <div class="submitted-form">
         @switch($question->type)
+            @case('descriptive')
+                <textarea class="editor-content" disabled readonly>{{ strip_tags($question->answer->answer) }}</textarea>
+                @break
             @case('file')
             @case('repository')
                 <a href="{{ $question->answer->answer }}" target="_blank" class="file-link">
@@ -17,7 +21,7 @@
                 </a>
                 @break
             @default
-                {!! $question->answer->answer !!}
+                <textarea class="editor-content" disabled readonly>{{ strip_tags($question->answer->answer) }}</textarea>
         @endswitch
     </div>
 
@@ -28,12 +32,6 @@
                 <span class="score">{{ $question->answer->point }}/{{ $question->point }}</span>
             </div>
         </div>
-    @endif
-
-    @if($question->answer->is_pending)
-        <button class="edit-btn" onclick="editAnswer({{ $question->id }})">
-            ویرایش پاسخ
-        </button>
     @endif
 
     <!-- Show other answers section if available -->

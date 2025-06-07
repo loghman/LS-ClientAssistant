@@ -208,6 +208,17 @@
             color: #999;
         }
 
+        .editor-content:disabled {
+            background-color: #f5f5f5;
+            color: #666;
+            cursor: not-allowed;
+            border-color: #ddd;
+        }
+
+        .submitted-form {
+            margin-bottom: 12px;
+        }
+
         .file-upload {
             margin-bottom: 16px;
         }
@@ -348,23 +359,6 @@
             font-weight: bold;
             color: #4A90E2;
             font-size: 18px;
-        }
-
-        .edit-btn {
-            width: 100%;
-            padding: 12px;
-            background-color: #ff9800;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            margin-top: 12px;
-        }
-
-        .edit-btn:hover {
-            background-color: #f57c00;
         }
 
         /* Other Answers Section */
@@ -549,13 +543,6 @@
         const sizes = ['Bytes', 'KB', 'MB', 'GB'];
         const i = Math.floor(Math.log(bytes) / Math.log(k));
         return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-    }
-
-    // Edit answer functionality
-    function editAnswer(questionId) {
-        // This would typically show a modal or redirect to edit form
-        // For now, we'll just reload the page
-        window.location.reload();
     }
 
     // Load other answers
