@@ -24,7 +24,6 @@ class PracticeTransformer extends BaseTransformer
             'questions_count' => count($this->questions),
             'questions_point' => array_sum(array_column($this->questions, 'max_point')),
             'creator' => ! empty($creator) ? User::new($creator)->values('full_name', 'avatar_medium_url') : [],
-            'signal_url' => route('panel.course.signal', ['item_id' => $this->productItem['id']]),
             'next' => $this->navigateItem($this->nextItem),
             'prev' => $this->navigateItem($this->prevItem),
         ];

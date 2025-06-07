@@ -4,8 +4,6 @@
         <i class="fa-solid fa-arrow-left"></i>
     </a>
     <a class="bnavi" href="<?=site_url("pwa/course/{$item->product->id}/chapters?e={$item->product->enrollment->id}")?>">
-        <!-- <i class="fa-solid fa-bars"></i> -->
-        <!-- این پایین درصد پیشرفت کل دوره هست -->
         <?=circleProgressbar($item->product->enrollment->progress_percent, 'xs', 'nav-progress');?>
         <span>سرفصل های دوره</span>
     </a>

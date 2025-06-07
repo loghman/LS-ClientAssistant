@@ -17,7 +17,6 @@
                     <div class="attachment-name">مشاهده پیوست</div>
                     <div class="attachment-size">{{ $media->size ?? '' }}</div>
                 </div>
-                <span>⬇️</span>
             </div>
         @endforeach
     @endif
@@ -27,7 +26,7 @@
         @if($question->answer)
             @include('sdk.pwa.simple.practice._partials._current-user-answer', ['question' => $question])
             
-            @if($question->answer->displayable && $question->answer_description)
+            @if($question->answer->displayable && $question->answer_description && $question->answer->status !== 'pending')
                 @include('sdk.pwa.simple.practice._partials._correct-answer', ['question' => $question, 'item' => $item])
             @endif
         @else
