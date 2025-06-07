@@ -132,33 +132,6 @@ class PwaSimpleController
         return JsonResponse::success('پاسخ شما با موفقیت ثبت شد.');
     }
 
-    public function practice_answers(int $quizId, int $questionId, Request $request)
-    {
-        $response = Quiz::listAnswer(
-            ModuleFilter::new()
-                ->otherParams('quiz_id', $quizId)
-                ->search('question_id', $questionId)
-                ->search('status', 'pending,correct,incorrect,semi_correct', 'in')
-                ->searchJoin()
-                ->includes('user.media', 'question', 'reactions', 'answersheet.corrector.media')
-                ->otherParams('question_id', $questionId)
-                ->orderBy('point', 'created_at')
-                ->sortedBy('desc')
-                ->page($request->get('page', 1))
-                ->perPage($request->get('per_page', 10))
-        );
-
-        if (! $response->get('success')) {
-            return JsonResponse::json($response->get('message'), $response->get('status_code'));
-        }
-
-        $answers = PracticeAnswerTransformer::collection($response);
-
-        return JsonResponse::ajaxView('sdk.pwa.simple.practice._partials._other-answers',
-            compact('answers')
-        );
-    }
-
     public function practice_answer_signal(int $quizId, int $answerId, Request $request)
     {
         Quiz::signalAnswer(

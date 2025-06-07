@@ -11,7 +11,7 @@
     <div class="submitted-form">
         @switch($question->type)
             @case('descriptive')
-                <textarea class="editor-content" disabled readonly>{{ strip_tags($question->answer->answer) }}</textarea>
+                <textarea class="editor-content" disabled readonly>{{ $question->answer->answer }}</textarea>
                 @break
             @case('file')
             @case('repository')
@@ -31,17 +31,6 @@
             <div class="feedback-content">
                 <span class="score">{{ $question->answer->point }}/{{ $question->point }}</span>
             </div>
-        </div>
-    @endif
-
-    <!-- Show other answers section if available -->
-    @if($question->answer->displayable && $question->answer_count > 0)
-        <div class="other-answers-section">
-            <button class="show-others-btn" onclick="loadOtherAnswers({{ $question->id }})">
-                <span>مشاهده پاسخ‌های دیگران</span>
-                <span class="answer-count-badge">{{ $question->answer_count }}</span>
-            </button>
-            <div id="other-answers-{{ $question->id }}" class="other-answers-container hidden"></div>
         </div>
     @endif
 </div> 

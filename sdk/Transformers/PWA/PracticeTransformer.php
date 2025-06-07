@@ -46,9 +46,7 @@ class PracticeTransformer extends BaseTransformer
                 'type' => $question['type']['value'],
                 'max_file_size' => $question['payload']['max_file_size'] ?? null,
                 'allowed_file_formats' => $question['payload']['allowed_file_formats'] ?? null,
-                'answer_count' => $question['answer_count'] > 0 ? $question['answer_count'] - 1 : 0,
                 'created_at' => $question['created_at']['jalali']['main'],
-                'show_another_answer_url' => route('pwa.simple.practice.answers', ['quiz_id' => $this->id, 'question_id' => $question['id'], 'page' => 1]),
                 'answer_url' => route('pwa.simple.practice.store', ['quiz_id' => $this->id, 'question_id' => $question['id']])
             ];
         }

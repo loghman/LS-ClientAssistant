@@ -156,9 +156,14 @@
                         <?php    $si = 1;?>
                         <div class="list-accordions tpad10 bpad">
                             @foreach($ch['items'] as $item)
-                                <a href="<?=site_url("pwa/simple/video/{$item['id']}/screen")?>"
-                                    class="search empty <?=$item['log_type'] ?? ''?> <?=($item['id'] == ($_GET['i'] ?? '*')) ? 'default' : ''?>"
-                                    data-iid="<?=$item['id']?>" data-pid="<?=$item['product_id']?>"
+                                    <?php
+                                    $itemUrl = match($item['type']) {
+                                        7 => site_url("pwa/simple/practice/{$item['id']}/screen"), // Kata/Practice
+                                        default => site_url("pwa/simple/video/{$item['id']}/screen") // Video/Text/etc
+                                    };
+                                    ?>
+                                <a href="<?=$itemUrl?>"
+                                   class="itemlink empty <?=$item['log_type'] ?? ''?> <?=($item['id'] == ($_GET['i']??'*')) ? 'default' : ''?>" data-iid="<?=$item['id']?>" data-pid="<?=$item['product_id']?>"
                                     data-chid="<?=$item['parent_id']?>" data-t="<?=$item['log_type'] ?? ''?>">
                                     <span
                                         class="picon fa-solid icon <?=(($item['log_type'] ?? '') == 'completed') ? 'fa-circle-check' : 'fa-circle-play'?>"></span>
