@@ -510,8 +510,8 @@
                         <div class="answer-header">
                             <span class="answer-date">ارسال شده در: {{ $question->created_at }}</span>
                             <span class="answer-status status-{{ $question->answer->status }}">
-                                {{ $question->answer->status_label }}
-                            </span>
+                                    {{ $question->answer->status_label }}
+                                </span>
                         </div>
                         <div class="answer-content">
                             {!! $question->answer->answer !!}
@@ -536,13 +536,14 @@
                     <!-- Answer form -->
                     <h3 class="section-title">پاسخ شما</h3>
 
-                    <div id="answerForm-{{ $question->id }}">
+                    <form action="{{ $question->answer_url }}" method="POST" enctype="multipart/form-data">
+                        {{--                            @csrf--}}
                         <div class="editor-container">
-                          <textarea
-                            class="editor-content"
-                            placeholder="متن خود را اینجا وارد کنید...">
-
-                          </textarea>
+                                <textarea
+                                        name="answer"
+                                        class="editor-content"
+                                        placeholder="متن خود را اینجا وارد کنید..."
+                                        required></textarea>
                         </div>
 
                         @if($question->allowed_file_formats)
@@ -551,21 +552,19 @@
                                     <span>📎</span>
                                     <span>افزودن پیوست</span>
                                     <input type="file"
+                                           name="attachment"
                                            style="display: none;"
-                                           onchange="handleFileUpload(event, {{ $question->id }})"
                                            accept="{{ implode(',', $question->allowed_file_formats) }}"
                                            data-max-size="{{ $question->max_file_size }}">
                                 </label>
-                                <div id="selectedFile-{{ $question->id }}"
-                                     style="margin-top: 8px; font-size: 14px; color: #666;"></div>
+                                <div class="selected-file" style="margin-top: 8px; font-size: 14px; color: #666;"></div>
                             </div>
                         @endif
 
-                        <button class="submit-btn" onclick="submitAnswer({{ $question->id }})"
-                                id="submitBtn-{{ $question->id }}">
+                        <button type="submit" class="submit-btn">
                             ارسال پاسخ
                         </button>
-                    </div>
+                    </form>
                 @endif
             </div>
         </section>
