@@ -438,4 +438,78 @@
             width: 100%;
         }
     }
+
+    /* Code Block Styles */
+    .question-text pre,
+    .correct-answer-content pre,
+    .feedback-content pre {
+        direction: ltr !important;
+        background: #f4f4f4;
+        border: 1px solid #ddd;
+        border-left: 3px solid var(--primary-50);
+        color: #666;
+        font-family: 'Courier New', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        font-size: 14px;
+        line-height: 1.6;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 1em 1.5em;
+        margin: 16px 0;
+        border-radius: 6px;
+        white-space: pre;
+        word-wrap: normal;
+        -webkit-overflow-scrolling: touch;
+        box-sizing: border-box;
+    }
+
+    .question-text pre::-webkit-scrollbar,
+    .correct-answer-content pre::-webkit-scrollbar,
+    .feedback-content pre::-webkit-scrollbar {
+        height: 8px;
+    }
+
+    .question-text pre::-webkit-scrollbar-track,
+    .correct-answer-content pre::-webkit-scrollbar-track,
+    .feedback-content pre::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+    }
+
+    .question-text pre::-webkit-scrollbar-thumb,
+    .correct-answer-content pre::-webkit-scrollbar-thumb,
+    .feedback-content pre::-webkit-scrollbar-thumb {
+        background: var(--primary-50);
+        border-radius: 4px;
+    }
+
+    .question-text pre::-webkit-scrollbar-thumb:hover,
+    .correct-answer-content pre::-webkit-scrollbar-thumb:hover,
+    .feedback-content pre::-webkit-scrollbar-thumb:hover {
+        background: var(--primary-70);
+    }
+
+    /* Code syntax highlighting support */
+    .question-text pre code,
+    .correct-answer-content pre code,
+    .feedback-content pre code {
+        background: transparent;
+        border: none;
+        padding: 0;
+        font-size: inherit;
+        color: inherit;
+        white-space: pre;
+        word-wrap: normal;
+    }
+
+    /* Responsive code blocks */
+    @media (max-width: 576px) {
+        .question-text pre,
+        .correct-answer-content pre,
+        .feedback-content pre {
+            font-size: 13px;
+            padding: 0.8em 1em;
+            margin: 12px 0;
+        }
+    }
 </style> 
