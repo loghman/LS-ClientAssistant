@@ -17,15 +17,8 @@
                 <small class="subtitle">
                     <span>📝</span>
                     <span>{{ $item->questions_count }} سوال</span>
-                    <i style="font-size: 9px; padding: 0 3px;" class="fa-solid fa-angles-left"></i>
                     <span>⭐</span>
                     <span>{{ $item->questions_point }} نمره</span>
-                    @if($item->creator)
-                        <i style="font-size: 9px; padding: 0 3px;" class="fa-solid fa-angles-left"></i>
-                        <img src="{{ $item->creator->avatar_url }}" alt="{{ $item->creator->name }}"
-                             style="width: 16px; height: 16px; border-radius: 50%; vertical-align: middle;">
-                        <span>{{ $item->creator->name }}</span>
-                    @endif
                 </small>
             </div>
             <div class="wpad tpad bpad" style="margin-top: -100px;z-index: 3;">
@@ -53,6 +46,7 @@
         </div>
     </div>
 
+    @include('sdk.pwa.simple.practice._partials.bottom-nav')
     <script type="module" src="{{ core_asset('resources/assets/js/jquery.js') }}"></script>
     <script type="module" src="{{ core_asset('resources/assets/minimal-landing/js/client.js') }}"></script>
     @include('sdk._common.components.error-messages')

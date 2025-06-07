@@ -1,7 +1,7 @@
 <!-- Question Item -->
 <div class="question-section" id="question-{{ $question->id }}">
     <div class="question-header">
-        <span class="question-number">{{ $question->label }}</span>
+        <strong class="question-number">{{ $question->label }}:</strong>
         <span class="question-point">{{ $question->point }} نمره</span>
     </div>
 

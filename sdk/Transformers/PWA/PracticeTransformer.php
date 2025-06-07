@@ -19,6 +19,7 @@ class PracticeTransformer extends BaseTransformer
         return [
             'id' => $this->id,
             'entity' => $this->productItem($this->productItem),
+            'product' => $this->product($this->productItem['product']),
             'questions' => $this->questions($this->questions),
             'questions_count' => count($this->questions),
             'questions_point' => array_sum(array_column($this->questions, 'max_point')),
@@ -148,5 +149,21 @@ class PracticeTransformer extends BaseTransformer
             'Kata' => route('panel.course.practice', ['item_id' => $item['id']]),
             default => route('panel.course.video', ['item_id' => $item['id']])
         };
+    }
+
+    private function product(mixed $product)
+    {
+        return [
+            'id' => $product['id'],
+            'enrollment' => $this->enrollment($product['currentUserEnrollment']),
+        ];
+    }
+
+    private function enrollment(array $enrollment): array
+    {
+        return [
+            'id' => $enrollment['id'],
+            'progress_percent' => $enrollment['progress_percent'],
+        ];
     }
 } 

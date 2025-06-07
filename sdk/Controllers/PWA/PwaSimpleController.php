@@ -77,7 +77,7 @@ class PwaSimpleController
         $response = Quiz::find(
             $itemId,
             ModuleFilter::new()
-                ->includes('productItem', 'questions.media', 'questions.currentUserAnswer.user', 'currentUserAnswersheet', 'creator'),
+                ->includes('productItem', 'questions.media', 'questions.currentUserAnswer.user', 'currentUserAnswersheet', 'creator','productItem.product.currentUserEnrollment'),
             'product_item_id'
         );
 
@@ -110,13 +110,6 @@ class PwaSimpleController
 
         // Handle different answer types
         $answerData = $request->answer;
-        
-        // If it's a file upload, handle the attachment
-        if ($request->hasFile('attachment')) {
-            // File upload logic would go here
-            // For now, we'll use a placeholder
-            $answerData = 'file_uploaded'; // This should be replaced with actual file handling
-        }
 
         $response = Quiz::storeAnswer(
             ModuleFilter::new()

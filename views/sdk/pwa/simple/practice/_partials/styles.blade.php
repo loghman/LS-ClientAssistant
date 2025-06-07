@@ -1,7 +1,7 @@
 <style>
     /* Questions Container */
     .questions-container {
-        background-color: var(--primary-20);
+        background-color: transparent;
         padding: 10px;
         min-height: 230px;
         margin-bottom: 10px;
@@ -15,6 +15,16 @@
         border-radius: 10px;
         margin-bottom: 20px;
         line-height: 1.7;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: box-shadow 0.2s ease;
+    }
+    @media (min-width: 200px) {
+        .bottom-nav {
+            display: flex !important;
+        }
+    }
+    .question-section:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
     }
 
     .question-header {
@@ -25,12 +35,9 @@
     }
 
     .question-number {
-        background-color: var(--primary);
-        color: white;
-        padding: 8px 12px;
-        border-radius: 20px;
+        color: var(--primary);
+        font-size: 16px;
         font-weight: bold;
-        font-size: 14px;
     }
 
     .question-point {
