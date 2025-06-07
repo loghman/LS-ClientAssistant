@@ -19,8 +19,6 @@ class PracticeTransformer extends BaseTransformer
         return [
             'id' => $this->id,
             'entity' => $this->productItem($this->productItem),
-            'description' =>  null,
-            'attachments' => null,
             'questions' => $this->questions($this->questions),
             'questions_count' => count($this->questions),
             'questions_point' => array_sum(array_column($this->questions, 'max_point')),
@@ -40,6 +38,7 @@ class PracticeTransformer extends BaseTransformer
                 'label' => 'سوال '.number_to_letter_persian(++$index),
                 'question' => $question['question']['full'],
                 'answer_description' => $question['answer_description'],
+                'description' => $question['answer_description'] ?? null,
                 'media' => $this->media($question['media']),
                 'answer' => $this->answer($question['currentUserAnswer']),
                 'is_survey' => $question['is_survey'],

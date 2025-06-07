@@ -98,7 +98,7 @@ class PwaSimpleController
         }
 
         $item = PracticeTransformer::item($response, $prev, $next);
-        dd($item);
+
         return WebResponse::view('sdk.pwa.simple.practice.screen', compact('item','data'));
     }
 

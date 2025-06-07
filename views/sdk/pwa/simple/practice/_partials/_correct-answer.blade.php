@@ -1,4 +1,4 @@
-@if($question['answer_description'])
+@if($question->answer_description)
     <div class="correct-answer-section">
         <div class="correct-answer-header">
             <span class="correct-icon">✅</span>
@@ -6,7 +6,7 @@
         </div>
         
         <div class="correct-answer-content">
-            {!! $question['answer_description'] !!}
+            {!! $question->answer_description !!}
         </div>
         
         @if($item->creator)
@@ -14,7 +14,7 @@
                 <img src="{{ $item->creator->avatar_url }}" alt="{{ $item->creator->name }}" class="author-avatar">
                 <div class="author-info">
                     <span class="author-name">{{ $item->creator->name }}</span>
-                    <span class="answer-date">{{ $question['created_at'] }}</span>
+                    <span class="answer-date">{{ $question->created_at }}</span>
                 </div>
             </div>
         @endif

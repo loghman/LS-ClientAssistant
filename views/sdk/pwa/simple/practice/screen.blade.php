@@ -511,25 +511,6 @@
                 </div>
             @endif
         </div>
-
-        @if($item->description)
-            <div class="assignment-description">
-                {!! $item->description !!}
-            </div>
-        @endif
-
-        @if(!empty($item->attachments))
-            @foreach($item->attachments as $attachment)
-                <div class="attachment-box" onclick="downloadAttachment('{{ $attachment->url }}')">
-                    <span class="attachment-icon">📎</span>
-                    <div class="attachment-info">
-                        <div class="attachment-name">{{ $attachment->title }}</div>
-                        <div class="attachment-size">{{ $attachment->size ?? '' }}</div>
-                    </div>
-                    <span>⬇️</span>
-                </div>
-            @endforeach
-        @endif
     </section>
 
     <!-- Questions -->
@@ -682,7 +663,7 @@
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                {{--'X-CSRF-TOKEN': '{{ csrf_token() }}'--}}
             },
             body: JSON.stringify({
                 type: type

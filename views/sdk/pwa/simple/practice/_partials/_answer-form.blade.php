@@ -1,10 +1,9 @@
 <!-- Answer form -->
 <h3 class="section-title">پاسخ شما</h3>
 
-<form action="{{ $question['answer_url'] }}" method="POST" enctype="multipart/form-data" onsubmit="submitAnswer(event, this)">
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-    
-    @switch($question['type'])
+<form action="{{ $question->answer_url }}" method="POST" enctype="multipart/form-data" onsubmit="submitAnswer(event, this)">
+
+    @switch($question->type)
         @case('descriptive')
             <div class="editor-container">
                 <textarea
@@ -16,7 +15,7 @@
             @break
             
         @case('file')
-            @if($question['allowed_file_formats'])
+            @if($question->allowed_file_formats)
                 <div class="file-upload">
                     <label class="upload-btn">
                         <span>📎</span>
@@ -24,8 +23,8 @@
                         <input type="file"
                                name="attachment"
                                style="display: none;"
-                               accept="{{ implode(',', $question['allowed_file_formats']) }}"
-                               data-max-size="{{ $question['max_file_size'] }}"
+                               accept="{{ implode(',', $question->allowed_file_formats) }}"
+                               data-max-size="{{ $question->max_file_size }}"
                                onchange="handleFileSelect(this)"
                                required>
                     </label>
