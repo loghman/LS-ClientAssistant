@@ -19,6 +19,8 @@ class PracticeTransformer extends BaseTransformer
         return [
             'id' => $this->id,
             'entity' => $this->productItem($this->productItem),
+            'description' =>  null,
+            'attachments' => null,
             'questions' => $this->questions($this->questions),
             'questions_count' => count($this->questions),
             'questions_point' => array_sum(array_column($this->questions, 'max_point')),
@@ -47,7 +49,7 @@ class PracticeTransformer extends BaseTransformer
                 'allowed_file_formats' => $question['payload']['allowed_file_formats'] ?? null,
                 'answer_count' => $question['answer_count'] > 0 ? $question['answer_count'] - 1 : 0,
                 'created_at' => $question['created_at']['jalali']['main'],
-                'show_another_answer_url' => route('panel.quiz.answer.list', ['quiz_id' => $this->id, 'question_id' => $question['id'], 'page' => 1]),
+                'show_another_answer_url' => route('pwa.simple.practice.answers', ['quiz_id' => $this->id, 'question_id' => $question['id'], 'page' => 1]),
                 'answer_url' => route('pwa.simple.practice.store', ['quiz_id' => $this->id, 'question_id' => $question['id']])
             ];
         }
@@ -80,12 +82,39 @@ class PracticeTransformer extends BaseTransformer
         return [
             'displayable' => $answer['show_answer'],
             'is_pending' => $status === 'pending',
-            'status_label' => $status !== 'pending' ? 'تصحیح شده' : '',
+            'status' => $status,
+            'status_label' => $this->getStatusLabel($status),
             'point' => $answer['point'],
             'answer' => $answer['answer'][0] ?? '',
             'created_at' => $answer['created_at']['jalali']['main'],
             'user' => ! empty($answer['user']) ? User::new($answer['user'])->values('full_name', 'avatar_medium_url') : [],
         ];
+    }
+
+    private function getStatusLabel(string $status): string
+    {
+        return match($status) {
+            'pending' => 'در انتظار بررسی',
+            'accepted', 'correct' => 'تصحیح شده',
+            'rejected', 'incorrect' => 'رد شده',
+            'semi_correct' => 'نیمه صحیح',
+            default => 'نامشخص'
+        };
+    }
+
+    private function attachments(?array $attachments): array
+    {
+        $array = [];
+
+        foreach ($attachments ?? [] as $attachment) {
+            $array[] = [
+                'title' => $attachment['title'] ?? $attachment['name'] ?? 'پیوست',
+                'url' => $attachment['url'],
+                'size' => $attachment['size'] ?? null
+            ];
+        }
+        
+        return $array;
     }
 
     private function productItem(array $productItem): array

@@ -212,6 +212,8 @@ $router->name('pwa.')->prefix('pwa')->group(function (Router $router){
 
         // practice
          $router->name('practice.screen')->get('/practice/{item_id}/screen', [PwaSimpleController::class, 'practice_screen']);
+         $router->name('practice.answers')->get('/practice/{quiz_id}/{question_id}/answers', [PwaSimpleController::class, 'practice_answers']);
+         $router->name('practice.answer.signal')->post('/practice/{quiz_id}/{answer_id}/signal', [PwaSimpleController::class, 'practice_answer_signal']);
         // $router->name('practice.result')->get('/practice/{item_id}/result', [PwaSimpleController::class, 'practice_result']);
         // opus
         // $router->name('opus.form')->get('/opus/{product_id}/form', [PwaSimpleController::class, 'opus_form']);

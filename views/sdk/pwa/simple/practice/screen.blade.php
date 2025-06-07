@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="fa">
 
-<head>ا
+<head>
     @include('sdk.pwa._partials.head')
     @include('sdk.pwa._partials.styles')
     <style>
@@ -198,13 +198,13 @@
             transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
         }
 
-        .minimal-textarea:focus {
+        .editor-content:focus {
             outline: none;
             border-color: #2196F3;
             box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
         }
 
-        .minimal-textarea::placeholder {
+        .editor-content::placeholder {
             color: #999;
         }
 
@@ -241,6 +241,7 @@
             font-weight: 500;
             cursor: pointer;
             transition: background-color 0.2s;
+            position: relative;
         }
 
         .submit-btn:hover {
@@ -300,6 +301,29 @@
             line-height: 1.8;
         }
 
+        /* File Link Styles */
+        .file-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background-color: #e3f2fd;
+            border: 1px solid #4A90E2;
+            border-radius: 6px;
+            color: #4A90E2;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .file-link:hover {
+            background-color: #bbdefb;
+        }
+
+        .file-icon {
+            font-size: 16px;
+        }
+
         /* Feedback Section */
         .feedback-box {
             background-color: #e3f2fd;
@@ -339,16 +363,47 @@
             margin-top: 12px;
         }
 
-        .next-lesson-btn {
+        .edit-btn:hover {
+            background-color: #f57c00;
+        }
+
+        /* Other Answers Section */
+        .other-answers-section {
+            margin-top: 16px;
+            border-top: 1px solid #e0e0e0;
+            padding-top: 16px;
+        }
+
+        .show-others-btn {
             width: 100%;
             padding: 12px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
+            background-color: #f8f9fa;
+            border: 1px solid #4A90E2;
             border-radius: 8px;
-            font-size: 16px;
-            font-weight: 500;
+            color: #4A90E2;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .show-others-btn:hover {
+            background-color: #e3f2fd;
+        }
+
+        .answer-count-badge {
+            background-color: #4A90E2;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .other-answers-container {
             margin-top: 12px;
         }
 
@@ -429,13 +484,13 @@
     <!-- Header -->
     <header class="practice-header">
         <div class="header-content">
-            <button class="back-btn">→</button>
+            <button class="back-btn" onclick="history.back()">←</button>
             <h1 class="header-title">{{ $item->entity->title }}</h1>
             <div style="width: 32px;"></div>
         </div>
     </header>
 
-    {{--    <!-- Assignment Details -->--}}
+    <!-- Assignment Details -->
     <section class="assignment-section">
         <h2 class="assignment-title">{{ $item->entity->title }}</h2>
 
@@ -479,95 +534,7 @@
 
     <!-- Questions -->
     @foreach($item->questions as $index => $question)
-        <section class="question-section" id="question-{{ $question->id }}">
-            <div class="question-header">
-                <span class="question-number">{{ $question->label }}</span>
-                <span class="question-point">{{ $question->point }} نمره</span>
-            </div>
-
-            <div class="question-text">
-                {!! $question->question !!}
-            </div>
-
-            @if(!empty($question->media))
-                @foreach($question->media as $media)
-                    <div class="attachment-box" onclick="downloadAttachment('{{ $media->url }}')">
-                        <span class="attachment-icon">📎</span>
-                        <div class="attachment-info">
-                            <div class="attachment-name">{{ $media->title }}</div>
-                            <div class="attachment-size">{{ $media->size ?? '' }}</div>
-                        </div>
-                        <span>⬇️</span>
-                    </div>
-                @endforeach
-            @endif
-
-            <!-- Answer Section -->
-            <div class="answer-section">
-                @if($question->answer)
-                    <!-- Show existing answer -->
-                    <div class="submitted-answer">
-                        <div class="answer-header">
-                            <span class="answer-date">ارسال شده در: {{ $question->created_at }}</span>
-                            <span class="answer-status status-{{ $question->answer->status }}">
-                                    {{ $question->answer->status_label }}
-                                </span>
-                        </div>
-                        <div class="answer-content">
-                            {!! $question->answer->answer !!}
-                        </div>
-
-                        @if($question->answer->displayable && $question->answer->point > 0)
-                            <div class="feedback-box">
-                                <div class="feedback-title">نمره دریافتی:</div>
-                                <div class="feedback-content">
-                                    <span class="score">{{ $question->answer->point }}/{{ $question->point }}</span>
-                                </div>
-                            </div>
-                        @endif
-
-                        @if($question->answer->is_pending)
-                            <button class="edit-btn" onclick="editAnswer({{ $question->id }})">
-                                ویرایش پاسخ
-                            </button>
-                        @endif
-                    </div>
-                @else
-                    <!-- Answer form -->
-                    <h3 class="section-title">پاسخ شما</h3>
-
-                    <form action="{{ $question->answer_url }}" method="POST" enctype="multipart/form-data">
-                        {{--                            @csrf--}}
-                        <div class="editor-container">
-                                <textarea
-                                        name="answer"
-                                        class="editor-content"
-                                        placeholder="متن خود را اینجا وارد کنید..."
-                                        required></textarea>
-                        </div>
-
-                        @if($question->allowed_file_formats)
-                            <div class="file-upload">
-                                <label class="upload-btn">
-                                    <span>📎</span>
-                                    <span>افزودن پیوست</span>
-                                    <input type="file"
-                                           name="attachment"
-                                           style="display: none;"
-                                           accept="{{ implode(',', $question->allowed_file_formats) }}"
-                                           data-max-size="{{ $question->max_file_size }}">
-                                </label>
-                                <div class="selected-file" style="margin-top: 8px; font-size: 14px; color: #666;"></div>
-                            </div>
-                        @endif
-
-                        <button type="submit" class="submit-btn">
-                            ارسال پاسخ
-                        </button>
-                    </form>
-                @endif
-            </div>
-        </section>
+        @include('sdk.pwa.simple.practice._partials._question-item', ['question' => $question, 'item' => $item])
     @endforeach
 
     <!-- Navigation -->
@@ -593,14 +560,199 @@
 @include('sdk.pwa._partials.scripts')
 
 <script>
-    let selectedFiles = {};
-
-    // Format text in editor
-    function formatText(command, questionId) {
-        document.execCommand(command, false, null);
-        document.getElementById('answerEditor-' + questionId).focus();
+    // File handling
+    function handleFileSelect(input) {
+        const file = input.files[0];
+        const selectedFileDiv = input.closest('.file-upload').querySelector('.selected-file');
+        
+        if (file) {
+            const maxSize = parseInt(input.dataset.maxSize) || 10485760; // 10MB default
+            
+            if (file.size > maxSize) {
+                alert('حجم فایل بیش از حد مجاز است.');
+                input.value = '';
+                selectedFileDiv.textContent = '';
+                return;
+            }
+            
+            selectedFileDiv.textContent = `فایل انتخاب شده: ${file.name} (${formatFileSize(file.size)})`;
+        } else {
+            selectedFileDiv.textContent = '';
+        }
     }
 
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    // Form submission
+    function submitAnswer(event, form) {
+        event.preventDefault();
+        
+        const submitBtn = form.querySelector('.submit-btn');
+        const submitText = submitBtn.querySelector('.submit-text');
+        const loading = submitBtn.querySelector('.loading');
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        submitText.classList.add('hidden');
+        loading.classList.remove('hidden');
+        
+        const formData = new FormData(form);
+        
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Refresh the page to show the submitted answer
+                window.location.reload();
+            } else {
+                alert(data.message || 'خطایی رخ داد. لطفاً دوباره تلاش کنید.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('خطایی رخ داد. لطفاً دوباره تلاش کنید.');
+        })
+        .finally(() => {
+            // Reset loading state
+            submitBtn.disabled = false;
+            submitText.classList.remove('hidden');
+            loading.classList.add('hidden');
+        });
+    }
+
+    // Edit answer functionality
+    function editAnswer(questionId) {
+        // This would typically show a modal or redirect to edit form
+        // For now, we'll just reload the page
+        window.location.reload();
+    }
+
+    // Load other answers
+    function loadOtherAnswers(questionId) {
+        const container = document.getElementById(`other-answers-${questionId}`);
+        const btn = container.previousElementSibling;
+        
+        if (container.classList.contains('hidden')) {
+            // Show loading state
+            container.innerHTML = '<div style="padding: 16px; text-align: center; color: #666;">در حال بارگذاری...</div>';
+            container.classList.remove('hidden');
+            
+            // Load answers via AJAX
+            const url = `{{ route('pwa.simple.practice.answers', ['quiz_id' => $item->id, 'question_id' => '__QUESTION_ID__', 'page' => 1]) }}`.replace('__QUESTION_ID__', questionId);
+            
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.text())
+            .then(html => {
+                container.innerHTML = html;
+                btn.querySelector('span').textContent = 'مخفی کردن پاسخ‌های دیگران';
+            })
+            .catch(error => {
+                console.error('Error loading answers:', error);
+                container.innerHTML = '<div style="padding: 16px; text-align: center; color: #e74c3c;">خطا در بارگذاری پاسخ‌ها</div>';
+            });
+        } else {
+            container.classList.add('hidden');
+            btn.querySelector('span').textContent = 'مشاهده پاسخ‌های دیگران';
+        }
+    }
+
+    // React to answers (like/dislike)
+    function reactToAnswer(answerId, type, button) {
+        const url = `{{ route('pwa.simple.practice.answer.signal', ['quiz_id' => $item->id, 'answer_id' => '__ANSWER_ID__']) }}`.replace('__ANSWER_ID__', answerId);
+        
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                type: type
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Update the button state and count
+                const countSpan = button.querySelector('.reaction-count');
+                let currentCount = parseInt(countSpan.textContent);
+                
+                if (button.classList.contains('active')) {
+                    button.classList.remove('active');
+                    countSpan.textContent = Math.max(0, currentCount - 1);
+                } else {
+                    button.classList.add('active');
+                    countSpan.textContent = currentCount + 1;
+                    
+                    // Remove active state from opposite button
+                    const oppositeType = type === 'like' ? 'dislike' : 'like';
+                    const oppositeBtn = button.parentElement.querySelector(`.${oppositeType}-btn`);
+                    if (oppositeBtn && oppositeBtn.classList.contains('active')) {
+                        oppositeBtn.classList.remove('active');
+                        const oppositeCount = oppositeBtn.querySelector('.reaction-count');
+                        oppositeCount.textContent = Math.max(0, parseInt(oppositeCount.textContent) - 1);
+                    }
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error reacting to answer:', error);
+        });
+    }
+
+    // Load more answers
+    function loadMoreAnswers(button) {
+        const url = button.dataset.url;
+        const container = button.parentElement;
+        
+        button.textContent = 'در حال بارگذاری...';
+        button.disabled = true;
+        
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.text())
+        .then(html => {
+            // Remove the load more button
+            button.remove();
+            
+            // Append new content
+            container.insertAdjacentHTML('beforeend', html);
+        })
+        .catch(error => {
+            console.error('Error loading more answers:', error);
+            button.textContent = 'خطا در بارگذاری';
+            button.disabled = false;
+        });
+    }
+
+    // Download attachment
+    function downloadAttachment(url) {
+        window.open(url, '_blank');
+    }
+
+    // Signal request function
     function signalRequest(iid, type) {
         var url = '{{ $item->signal_url }}';
         var params = 'itemId=' + encodeURIComponent(iid) + '&type=' + encodeURIComponent(type);
@@ -608,6 +760,11 @@
         xhr.open('GET', url + '?' + params, true);
         xhr.send();
     }
+
+    // Signal page visit on load
+    window.addEventListener('load', function() {
+        signalRequest('{{ $item->entity->id }}', 'visited');
+    });
 </script>
 </body>
 

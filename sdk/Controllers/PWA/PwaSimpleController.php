@@ -11,6 +11,7 @@ use Ls\ClientAssistant\Utilities\Modules\V3\LMSProductItem;
 use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
 use Ls\ClientAssistant\Utilities\Modules\V3\Quiz;
 use Ls\ClientFramework\Transformers\Panel\ProductItemPracticeTransformer;
+use Ls\ClientAssistant\Transformers\PWA\PracticeAnswerTransformer;
 
 class PwaSimpleController
 {
@@ -97,28 +98,77 @@ class PwaSimpleController
         }
 
         $item = PracticeTransformer::item($response, $prev, $next);
-
+        dd($item);
         return WebResponse::view('sdk.pwa.simple.practice.screen', compact('item','data'));
     }
 
     public function practice_store(int $quizId, int $questionId, Request $request)
     {
-        if (empty($request->answer)) {
+        if (empty($request->answer) && empty($request->attachment)) {
             return JsonResponse::unprocessableEntity('پاسخی ارسال نشد.');
+        }
+
+        // Handle different answer types
+        $answerData = $request->answer;
+        
+        // If it's a file upload, handle the attachment
+        if ($request->hasFile('attachment')) {
+            // File upload logic would go here
+            // For now, we'll use a placeholder
+            $answerData = 'file_uploaded'; // This should be replaced with actual file handling
         }
 
         $response = Quiz::storeAnswer(
             ModuleFilter::new()
                 ->otherParams('quiz_id', $quizId)
                 ->otherParams('question_id', $questionId)
-                ->otherParams('answer', $request->answer)
+                ->otherParams('answer', $answerData)
         );
 
-        dd($response);
         if (! $response->get('success')) {
-            return JsonResponse::json($response->get('message') , $response->get('status_code'));
+            return JsonResponse::json($response->get('message'), $response->get('status_code'));
         }
 
         return JsonResponse::success('پاسخ شما با موفقیت ثبت شد.');
+    }
+
+    public function practice_answers(int $quizId, int $questionId, Request $request)
+    {
+        $response = Quiz::listAnswer(
+            ModuleFilter::new()
+                ->otherParams('quiz_id', $quizId)
+                ->search('question_id', $questionId)
+                ->search('status', 'pending,correct,incorrect,semi_correct', 'in')
+                ->searchJoin()
+                ->includes('user.media', 'question', 'reactions', 'answersheet.corrector.media')
+                ->otherParams('question_id', $questionId)
+                ->orderBy('point', 'created_at')
+                ->sortedBy('desc')
+                ->page($request->get('page', 1))
+                ->perPage($request->get('per_page', 10))
+        );
+
+        if (! $response->get('success')) {
+            return JsonResponse::json($response->get('message'), $response->get('status_code'));
+        }
+
+        $answers = PracticeAnswerTransformer::collection($response);
+
+        return JsonResponse::ajaxView('sdk.pwa.simple.practice._partials._other-answers',
+            compact('answers')
+        );
+    }
+
+    public function practice_answer_signal(int $quizId, int $answerId, Request $request)
+    {
+        Quiz::signalAnswer(
+            $answerId,
+            ModuleFilter::new()
+                ->otherParams('quiz_id', $quizId)
+                ->otherParams('type', $request->type)
+                ->otherParams('value', 1)
+        );
+
+        return JsonResponse::success('با موفقیت ثبت شد.');
     }
 }
