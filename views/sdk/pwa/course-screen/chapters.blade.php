@@ -156,37 +156,46 @@
                         <?php    $si = 1;?>
                         <div class="list-accordions tpad10 bpad">
                             @foreach($ch['items'] as $item)
-                                    <?php
-                                    $itemUrl = match($item['type']) {
-                                        7 => site_url("pwa/simple/practice/{$item['id']}/screen"), // Kata/Practice
-                                        default => site_url("pwa/simple/video/{$item['id']}/screen") // Video/Text/etc
-                                    };
-                                    ?>
-                                <a href="<?=$itemUrl?>"
-                                   class="itemlink empty <?=$item['log_type'] ?? ''?> <?=($item['id'] == ($_GET['i']??'*')) ? 'default' : ''?>" data-iid="<?=$item['id']?>" data-pid="<?=$item['product_id']?>"
-                                    data-chid="<?=$item['parent_id']?>" data-t="<?=$item['log_type'] ?? ''?>">
-                                    <span
-                                        class="picon fa-solid icon <?=(($item['log_type'] ?? '') == 'completed') ? 'fa-circle-check' : 'fa-circle-play'?>"></span>
+                                @php
+                                    $isPractice = $item['type'] == 7;
+                                    $isCompleted = ($item['log_type'] ?? '') == 'completed';
+                                    $itemUrl = $isPractice 
+                                        ? site_url("pwa/simple/practice/{$item['id']}/screen")
+                                        : site_url("pwa/simple/video/{$item['id']}/screen");
+                                    $itemIcon = $isCompleted ? 'fa-circle-check' : ($isPractice ? 'fa-clipboard' : 'fa-circle-play');
+                                @endphp
+                                
+                                <a href="{{ $itemUrl }}"
+                                   class="itemlink empty {{ $item['log_type'] ?? '' }} {{ ($item['id'] == ($_GET['i'] ?? '*')) ? 'default' : '' }}" 
+                                   data-iid="{{ $item['id'] }}" 
+                                   data-pid="{{ $item['product_id'] }}"
+                                   data-chid="{{ $item['parent_id'] }}" 
+                                   data-t="{{ $item['log_type'] ?? '' }}">
+                                   
+                                    <span class="picon fa-solid icon {{ $itemIcon }}"></span>
 
                                     <span class="title">
                                         @if($course['items_count'] > 2)
                                             <span class="bold">
                                                 جلسه
-                                                <?=to_persian_num($si++)?>
+                                                {{ to_persian_num($si++) }}
                                                 :
                                             </span>
                                         @endif
-                                        <span class="search-target"><?=$item['title']?></span>
+                                        <span class="search-target">{{ $item['title'] }}</span>
                                     </span>
+                                    
                                     <div class="flex me-auto">
-                                        <span
-                                            class="time subtitle"><?=($item['attachment_duration_sum']) ? to_persian_num(round($item['attachment_duration_sum'] / 60)) . ' دقیقه' : '&nbsp;' ?></span>
+                                        <span class="time subtitle">
+                                            {{ $isPractice ? '' : (($item['attachment_duration_sum']) ? to_persian_num(round($item['attachment_duration_sum'] / 60)) . ' دقیقه' : '&nbsp;') }}
+                                        </span>
+                                        
                                         @if(isset($_GET['links']) and $user['isLmsManager'])
-                                            <?php            $itemLink = site_url("pwa/item/p{$item['product_id']}i{$item['id']}/screen") ?>
-                                            <span class="copy" data-copy="<?=$itemLink?>">
+                                            @php $itemLink = site_url("pwa/item/p{$item['product_id']}i{$item['id']}/screen"); @endphp
+                                            <span class="copy" data-copy="{{ $itemLink }}">
                                                 <i class="fa-solid fa-copy"></i>
                                             </span>
-                                            <a class="copy" href="<?=$itemLink?>" target="_blank" data-copy="<?=$itemLink?>">
+                                            <a class="copy" href="{{ $itemLink }}" target="_blank">
                                                 <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                             </a>
                                         @endif
