@@ -1,5 +1,5 @@
-<!-- Question Section -->
-<section class="question-section" id="question-{{ $question->id }}">
+<!-- Question Item -->
+<div class="question-section" id="question-{{ $question->id }}">
     <div class="question-header">
         <span class="question-number">{{ $question->label }}</span>
         <span class="question-point">{{ $question->point }} نمره</span>
@@ -34,4 +34,4 @@
             @include('sdk.pwa.simple.practice._partials._answer-form', ['question' => $question])
         @endif
     </div>
-</section> 
+</div> 
