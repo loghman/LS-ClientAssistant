@@ -3,12 +3,14 @@
 namespace Ls\ClientAssistant\Controllers\PWA;
 
 use Illuminate\Http\Request;
+use Ls\ClientAssistant\Core\Router\JsonResponse;
 use Ls\ClientAssistant\Core\Router\WebResponse;
 use Ls\ClientAssistant\Transformers\PWA\VideoTransformer;
+use Ls\ClientAssistant\Transformers\PWA\PracticeTransformer;
 use Ls\ClientAssistant\Utilities\Modules\V3\LMSProductItem;
 use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
-use Ls\ClientAssistant\Transformers\PWA\PracticeTransformer;
 use Ls\ClientAssistant\Utilities\Modules\V3\Quiz;
+use Ls\ClientFramework\Transformers\Panel\ProductItemPracticeTransformer;
 
 class PwaSimpleController
 {
@@ -26,7 +28,7 @@ class PwaSimpleController
             $message = "شما به این دوره دسترسی ندارید...";
             return WebResponse::view('sdk.pwa.pages.403',compact('data','message'));
         }
-            
+
         $item = VideoTransformer::item($response);
         $item->type = (object)$response['data']['type'];
         $pagetitle = $item->title;
@@ -97,5 +99,26 @@ class PwaSimpleController
         $item = PracticeTransformer::item($response, $prev, $next);
 
         return WebResponse::view('sdk.pwa.simple.practice.screen', compact('item','data'));
+    }
+
+    public function practice_store(int $quizId, int $questionId, Request $request)
+    {
+        if (empty($request->answer)) {
+            return JsonResponse::unprocessableEntity('پاسخی ارسال نشد.');
+        }
+
+        $response = Quiz::storeAnswer(
+            ModuleFilter::new()
+                ->otherParams('quiz_id', $quizId)
+                ->otherParams('question_id', $questionId)
+                ->otherParams('answer', $request->answer)
+        );
+
+        dd($response);
+        if (! $response->get('success')) {
+            return JsonResponse::json($response->get('message') , $response->get('status_code'));
+        }
+
+        return JsonResponse::success('پاسخ شما با موفقیت ثبت شد.');
     }
 }
