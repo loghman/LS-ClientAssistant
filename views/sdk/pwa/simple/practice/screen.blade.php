@@ -89,7 +89,7 @@
 
         // Signal request function
         function signalRequest(iid, type) {
-            var url = '{{ $item->signal_url }}';
+            var url = '<?=site_url('ajax/item/signal')?>';
             var params = 'itemId=' + encodeURIComponent(iid) + '&type=' + encodeURIComponent(type);
             var xhr = new XMLHttpRequest();
             xhr.open('GET', url + '?' + params, true);
@@ -97,8 +97,8 @@
         }
 
         // Signal page visit on load
-        window.addEventListener('load', function() {
-            signalRequest('{{ $item->entity->id }}', 'visited');
+        document.addEventListener('DOMContentLoaded', function() {
+            signalRequest("{{ $item->entity->id }}", 'visited');
         });
     </script>
 </body>
