@@ -99,21 +99,6 @@ class PracticeTransformer extends BaseTransformer
         };
     }
 
-    private function attachments(?array $attachments): array
-    {
-        $array = [];
-
-        foreach ($attachments ?? [] as $attachment) {
-            $array[] = [
-                'title' => $attachment['title'] ?? $attachment['name'] ?? 'پیوست',
-                'url' => $attachment['url'],
-                'size' => $attachment['size'] ?? null
-            ];
-        }
-        
-        return $array;
-    }
-
     private function productItem(array $productItem): array
     {
         return [
@@ -144,9 +129,8 @@ class PracticeTransformer extends BaseTransformer
         }
 
         return match ($item['type']['name']) {
-            'Quiz' => route('panel.course.quiz', ['item_id' => $item['id']]),
-            'Kata' => route('panel.course.practice', ['item_id' => $item['id']]),
-            default => route('panel.course.video', ['item_id' => $item['id']])
+            'Kata' => route('pwa.simple.practice.screen', ['item_id' => $item['id']]),
+            default => route('pwa.simple.video', ['item_id' => $item['id']])
         };
     }
 

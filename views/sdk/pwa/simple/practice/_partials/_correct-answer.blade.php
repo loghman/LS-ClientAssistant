@@ -11,7 +11,6 @@
         
         @if($item->creator)
             <div class="answer-author">
-                <img src="{{ $item->creator->avatar_url }}" alt="{{ $item->creator->name }}" class="author-avatar">
                 <div class="author-info">
                     <span class="author-name">{{ $item->creator->name }}</span>
                     <span class="answer-date">{{ $question->created_at }}</span>

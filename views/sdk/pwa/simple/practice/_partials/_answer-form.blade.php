@@ -17,7 +17,7 @@
                 <textarea
                     name="answer[text]"
                     class="editor-content"
-                    placeholder="متن خود را اینجا وارد کنید..."
+                    placeholder="پاسخ خود را اینجا وارد کنید..."
                     required></textarea>
             </div>
             @break

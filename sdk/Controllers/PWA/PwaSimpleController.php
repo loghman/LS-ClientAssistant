@@ -11,7 +11,6 @@ use Ls\ClientAssistant\Utilities\Modules\V3\LMSProductItem;
 use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
 use Ls\ClientAssistant\Utilities\Modules\V3\Quiz;
 use Ls\ClientFramework\Transformers\Panel\ProductItemPracticeTransformer;
-use Ls\ClientAssistant\Transformers\PWA\PracticeAnswerTransformer;
 
 class PwaSimpleController
 {
@@ -129,18 +128,5 @@ class PwaSimpleController
         }
 
         return JsonResponse::success('پاسخ شما با موفقیت ثبت شد.');
-    }
-
-    public function practice_answer_signal(int $quizId, int $answerId, Request $request)
-    {
-        Quiz::signalAnswer(
-            $answerId,
-            ModuleFilter::new()
-                ->otherParams('quiz_id', $quizId)
-                ->otherParams('type', $request->type)
-                ->otherParams('value', 1)
-        );
-
-        return JsonResponse::success('با موفقیت ثبت شد.');
     }
 }
