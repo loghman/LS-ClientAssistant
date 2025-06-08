@@ -15,14 +15,9 @@ class BannerPositionSliders extends Cacher
 
     public static function getBySlug($slug): Collection
     {
-        $today = Carbon::today()->toDateString();
-
         $base_filter = (new FilterBuilderService(self::$base))
             ->includeRelation(['banner_position'])
-            ->addComparisonFilter('starts_at', '<=', $today)
-            ->addComparisonFilter('ends_at', '>=', $today)
             ->addComparisonFilter('bannerPosition.slug', '=', $slug)
-            ->addSort('sort_order', 'desc')
             ->buildUrl();
 
         try {
