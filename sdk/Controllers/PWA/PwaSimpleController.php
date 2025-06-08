@@ -30,6 +30,10 @@ class PwaSimpleController
             return WebResponse::view('sdk.pwa.pages.403',compact('data','message'));
         }
 
+        if ($response->get('data')['type']['name'] === "Kata"){
+            redirect(route('pwa.simple.practice.screen',['item_id' => $item_id]));
+        }
+
         $item = VideoTransformer::item($response);
         $item->type = (object)$response['data']['type'];
         $pagetitle = $item->title;
@@ -81,7 +85,9 @@ class PwaSimpleController
             'product_item_id'
         );
 
-        if (! $response->get('success')) {
+        if (! $response->get('success'))
+        {
+            dd($response->get('status_code'));
             abort($response->get('status_code'), $response->get('message'));
         }
 
