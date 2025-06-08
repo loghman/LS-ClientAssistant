@@ -24,24 +24,15 @@
             
         @case('file')
             <input type="hidden" name="answer" value="{{ $uniqueId }}">
-            @if($question->allowed_file_formats)
-                <div class="file-upload">
-                    <label class="upload-btn">
-                        <span>📎</span>
-                        <span>افزودن پیوست</span>
-                        <input type="file"
-                               name="attachment"
-                               style="display: none;"
-                               accept="{{ implode(',', $question->allowed_file_formats) }}"
-                               data-max-size="{{ $question->max_file_size }}"
-                               onchange="handleFileSelect(this)"
-                               required>
-                    </label>
-                    <div class="selected-file" style="margin-top: 8px; font-size: 14px; color: #666;"></div>
-                </div>
-            @endif
+            @include('sdk._common.components.uploader', [
+                'uniqueId' => $uniqueId,
+                'id' => $question->id,
+                'collectionName' => 'attachment',
+                'maxSize' => $question->max_file_size,
+                'allowedFileFormats' => $question->allowed_file_formats,
+                'media_custom_rule' => 'quiz_questions,'.$question->id
+            ])
             @break
-            
         @case('repository')
             <div class="editor-container">
                 <input type="url" 

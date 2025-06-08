@@ -52,6 +52,7 @@
     @include('sdk._common.components.error-messages')
     @include('sdk.pwa._partials.scripts')
 
+
     <script>
         // File selection handler
         function handleFileSelect(input) {
