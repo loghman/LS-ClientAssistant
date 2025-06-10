@@ -23,24 +23,26 @@
             @break
             
         @case('file')
-            <input type="hidden" name="answer" value="{{ $uniqueId }}">
-            @include('sdk._common.components.uploader', [
-                'uniqueId' => $uniqueId,
-                'id' => $question->id,
-                'collectionName' => 'attachment',
-                'maxSize' => $question->max_file_size,
-                'allowedFileFormats' => $question->allowed_file_formats,
-                'media_custom_rule' => 'quiz_questions,'.$question->id
-            ])
+{{--            <input type="hidden" name="answer" value="{{ $uniqueId }}">--}}
+{{--            @include('sdk._common.components.uploader', [--}}
+{{--                'uniqueId' => $uniqueId,--}}
+{{--                'id' => $question->id,--}}
+{{--                'collectionName' => 'attachment',--}}
+{{--                'maxSize' => $question->max_file_size,--}}
+{{--                'allowedFileFormats' => $question->allowed_file_formats,--}}
+{{--                'media_custom_rule' => 'quiz_questions,'.$question->id--}}
+{{--            ])--}}
             @break
         @case('repository')
             <div class="editor-container">
                 <input type="url" 
                        name="answer" 
-                       class="editor-content" 
-                       placeholder="https://github.com/your-repository"
-                       style="min-height: auto; padding: 12px;"
+                       class="editor-content repository-input" 
+                       placeholder="https://github.com/username/repository-name"
                        required>
+                <small class="repository-hint">
+                    لینک مخزن کد خود را وارد کنید
+                </small>
             </div>
             @break
             

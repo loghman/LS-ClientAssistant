@@ -134,6 +134,30 @@
         border-color: #ddd;
     }
 
+    /* Repository Input */
+    .repository-input {
+        min-height: auto !important;
+        height: 46px;
+        padding: 12px;
+        margin-bottom: 16px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        transition: border-color 0.2s ease;
+    }
+
+    .repository-input:focus {
+        border-color: var(--primary);
+    }
+
+    .repository-hint {
+        display: block;
+        margin-top: -12px;
+        margin-bottom: 16px;
+        color: #666;
+        font-size: 12px;
+    }
+
     /* File Upload */
     .file-upload {
         margin-bottom: 16px;
