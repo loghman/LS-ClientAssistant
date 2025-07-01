@@ -94,22 +94,26 @@ class QPayController
 
     public function pay(Request $request)
     {
-        if (!$request->entity_id || !$request->entity_type || !$request->gateway) {
+        if (!$request->entity_id || !$request->entity_type) {
             return JsonResponse::unprocessableEntity('اطلاعات ارسال شده نامعتبر است.');
         }
 
+        $gateway = $request->gateway ? (int)$request->gateway : null;
         $response = Payment::qPay(
             $request->entity_type,
             $request->entity_id,
-            (int)$request->gateway,
-            site_url('payment/###payment_id###'),
-            $request->coupon
+            site_url('payment/callback'),
+            $gateway,
+            $request->coupon,
+            site_url('payment/verify')
         );
 
         return JsonResponse::json(
             $response->get('message'),
             $response->get('status_code'),
-            $response->get('success') ? $response->get('data') : $response->get('errors', [])
+            $response->get('success')
+                ? $response->get('data')['next_instruction']
+                : $response->get('errors', [])
         );
     }
 }

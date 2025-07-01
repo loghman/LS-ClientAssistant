@@ -2,10 +2,10 @@
 
 namespace Ls\ClientAssistant\Controllers;
 
+use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\Router\WebResponse;
 use Ls\ClientAssistant\Helpers\Config;
 use Ls\ClientAssistant\Utilities\Modules\Payment;
-use Illuminate\Http\Request;
 use Ls\ClientAssistant\Utilities\Modules\V3\Cart;
 use Ls\ClientAssistant\Utilities\Modules\V3\Gateway;
 use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
@@ -23,7 +23,7 @@ class PaymentController
 
     public function requestLink(int $cart, int $gateway)
     {
-        $res = Payment::requestLink($cart, $gateway, site_url('payment/###payment_id###'));
+        $res = Payment::requestLink($cart, $gateway, site_url('payment/callback'));
 
         if (!$res->get('success')) {
             $_SESSION['error_messages'] = (array)$res->get('message');
@@ -37,31 +37,36 @@ class PaymentController
     public function qPay(Request $request, ?int $gateway = null)
     {
         $gateway = $gateway ?? Gateway::getDefault()['id'];
-        $payback_url = $request->get('payback_url',site_url('payment/###payment_id###')); 
-        $res = Payment::qPay(
+        $payback_url = $request->get('payback_url', site_url('payment/callback'));
+        $res = V3Payment::qPay(
             base64_decode($request->get('et')),
             (int)$request->get('ei'),
-            $gateway,
             $payback_url,
+            $gateway,
             $request->get('coupon'),
         );
-        if (!$res->get('success')) {
-            $_SESSION['error_messages'] = (array)$res->get('message');
-            return new RedirectResponse(route('pwa.myCourses'), 302, []);
-        }
 
-        return new RedirectResponse($res['data']['link'], 302, []);
+        return WebResponse::view('sdk.salesflow.payment.redirect', [
+            'isSuccess' => $request->get('success'),
+            'message' => $res->get('message'),
+            'nextInstruction' => $res->get('data')['next_instruction'],
+        ]);
     }
 
-    public function callback(int|string $paymentId, Request $request)
+    public function callback(Request $request)
     {
-        if(!str_contains(site_url(), '7learn'))
-            return $this->pwa_callback($paymentId,$request); 
+        $paymentId = $request->get('payment_id');
 
-        if (!is_numeric($paymentId)) 
+        if (!is_numeric($paymentId))
             abort(404);
-        if ((int)$request->status === 0) 
+
+        if(!str_contains(site_url(), '7learn'))
+            return $this->pwa_callback($paymentId,$request);
+
+
+        if ((int)$request->status === 0)
             return WebResponse::redirect("payment/failed/$paymentId");
+
         return WebResponse::redirect("payment/succeed/$paymentId");
     }
 
@@ -71,7 +76,7 @@ class PaymentController
         $data = self::shered_data();
         // get payment object here
         $payment = V3Payment::get($paymentId)['data'];
-        $status = $payment['status'] === 'PAID';
+        $status = $payment['status'] === 'PAID' || $payment['status']['name'] === 'PAID';
         $pagetitle = $payment['amount']['main'] === 0 ? 'نتیجه ثبت‌نام' : 'نتیجه پرداخت';
         return WebResponse::view('sdk.pwa.pages.payback', compact('data','status','logo','payment','pagetitle'));
     }
@@ -121,6 +126,21 @@ class PaymentController
             'sdk.salesflow.invoice.index',
             compact('invoice')
         );
+    }
+
+    public function verify(Request $request)
+    {
+        $res = V3Payment::verify(
+            (int) $request->get('payment_id'),
+            $request->get('payment_hash'),
+            $request->except(['payment_id', 'payment_hash'])
+        );
+
+        return WebResponse::view('sdk.salesflow.payment.redirect', [
+            'isSuccess' => $request->get('success'),
+            'message' => $res->get('message'),
+            'nextInstruction' => $res->get('data')['next_instruction'],
+        ]);
     }
 
     private static function shered_data()

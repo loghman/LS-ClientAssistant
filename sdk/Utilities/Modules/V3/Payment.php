@@ -35,19 +35,39 @@ class Payment extends Cacher
     public static function qPay(
         string  $entityType,
         string  $entityId,
-        int  $gatewayId,
         string  $callback,
-        ?string $couponLabel = null
+        ?int  $gatewayId,
+        ?string $couponLabel = null,
+        ?string $verifyUrl = null,
     ): Collection {
         try {
-            return API::get(
-                "client/v3/salesflow/payment/quick/pay/{$gatewayId}",
+            return API::post(
+                'client/v3/salesflow/payment/quick/pay/',
                 [
                     'entity_type' => $entityType,
                     'entity_id' => $entityId,
-                    'backUrl' => $callback,
+                    'back_url' => $callback,
                     'coupon' => $couponLabel,
+                    'gateway' => $gatewayId,
+                    'verify_url' => $verifyUrl,
                 ]
+            );
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
+    public static function verify(
+        int $paymentId,
+        string $paymentHash,
+        array $data
+    ): Collection {
+        try {
+            return API::post(
+                "client/v3/salesflow/payment/{$paymentId}/verify",
+                array_merge(['hash' => $paymentHash], $data)
             );
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);

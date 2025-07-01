@@ -36,28 +36,4 @@ class Payment
             return Response::parseException($exception);
         }
     }
-
-    public static function qPay(
-        string  $entityType,
-        string  $entityId,
-        int  $gatewayId,
-        string  $callback,
-        ?string $couponLabel = null
-    ): Collection {
-        try {
-            return API::get(
-                "client/v3/salesflow/payment/quick/pay/{$gatewayId}",
-                [
-                    'entity_type' => $entityType,
-                    'entity_id' => $entityId,
-                    'backUrl' => $callback,
-                    'coupon' => $couponLabel,
-                ]
-            );
-        } catch (ClientException $exception) {
-            return Response::parseClientException($exception);
-        } catch (Exception $exception) {
-            return Response::parseException($exception);
-        }
-    }
 }

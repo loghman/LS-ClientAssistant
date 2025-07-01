@@ -339,7 +339,7 @@
                     body: JSON.stringify(data),
                 }).then(response => {
                     if (response.ok) {
-                        return response.json().then(data => window.location.href = data.data.link);
+                        return response.json().then(data => formRedirect(data.data));
                     } else {
                         return response.json().then(errorData => showMessage(errorData.message));
                     }
@@ -403,6 +403,26 @@
 
             function autoHeight() {
                 wizardCard.css('height', wizardCard.outerHeight() + 'px');
+            }
+
+            function formRedirect(data) {
+                const form = document.createElement('form');
+                form.method = data.method;
+                form.action = data.url;
+
+                for (const key in data['payload']) {
+                    if (data.hasOwnProperty(key)) {
+                        const hiddenField = document.createElement('input');
+                        hiddenField.type = 'hidden';
+                        hiddenField.name = key;
+                        hiddenField.value = data['payload'][key];
+
+                        form.appendChild(hiddenField);
+                    }
+                }
+
+                document.body.appendChild(form);
+                form.submit();
             }
         });
     </script>
