@@ -28,22 +28,22 @@ use Ls\ClientAssistant\Core\Middlewares\PwaMiddleware;
 
 $router->name('sitemap.')->group(function(Router $router) {
     $router->name('index')
-    ->get('/sitemap.xml', [SiteMapController::class, 'sitemap']);
-    
+        ->get('/sitemap.xml', [SiteMapController::class, 'sitemap']);
+
     $router->name('static')
-    ->get('/sitemap-static.xml', [SiteMapController::class, 'staticSiteMap']);
-    
+        ->get('/sitemap-static.xml', [SiteMapController::class, 'staticSiteMap']);
+
     $router->name('posts')
-    ->get('/sitemap-posts.xml', [SiteMapController::class, 'postsSiteMap']);
-    
+        ->get('/sitemap-posts.xml', [SiteMapController::class, 'postsSiteMap']);
+
     $router->name('pages')
-    ->get('/sitemap-pages.xml', [SiteMapController::class, 'pagesSiteMap']);
-    
+        ->get('/sitemap-pages.xml', [SiteMapController::class, 'pagesSiteMap']);
+
     $router->name('products')
-    ->get('/sitemap-lms-products.xml', [SiteMapController::class, 'lmsProductsSiteMap']);
+        ->get('/sitemap-lms-products.xml', [SiteMapController::class, 'lmsProductsSiteMap']);
 
     $router->name('hooks')
-    ->get('/sitemap-hooks.xml', [SiteMapController::class, 'siteMapHooks']);
+        ->get('/sitemap-hooks.xml', [SiteMapController::class, 'siteMapHooks']);
 });
 
 
@@ -156,7 +156,10 @@ $router->name('payment.')->prefix('payment')->group(function (Router $router) {
         ->middleware(AuthMiddleware::class);
 
     $router->name('callback')
-        ->get('/{paymentId}', [PaymentController::class, 'callback']);
+        ->get('/callback', [PaymentController::class, 'callback']);
+
+    $router->name('verify')
+        ->get('/verify', [PaymentController::class, 'verify']);
 
     $router->name('successForm')
         ->get('/succeed/{paymentId}', [PaymentController::class, 'successForm']);
@@ -186,10 +189,10 @@ $router->name('qpay.')->prefix('qpay')->group(function (Router $router) {
         ->middleware(AuthMiddleware::class);
 });
 
-$router->get('manifest.json', [PwaController::class, 'manifest']);  
-// $router->get('site.webmanifest', [PwaController::class, 'manifest']);  
+$router->get('manifest.json', [PwaController::class, 'manifest']);
+// $router->get('site.webmanifest', [PwaController::class, 'manifest']);
 
-$router->get('service-worker.js', [PwaController::class, 'service_worker']);  
+$router->get('service-worker.js', [PwaController::class, 'service_worker']);
 $router->name('pwa.')->prefix('pwa')->group(function (Router $router){
     $router->name('index')->get('',function(){redirect(site_url('pwa/dashboard'));});
     $router->name('sign')->get('/sign', action: [PwaAuthController::class, 'step1']);
@@ -211,22 +214,22 @@ $router->name('pwa.')->prefix('pwa')->group(function (Router $router){
         $router->name('practice.store')->post('/{quiz_id}/{question_id}/store', [PwaSimpleController::class, 'practice_store']);
 
         // practice
-         $router->name('practice.screen')->get('/practice/{item_id}/screen', [PwaSimpleController::class, 'practice_screen']);
+        $router->name('practice.screen')->get('/practice/{item_id}/screen', [PwaSimpleController::class, 'practice_screen']);
         // $router->name('practice.result')->get('/practice/{item_id}/result', [PwaSimpleController::class, 'practice_result']);
         // opus
         // $router->name('opus.form')->get('/opus/{product_id}/form', [PwaSimpleController::class, 'opus_form']);
 
     });
-    $router->name('courses')->get('courses', [PwaController::class, 'courses'])->middleware(PwaMiddleware::class); 
-    $router->name('course')->get('course/{slug}', [PwaController::class, 'course']); 
-    $router->name('cart')->get('cart', [PwaController::class, 'cart'])->middleware(PwaMiddleware::class); 
-    $router->name('payback')->get('payback/{payment_id}', [PaymentController::class, 'pwa_callback'])->middleware(PwaMiddleware::class); 
+    $router->name('courses')->get('courses', [PwaController::class, 'courses'])->middleware(PwaMiddleware::class);
+    $router->name('course')->get('course/{slug}', [PwaController::class, 'course']);
+    $router->name('cart')->get('cart', [PwaController::class, 'cart'])->middleware(PwaMiddleware::class);
+    $router->name('payback')->get('payback/{payment_id}', [PaymentController::class, 'pwa_callback'])->middleware(PwaMiddleware::class);
 
-    $router->name('blog')->get('blog', [PwaController::class, 'blog'])->middleware(PwaMiddleware::class); 
-    $router->name('blog.single')->get('blog/{id}', [PwaController::class, 'blog_single'])->middleware(PwaMiddleware::class); 
+    $router->name('blog')->get('blog', [PwaController::class, 'blog'])->middleware(PwaMiddleware::class);
+    $router->name('blog.single')->get('blog/{id}', [PwaController::class, 'blog_single'])->middleware(PwaMiddleware::class);
     $router->name('blog.single.addviews')->post('add-post-views', [PwaController::class, 'add_post_views']);
     $router->name('profile')->get('profile', [PwaController::class, 'profile'])->middleware(PwaMiddleware::class);
-    $router->name('logout')->get('logout', [PwaController::class, 'logout']); 
+    $router->name('logout')->get('logout', [PwaController::class, 'logout']);
     $router->name('offline')->get('/offline.html', [PwaController::class, 'offline']);
 });
 
@@ -237,8 +240,8 @@ $router->name('ajax.')->prefix('ajax')->group(function (Router $router){
     $router->name('myCourses.stats')->get('my-courses/stats', [AjaxController::class, 'myCoursesStats']);
     $router->name('item.reaction')->post('item/reaction', [AjaxController::class, 'itemReaction']);
     $router->name('quiz.answer')->post('/{quiz_id}/{question_id}/answer', [AjaxController::class, 'quizAnswer']);
-    $router->name('appLog')->get('appLog', [AjaxController::class, 'appLog']); 
-    $router->name('updatePassword')->post('/profile/update-password', [AjaxController::class, 'updatePassword']); 
+    $router->name('appLog')->get('appLog', [AjaxController::class, 'appLog']);
+    $router->name('updatePassword')->post('/profile/update-password', [AjaxController::class, 'updatePassword']);
 });
 
 
