@@ -94,7 +94,7 @@
             <div class="wpad tpad bpad" style="margin-top: -100px;z-index: 3;">
                 {{-- controlsList="nofullscreen" --}}
                 @if($item->video)
-                <div class="playerbox base-radius">
+                <div data-drm-text="{{ current_user()['mobile'] ?? current_user()['email'] }}" class="playerbox base-radius">
                     @if($item->video->stream_url)
                         {{-- TODO: TOFIX --}}
                         <script src="{{ $item->video->stream_url }}"></script>
@@ -173,6 +173,7 @@
     <script type="module" src="{{ core_asset('resources/assets/minimal-landing/js/client.js') }}"></script>
     @include('sdk._common.components.error-messages')
     @include('sdk.pwa._partials.scripts')
+     <script type="module"  src="{{ getViteAssetUrl('resources/js/utilities/video-drm-text.js') }}"></script>
     <script>
         const video = document.getElementById('itemPlayer');
         let isSeeking = false;
