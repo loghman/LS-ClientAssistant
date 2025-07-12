@@ -65,7 +65,7 @@
             <div class="accordions">
                 <div class="accordion expanded" data-iid="{{ $item->id }}" data-pid="{{ $item->product_id }}">
                     <div class="content">
-                        <div class="playerbox">
+                        <div data-drm-text="{{ current_user()['mobile'] ?? current_user()['email'] }}" class="playerbox">
                             @if($item->video && $item->video->stream_url)
                                 <script src="{{ $item->video->stream_url }}"></script>
                             @elseif($item->video && $item->video->video_url)

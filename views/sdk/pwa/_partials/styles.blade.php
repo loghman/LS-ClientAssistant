@@ -1487,6 +1487,8 @@
 
     .playerbox {
         background: var(--primary-20);
+        position:relative;
+        overflow:hidden;
     }
     .ext {
         color: #ffffff;

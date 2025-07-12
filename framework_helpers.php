@@ -1475,7 +1475,7 @@ function enrollmentNextItemUrl($enrollment) {
     }
     $enroll_id = $enrollment['id'];
     $product_id = $enrollment['entity_id'];
-    $nextItemId = $enrollment['last_seen_item']['item_id'];
+    $nextItemId = $enrollment['last_seen_item']['item_id']??null;
     // old  panel just for madamcakes
     if(str_contains(site_url(), 'madamcake'))
         return site_url("pwa/course-{$product_id}/screen?e={$enroll_id}");

@@ -1,5 +1,5 @@
 @if(in_array($item['type'],[2,3]))
-    <div class="playerbox">
+    <div data-drm-text="{{ current_user()['mobile'] ?? current_user()['email'] }}" class="playerbox">
     @if($data['player_type'] == 'arvan')
         <iframe id="ir1p" frameborder="0" title="<?=$item['title']?>" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         src="https://player.arvancloud.ir/index.html?config=<?=$data['arvanUrl']?>" allowfullscreen></iframe>
