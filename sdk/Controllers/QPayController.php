@@ -105,7 +105,6 @@ class QPayController
             site_url('payment/callback'),
             $gateway,
             $request->coupon,
-            site_url('payment/verify')
         );
 
         return JsonResponse::json(
