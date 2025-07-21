@@ -411,7 +411,7 @@
                 form.action = data.url;
 
                 for (const key in data['payload']) {
-                    if (data.hasOwnProperty(key)) {
+                    if (Object.prototype.hasOwnProperty.call(data['payload'], key)) {
                         const hiddenField = document.createElement('input');
                         hiddenField.type = 'hidden';
                         hiddenField.name = key;
