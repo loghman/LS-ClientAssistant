@@ -25,6 +25,12 @@ use Ls\ClientAssistant\Controllers\PWA\PwaController;
 use Ls\ClientAssistant\Controllers\PWA\AjaxController;
 use Ls\ClientAssistant\Controllers\PWA\PwaAuthController;
 use Ls\ClientAssistant\Core\Middlewares\PwaMiddleware;
+use Ls\ClientAssistant\Controllers\ProviderController;
+
+$router->name('provider.')->prefix('provider')->group(function(Router $router) {
+    $router->name('product-feed')
+    ->get('/product-feed', [ProviderController::class, 'productFeed']);
+});
 
 $router->name('sitemap.')->group(function(Router $router) {
     $router->name('index')
