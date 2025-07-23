@@ -19,7 +19,7 @@ class ProductFeedTransformer extends BaseTransformer
             'title' => $main['title'],
             'subtitle' => $main['meta']['short_description'] ?? $main['description']['short'] ?? '',
             'link' => site_url("course/{$main['slug']}"),
-            'image_link' => $main['banner']['url'],
+            'image_link' => $main['banner']['url'] ?? null,
             'availability' => $this->getAvailabilityStatus($main),
             'regular_price' => $this->getRegularPrice($main),
             'sale_price' => $this->getSalePrice($main),

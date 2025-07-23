@@ -13,7 +13,9 @@ class ProviderController
     public function productFeed(Request $request)
     {
         try {
-            $filter = (new ModuleFilter())->includes("category");
+            $filter = (new ModuleFilter())
+                ->includes("category")
+                ->page($request->page);
 
             $response = LMSProduct::list($filter);
 
