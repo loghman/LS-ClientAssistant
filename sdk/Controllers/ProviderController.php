@@ -21,7 +21,8 @@ class ProviderController
             } else {
                 $filter = (new ModuleFilter())
                     ->includes("category")
-                    ->page($request->page?? 1);
+                    ->perPage(300)
+                    ->page($request->page ?? 1);
 
                 $response = LMSProduct::list($filter);
                 
