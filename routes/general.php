@@ -1,30 +1,31 @@
 <?php
-use Ls\ClientAssistant\Controllers\PWA\PwaSimpleController;
-use Ls\ClientAssistant\Controllers\QPayController;
-use Ls\ClientAssistant\Controllers\UploadController;
-use Ls\ClientAssistant\Services\ObjectCache;
-use Ls\ClientAssistant\Core\StaticCache;
+
+use Illuminate\Http\Request;
+use Illuminate\Routing\Router;
 use Ls\ClientAssistant\Controllers\AuthController;
+use Ls\ClientAssistant\Controllers\AuthInformationController;
 use Ls\ClientAssistant\Controllers\AuthVerificationController;
+use Ls\ClientAssistant\Controllers\CartController;
+use Ls\ClientAssistant\Controllers\HookController;
+use Ls\ClientAssistant\Controllers\MiniLandingController;
 use Ls\ClientAssistant\Controllers\OnboardingController;
 use Ls\ClientAssistant\Controllers\PageController;
 use Ls\ClientAssistant\Controllers\PanelController;
-use Ls\ClientAssistant\Controllers\WorkflowFormController;
-use Ls\ClientAssistant\Controllers\CartController;
 use Ls\ClientAssistant\Controllers\PaymentController;
-use Ls\ClientAssistant\Controllers\HookController;
-use Ls\ClientAssistant\Core\API;
-use Illuminate\Http\Request;
-use Ls\ClientAssistant\Core\Middlewares\AuthMiddleware;
-use Ls\ClientAssistant\Core\Router\JsonResponse;
-use Illuminate\Routing\Router;
-use Ls\ClientAssistant\Controllers\MiniLandingController;
-use Ls\ClientAssistant\Controllers\SiteMapController;
-
-use Ls\ClientAssistant\Controllers\PWA\PwaController;
 use Ls\ClientAssistant\Controllers\PWA\AjaxController;
 use Ls\ClientAssistant\Controllers\PWA\PwaAuthController;
+use Ls\ClientAssistant\Controllers\PWA\PwaController;
+use Ls\ClientAssistant\Controllers\PWA\PwaSimpleController;
+use Ls\ClientAssistant\Controllers\QPayController;
+use Ls\ClientAssistant\Controllers\SiteMapController;
+use Ls\ClientAssistant\Controllers\UploadController;
+use Ls\ClientAssistant\Controllers\WorkflowFormController;
+use Ls\ClientAssistant\Core\API;
+use Ls\ClientAssistant\Core\Middlewares\AuthMiddleware;
 use Ls\ClientAssistant\Core\Middlewares\PwaMiddleware;
+use Ls\ClientAssistant\Core\Router\JsonResponse;
+use Ls\ClientAssistant\Core\StaticCache;
+use Ls\ClientAssistant\Services\ObjectCache;
 
 $router->name('sitemap.')->group(function(Router $router) {
     $router->name('index')
@@ -244,11 +245,19 @@ $router->name('ajax.')->prefix('ajax')->group(function (Router $router){
     $router->name('updatePassword')->post('/profile/update-password', [AjaxController::class, 'updatePassword']);
 });
 
-
-
 // this route must be at the end of file
 $router->get('/assets/ckstyle.css', [PageController::class, 'ckStyles']);
 $router->get('/{slug}', [PageController::class, 'find']);
 
 $router->post('/upload/store-fake', [UploadController::class, 'storeFake']);
 $router->post('/upload/store/{entity_type}/{entity_id}', [UploadController::class, 'store']);
+
+$router->prefix('auth')->name('auth.')->group(function (Router $router) {
+    $router->name('updateEmail')
+        ->post('/email/update', [AuthInformationController::class, 'updateEmail'])
+        ->middleware(AuthMiddleware::class);
+
+    $router->name('updateMobile')
+        ->post('/mobile/update', [AuthInformationController::class, 'updateMobile'])
+        ->middleware(AuthMiddleware::class);
+});
