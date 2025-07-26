@@ -22,6 +22,7 @@ class ProviderController
                 $filter = (new ModuleFilter())
                     ->includes("category")
                     ->perPage(300)
+                    ->includes('mainTeacherFaculty')
                     ->page($request->page ?? 1);
 
                 $response = LMSProduct::list($filter);

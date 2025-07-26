@@ -6,6 +6,9 @@ use Ls\ClientAssistant\Utilities\Tools\ArrayHelper;
 
 class ProductFeedTransformer extends BaseTransformer
 {
+    private const IN_STOKE = 'in stock';
+    private const OUT_OF_STOKE = 'in stock';
+
     public function transform(): array
     {
         $main = (array)$this->resource;
@@ -15,7 +18,7 @@ class ProductFeedTransformer extends BaseTransformer
         }
 
         ArrayHelper::add($main, [
-            'id'            => $main['id'] ?? $main['slug'] ?? null,
+            'id'            => $main['slug'] ?? null,
             'title'         => $main['title'],
             'subtitle'      => $main['title'],
             'link'          => site_url("course/{$main['slug']}"),
@@ -24,13 +27,18 @@ class ProductFeedTransformer extends BaseTransformer
             'regular_price' => $this->getRegularPrice($main),
             'sale_price'    => $this->getSalePrice($main),
             'category'      => $main['category']['name_fa'],
-            'description'   => $main['description']['full'] ?? '',
+            'description'   => [
+                'duration' => 'ساعت ' . to_persian_num($main['attachment_duration_sum']['hours'] ?? 0),
+                'teacher'           => $main['mainTeacherFaculty']['full_name'],
+                'short_description' => $main['meta']['short_description'] ?? null,
+                'session_count'     => to_persian_num($main['item_count']).' جلسه'
+            ],
             'brand'         => setting('brand_name_fa')
         ]);
 
         $requiredFields = [
             'id', 'title', 'subtitle', 'link', 'image_link',
-            'availability', 'regular_price', 'sale_price', 'category', 'description','brand'
+            'availability', 'regular_price', 'sale_price', 'category', 'description', 'brand'
         ];
 
         $result = [];
@@ -47,10 +55,10 @@ class ProductFeedTransformer extends BaseTransformer
         $dontList = $product['dont_list'] ?? false;
 
         if ($isOnSale && !$dontList) {
-            return 'in stock';
+            return self::IN_STOKE;
         }
 
-        return 'out of stock';
+        return self::OUT_OF_STOKE;
     }
 
     private function getRegularPrice(array $product): ?int
