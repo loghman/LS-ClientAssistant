@@ -9706,6 +9706,6 @@ input[type=radio]) {
     </div>
 
     <script src="{{ asset_url('js/jquery.min.js') }}"></script>
-    <script type="module" src="{{ core_asset('resources/assets/js/jss.js') }}"></script>
+    <script type="module" src="{{ core_asset('resources/assets/js/app/jss.js') }}"></script>
     @stack('footer')
 @endsection

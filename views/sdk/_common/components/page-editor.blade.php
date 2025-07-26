@@ -10,7 +10,7 @@
     <meta name="user_token" content="{{ current_user_token() }}">
 
     <link rel="stylesheet" href="{{ core_asset('resources/assets/js/plugins/ckeditor/ckeditor.css') }}">
-    <script src="{{ core_asset('resources/assets/js/clients-pageEditor.js') }}" type="module"></script>
+    <script src="{{ core_asset('resources/assets/js/clients/clients-pageEditor.js') }}" type="module"></script>
 
     <div class="modal page-editor-modal lg" id="modal-editor"></div>
 @endif

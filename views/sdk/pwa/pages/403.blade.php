@@ -66,7 +66,7 @@
 
     @include('sdk.pwa._partials.bottom-nav')
     @include('sdk._common.components.error-messages')
-    <script type="module" src="{{ core_asset('resources/assets/js/jquery.js') }}"></script>
+    <script type="module" src="{{ core_asset('resources/assets/js/plugins/jquery.js') }}"></script>
     <script type="module" src="{{ core_asset('resources/assets/js/jss.js') }}"></script>
     
 </body>
