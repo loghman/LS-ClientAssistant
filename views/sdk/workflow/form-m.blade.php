@@ -67,7 +67,7 @@
                        placeholder="yourName@domain.com">
             </div>
         @endif
-        <button type="submit" class="w-100 mt-xs">
+        <button type="submit" id="form-{{trim($workflowData['name_en'])}}" class="w-100 mt-xs">
             <span>ثبت و ارسال نهایی</span><i class="si-arrow-left-r"></i>
         </button>
     </div>

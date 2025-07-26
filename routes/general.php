@@ -23,9 +23,15 @@ use Ls\ClientAssistant\Controllers\WorkflowFormController;
 use Ls\ClientAssistant\Core\API;
 use Ls\ClientAssistant\Core\Middlewares\AuthMiddleware;
 use Ls\ClientAssistant\Core\Middlewares\PwaMiddleware;
+use Ls\ClientAssistant\Controllers\ProviderController;
 use Ls\ClientAssistant\Core\Router\JsonResponse;
 use Ls\ClientAssistant\Core\StaticCache;
 use Ls\ClientAssistant\Services\ObjectCache;
+
+$router->name('provider.')->prefix('provider')->group(function(Router $router) {
+    $router->name('product-feed')
+    ->get('/product-feed', [ProviderController::class, 'productFeed']);
+});
 
 $router->name('sitemap.')->group(function(Router $router) {
     $router->name('index')
