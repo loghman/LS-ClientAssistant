@@ -7,7 +7,7 @@ use Ls\ClientAssistant\Utilities\Tools\ArrayHelper;
 class ProductFeedTransformer extends BaseTransformer
 {
     private const IN_STOKE = 'in stock';
-    private const OUT_OF_STOKE = 'in stock';
+    private const OUT_OF_STOKE = 'out of stock';
 
     public function transform(): array
     {
@@ -18,7 +18,7 @@ class ProductFeedTransformer extends BaseTransformer
         }
 
         ArrayHelper::add($main, [
-            'id'            => $main['slug'] ?? null,
+            'id'            => $main['hash_id'],
             'title'         => $main['title'],
             'subtitle'      => $main['title'],
             'link'          => site_url("course/{$main['slug']}"),
@@ -51,8 +51,8 @@ class ProductFeedTransformer extends BaseTransformer
 
     private function getAvailabilityStatus(array $product): string
     {
-        $isOnSale = $product['is_on_sale'] ?? false;
-        $dontList = $product['dont_list'] ?? false;
+        $isOnSale = $product['is_on_sale'];
+        $dontList = $product['dont_list'];
 
         if ($isOnSale && !$dontList) {
             return self::IN_STOKE;
