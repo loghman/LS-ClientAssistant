@@ -96,8 +96,8 @@
 
     @include('sdk.pwa._partials.bottom-nav')
     @include('sdk._common.components.error-messages')
-    <script type="module" src="{{ core_asset('resources/assets/js/jquery.js') }}"></script>
-    <script type="module" src="{{ core_asset('resources/assets/js/jss.js') }}"></script>
+    <script type="module"  src="{{ getViteAssetUrl('resources/js/utilities/jquery.js') }}"></script>
+    <script type="module" src="{{ core_asset('resources/assets/js/app/jss.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('a[data-jsc="footer.update-password"]')?.addEventListener('click', () => {
