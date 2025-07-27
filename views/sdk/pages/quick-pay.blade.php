@@ -18,7 +18,7 @@
         </div>
 
     </div>
-    <script type="module" src="{{ core_asset('resources/assets/js/plugins/jquery.js') }}"></script>
+    <script type="module"  src="{{ getViteAssetUrl('resources/js/utilities/jquery.js') }}"></script>
     <script type="module" src="{{ core_asset('resources/assets/minimal-landing/js/client.js') }}"></script>
     @include('sdk._common.components.error-messages')
 @endsection

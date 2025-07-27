@@ -49,6 +49,10 @@ export default defineConfig({
           __dirname,
           "./views/vue-apps/assets/css/auth.scss"
         ),
+        jquery: path.resolve(
+          __dirname,
+          "./resources/js/utilities/jquery.js"
+        ),
       },
     },
     // Disable generating HTML files
