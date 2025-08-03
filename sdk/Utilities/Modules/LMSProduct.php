@@ -309,6 +309,17 @@ class LMSProduct extends ModuleUtility
         }
     }
 
+    public static function isProductItemLocked(int $itemId, string $userToken): Collection
+    {
+        try {
+            return API::get(sprintf('v1/lms/product-item/%s/is-locked', $itemId));
+        } catch (ClientException $exception) {
+            return Response::parseClientException($exception);
+        } catch (\Exception $exception) {
+            return Response::parseException($exception);
+        }
+    }
+
     public static function types(bool $onSale = false): Collection
     {
         try {
