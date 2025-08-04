@@ -25,13 +25,27 @@ class AjaxController
 
         // $start = microtime(true);
         $key = __FILE__.__LINE__.$chapter_id;
-        if(ObjectCache::exists($key)){
+        if(ObjectCache::exists($key) and !in_array($product_id,[103])){
             $chapter = ObjectCache::get($key);
         }else{
-            $chapter = ObjectCache::write($key, LMSProduct::chapter((int) $product_id, (int) $chapter_id, ['attachments'])['data']);
+            $chapter = LMSProduct::chapter((int) $product_id, (int) $chapter_id, ['attachments'])['data'];
+            if(!empty($chapter)){
+                 ObjectCache::write($key, $chapter);
+            }
         }
-        // echo (microtime(true) - $start) . 'ms';
-
+        
+        if(empty($chapter)){
+            if(is_logged_in()){
+            echo "<p style='padding:5px 10px'>شما به این دوره دسترسی ندارید و باید آنرا تهیه کنید<br>
+                <a class='btn sm primary' style='margin 20px auto;display:block;padding:5px 20px' href='/pwa/courses'>لیست دوره ها</a>
+            </p>";
+            }else{
+            echo "<p style='padding:5px 10px'>فقط خریداران دوره می توانند با ورود به سایت این محتوا را ببینند.<br>
+                <a class='btn sm primary' style='margin 20px auto;display:block;padding:5px 20px' href='/pwa/auth'>ورود به سایت</a>
+            </p>";
+            }
+            exit();
+        }
 
         if (!$chapter) {
             abort(404, 'سرفصل مورد نظر شما پیدا نشد');
