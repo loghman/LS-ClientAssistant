@@ -43,6 +43,10 @@ $router->name('sitemap.')->group(function(Router $router) {
     $router->name('posts')
         ->get('/sitemap-posts.xml', [SiteMapController::class, 'postsSiteMap']);
 
+    $router->name('posts.paginated')
+        ->get('/sitemap-posts-page{page}.xml', [SiteMapController::class, 'postsSiteMapPaginated'])
+        ->where('page', '[0-9]+');
+
     $router->name('pages')
         ->get('/sitemap-pages.xml', [SiteMapController::class, 'pagesSiteMap']);
 

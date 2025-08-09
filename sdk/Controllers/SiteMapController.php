@@ -14,15 +14,26 @@ class SiteMapController
     public function sitemap()
     {
         Sitemap::cache('index');
+        
+        // Get total pages for posts sitemap
+        $totalPages = $this->getPostsTotalPages();
+        
         $siteMaps = [
             [
                 'loc' => site_url('sitemap-static.xml'),
                 'lastmod' => '2024-05-07T19:12:26+03:30'
-            ],
-            [
-                'loc' => site_url('sitemap-posts.xml'),
+            ]
+        ];
+        
+        // Add paginated posts sitemaps
+        for ($page = 1; $page <= $totalPages; $page++) {
+            $siteMaps[] = [
+                'loc' => site_url("sitemap-posts-page{$page}.xml"),
                 'lastmod' => '2024-05-07T19:12:26+03:30'
-            ],
+            ];
+        }
+        
+        $siteMaps = array_merge($siteMaps, [
             [
                 'loc' => site_url('sitemap-pages.xml'),
                 'lastmod' => '2024-05-07T19:12:26+03:30'
@@ -35,8 +46,26 @@ class SiteMapController
                 'loc' => site_url('sitemap-hooks.xml'),
                 'lastmod' => '2024-05-07T19:12:26+03:30'
             ],
-        ];
+        ]);
+        
         WebResponse::sitemap('index', $siteMaps);
+    }
+
+    private function getPostsTotalPages(): int
+    {
+        $filters = [
+            'type' => ['post', 'qa', 'video', 'podcast', 'terminology'],
+            'status' => 'published',
+        ];
+
+        // Get first page to get total count from pagination meta
+        $response = CMS::queryParams([
+            'filters' => $filters,
+            'page' => 1
+        ], [], [], 1);
+
+        $total = $response['data']['total'] ?? 0;
+        return (int) ceil($total / 100); // 100 posts per page
     }
 
     public function staticSiteMap()
@@ -47,7 +76,13 @@ class SiteMapController
     }
     public function postsSiteMap()
     {
-        Sitemap::cache('posts');
+
+        return $this->postsSiteMapPaginated(1);
+    }
+
+    public function postsSiteMapPaginated(int $page = 1)
+    {
+        Sitemap::cache("posts-page{$page}");
         $filters = [
             'type' => ['post', 'qa', 'video', 'podcast', 'terminology'],
             'status' => 'published',
@@ -55,7 +90,10 @@ class SiteMapController
             'dir' => 'desc',
         ];
 
-        $posts = CMS::queryParams(['filters' => $filters], [
+        $posts = CMS::queryParams([
+            'filters' => $filters,
+            'page' => $page
+        ], [
             [
                 [
                     'columns' => [
@@ -69,9 +107,9 @@ class SiteMapController
                     ]
                 ]
             ]
-        ], [], 1000)['data']['data'];
+        ], [], 100)['data']['data'];
 
-        WebResponse::sitemap('posts', $posts);
+        WebResponse::sitemap('posts', $posts, "posts-page{$page}");
     }
 
     public function pagesSiteMap()
