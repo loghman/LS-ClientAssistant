@@ -3,6 +3,7 @@
 namespace Ls\ClientAssistant\Controllers;
 
 use Ls\ClientAssistant\Core\Router\WebResponse;
+use Ls\ClientAssistant\Services\SitemapService;
 use Ls\ClientAssistant\Utilities\Modules\V3\Hook;
 use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
 use Ls\ClientAssistant\Utilities\Modules\CMS;
@@ -11,16 +12,16 @@ use Ls\ClientAssistant\Utilities\Tools\Sitemap;
 
 class SiteMapController
 {
+
+    public function __construct(private SitemapService $sitemapService)
+    {
+    }
     public function sitemap()
     {
         Sitemap::cache('index');
         $siteMaps = [
             [
                 'loc' => site_url('sitemap-static.xml'),
-                'lastmod' => '2024-05-07T19:12:26+03:30'
-            ],
-            [
-                'loc' => site_url('sitemap-posts.xml'),
                 'lastmod' => '2024-05-07T19:12:26+03:30'
             ],
             [
@@ -36,6 +37,10 @@ class SiteMapController
                 'lastmod' => '2024-05-07T19:12:26+03:30'
             ],
         ];
+        
+        $paginatedPostsUrls = $this->sitemapService->generatePaginatedPostsSitemapUrls();
+        $siteMaps = array_merge($siteMaps, $paginatedPostsUrls);
+        
         WebResponse::sitemap('index', $siteMaps);
     }
 
@@ -47,31 +52,12 @@ class SiteMapController
     }
     public function postsSiteMap()
     {
-        Sitemap::cache('posts');
-        $filters = [
-            'type' => ['post', 'qa', 'video', 'podcast', 'terminology'],
-            'status' => 'published',
-            'order-by' => 'published_at',
-            'dir' => 'desc',
-        ];
+        $this->sitemapService->generateDefaultPostsSitemap();
+    }
 
-        $posts = CMS::queryParams(['filters' => $filters], [
-            [
-                [
-                    'columns' => [
-                        'title',
-                        'slug',
-                        'thumbnail',
-                        'content',
-                        'updated_at',
-                        'published_at',
-                        'meta'
-                    ]
-                ]
-            ]
-        ], [], 1000)['data']['data'];
-
-        WebResponse::sitemap('posts', $posts);
+    public function postsSiteMapPaginated(int $page = 1)
+    {
+        $this->sitemapService->generatePostsSitemap($page);
     }
 
     public function pagesSiteMap()
