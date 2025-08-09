@@ -118,7 +118,13 @@ if (!function_exists('seo_meta')) {
 if (!function_exists('sitemap')) {
     function sitemap(string $sitemap, array $data, string $cache_name = null): void
     {
-        $cache_file = __DIR__ . DIRECTORY_SEPARATOR . 'cache'. DIRECTORY_SEPARATOR . 'sitemap' . DIRECTORY_SEPARATOR . ($cache_name ?? $sitemap) . '.xml';
+        $cache_dir = __DIR__ . DIRECTORY_SEPARATOR . 'cache'. DIRECTORY_SEPARATOR . 'sitemap';
+        $cache_file = $cache_dir . DIRECTORY_SEPARATOR . ($cache_name ?? $sitemap) . '.xml';
+
+        if (!is_dir($cache_dir)) {
+            mkdir($cache_dir, 0755, true);
+        }
+        
         $class = sprintf("Ls\ClientAssistant\Services\Seo\SiteMaps\%sSiteMap", ucfirst($sitemap));
         if (!class_exists($class)) {
             throw new \Exception("Class ($class) Not Found!");
