@@ -245,7 +245,7 @@ class PwaController
             $post = obc_write(
                 $key,
                 CmsPost::get($post_id, ModuleFilter::new()
-                    ->includes('comments', 'attachments','main_category'))->get('data')
+                    ->includes('comments', 'attachments','mainCategory'))->get('data')
             );
         }
         $pagetitle = $post['title'];
