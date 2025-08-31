@@ -12,8 +12,8 @@
 
         <div class="base-content">
             <div class="bghead" style="--bg: url(<?= $post['thumbnail']['url'] ?? '' ?>)">
-                @if($post['main_category']['name_fa'] ?? false)
-                    <span class="badge-light"><?=$post['main_category']['name_fa']?></span>
+                @if($post['mainCategory']['name_fa'] ?? false)
+                    <span class="badge-light"><?=$post['mainCategory']['name_fa']?></span>
                 @endif
                 <span class="title"><?=to_persian_num($post['title'])?></span>
                 <!-- <span class="content">
@@ -25,7 +25,7 @@
                     <span><i class="fa-regular fa-comment"></i>
                         <?=to_persian_num(count($post['comments']))?> دیدگاه</span>
                     <span><i class="fa-regular fa-eye"></i>
-                        <?=to_persian_num(171 + $post['meta']['views'])?> بازدید</span>
+                        <?=to_persian_num(171 + $post['views'])?> بازدید</span>
                 </div>
             </div>
             <div class="content ck-content wpad tpad">
