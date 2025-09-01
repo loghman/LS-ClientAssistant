@@ -98,7 +98,7 @@
         <h2>
             <!-- <i class="fa-solid fa-chevron-right"></i><br> -->
             <!-- <a href="https://7Learn.com"></a> -->
-            ورود به سون لرن
+            ورود به سایت
         </h2>
         <h4>برای ثبت‌نام/ورود شماره موبایل خود را وارد کنید:</h4>
         <input type="text" name="username" id="username" class="input-field" placeholder="موبایل / ایمیل / نام کاربری">

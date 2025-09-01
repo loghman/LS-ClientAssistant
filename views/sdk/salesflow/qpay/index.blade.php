@@ -451,7 +451,7 @@
             <img
                     class="mt-6 w-14 h-14 object-contain mx-auto"
                     src="https://cdn.planet.bz/icon/demo/brand/7learn/logo-icon.svg"
-                    alt="سون لرن"
+                    alt="سایت"
             />
             <span class="mt-3 text-2xl font-extrabold block mx-auto text-center">کد تایید</span>
             <span class="block leading-8 text-sm text-gray-400 mx-auto text-center">
