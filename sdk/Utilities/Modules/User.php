@@ -296,12 +296,12 @@ class User extends ModuleUtility
 
     public static function getToken(): ?string
     {
-        return $_COOKIE['token'] ?? null;
+        return $_COOKIE['token'] ?? request()->bearerToken() ?? null;
     }
-    
+
     public static function tokenExists(): ?string
     {
-        return $_COOKIE['token'] ?? null;
+        return $_COOKIE['token'] ?? request()->bearerToken() ?? null;
     }
 
     public static function resume($id): Collection
