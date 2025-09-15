@@ -112,15 +112,18 @@ $router->name('pageEditor.store')->post('/page-meta/updateForm', function (Reque
     return JsonResponse::json($pageMeta->toArray()['success'], 200, $pageMeta->toArray()['data']);
 });
 
-$router->name('cache.clear')->get('clearcache/{client_key}', function (Request $request, $clientKey) {
-    if ($clientKey == $GLOBALS['apikey']) {
+$router->name('cache.clear')->post('cache/clear', function (Request $request) {
+    $user = current_user();
+    $canClearCache = in_array('marketing:update', ($user['permissions'] ?? []), true);
+
+    if ($canClearCache) {
         clear_redis_cache();
         ObjectCache::flush();
         StaticCache::flush();
         return JsonResponse::success('کش پاک شد');
     }
 
-    return JsonResponse::unprocessableEntity('کلید نامعتبر');
+    return JsonResponse::unprocessableEntity('عدم دسترسی');
 })->middleware(AuthMiddleware::class);
 
 $router->name('robots')->get('robots.txt', function (Request $request) {
