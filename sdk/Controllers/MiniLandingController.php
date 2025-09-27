@@ -55,7 +55,7 @@ class MiniLandingController
         $eligibleResponse = [];
         $snapPay = Gateway::findSnapPay($gateways->get('data'));
         if (null !== $snapPay) {
-            $price = $snapPay['isDiscountAvailable'] ? $product['final_price']['main'] : $product['price']['main'];
+            $price = $snapPay['is_discount_available'] ? $product['final_price']['main'] : $product['price']['main'];
             $eligibleResponse = Gateway::snapPayEligible($price)->get('data');
         }
 
