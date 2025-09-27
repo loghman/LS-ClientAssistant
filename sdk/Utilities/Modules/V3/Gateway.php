@@ -44,7 +44,7 @@ class Gateway extends Cacher
     public static function findSnapPay(array $gateways): ?array
     {
         foreach ($gateways as $gateway) {
-            if (str_contains(strtolower($gateway['name_en']), 'snap')) {
+            if (str_contains(strtolower($gateway['driver']['value']), 'snap')) {
                 return $gateway;
             }
         }

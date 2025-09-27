@@ -26,7 +26,7 @@
 </style>
 </h2>
 @foreach ($gateways->get('data') as $gateway)
-    @php($isSnap = str_contains(strtolower($gateway['name_en']), 'snap'))
+    @php($isSnap = str_contains(strtolower($gateway['driver']['value']), 'snap'))
     @if($isSnap && (empty($eligibleResponse['successful'])
             || $eligibleResponse['successful'] !== true
             || $product['final_price']['main'] == 0))
@@ -38,7 +38,6 @@
             'ei' => $product['id'],
             'slug' => $product['slug'],
             'coupon' => $product['primaryCampaign']['coupon_label'] ?? null,
-            'payback_url' => site_url('pwa/payback/###payment_id###')
         ]) }}">
         <div class="text gw-logo">
             @if(isset($product['primaryCampaign']))
@@ -67,7 +66,7 @@
                 @endif
             @endif
             </div>
-            @if((!$gateway['isInstallmentPaymentAvailable'] || $gateway['isDiscountAvailable']))
+            @if((!$gateway['is_installment_payment_available'] || $gateway['is_discount_available']))
                 <span class="title">
                     <span>
                         @if($product['final_price']['main'] == 0) 
@@ -84,7 +83,7 @@
             @endif
             <span class="subtitle">
                 @if($product['final_price']['main'] > 0)
-                    @if(!$gateway['isInstallmentPaymentAvailable'])
+                    @if(!$gateway['is_discount_available'])
                         پرداخت نقدی
                     @endif
                 @endif
