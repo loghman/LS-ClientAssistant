@@ -27,6 +27,7 @@ use Ls\ClientAssistant\Controllers\ProviderController;
 use Ls\ClientAssistant\Core\Router\JsonResponse;
 use Ls\ClientAssistant\Core\StaticCache;
 use Ls\ClientAssistant\Services\ObjectCache;
+use Ls\ClientAssistant\Utilities\Tools\CacheManager;
 
 $router->name('provider.')->prefix('provider')->group(function(Router $router) {
     $router->name('product-feed')
@@ -120,6 +121,7 @@ $router->name('cache.clear')->post('cache/clear', function (Request $request) {
         clear_redis_cache();
         ObjectCache::flush();
         StaticCache::flush();
+        CacheManager::clearDefaultCache();
         return JsonResponse::success('کش پاک شد');
     }
 
