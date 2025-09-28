@@ -10,7 +10,6 @@ use Ls\ClientAssistant\Transformers\PWA\PracticeTransformer;
 use Ls\ClientAssistant\Utilities\Modules\V3\LMSProductItem;
 use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
 use Ls\ClientAssistant\Utilities\Modules\V3\Quiz;
-use Ls\ClientFramework\Transformers\Panel\ProductItemPracticeTransformer;
 
 class PwaSimpleController
 {
