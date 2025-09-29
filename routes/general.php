@@ -118,11 +118,29 @@ $router->name('cache.clear')->post('cache/clear', function (Request $request) {
     $canClearCache = in_array('marketing:update', ($user['permissions'] ?? []), true);
 
     if ($canClearCache) {
-        clear_redis_cache();
-        ObjectCache::flush();
-        StaticCache::flush();
-        CacheManager::clearDefaultCache();
-        return JsonResponse::success('کش پاک شد');
+        $cacheOperations = [
+            'redis' => fn() => clear_redis_cache(),
+            'object' => fn() => ObjectCache::flush(),
+            'static' => fn() => StaticCache::flush(),
+            'directory' => fn() => CacheManager::clearDefaultCache()
+        ];
+
+        $results = [];
+        foreach ($cacheOperations as $type => $operation) {
+            try {
+                $result = $operation();
+                $results[$type] = !($type === 'directory') || $result;
+            } catch (\Exception $e) {
+                $results[$type] = false;
+            }
+        }
+
+        $allSuccessful = !in_array(false, $results);
+        $message = $allSuccessful ? 'Cache cleared successfully' : 'Error clearing cache';
+        
+        return $allSuccessful 
+            ? JsonResponse::success($message, $results)
+            : JsonResponse::unprocessableEntity($message, $results);
     }
 
     return JsonResponse::unprocessableEntity('عدم دسترسی');
