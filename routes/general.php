@@ -116,7 +116,6 @@ $router->name('pageEditor.store')->post('/page-meta/updateForm', function (Reque
 $router->name('cache.clear')->post('cache/clear', function (Request $request) {
     $user = current_user();
     $canClearCache = in_array('marketing:update', ($user['permissions'] ?? []), true);
-
     if ($canClearCache) {
         $cacheOperations = [
             'redis' => fn() => clear_redis_cache(),
@@ -136,7 +135,7 @@ $router->name('cache.clear')->post('cache/clear', function (Request $request) {
         }
 
         $allSuccessful = !in_array(false, $results);
-        $message = $allSuccessful ? 'Cache cleared successfully' : 'Error clearing cache';
+        $message = $allSuccessful ? 'کش با موفقیت پاک شد' : 'خطا در پاک کردن کش';
         
         return $allSuccessful 
             ? JsonResponse::success($message, $results)
@@ -144,7 +143,7 @@ $router->name('cache.clear')->post('cache/clear', function (Request $request) {
     }
 
     return JsonResponse::unprocessableEntity('عدم دسترسی');
-})->middleware(AuthMiddleware::class);
+});
 
 $router->name('robots')->get('robots.txt', function (Request $request) {
     $setting = setting('client_robots_txt');
