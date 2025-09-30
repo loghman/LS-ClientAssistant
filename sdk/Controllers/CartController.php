@@ -23,7 +23,7 @@ class CartController
     public function checkout(Request $request)
     {
         $cart = Cart::screen(['coupon', 'lmsProductItems.entity', 'lmsProductItems.coupon'])['data'] ?? [];
-        $defaultGateway = Gateway::getDefault([], $request->get('gateway'));
+        $defaultGateway = Gateway::getDefault([], $request->get('gateway'), $cart['final_price']);
         $view = WebResponse::viewExist('salesflow.cart.index') ?
             'salesflow.cart.index' :
             'sdk.salesflow.cart.index';

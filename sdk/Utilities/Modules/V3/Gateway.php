@@ -9,10 +9,12 @@ use Ls\ClientAssistant\Helpers\Response;
 
 class Gateway extends Cacher
 {
-    public static function list(): Collection
+    public static function list(?int $price = null): Collection
     {
         try {
-            return API::get('client/v3/salesflow/gateway');
+            $data = null !== $price ? ['price' => $price] : [];
+            
+            return API::get('client/v3/salesflow/gateway', $data);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -20,9 +22,9 @@ class Gateway extends Cacher
         }
     }
 
-    public static function getDefault(array $gateways = [], ?int $default = null): ?array
+    public static function getDefault(array $gateways = [], ?int $default = null, ?int $price = null): ?array
     {
-        $gateways = empty($gateways) ? self::list()->get('data') : $gateways;
+        $gateways = empty($gateways) ? self::list($price)->get('data') : $gateways;
 
         if (null !== $default) {
             foreach ($gateways as $gateway) {
@@ -43,12 +45,6 @@ class Gateway extends Cacher
 
     public static function findSnapPay(array $gateways): ?array
     {
-        foreach ($gateways as $gateway) {
-            if (str_contains(strtolower($gateway['name_en']), 'snap')) {
-                return $gateway;
-            }
-        }
-
         return null;
     }
 
