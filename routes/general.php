@@ -27,6 +27,7 @@ use Ls\ClientAssistant\Controllers\ProviderController;
 use Ls\ClientAssistant\Core\Router\JsonResponse;
 use Ls\ClientAssistant\Core\StaticCache;
 use Ls\ClientAssistant\Services\ObjectCache;
+use Ls\ClientAssistant\Utilities\Tools\CacheManager;
 
 $router->name('provider.')->prefix('provider')->group(function(Router $router) {
     $router->name('product-feed')
@@ -115,16 +116,34 @@ $router->name('pageEditor.store')->post('/page-meta/updateForm', function (Reque
 $router->name('cache.clear')->post('cache/clear', function (Request $request) {
     $user = current_user();
     $canClearCache = in_array('marketing:update', ($user['permissions'] ?? []), true);
-
     if ($canClearCache) {
-        clear_redis_cache();
-        ObjectCache::flush();
-        StaticCache::flush();
-        return JsonResponse::success('کش پاک شد');
+        $cacheOperations = [
+            'redis' => fn() => clear_redis_cache(),
+            'object' => fn() => ObjectCache::flush(),
+            'static' => fn() => StaticCache::flush(),
+            'directory' => fn() => CacheManager::clearDefaultCache()
+        ];
+
+        $results = [];
+        foreach ($cacheOperations as $type => $operation) {
+            try {
+                $result = $operation();
+                $results[$type] = !($type === 'directory') || $result;
+            } catch (\Exception $e) {
+                $results[$type] = false;
+            }
+        }
+
+        $allSuccessful = !in_array(false, $results);
+        $message = $allSuccessful ? 'کش با موفقیت پاک شد' : 'خطا در پاک کردن کش';
+        
+        return $allSuccessful 
+            ? JsonResponse::success($message, $results)
+            : JsonResponse::unprocessableEntity($message, $results);
     }
 
     return JsonResponse::unprocessableEntity('عدم دسترسی');
-})->middleware(AuthMiddleware::class);
+});
 
 $router->name('robots')->get('robots.txt', function (Request $request) {
     $setting = setting('client_robots_txt');
