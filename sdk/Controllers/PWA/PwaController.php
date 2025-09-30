@@ -270,7 +270,7 @@ class PwaController
     public function logout(Request $request): RedirectResponse
     {
         Authentication::logout();
-        setcookie('token', '', time() - 9999, '/', ".{$_SERVER['HTTP_HOST']}");
+        setcookie('token', '', time() - 9999, '/', get_cookie_domain());
         User::clearUserKeyCookie();
         return new RedirectResponse(site_url('pwa/auth'), 302, []);
     }
