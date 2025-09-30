@@ -51,17 +51,12 @@ class MiniLandingController
             return JsonResponse::notFound('ثبت نام این دوره در حال حاضر متوقف شده است.');
         }
 
-        $gateways = Gateway::list();
-        $eligibleResponse = [];
-        $snapPay = Gateway::findSnapPay($gateways->get('data'));
-        if (null !== $snapPay) {
-            $price = $snapPay['isDiscountAvailable'] ? $product['final_price']['main'] : $product['price']['main'];
-            $eligibleResponse = Gateway::snapPayEligible($price)->get('data');
-        }
+        $price = $product['final_price']['main'] ?? null;
+        $gateways = Gateway::list(is_null($price) ? null : (int) $price);
 
         $view = WebResponse::renderView(
             'sdk.pages.landing-partials.pay',
-            compact('gateways', 'eligibleResponse', 'product')
+            compact('gateways', 'product')
         );
 
         return JsonResponse::success('', ['html' => $view]);
