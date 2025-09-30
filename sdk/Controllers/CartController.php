@@ -34,17 +34,12 @@ class CartController
     public function gateways(Request $request)
     {
         $cart = Cart::screen(['coupon', 'lmsProductItems.entity', 'lmsProductItems.coupon'])['data'] ?? [];
-        $gateways = Gateway::list()->get('data');
+        $gateways = Gateway::list($cart['final_price'])->get('data');
         $defaultGateway = Gateway::getDefault($gateways, $request->get('gateway'));
-        $eligibleResponse = [];
-        $snapPay = Gateway::findSnapPay($gateways);
-        if (null !== $snapPay) {
-            $price = $snapPay['isDiscountAvailable'] ? $cart['final_price'] : $cart['total_price'];
-            $eligibleResponse = Gateway::snapPayEligible($price)->get('data');
-        }
+
         $html = WebResponse::renderView(
             'sdk.salesflow.cart._partials._cart-pay',
-            compact('cart', 'gateways', 'snapPay', 'defaultGateway', 'eligibleResponse')
+            compact('cart', 'gateways', 'defaultGateway')
         );
 
         return JsonResponse::success('', compact('html'));

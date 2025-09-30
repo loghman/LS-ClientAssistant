@@ -9,11 +9,11 @@ use Ls\ClientAssistant\Helpers\Response;
 
 class Gateway extends Cacher
 {
-    public static function list(?int $price = null): Collection
+    public static function list(?int $amount = null): Collection
     {
         try {
-            $data = null !== $price ? ['price' => $price] : [];
-            
+            $data = null !== $amount ? ['amount' => $amount] : [];
+
             return API::get('client/v3/salesflow/gateway', $data);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
@@ -22,9 +22,9 @@ class Gateway extends Cacher
         }
     }
 
-    public static function getDefault(array $gateways = [], ?int $default = null, ?int $price = null): ?array
+    public static function getDefault(array $gateways = [], ?int $default = null, ?int $amount = null): ?array
     {
-        $gateways = empty($gateways) ? self::list($price)->get('data') : $gateways;
+        $gateways = empty($gateways) ? self::list($amount)->get('data') : $gateways;
 
         if (null !== $default) {
             foreach ($gateways as $gateway) {
@@ -41,21 +41,5 @@ class Gateway extends Cacher
         }
 
         return $gateways[0];
-    }
-
-    public static function findSnapPay(array $gateways): ?array
-    {
-        return null;
-    }
-
-    public static function snapPayEligible(float $amount): Collection
-    {
-        try {
-            return API::get('client/v3/salesflow/gateway/snap-pay-eligible', ['amount' => $amount]);
-        } catch (ClientException $exception) {
-            return Response::parseClientException($exception);
-        } catch (\Exception $exception) {
-            return Response::parseException($exception);
-        }
     }
 }

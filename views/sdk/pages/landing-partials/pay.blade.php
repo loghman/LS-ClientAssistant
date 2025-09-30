@@ -44,19 +44,19 @@
                 <i class="fa-solid fa-gift" style="margin-left: 5px; color: var(--primary);"></i>
                 ثبت نام رایگان
             @else
-                <img src="{{ $gateway['thumbnail'] }}" alt="{{ $gateway['name_en'] }}" class="icon">
+                <img src="{{ $gateway['thumbnail'] }}" alt="{{ $gateway['name_fa'] }}" class="icon">
                 <div>
                     @if (!empty($gateway['title']))
-                        {{ $gateway['title'] }}
+                        {{ to_persian_num($gateway['title']) }}
                     @else
-                        {{ $gateway['name_fa'] }}
+                        {{ $gateway['name_fa'] }} {{ $gateway['is_installment_payment_available'] ? '(اقساطی)' : '' }}
                     @endif
                 </div>
             @endif
         </div>
         <div class="text gw-desc">
             @if (!empty($gateway['description']))
-                <span class="subtitle fa-number">{{ $gateway['description'] }}</span>
+                <span class="subtitle fa-number">{{ to_persian_num($gateway['description']) }}</span>
             @else
                 @if((!$gateway['is_installment_payment_available'] || $gateway['is_discount_available']))
                     <span class="title">

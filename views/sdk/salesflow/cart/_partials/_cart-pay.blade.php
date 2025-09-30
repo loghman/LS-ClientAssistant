@@ -8,18 +8,11 @@
         </span>
         <div class="d-flex flex-column gap-xs ps-xxl ps-0--xxl">
             @foreach($gateways as $gateway)
-                @php($isSnap = isset($snapPay) && $gateway['id'] === $snapPay['id'])
-                @if($isSnap && (empty($eligibleResponse['successful']) || $eligibleResponse['successful'] !== true))
-                    @continue
-                @endif
-
                 <label class="card flex-row w-100 p-xs cursor-pointer gap-xs bg-white-50">
                     <img class="w-fit me-xxs" width="34" height="34" src="{{ $gateway['thumbnail'] }}" alt="{{ $gateway['name_fa'] }}">
                     <span class="content align-items-start gap-0">
-                        <span>{{ $isSnap ? $eligibleResponse['response']['title_message'] : $gateway['name_fa'] }}</span>
-                        @if($isSnap)
-                            <span class="card-microtitle">{{ $eligibleResponse['response']['description'] }}</span>
-                        @endif
+                        {{ ! empty($gateway['title']) ? to_persian_num($gateway['title']) : $gateway['name_fa'] }}
+                        <span class="card-microtitle">{{ to_persian_num($gateway['description']) ?? (to_persian_num($cart['price']['readable']) . ' تومان') }}</span>
                     </span>
                     <input class="me-auto ms-xxs success lg" type="radio" name="gateway"
                            {{ $defaultGateway['id'] === $gateway['id'] ? 'checked' : '' }} value="{{ $gateway['id'] }}">
