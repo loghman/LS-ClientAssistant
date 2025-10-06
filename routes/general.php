@@ -113,7 +113,7 @@ $router->name('pageEditor.store')->post('/page-meta/updateForm', function (Reque
     return JsonResponse::json($pageMeta->toArray()['success'], 200, $pageMeta->toArray()['data']);
 });
 
-$router->name('cache.clear')->post('cache/clear', function (Request $request) {
+$router->name('cache.clear.all')->post('cache/clear/all', function (Request $request) {
     $user = current_user();
     $canClearCache = in_array('marketing:update', ($user['permissions'] ?? []), true);
     if ($canClearCache) {
@@ -142,7 +142,37 @@ $router->name('cache.clear')->post('cache/clear', function (Request $request) {
             : JsonResponse::unprocessableEntity($message, $results);
     }
 
-    return JsonResponse::unprocessableEntity('عدم دسترسی');
+    return JsonResponse::forbidden('عدم دسترسی');
+})->middleware(AuthMiddleware::class);
+$router->name('cache.clear')->post('cache/clear', function (Request $request) {
+    $canClearCache = $request->headers->get('api-key') === $GLOBALS['apikey'];
+    if ($canClearCache) {
+        $cacheOperations = [
+            'redis' => fn() => clear_redis_cache(),
+            'object' => fn() => ObjectCache::flush(),
+            'static' => fn() => StaticCache::flush(),
+            'directory' => fn() => CacheManager::clearDefaultCache()
+        ];
+
+        $results = [];
+        foreach ($cacheOperations as $type => $operation) {
+            try {
+                $result = $operation();
+                $results[$type] = !($type === 'directory') || $result;
+            } catch (\Exception $e) {
+                $results[$type] = false;
+            }
+        }
+
+        $allSuccessful = !in_array(false, $results);
+        $message = $allSuccessful ? 'کش با موفقیت پاک شد' : 'خطا در پاک کردن کش';
+
+        return $allSuccessful
+            ? JsonResponse::success($message, $results)
+            : JsonResponse::unprocessableEntity($message, $results);
+    }
+
+    return JsonResponse::forbidden('عدم دسترسی');
 });
 
 $router->name('robots')->get('robots.txt', function (Request $request) {
