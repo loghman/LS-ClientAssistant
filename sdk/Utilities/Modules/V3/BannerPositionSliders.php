@@ -15,7 +15,7 @@ class BannerPositionSliders extends Cacher
     public static function getBySlug($slug): Collection
     {
         $base_filter = (new FilterBuilderService(self::$base))
-            ->includeRelation(['banner_position'])
+            ->includeRelation(['bannerPosition'])
             ->addComparisonFilter('bannerPosition.slug', '=', $slug)
             ->buildUrl();
 
