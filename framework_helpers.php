@@ -834,14 +834,21 @@ if (!function_exists('convert_seconds_to_persian_time')) {
 if (!function_exists('convert_seconds_to_persian_time_without_seconds')) {
     function convert_seconds_to_persian_time_without_seconds($seconds): string
     {
-        $hours = floor($seconds / 3600);
-        $minutes = floor(($seconds % 3600) / 60);
-        $remainingSeconds = $seconds % 60;
+        $seconds = (int) $seconds;
+
+        if ($seconds <= 0) {
+            return to_persian_num('00:00');
+        }
+
+        $interval = \Carbon\CarbonInterval::seconds($seconds)->cascade();
+
+        $hours = $interval->totalHours;
+        $minutes = $interval->minutes;
 
         if ($hours > 0) {
-            $time = \Carbon\Carbon::createFromTime($hours, $minutes, $remainingSeconds, 'Asia/Tehran')->isoFormat('HH:mm\"');
+            $time = sprintf('%02d:%02d', $hours, $minutes);
         } else {
-            $time = \Carbon\Carbon::createFromTime(0, $minutes, $remainingSeconds, 'Asia/Tehran')->isoFormat('mm\"');
+            $time = sprintf('%02d', $minutes);
         }
 
         return to_persian_num($time);
