@@ -45,6 +45,8 @@ class FilterBuilderService
 
     public function addComparisonFilter(string $field, string $operator, mixed $value): self
     {
+        $value = $value === null ? 'null' : $value;
+        $value = $value === false ? '0' : $value;
         $this->validateField($field);
         $this->validateValue($value);
         if (! in_array($operator, ['>', '<', '>=', '<=', '=', '!='], true)) {
@@ -57,6 +59,8 @@ class FilterBuilderService
 
     public function addSearchFilter(string $field, mixed $value): self
     {
+        $value = $value === null ? 'null' : $value;
+        $value = $value === false ? '0' : $value;
         $this->validateField($field);
         $this->validateValue($value);
         $this->filters['search'][] = "{$field}:{$value}";
