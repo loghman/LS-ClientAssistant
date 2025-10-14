@@ -50,6 +50,8 @@ class ModuleFilter
 
     public function search(string $column, mixed $value, string $operator = '='): self
     {
+        $value = $value === null ? 'null' : $value;
+        $value = $value === false ? '0' : $value;
         $this->search = $this->concat($this->search, "$column:$value", ';');
         $this->searchFields = $this->concat($this->searchFields, "$column:$operator", ';');
 
