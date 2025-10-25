@@ -32,8 +32,7 @@
             'et' => base64_encode('lms_products'),
             'ei' => $product['id'],
             'slug' => $product['slug'],
-            'coupon' => $product['primaryCampaign']['coupon_label'] ?? null,
-            'payback_url' => site_url('pwa/payback/###payment_id###')
+            'coupon' => $product['primaryCampaign']['coupon_label'] ?? null
         ]) }}">
         <div class="text gw-logo">
             @if(isset($product['primaryCampaign']))
