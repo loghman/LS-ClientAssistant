@@ -29,7 +29,7 @@ class LMSProduct extends Cacher
             if (!$rowData && $response->get('success')) {
                 $product = $response->get('data');
                 if (is_valid_url($product['custom_landing'])) {
-                    header('Location: '.$product['custom_landing'], true, Response::HTTP_MOVED_PERMANENTLY);
+                    header('Location: '.$product['custom_landing'], true, \Illuminate\Http\Response::HTTP_MOVED_PERMANENTLY);
                     exit;
                 }
                 if ($product['dont_list']) {
