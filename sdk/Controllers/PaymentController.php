@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\Router\WebResponse;
 use Ls\ClientAssistant\Helpers\Config;
 use Ls\ClientAssistant\Utilities\Modules\Payment;
-use Ls\ClientAssistant\Utilities\Modules\V3\Cart;
 use Ls\ClientAssistant\Utilities\Modules\V3\Gateway;
+use Ls\ClientAssistant\Utilities\Modules\V3\Invoice;
 use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
 use Ls\ClientAssistant\Utilities\Modules\V3\Payment as V3Payment;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -117,7 +117,7 @@ class PaymentController
     {
         $filter = ModuleFilter::new()
             ->includes('user', 'lmsProductItems', 'lmsProductItems.entity', 'payments', 'coupon');
-        $invoice = Cart::get($hashId, $filter)->get('data');
+        $invoice = Invoice::get($hashId, $filter)->get('data');
         if (null === $invoice || empty($invoice['type']['name']) || $invoice['type']['name'] === 'CART') {
             abort(404);
         }
