@@ -13,36 +13,120 @@ const checkFileSize = (file, maxFileSize) => {
   return true;
 };
 
-const checkAllowedFile = (type, allowedTypes) => {
-// Extract both MIME type and extension
-  const mimeType = type.split('/')[0]; // 'image' in 'image/jpeg'
-  const fileExtension = type.split('/')[1]; // 'jpeg' in 'image/jpeg'
-// Create a mapping of common extensions to their MIME types
-  const extensionMap = {
-    'jpg': 'jpeg',
-    'jpeg': 'jpeg',
-    // Add more as needed
-  };
+/**
+ * Mapping of allowed file types to their valid extensions.
+ * Each type key corresponds to extensions that should be accepted.
+ */
+const FILE_TYPE_EXTENSIONS = Object.freeze({
+  // Images
+  png: ['png'],
+  jpg: ['jpg', 'jpeg', 'jpe', 'jif', 'jfif'],
+  
+  // Archives
+  zip: ['zip', 'zipx', '7z', 'rar', 'tar', 'gz', 'tgz', 'bz2', 'xz', 'tar.gz', 'tar.bz2'],
+  
+  // Documents
+  pdf: ['pdf'],
+  txt: ['txt', 'text', 'log'],
+  md: ['md', 'markdown', 'mdown', 'mkd'],
+  
+  // Microsoft Word
+  doc: ['doc'],
+  docm: ['docm'],
+  docx: ['docx'],
+  
+  // Microsoft PowerPoint
+  ppt: ['ppt'],
+  pptm: ['pptm'],
+  pptx: ['pptx'],
+  
+  // Video
+  mp4: ['mp4', 'm4v', 'mp4v'],
+  mkv: ['mkv'],
+  avi: ['avi'],
+  
+  // Audio
+  mp3: ['mp3', 'm4a', 'mp3a'],
+});
 
-  // Check if either:
-  // 1. The exact MIME type is allowed (e.g., 'image/jpeg')
-  // 2. The extension part matches (e.g., 'jpeg')
-  // 3. The mapped extension matches (e.g., 'jpg' → 'jpeg')
-  const isAllowed = allowedTypes.some(allowed => {
-    return (
-        allowed === type || // Full MIME type match
-        allowed === fileExtension || // Extension match
-        (extensionMap[allowed] && extensionMap[allowed] === fileExtension) // Mapped extension
-    );
-  });
+/**
+ * Extracts file extension from filename.
+ * Handles edge cases like no extension, hidden files, and multiple dots.
+ * @param {string} fileName - The name of the file
+ * @returns {string} - Lowercase extension without dot, or empty string
+ */
+const getFileExtension = (fileName) => {
+  if (!fileName || typeof fileName !== 'string') return '';
+  
+  const lastDotIndex = fileName.lastIndexOf('.');
+  if (lastDotIndex === -1 || lastDotIndex === 0) return '';
+  
+  return fileName.slice(lastDotIndex + 1).toLowerCase();
+};
 
+/**
+ * Builds a Set of all allowed extensions based on selected file types.
+ * @param {string[]} allowedTypes - Array of type keys (e.g., ['png', 'zip'])
+ * @returns {Set<string>} - Set of all valid extensions
+ */
+const buildAllowedExtensions = (allowedTypes) => {
+  const extensions = new Set();
+  
+  for (const type of allowedTypes) {
+    const typeKey = type.toLowerCase().trim();
+    const typeExtensions = FILE_TYPE_EXTENSIONS[typeKey];
+    
+    if (typeExtensions) {
+      typeExtensions.forEach(ext => extensions.add(ext));
+    }
+  }
+  
+  return extensions;
+};
+
+/**
+ * Formats allowed types for display in error message.
+ * @param {string[]} allowedTypes - Array of type keys
+ * @returns {string} - Formatted string for display
+ */
+const formatAllowedTypes = (allowedTypes) => {
+  return allowedTypes
+    .map(type => type.toUpperCase())
+    .join('، ');
+};
+
+/**
+ * Checks if a file is allowed based on its extension.
+ * @param {string} fileName - The name of the file being uploaded
+ * @param {string[]} allowedTypes - Array of allowed type keys from data-allowed_file
+ * @returns {boolean} - True if file is allowed, false otherwise
+ */
+const checkAllowedFile = (fileName, allowedTypes) => {
+  if (!allowedTypes || allowedTypes.length === 0) return true;
+  
+  const fileExtension = getFileExtension(fileName);
+  
+  if (!fileExtension) {
+    toast('فایل انتخاب شده فاقد پسوند معتبر است.', 'danger');
+    return false;
+  }
+  
+  const allowedExtensions = buildAllowedExtensions(allowedTypes);
+  
+  if (allowedExtensions.size === 0) {
+    console.warn('No valid file types configured in allowed_file attribute.');
+    return true;
+  }
+  
+  const isAllowed = allowedExtensions.has(fileExtension);
+  
   if (!isAllowed) {
     toast(
-        `نوع فایل باید یکی از موارد زیر باشد: ${allowedTypes.join(", ")}.`,
-        "danger"
+      `فرمت فایل مجاز نیست. فرمت‌های قابل قبول: ${formatAllowedTypes(allowedTypes)}`,
+      'danger'
     );
   }
-
+  
   return isAllowed;
 };
 
@@ -88,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let url;
     const maxSize = parseFloat(dataset.max_size);
     const allowedTypes = dataset.allowed_file?.split(",") || [];
-    const isAllowedFile = allowedTypes.length === 0 || checkAllowedFile(file.type, allowedTypes);
+    const isAllowedFile = allowedTypes.length === 0 || checkAllowedFile(file.name, allowedTypes);
     const isAllowedSize = !maxSize || checkFileSize(file, maxSize);
 
     if (!isAllowedFile || !isAllowedSize) return;
