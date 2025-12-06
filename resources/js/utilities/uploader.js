@@ -21,19 +21,31 @@ const checkAllowedFile = (type, allowedTypes) => {
   const extensionMap = {
     'jpg': 'jpeg',
     'jpeg': 'jpeg',
-    // Add more as needed
+    // ZIP file mappings - browsers may report different MIME types
+    'zip': ['zip', 'x-zip-compressed', 'x-zip', 'octet-stream'],
+    'x-zip-compressed': ['zip', 'x-zip-compressed', 'x-zip', 'octet-stream'],
+    'x-zip': ['zip', 'x-zip-compressed', 'x-zip', 'octet-stream'],
   };
 
   // Check if either:
   // 1. The exact MIME type is allowed (e.g., 'image/jpeg')
   // 2. The extension part matches (e.g., 'jpeg')
-  // 3. The mapped extension matches (e.g., 'jpg' → 'jpeg')
+  // 3. The mapped extension matches (e.g., 'jpg' → 'jpeg', 'zip' → ['zip', 'x-zip-compressed', ...])
   const isAllowed = allowedTypes.some(allowed => {
-    return (
-        allowed === type || // Full MIME type match
-        allowed === fileExtension || // Extension match
-        (extensionMap[allowed] && extensionMap[allowed] === fileExtension) // Mapped extension
-    );
+    if (allowed === type || allowed === fileExtension) {
+      return true;
+    }
+
+    const mapped = extensionMap[allowed];
+    if (mapped) {
+      // Handle both string and array mappings
+      if (Array.isArray(mapped)) {
+        return mapped.includes(fileExtension);
+      }
+      return mapped === fileExtension;
+    }
+
+    return false;
   });
 
   if (!isAllowed) {
