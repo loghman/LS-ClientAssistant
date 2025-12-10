@@ -1468,3 +1468,83 @@ function enrollmentNextItemUrl($enrollment) {
     return site_url("pwa/course/{$product_id}/chapters?e={$enroll_id}");
 }
 
+// ============================================
+// Action Dispatcher Helpers
+// ============================================
+
+if (!function_exists('action_dispatch')) {
+    /**
+     * Dispatch an action for an entity
+     * 
+     * @param string $entity Entity name (e.g., 'post', 'user')
+     * @param \Ls\ClientAssistant\Core\Enums\ActionType|string $action Action to perform
+     * @param array $params Parameters to pass to handler
+     * @param array $options Additional options
+     * @return mixed
+     */
+    function action_dispatch(
+        string $entity, 
+        \Ls\ClientAssistant\Core\Enums\ActionType|string $action, 
+        array $params = [], 
+        array $options = []
+    ): mixed {
+        return \Ls\ClientAssistant\Core\ActionDispatcher::getInstance()->dispatch($entity, $action, $params, $options);
+    }
+}
+
+if (!function_exists('action_dispatch_async')) {
+    /**
+     * Dispatch an action asynchronously
+     * 
+     * @param string $entity Entity name
+     * @param \Ls\ClientAssistant\Core\Enums\ActionType|string $action Action to perform
+     * @param array $params Parameters to pass to handler
+     * @return mixed
+     */
+    function action_dispatch_async(
+        string $entity, 
+        \Ls\ClientAssistant\Core\Enums\ActionType|string $action, 
+        array $params = []
+    ): mixed {
+        return \Ls\ClientAssistant\Core\ActionDispatcher::getInstance()->dispatchAsync($entity, $action, $params);
+    }
+}
+
+if (!function_exists('action_can_handle')) {
+    /**
+     * Check if an entity can handle an action
+     * 
+     * @param string $entity Entity name
+     * @param \Ls\ClientAssistant\Core\Enums\ActionType|string $action Action to check
+     * @return bool
+     */
+    function action_can_handle(string $entity, \Ls\ClientAssistant\Core\Enums\ActionType|string $action): bool
+    {
+        return \Ls\ClientAssistant\Core\ActionDispatcher::getInstance()->canHandle($entity, $action);
+    }
+}
+
+if (!function_exists('action_registry')) {
+    /**
+     * Get the action registry instance
+     * 
+     * @return \Ls\ClientAssistant\Core\ActionRegistry
+     */
+    function action_registry(): \Ls\ClientAssistant\Core\ActionRegistry
+    {
+        return \Ls\ClientAssistant\Core\ActionRegistry::getInstance();
+    }
+}
+
+if (!function_exists('action_dispatcher')) {
+    /**
+     * Get the action dispatcher instance
+     * 
+     * @return \Ls\ClientAssistant\Core\ActionDispatcher
+     */
+    function action_dispatcher(): \Ls\ClientAssistant\Core\ActionDispatcher
+    {
+        return \Ls\ClientAssistant\Core\ActionDispatcher::getInstance();
+    }
+}
+
