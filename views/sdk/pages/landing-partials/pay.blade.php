@@ -48,7 +48,7 @@
                     @if (!empty($gateway['title']))
                         {{ to_persian_num($gateway['title']) }}
                     @else
-                        {{ $gateway['name_fa'] }} {{ $gateway['is_installment_payment_available'] ? '(اقساطی)' : '' }}
+                        {{ $gateway['name_fa'] }} {{ $gateway['installment_supported'] ? '(اقساطی)' : '' }}
                     @endif
                 </div>
             @endif
@@ -57,7 +57,7 @@
             @if (!empty($gateway['description']))
                 <span class="subtitle fa-number">{{ to_persian_num($gateway['description']) }}</span>
             @else
-                @if((!$gateway['is_installment_payment_available'] || $gateway['is_discount_available']))
+                @if((!$gateway['installment_supported'] || $gateway['is_discount_available']))
                     <span class="title">
                         <span>
                             @if($product['final_price']['main'] == 0)
@@ -78,7 +78,7 @@
 
             <span class="subtitle">
                 @if($product['final_price']['main'] > 0)
-                    @if(!$gateway['is_installment_payment_available'])
+                    @if(!$gateway['installment_supported'])
                         پرداخت نقدی
                     @endif
                 @endif
