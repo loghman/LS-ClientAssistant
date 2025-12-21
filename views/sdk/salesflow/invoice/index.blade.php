@@ -504,5 +504,5 @@
         @include('sdk.salesflow.invoice.partials.timeline')
         @include('sdk.salesflow.invoice.partials.footer')
     </div>
-    <img src="{{ setting('png_logo_url') }}" alt="فثسف" class=brand-logo>
+    <img src="{{ setting('png_logo_url') }}" alt="{{ setting('brand_name_fa') }}" class=brand-logo>
 @endsection
