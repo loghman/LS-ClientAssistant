@@ -21,6 +21,5 @@
             {!! $iconArrowLeft !!}
         </button>
     </div>
-    @include('sdk.hook.landing._partials._partials._footer-text')
     {!! $shapeFooterLine !!}
 </div>

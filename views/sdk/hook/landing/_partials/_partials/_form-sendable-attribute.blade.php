@@ -1,7 +1,0 @@
-class="{{ $subClass }}card ajax-form {{ $subClass }}w-100"
-method="POST"
-data-jsc="ajax-form"
-data-stable="true"
-data-after-success="replace"
-data-target="#section-form"
-action="{{ route('hook.download', $hook['slug']) }}"
