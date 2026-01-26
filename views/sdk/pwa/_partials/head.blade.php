@@ -26,8 +26,8 @@
 <link rel="stylesheet" href="https://cdn.planet.bz/font-icon/font-awesome/css/all.min.css" />
 <link rel="stylesheet" href="https://cdn.planet.bz/font-icon/font-awesome/css/regular.min.css" />
 <link rel="stylesheet" href="https://cdn.planet.bz/font-icon/font-awesome/css/solid.min.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdn.planet.bz/js/library/swiper/11.2.10/swiper-bundle.min.css" />
+<script src="https://cdn.planet.bz/js/library/swiper/11.2.10/swiper-bundle.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const accordionLinks = document.querySelectorAll('a.accordion');
