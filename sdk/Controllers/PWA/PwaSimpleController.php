@@ -3,13 +3,14 @@
 namespace Ls\ClientAssistant\Controllers\PWA;
 
 use Illuminate\Http\Request;
+use Ls\ClientAssistant\Core\Enums\ProductItemType;
 use Ls\ClientAssistant\Core\Router\JsonResponse;
 use Ls\ClientAssistant\Core\Router\WebResponse;
 use Ls\ClientAssistant\Transformers\PWA\VideoTransformer;
 use Ls\ClientAssistant\Transformers\PWA\PracticeTransformer;
+use Ls\ClientAssistant\Utilities\Modules\V3\Exercise;
 use Ls\ClientAssistant\Utilities\Modules\V3\LMSProductItem;
 use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
-use Ls\ClientAssistant\Utilities\Modules\V3\Quiz;
 
 class PwaSimpleController
 {
@@ -20,7 +21,7 @@ class PwaSimpleController
         $response = LMSProductItem::get(
             $item_id,
             ModuleFilter::new()
-                ->includes('product.currentUserEnrollment', 'parent', 'media', 'currentUserEnrollmentLog', 'questions.currentUserAnswer')
+                ->includes('product.currentUserEnrollment', 'parent', 'media', 'currentUserEnrollmentLog')
         );
         // TODO : Check Enrollment ...
         if ($response['status_code'] == 403){
@@ -28,7 +29,7 @@ class PwaSimpleController
             return WebResponse::view('sdk.pwa.pages.403',compact('data','message'));
         }
 
-        if ($response->get('data')['type']['name'] === "Kata"){
+        if ($response->get('data')['type']['name'] === ProductItemType::Exercise){
             redirect(route('pwa.simple.practice.screen',['item_id' => $item_id]));
         }
 
@@ -76,16 +77,15 @@ class PwaSimpleController
     {
         $data = self::shered_data();
 
-        $response = Quiz::find(
+        $response = Exercise::find(
             $itemId,
             ModuleFilter::new()
-                ->includes('productItem', 'questions.media', 'questions.currentUserAnswer.user', 'currentUserAnswersheet', 'creator','productItem.product.currentUserEnrollment'),
+                ->includes('productItem', 'currentUserAnswer', 'productItem.creator','productItem.product.currentUserEnrollment'),
             'product_item_id'
         );
 
         if (! $response->get('success'))
         {
-            dd($response->get('status_code'));
             abort($response->get('status_code'), $response->get('message'));
         }
 
@@ -106,20 +106,18 @@ class PwaSimpleController
         return WebResponse::view('sdk.pwa.simple.practice.screen', compact('item','data'));
     }
 
-    public function practice_store(int $quizId, int $questionId, Request $request)
+    public function practice_store(int $practiceId, Request $request)
     {
         if (empty($request->answer) && empty($request->attachment)) {
             return JsonResponse::unprocessableEntity('پاسخی ارسال نشد.');
         }
 
         // Handle different answer types
-        $answerData = $request->answer;
-
-        $response = Quiz::storeAnswer(
+        $response = Exercise::storeAnswer(
             ModuleFilter::new()
-                ->otherParams('quiz_id', $quizId)
-                ->otherParams('question_id', $questionId)
-                ->otherParams('answer', $answerData)
+                ->otherParams('exercise_id', $practiceId)
+                ->otherParams('answer', $request->answer['text'])
+                ->otherParams('unique_id', $request->answer['unique_id'])
         );
 
         if (! $response->get('success')) {

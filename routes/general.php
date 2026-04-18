@@ -31,7 +31,7 @@ use Ls\ClientAssistant\Utilities\Tools\CacheManager;
 
 $router->name('provider.')->prefix('provider')->group(function(Router $router) {
     $router->name('product-feed')
-    ->get('/product-feed', [ProviderController::class, 'productFeed']);
+        ->get('/product-feed', [ProviderController::class, 'productFeed']);
 });
 
 $router->name('sitemap.')->group(function(Router $router) {
@@ -277,11 +277,10 @@ $router->name('pwa.')->prefix('pwa')->group(function (Router $router){
         $router->name('quiz.start')->get('/quiz/{item_id}/start', [PwaSimpleController::class, 'quiz_start']);
         $router->name('quiz.screen')->get('/quiz/{item_id}/screen', [PwaSimpleController::class, 'quiz_screen']);
         $router->name('quiz.result')->get('/quiz/{item_id}/result', [PwaSimpleController::class, 'quiz_result']);
-        $router->name('practice.store')->post('/{quiz_id}/{question_id}/store', [PwaSimpleController::class, 'practice_store']);
+        $router->name('practice.store')->post('/{practice_id}/store', [PwaSimpleController::class, 'practice_store']);
 
         // practice
         $router->name('practice.screen')->get('/practice/{item_id}/screen', [PwaSimpleController::class, 'practice_screen']);
-        // $router->name('practice.result')->get('/practice/{item_id}/result', [PwaSimpleController::class, 'practice_result']);
         // opus
         // $router->name('opus.form')->get('/opus/{product_id}/form', [PwaSimpleController::class, 'opus_form']);
 
@@ -305,7 +304,6 @@ $router->name('ajax.')->prefix('ajax')->group(function (Router $router){
     $router->name('enrollment.logs')->get('enrollment/{eid}/logs', [AjaxController::class, 'enrollmentLogs']);
     $router->name('myCourses.stats')->get('my-courses/stats', [AjaxController::class, 'myCoursesStats']);
     $router->name('item.reaction')->post('item/reaction', [AjaxController::class, 'itemReaction']);
-    $router->name('quiz.answer')->post('/{quiz_id}/{question_id}/answer', [AjaxController::class, 'quizAnswer']);
     $router->name('appLog')->get('appLog', [AjaxController::class, 'appLog']);
     $router->name('updatePassword')->post('/profile/update-password', [AjaxController::class, 'updatePassword']);
 });

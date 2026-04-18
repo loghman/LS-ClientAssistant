@@ -1491,8 +1491,14 @@ function enrollmentNextItemUrl($enrollment) {
         return site_url("pwa/course-{$product_id}/screen?e={$enroll_id}");
 
     // new panel for others
-    if($nextItemId && is_numeric($nextItemId))
-        return site_url("pwa/simple/video/$nextItemId/screen");
+    if($nextItemId && is_numeric($nextItemId)) {
+        return match ($enrollment['last_seen_item']['item_type']) {
+            \Ls\ClientAssistant\Core\Enums\ProductItemType::Quiz => route('pwa.simple.quiz.start', ['item_id' => $nextItemId]),
+            \Ls\ClientAssistant\Core\Enums\ProductItemType::Exercise => route('pwa.simple.practice.screen', ['item_id' => $nextItemId]),
+            default => route('pwa.simple.video', ['item_id' => $nextItemId])
+        };
+    }
+
     return site_url("pwa/course/{$product_id}/chapters?e={$enroll_id}");
 }
 

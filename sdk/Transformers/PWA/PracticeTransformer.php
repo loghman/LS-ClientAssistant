@@ -2,6 +2,8 @@
 
 namespace Ls\ClientAssistant\Transformers\PWA;
 
+use Ls\ClientAssistant\Core\Enums\ExerciseAnswerStatus;
+use Ls\ClientAssistant\Core\Enums\ProductItemType;
 use Ls\ClientAssistant\Transformers\BaseTransformer;
 use Ls\ClientAssistant\Utilities\Tools\Enums\MediaCollectionEnum;
 use Ls\ClientFramework\Objects\User;
@@ -15,42 +17,39 @@ class PracticeTransformer extends BaseTransformer
 
     public function transform(): array
     {
-        $creator = (array) $this->creator;
+        $creator = (array) $this->productItem['creator'];
         return [
             'id' => $this->id,
             'entity' => $this->productItem($this->productItem),
             'product' => $this->product($this->productItem['product']),
-            'questions' => $this->questions($this->questions),
-            'questions_count' => count($this->questions),
-            'questions_point' => array_sum(array_column($this->questions, 'max_point')),
+            'questions' => $this->questions((array) $this->resource),
+            'questions_count' => 1,
+            'questions_point' => $this->max_score,
             'creator' => ! empty($creator) ? User::new($creator)->values('full_name', 'avatar_medium_url') : [],
             'next' => $this->navigateItem($this->nextItem),
             'prev' => $this->navigateItem($this->prevItem),
         ];
     }
 
-    private function questions(array $questions): array
+    private function questions(array $question): array
     {
         $quests = [];
-        foreach ($questions as $index => $question) {
-            $quests[] = [
-                'id' => $question['id'],
-                'label' => 'سوال '.number_to_letter_persian(++$index),
-                'question' => $question['question']['full'],
-                'answer_description' => $question['answer_description'],
-                'description' => $question['answer_description'] ?? null,
-                'media' => $this->media($question['media']),
-                'answer' => $this->answer($question['currentUserAnswer']),
-                'is_survey' => $question['is_survey'],
-                'point' => $question['max_point'],
-                'type' => $question['type']['value'],
-                'max_file_size' => $question['payload']['max_file_size'] ?? null,
-                'allowed_file_formats' => $question['payload']['allowed_file_formats'] ?? null,
-                'created_at' => $question['created_at']['jalali']['main'],
-                'answer_url' => route('pwa.simple.practice.store', ['quiz_id' => $this->id, 'question_id' => $question['id']])
-            ];
-        }
-
+        $quests[] = [
+            'id' => $question['id'],
+            'label' => 'سوال '.number_to_letter_persian(1),
+            'question' => $question['question']['full'],
+            'answer_description' => $question['correct_answer'],
+            'description' => $question['correct_answer'] ?? null,
+            'media' => $this->media($this->productItem['media'] ?? []),
+            'answer' => $this->answer($question['currentUserAnswer']),
+            'is_survey' => false,
+            'point' => $question['max_score'],
+            'type' => '',
+            'max_file_size' => $question['payload']['max_file_size'] ?? null,
+            'allowed_file_formats' => $question['payload']['allowed_file_formats'] ?? null,
+            'created_at' => $question['created_at']['jalali']['main'],
+            'answer_url' => route('pwa.simple.practice.store', ['practice_id' => $this->id])
+        ];
         return $quests;
     }
 
@@ -77,26 +76,15 @@ class PracticeTransformer extends BaseTransformer
 
         $status = $answer['status']['value'];
         return [
-            'displayable' => $answer['show_answer'],
-            'is_pending' => $status === 'pending',
+            'displayable' => true,
+            'is_pending' => $status === ExerciseAnswerStatus::Pending,
             'status' => $status,
-            'status_label' => $this->getStatusLabel($status),
-            'point' => $answer['point'],
-            'answer' => $answer['answer'][0] ?? '',
+            'status_label' => $status !== ExerciseAnswerStatus::Pending ? 'تصحیح شده' : 'در انتظار بررسی',
+            'point' => $answer['score'],
+            'answer' => $answer['answer'] ?? '',
             'created_at' => $answer['created_at']['jalali']['main'],
             'user' => ! empty($answer['user']) ? User::new($answer['user'])->values('full_name', 'avatar_medium_url') : [],
         ];
-    }
-
-    private function getStatusLabel(string $status): string
-    {
-        return match($status) {
-            'pending' => 'در انتظار بررسی',
-            'accepted', 'correct' => 'تصحیح شده',
-            'rejected', 'incorrect' => 'رد شده',
-            'semi_correct' => 'نیمه صحیح',
-            default => 'نامشخص'
-        };
     }
 
     private function productItem(array $productItem): array
@@ -128,8 +116,9 @@ class PracticeTransformer extends BaseTransformer
             return '#';
         }
 
-        return match ($item['type']['name']) {
-            'Kata' => route('pwa.simple.practice.screen', ['item_id' => $item['id']]),
+        return match ($item['type']['value']) {
+            ProductItemType::Exercise => route('pwa.simple.practice.screen', ['item_id' => $item['id']]),
+            ProductItemType::Quiz => route('pwa.simple.quiz.start', ['item_id' => $item['id']]),
             default => route('pwa.simple.video', ['item_id' => $item['id']])
         };
     }

@@ -6,23 +6,10 @@
             {{ $question->answer->status_label ?? 'در انتظار بررسی' }}
         </span>
     </div>
-    
+
     <!-- Show submitted answer in disabled form -->
     <div class="submitted-form">
-        @switch($question->type)
-            @case('descriptive')
-                <textarea class="editor-content" disabled readonly>{{ $question->answer->answer }}</textarea>
-                @break
-            @case('file')
-            @case('repository')
-                <a href="{{ $question->answer->answer }}" target="_blank" class="file-link">
-                    <span class="file-icon">📁</span>
-                    <span>مشاهده فایل/مخزن</span>
-                </a>
-                @break
-            @default
-                <textarea class="editor-content" disabled readonly>{{ strip_tags($question->answer->answer) }}</textarea>
-        @endswitch
+        <textarea class="editor-content" disabled readonly>{{ $question->answer->answer }}</textarea>
     </div>
 
     @if($question->answer->displayable && isset($question->answer->point) && $question->answer->point > 0)

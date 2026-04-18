@@ -2,6 +2,7 @@
 
 namespace Ls\ClientAssistant\Transformers\PWA;
 
+use Ls\ClientAssistant\Core\Enums\ProductItemType;
 use Ls\ClientAssistant\Transformers\BaseTransformer;
 use Ls\ClientAssistant\Utilities\Tools\Enums\MediaCollectionEnum;
 
@@ -24,7 +25,7 @@ class VideoTransformer extends BaseTransformer
             'attachments' => $this->attachments($this->media),
             'chapter_url' => route('pwa.courseScreen', ['pid' => $this->product_id, 'e' => $this->parent_id]),
             'reaction_url' => route('ajax.item.reaction'),
-            'questions' => $questions = $this->questions($this->questions),
+            'questions' => $questions = $this->questions([]),
             'question_seconds' => $this->questionSeconds($questions),
         ];
     }
@@ -86,9 +87,9 @@ class VideoTransformer extends BaseTransformer
             return '#';
         }
 
-        return match ($item['type']['name']) {
-            'Quiz' => route('pwa.simple.quiz.start', ['item_id' => $item['id']]),
-//            'Kata' => route('pwa.simple.practice.screen', ['item_id' => $item['id']]),
+        return match ($item['type']['value']) {
+            ProductItemType::Quiz => route('pwa.simple.quiz.start', ['item_id' => $item['id']]),
+            ProductItemType::Exercise => route('pwa.simple.practice.screen', ['item_id' => $item['id']]),
             default => route('pwa.simple.video', ['item_id' => $item['id']])
         };
     }
@@ -136,7 +137,7 @@ class VideoTransformer extends BaseTransformer
                 'options' => $options = ($question['payload']['options'] ?? []),
                 'point' => $question['max_point'],
                 'multiple_choice' => array_sum(data_get($options, '*.is_correct')) > 1,
-                'answer_url' => route('ajax.quiz.answer', ['quiz_id' => $question['quiz_id'], 'question_id' => $question['id']])
+                'answer_url' => '#'
             ];
         }
         return $array;

@@ -4,7 +4,6 @@ namespace Ls\ClientAssistant\Controllers\PWA;
 
 use Illuminate\Http\Request;
 use Ls\ClientAssistant\Core\API;
-use Ls\ClientAssistant\Core\Enums\AnswerStatus;
 use Ls\ClientAssistant\Core\Router\JsonResponse;
 use Ls\ClientAssistant\Core\Router\WebResponse;
 use Ls\ClientAssistant\Services\ObjectCache;
@@ -13,7 +12,6 @@ use Ls\ClientAssistant\Utilities\Modules\LMSProduct;
 use Ls\ClientAssistant\Utilities\Modules\QC;
 use Ls\ClientAssistant\Utilities\Modules\V3\Enrollment as V3Enrollment;
 use Ls\ClientAssistant\Utilities\Modules\V3\ModuleFilter;
-use Ls\ClientAssistant\Utilities\Modules\V3\Quiz;
 use Ls\ClientAssistant\Utilities\Tools\Enums\MediaConversionEnum;
 
 class AjaxController
@@ -187,32 +185,6 @@ class AjaxController
         ], $request->cookies->get('token'));
 
         return JsonResponse::success('ذخیره شد');
-    }
-
-    public function quizAnswer(int $quizId, int $questionId, Request $request)
-    {
-        if (empty($request->answer)) {
-            return JsonResponse::unprocessableEntity('پاسخی ارسال نشد.');
-        }
-
-        $response = Quiz::storeAnswer(
-            ModuleFilter::new()
-                ->otherParams('quiz_id', $quizId)
-                ->otherParams('question_id', $questionId)
-                ->otherParams('answer', $request->answer)
-        );
-        if (! $response->get('success')) {
-            return JsonResponse::json($response->get('message') , $response->get('status_code'));
-        }
-
-        $answer = $response->get('data');
-        $answerStatus = [
-            'correct' => $answer['status']['value'] === AnswerStatus::Correct,
-            'incorrect' => $answer['status']['value'] === AnswerStatus::Incorrect,
-            'pending' => !in_array($answer['status']['value'], [AnswerStatus::Correct, AnswerStatus::Incorrect]),
-        ];
-
-        return JsonResponse::success('پاسخ شما با موفقیت ثبت شد.', $answerStatus);
     }
 
     public function updatePassword(Request $request)

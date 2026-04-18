@@ -105,238 +105,238 @@
 </head>
 
 <body>
-    <div class="base-container">
-        @include('sdk.pwa._partials.sidebar-desktop')
+<div class="base-container">
+    @include('sdk.pwa._partials.sidebar-desktop')
 
-        <div class="base-content">
-            <div class="bghead" style="--bg: url(<?= $course['banner']['url'] ?? '' ?>)">
-                <span class="title" style="font-size: 24px;">سرفصل های دوره <?=$course['title']?></span>
+    <div class="base-content">
+        <div class="bghead" style="--bg: url(<?= $course['banner']['url'] ?? '' ?>)">
+            <span class="title" style="font-size: 24px;">سرفصل های دوره <?=$course['title']?></span>
 
-                <div class="stats-row white opacity-50">
+            <div class="stats-row white opacity-50">
                     <span>
                         <i class="fa-regular fa-bars"></i>
                         {{ to_persian_num(count($course['chapters'])) }} سرفصل
                     </span>
-                    <span>
+                <span>
                         <i class="fa-regular fa-circle"></i>
                         {{ to_persian_num($course['items_count']) }} جلسه
                     </span>
-                </div>
-
-
-                <span class="pbar" id="pbar"></span>
             </div>
-            <div class="wpad tpad">
-                @if($course['items_count'] > 15)
-                    <div class="findwrap bpad-half">
-                        <input id="find" data-group=".list-simple" data-parent=".search"
-                            data-content=".search .search-target" type="text" onfocus="goScrollTo(this,15);"
-                            placeholder="جستجو در جلسات">
-                        <small id="findStat"></small>
-                    </div>
-                @endif
-                <div class="chapters tpad-half">
-                    <?php $c = 1; ?>
-                    @foreach($course['chapters'] as $ii => $ch)
-                        <div class="search">
-                            @if(count($course['chapters']) > 1)
-                                <div class="title-row">
-                                    @if($ch['type'] == 1)
-                                        <div class="title">
-                                            <?= "<span class='fasl'>فصل  " . to_persian_num($c++) . ":</span> <span class='search-target'>" . $ch['title'] . "</span>" ?>
-                                        </div>
-                                    @else
-                                        <div class="title"><i class="fa-solid fa-bars"></i> &nbsp;
-                                            <span class="search-target"><?=$ch['title']?></span>
-                                        </div>
-                                    @endif
-                                </div>
-                            @endif
-                        </div>
-                        <?php    $si = 1;?>
-                        <div class="list-accordions tpad10 bpad">
-                            @foreach($ch['items'] as $item)
-                                @php
-                                    $isPractice = $item['type'] == 7;
-                                    $isCompleted = ($item['log_type'] ?? '') == 'completed';
-                                    $itemUrl = $isPractice 
-                                        ? site_url("pwa/simple/practice/{$item['id']}/screen")
-                                        : site_url("pwa/simple/video/{$item['id']}/screen");
-                                    $itemIcon = $isCompleted ? 'fa-circle-check' : ($isPractice ? 'fa-clipboard' : 'fa-circle-play');
-                                @endphp
-                                
-                                <a href="{{ $itemUrl }}"
-                                   class="itemlink empty {{ $item['log_type'] ?? '' }} {{ ($item['id'] == ($_GET['i'] ?? '*')) ? 'default' : '' }}" 
-                                   data-iid="{{ $item['id'] }}" 
-                                   data-pid="{{ $item['product_id'] }}"
-                                   data-chid="{{ $item['parent_id'] }}" 
-                                   data-t="{{ $item['log_type'] ?? '' }}">
-                                   
-                                    <span class="picon fa-solid icon {{ $itemIcon }}"></span>
 
-                                    <span class="title">
+
+            <span class="pbar" id="pbar"></span>
+        </div>
+        <div class="wpad tpad">
+            @if($course['items_count'] > 15)
+                <div class="findwrap bpad-half">
+                    <input id="find" data-group=".list-simple" data-parent=".search"
+                           data-content=".search .search-target" type="text" onfocus="goScrollTo(this,15);"
+                           placeholder="جستجو در جلسات">
+                    <small id="findStat"></small>
+                </div>
+            @endif
+            <div class="chapters tpad-half">
+                <?php $c = 1; ?>
+                @foreach($course['chapters'] as $ii => $ch)
+                    <div class="search">
+                        @if(count($course['chapters']) > 1)
+                            <div class="title-row">
+                                @if($ch['type'] == 1)
+                                    <div class="title">
+                                            <?= "<span class='fasl'>فصل  " . to_persian_num($c++) . ":</span> <span class='search-target'>" . $ch['title'] . "</span>" ?>
+                                    </div>
+                                @else
+                                    <div class="title"><i class="fa-solid fa-bars"></i> &nbsp;
+                                        <span class="search-target"><?=$ch['title']?></span>
+                                    </div>
+                                @endif
+                            </div>
+                        @endif
+                    </div>
+                        <?php    $si = 1;?>
+                    <div class="list-accordions tpad10 bpad">
+                        @foreach($ch['items'] as $item)
+                            @php
+                                $isPractice = $item['type'] == \Ls\ClientAssistant\Core\Enums\ProductItemType::Exercise;
+                                $isCompleted = ($item['log_type'] ?? '') == 'completed';
+                                $itemUrl = $isPractice
+                                    ? site_url("pwa/simple/practice/{$item['id']}/screen")
+                                    : site_url("pwa/simple/video/{$item['id']}/screen");
+                                $itemIcon = $isCompleted ? 'fa-circle-check' : ($isPractice ? 'fa-clipboard' : 'fa-circle-play');
+                            @endphp
+
+                            <a href="{{ $itemUrl }}"
+                               class="itemlink empty {{ $item['log_type'] ?? '' }} {{ ($item['id'] == ($_GET['i'] ?? '*')) ? 'default' : '' }}"
+                               data-iid="{{ $item['id'] }}"
+                               data-pid="{{ $item['product_id'] }}"
+                               data-chid="{{ $item['parent_id'] }}"
+                               data-t="{{ $item['log_type'] ?? '' }}">
+
+                                <span class="picon fa-solid icon {{ $itemIcon }}"></span>
+
+                                <span class="title">
                                         @if($course['items_count'] > 2)
-                                            <span class="bold">
+                                        <span class="bold">
                                                 جلسه
                                                 {{ to_persian_num($si++) }}
                                                 :
                                             </span>
-                                        @endif
+                                    @endif
                                         <span class="search-target">{{ $item['title'] }}</span>
                                     </span>
-                                    
-                                    <div class="flex me-auto">
+
+                                <div class="flex me-auto">
                                         <span class="time subtitle">
-                                            {{ $isPractice ? '' : (($item['attachment_duration_sum']) ? to_persian_num(round($item['attachment_duration_sum'] / 60)) . ' دقیقه' : '&nbsp;') }}
+                                            {{ $isPractice ? '1 سوال' : (($item['attachment_duration_sum']) ? to_persian_num(round($item['attachment_duration_sum'] / 60)) . ' دقیقه' : '&nbsp;') }}
                                         </span>
-                                        
-                                        @if(isset($_GET['links']) and $user['isLmsManager'])
-                                            @php $itemLink = site_url("pwa/item/p{$item['product_id']}i{$item['id']}/screen"); @endphp
-                                            <span class="copy" data-copy="{{ $itemLink }}">
+
+                                    @if(isset($_GET['links']) and $user['isLmsManager'])
+                                        @php $itemLink = site_url("pwa/item/p{$item['product_id']}i{$item['id']}/screen"); @endphp
+                                        <span class="copy" data-copy="{{ $itemLink }}">
                                                 <i class="fa-solid fa-copy"></i>
                                             </span>
-                                            <a class="copy" href="{{ $itemLink }}" target="_blank">
-                                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                            </a>
-                                        @endif
-                                    </div>
-                                </a>
-                            @endforeach
-                        </div>
-                    @endforeach
-                </div>
+                                        <a class="copy" href="{{ $itemLink }}" target="_blank">
+                                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                        </a>
+                                    @endif
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+                @endforeach
             </div>
-
         </div>
+
     </div>
-    @include('sdk.pwa._partials.bottom-nav')
-    <script type="module"  src="{{ getViteAssetUrl('resources/js/utilities/jquery.js') }}"></script>
-    <script type="module" src="{{ core_asset('resources/assets/minimal-landing/js/client.js') }}"></script>
-    @include('sdk._common.components.error-messages')
-    @include('sdk.pwa._partials.scripts')
+</div>
+@include('sdk.pwa._partials.bottom-nav')
+<script type="module"  src="{{ getViteAssetUrl('resources/js/utilities/jquery.js') }}"></script>
+<script type="module" src="{{ core_asset('resources/assets/minimal-landing/js/client.js') }}"></script>
+@include('sdk._common.components.error-messages')
+@include('sdk.pwa._partials.scripts')
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
 
-            function sendAjaxRequest(event) {
-                event.preventDefault();
-                var element = event.target.closest('.accordion.empty');
-                var iid = element.getAttribute('data-iid');
-                var pid = element.getAttribute('data-pid');
-                var chid = element.getAttribute('data-chid');
-                var log_type = element.getAttribute('data-t');
+        function sendAjaxRequest(event) {
+            event.preventDefault();
+            var element = event.target.closest('.accordion.empty');
+            var iid = element.getAttribute('data-iid');
+            var pid = element.getAttribute('data-pid');
+            var chid = element.getAttribute('data-chid');
+            var log_type = element.getAttribute('data-t');
 
-                var url = '<?=site_url('ajax/item')?>';
-                var params = 'iid=' + encodeURIComponent(iid) + '&pid=' + encodeURIComponent(pid) + '&chid=' + encodeURIComponent(chid) + '&log_type=' + encodeURIComponent(log_type);
-
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', url + '?' + params, true);
-
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        var contentElement = element.querySelector('.content');
-                        if (contentElement) {
-                            contentElement.innerHTML = xhr.responseText;
-                            visitSignalRequest(iid, 'visited');
-                            element.classList.remove('empty');
-                        }
-                    }
-                };
-                xhr.send();
-            }
-
-            // just single video in playing 
-            document.addEventListener('play', function (e) {
-                var videos = document.getElementsByTagName('video');
-                for (var i = 0; i < videos.length; i++) {
-                    if (videos[i] != e.target) {
-                        videos[i].pause();
-                    }
-                }
-            }, true);
-            document.addEventListener('DOMContentLoaded', function () {
-                var videos = document.getElementsByTagName('video');
-                for (var i = 0; i < videos.length; i++) {
-                    videos[i].addEventListener('click', function () {
-                        if (this.paused) {
-                            this.play();
-                        } else {
-                            this.pause();
-                        }
-                    });
-                }
-            });
-
-
-            var accordionElements = document.querySelectorAll('.accordion .header');
-            accordionElements.forEach(function (element) {
-                element.addEventListener('click', sendAjaxRequest);
-            });
-
-            // expand if single video
-            if (accordionElements.length == 1)
-                goScrollTo(accordionElements[0], 5, 1, 0);
-
-
-            qp = getQueryParam('i');
-            if (qp) {
-                let element = document.getElementById(qp);
-                element.scrollIntoView({ behavior: 'smooth' });
-                goScrollTo(element, 5, 1);
-            }
-
-        });
-
-        function signalRequest(element, type) {
-            var itemId = element.getAttribute('data-iid');
-            var url = '<?=site_url('ajax/item/signal')?>';
-            var params = 'itemId=' + encodeURIComponent(itemId) + '&type=' + encodeURIComponent(type);
-            element.innerHTML = 'در حال ثبت ...';
+            var url = '<?=site_url('ajax/item')?>';
+            var params = 'iid=' + encodeURIComponent(iid) + '&pid=' + encodeURIComponent(pid) + '&chid=' + encodeURIComponent(chid) + '&log_type=' + encodeURIComponent(log_type);
 
             var xhr = new XMLHttpRequest();
             xhr.open('GET', url + '?' + params, true);
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    element.innerHTML = xhr.responseText;
-                    if (!xhr.responseText.includes('خطا'))
-                        setTimeout(function () { element.closest('.signal-box').style.display = 'none'; }, 700)
+                    var contentElement = element.querySelector('.content');
+                    if (contentElement) {
+                        contentElement.innerHTML = xhr.responseText;
+                        visitSignalRequest(iid, 'visited');
+                        element.classList.remove('empty');
+                    }
                 }
             };
             xhr.send();
         }
 
-        function visitSignalRequest(iid, type) {
-            var url = '<?=site_url('ajax/item/signal')?>';
-            var params = 'itemId=' + encodeURIComponent(iid) + '&type=' + encodeURIComponent(type);
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', url + '?' + params, true);
-            xhr.onreadystatechange = function () {
-                console.log(xhr.responseText);
-            };
-            xhr.send();
-        }
-
-        function updateEnrollmentLogs() {
-            fetch('<?=site_url("ajax/enrollment/" . ($_GET['e'] ?? 'null') . "/logs")?>')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.message === "success") {
-                        const map = data.data.statuses;
-                        Object.keys(map).forEach(key => {
-                            const element = document.querySelector(`[data-iid="${key}"]`);
-                            if (element && map[key])
-                                element.classList.add(map[key]);
-                            if (element && map[key] == 'completed') {
-                                element.getElementsByClassName('picon')[0].classList.add('fa-circle-check');
-                            }
-                            document.getElementById('pbar').innerHTML = circleProgressbar(data.data.progress_percent, 'sm', '', '', '#ccc');
-                        });
+        // just single video in playing
+        document.addEventListener('play', function (e) {
+            var videos = document.getElementsByTagName('video');
+            for (var i = 0; i < videos.length; i++) {
+                if (videos[i] != e.target) {
+                    videos[i].pause();
+                }
+            }
+        }, true);
+        document.addEventListener('DOMContentLoaded', function () {
+            var videos = document.getElementsByTagName('video');
+            for (var i = 0; i < videos.length; i++) {
+                videos[i].addEventListener('click', function () {
+                    if (this.paused) {
+                        this.play();
+                    } else {
+                        this.pause();
                     }
                 });
+            }
+        });
+
+
+        var accordionElements = document.querySelectorAll('.accordion .header');
+        accordionElements.forEach(function (element) {
+            element.addEventListener('click', sendAjaxRequest);
+        });
+
+        // expand if single video
+        if (accordionElements.length == 1)
+            goScrollTo(accordionElements[0], 5, 1, 0);
+
+
+        qp = getQueryParam('i');
+        if (qp) {
+            let element = document.getElementById(qp);
+            element.scrollIntoView({ behavior: 'smooth' });
+            goScrollTo(element, 5, 1);
         }
-        updateEnrollmentLogs();    
-    </script>
+
+    });
+
+    function signalRequest(element, type) {
+        var itemId = element.getAttribute('data-iid');
+        var url = '<?=site_url('ajax/item/signal')?>';
+        var params = 'itemId=' + encodeURIComponent(itemId) + '&type=' + encodeURIComponent(type);
+        element.innerHTML = 'در حال ثبت ...';
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url + '?' + params, true);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                element.innerHTML = xhr.responseText;
+                if (!xhr.responseText.includes('خطا'))
+                    setTimeout(function () { element.closest('.signal-box').style.display = 'none'; }, 700)
+            }
+        };
+        xhr.send();
+    }
+
+    function visitSignalRequest(iid, type) {
+        var url = '<?=site_url('ajax/item/signal')?>';
+        var params = 'itemId=' + encodeURIComponent(iid) + '&type=' + encodeURIComponent(type);
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url + '?' + params, true);
+        xhr.onreadystatechange = function () {
+            console.log(xhr.responseText);
+        };
+        xhr.send();
+    }
+
+    function updateEnrollmentLogs() {
+        fetch('<?=site_url("ajax/enrollment/" . ($_GET['e'] ?? 'null') . "/logs")?>')
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === "success") {
+                    const map = data.data.statuses;
+                    Object.keys(map).forEach(key => {
+                        const element = document.querySelector(`[data-iid="${key}"]`);
+                        if (element && map[key])
+                            element.classList.add(map[key]);
+                        if (element && map[key] == 'completed') {
+                            element.getElementsByClassName('picon')[0].classList.add('fa-circle-check');
+                        }
+                        document.getElementById('pbar').innerHTML = circleProgressbar(data.data.progress_percent, 'sm', '', '', '#ccc');
+                    });
+                }
+            });
+    }
+    updateEnrollmentLogs();
+</script>
 
 </body>
 
