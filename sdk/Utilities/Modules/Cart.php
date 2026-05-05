@@ -23,7 +23,7 @@ class Cart
 
     public static function addItem(
         string $entity_type,
-        int $entity_id,
+        string $entity_id,
         ?string $coupon,
         ?string $ip,
         array $headers = []

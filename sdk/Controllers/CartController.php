@@ -55,8 +55,8 @@ class CartController
         }
 
         $res = Cart::addItem(
-            base64_decode($request->get('et')),
-            (int) $request->get('ei'),
+            $request->get('et'),
+            $request->get('ei'),
             $request->get('coupon'),
             $request->getClientIp()
         );
@@ -67,7 +67,11 @@ class CartController
 
         return JsonResponse::success(
             $res->get('message'),
-            ['backUrl' => route('cart.checkout')]
+            [
+                'backUrl' => route('cart.checkout'),
+                'cart_id' => $res->get('data')['cart_id'] ?? null,
+                'cart_item_id' => $res->get('data')['cart_item'] ?? null,
+            ]
         );
     }
 
