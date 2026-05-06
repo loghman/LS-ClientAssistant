@@ -19,7 +19,7 @@ class AuthController
     private static function backurl(){
         $backurl = $_GET['backurl'] ?? $_GET['refer'] ?? false;
         if($backurl){
-            return $backurl;
+            return urldecode($backurl);
         }
         if(isset($_SERVER['HTTP_REFERER']) && str_contains($_SERVER['HTTP_REFERER'],$_SERVER['HTTP_HOST']))
             return $_SERVER['HTTP_REFERER'];
