@@ -24,7 +24,7 @@ class Quiz extends Cacher
     public static function storeAnswer(ModuleFilter $filter = null): Collection
     {
         try {
-            return API::post('client/v3/lms/answer', $filter ? $filter->all() : []);
+            return API::post('client/v3/lms/quiz-answer', $filter ? $filter->all() : []);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -35,7 +35,7 @@ class Quiz extends Cacher
     public static function storeAnswersheet(ModuleFilter $filter = null): Collection
     {
         try {
-            return API::post('client/v3/lms/answersheet', $filter ? $filter->all() : []);
+            return API::post('client/v3/lms/quiz-answersheet', $filter ? $filter->all() : []);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -46,7 +46,7 @@ class Quiz extends Cacher
     public static function listAnswer(ModuleFilter $filter = null): Collection
     {
         try {
-            return API::get('client/v3/lms/answer', $filter ? $filter->all() : []);
+            return API::get('client/v3/lms/quiz-answer', $filter ? $filter->all() : []);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -57,7 +57,7 @@ class Quiz extends Cacher
     public static function signalAnswer(int $answerId, ModuleFilter $filter = null): Collection
     {
         try {
-            return API::patch('client/v3/lms/answer/'.$answerId, $filter ? $filter->all() : []);
+            return API::patch('client/v3/lms/quiz-answer/'.$answerId, $filter ? $filter->all() : []);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
@@ -68,7 +68,7 @@ class Quiz extends Cacher
     public static function listAnswersheet(ModuleFilter $filter = null): Collection
     {
         try {
-            return API::get('client/v3/lms/answersheet', $filter ? $filter->all() : []);
+            return API::get('client/v3/lms/quiz-answersheet', $filter ? $filter->all() : []);
         } catch (ClientException $exception) {
             return Response::parseClientException($exception);
         } catch (\Exception $exception) {
