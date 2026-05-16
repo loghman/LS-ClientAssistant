@@ -19,21 +19,28 @@
         <input type="hidden" name="entity_type" value="{{ $entityType ?? 'lms_products' }}">
         <input type="hidden" name="entity_id" value="{{ $entityId }}">
     @endif
-    <div class="input-group sm">
-        <label class="fw-700">نام شما</label>
-        <input type="text" name="full_name" required="required" placeholder="مثلا: مریم محمدی">
+    <div class="input-group-responsive">
+        <div class="input-group sm">
+            <label class="fw-700">نام شما</label>
+            <input type="text" name="full_name" required="required" placeholder="مثلا: مریم محمدی">
+        </div>
     </div>
-    <div class="input-group sm">
-        <label class="fw-700">شماره موبایل</label>
-        <input class="ltr text-start" type="text" name="mobile" required="required"
-               placeholder="091xxxxxxxx">
+    <div class="input-group-responsive">
+        <div class="input-group sm">
+            <label class="fw-700">شماره موبایل</label>
+            <input class="ltr text-start" type="text" name="mobile" required="required"
+                placeholder="091xxxxxxxx">
+        </div>
     </div>
+    
     @if(setting('crm_has_email_field'))
+    <div class="input-group-responsive">
         <div class="input-group sm">
             <label class="fw-700">ایمیل شما</label>
             <input class="ltr text-start" type="email" name="email" required="required"
-                   placeholder="yourName@domain.com">
+                    placeholder="yourName@domain.com">
         </div>
+    </div>
     @endif
 
     @if(count($workflowData['variables']) > 0)

@@ -9683,6 +9683,31 @@ input[type=radio]) {
             left: 50%;
             transform: translateX(-50%);
         }
+
+        @media (max-width: 767px) {
+            .input-group-responsive .input-group.sm {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .input-group-responsive .input-group.sm > label {
+                min-width: unset;
+                width: 100%;
+                height: auto !important;
+                padding: 6px 12px 4px !important;
+                line-height: 2 !important;
+                border-radius: var(--input-radius) var(--input-radius) 0 0 !important;
+                border-left: none !important;
+                border-bottom: solid 1px var(--input-group-child-border) !important;
+            }
+
+            .input-group-responsive .input-group.sm > input {
+                height: var(--input-height-sm) !important;
+                border-radius: 0 0 var(--input-radius) var(--input-radius) !important;
+                border-left: none !important;
+                width: 100% !important;
+            }
+        }
     </style>
 @endsection
 @section('body-class', 'bg-secondary page-form')
