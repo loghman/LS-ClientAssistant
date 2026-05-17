@@ -39,7 +39,11 @@ class WorkflowFormController
                     ->perPage(Config::get('workflow_form.max_course_count_for_select'))
             );
             if ($response->get('success')) {
-                $courses = $response->get('data')['data'];
+                $courses = array_column(
+                    $response->get('data')['data'] ?? [],
+                    'value',
+                    'key'
+                );
             }
         }
 
