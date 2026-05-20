@@ -8370,7 +8370,7 @@
             color: var(--secondary);
             background: white;
             border-radius: var(--btn-radius);
-            height: var(--input-height-sm);
+            min-height: var(--input-height-sm);
             padding: var(--input-padding);
             font-size: var(--btn-font-size);
             line-height: var(--btn-line-height);
