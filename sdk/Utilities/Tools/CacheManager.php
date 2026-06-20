@@ -23,7 +23,7 @@ class CacheManager
         try {
             $iterator = new RecursiveDirectoryIterator($cachePath, FilesystemIterator::SKIP_DOTS);
             $recursiveIterator = new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::CHILD_FIRST);
-            
+
             foreach ($recursiveIterator as $file) {
                 if ($file->isDir()) {
                     @rmdir($file->getRealPath());
@@ -31,8 +31,9 @@ class CacheManager
                     @unlink($file->getRealPath());
                 }
             }
-            
+
             @rmdir($cachePath);
+            mkdir($cachePath);
             return true;
         } catch (\Exception $e) {
             return false;

@@ -115,8 +115,11 @@ $router->name('pageEditor.store')->post('/page-meta/updateForm', function (Reque
 
 $router->name('cache.clear.all')->post('cache/clear/all', function (Request $request) {
     $user = current_user();
-    $canClearCache = in_array('marketing:update', ($user['permissions'] ?? []), true);
-    if ($canClearCache) {
+    $userHasPermission = in_array('marketing:update', ($user['permissions'] ?? []), true);
+
+    $apiKeyIsValid = $request->headers->get('api-key') === $GLOBALS['apikey'];
+
+    if ($apiKeyIsValid || $userHasPermission) {
         $cacheOperations = [
             'redis' => fn() => clear_redis_cache(),
             'object' => fn() => ObjectCache::flush(),
@@ -136,14 +139,14 @@ $router->name('cache.clear.all')->post('cache/clear/all', function (Request $req
 
         $allSuccessful = !in_array(false, $results);
         $message = $allSuccessful ? 'کش با موفقیت پاک شد' : 'خطا در پاک کردن کش';
-        
-        return $allSuccessful 
+
+        return $allSuccessful
             ? JsonResponse::success($message, $results)
             : JsonResponse::unprocessableEntity($message, $results);
     }
 
     return JsonResponse::forbidden('عدم دسترسی');
-})->middleware(AuthMiddleware::class);
+});
 $router->name('cache.clear')->post('cache/clear', function (Request $request) {
     $canClearCache = $request->headers->get('api-key') === $GLOBALS['apikey'];
     if ($canClearCache) {
