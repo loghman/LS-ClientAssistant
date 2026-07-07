@@ -64,7 +64,12 @@ class PaymentController
             return $this->pwa_callback($paymentId,$request);
 
 
-        if ((int)$request->status === 0)
+        $payment = V3Payment::get($paymentId);
+        if (!$payment->get('success')) {
+            abort(404);
+        }
+
+        if ((int)$payment['data']['status']['value'] === 0)
             return WebResponse::redirect("payment/failed/$paymentId");
 
         return WebResponse::redirect("payment/succeed/$paymentId");
