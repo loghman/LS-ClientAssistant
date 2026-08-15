@@ -49,11 +49,10 @@ class UtmLogMiddleware
     {
         $lifetime = setting('utm_log_cookie_lifetime', 20160);
 
-        setcookie(
+        set_secure_cookie(
             Config::get('utmlog.utm_log_cookie_name'),
             json_encode($utmData, JSON_UNESCAPED_UNICODE),
-            time() + ($lifetime * 60),
-            '/'
+            time() + ($lifetime * 60)
         );
     }
 

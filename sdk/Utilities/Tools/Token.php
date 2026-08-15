@@ -22,13 +22,13 @@ class Token
     {
         if ($this->token) {
             $this->remove();
-            setcookie($this->cookieName, $this->token, time() + $this->ttl, '/', get_cookie_domain(), is_production_environment());
+            set_secure_cookie($this->cookieName, $this->token, time() + $this->ttl, '/', get_cookie_domain());
         }
     }
 
     public function remove(): void
     {
-        setcookie($this->cookieName, '', time() - 3600, '/', get_cookie_domain(), is_production_environment());
+        set_secure_cookie($this->cookieName, '', time() - 3600, '/', get_cookie_domain());
     }
 
     public function seconds(int $seconds = 1): self

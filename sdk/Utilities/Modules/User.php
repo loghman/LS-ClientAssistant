@@ -78,11 +78,11 @@ class User extends ModuleUtility
     }
 
     public static function setUserKeyCookie($value){
-        setcookie(self::$user_cookie_key_name,$value, time() + 1800, '/');
+        set_secure_cookie(self::$user_cookie_key_name, $value, time() + 1800);
     }
 
     public static function clearUserKeyCookie(){
-        setcookie(self::$user_cookie_key_name,'', time() - 77777, '/');
+        set_secure_cookie(self::$user_cookie_key_name, '', time() - 77777);
     }
  
     public static function getCurrent()

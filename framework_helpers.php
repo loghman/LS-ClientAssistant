@@ -468,6 +468,34 @@ if (!function_exists('is_production_environment')) {
     }
 }
 
+if (!function_exists('cookie_secure_flag')) {
+    function cookie_secure_flag(): bool
+    {
+        return is_production_environment() || request()->isSecure();
+    }
+}
+
+if (!function_exists('set_secure_cookie')) {
+    function set_secure_cookie(
+        string $name,
+        string $value,
+        int $expire,
+        string $path = '/',
+        ?string $domain = null,
+        bool $httpOnly = true,
+        string $sameSite = 'Lax'
+    ): void {
+        setcookie($name, $value, [
+            'expires'  => $expire,
+            'path'     => $path,
+            'domain'   => $domain ?? '',
+            'secure'   => cookie_secure_flag(),
+            'httponly' => $httpOnly,
+            'samesite' => $sameSite,
+        ]);
+    }
+}
+
 if (!function_exists('number_to_letter_persian')) {
     function number_to_letter_persian($number)
     {
