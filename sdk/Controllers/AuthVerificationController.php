@@ -21,7 +21,7 @@ class AuthVerificationController
             (!in_array('mobile', $verificationFields) || $mobileVerified)
         ) {
             $backUrl = $request->cookie(Authentication::authReferer);
-            setcookie('auth_referer', '', time() - 3600, '/', get_cookie_domain(), is_production_environment());
+            set_secure_cookie('auth_referer', '', time() - 3600, '/', get_cookie_domain());
 
             return WebResponse::redirectToFullUrl($backUrl ?? site_url());
         }

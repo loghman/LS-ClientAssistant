@@ -9,7 +9,7 @@ class AuthController
 {
     public function index(Request $request)
     {
-        setcookie("auth_backurl", self::backurl(), time() + (30 * 60), "/");
+        set_secure_cookie('auth_backurl', self::backurl(), time() + (30 * 60));
         return WebResponse::view(
             'vue-apps.views.vue-auth',
         );

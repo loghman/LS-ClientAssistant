@@ -109,7 +109,7 @@ class AjaxController
             return;
         }
         API::post('client/v3/user/user-last-activity-log');
-        setcookie($key,date('Y-m-d H:i:s'), time() + 36000, '/');
+        set_secure_cookie($key, date('Y-m-d H:i:s'), time() + 36000);
         echo "sent";
         return;
     }
