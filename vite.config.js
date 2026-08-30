@@ -53,6 +53,10 @@ export default defineConfig({
           __dirname,
           "./resources/js/utilities/jquery.js"
         ),
+        gtm_form_tracking: path.resolve(
+          __dirname,
+          "./resources/js/utilities/gtm-form-tracking.js"
+        ),
       },
     },
     // Disable generating HTML files

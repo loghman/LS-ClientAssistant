@@ -71,6 +71,7 @@
 </div>
 
 @push('footer')
+    @include('sdk.workflow._gtm-form-tracking')
     <script>
         function showSuccess(response) {
             jQuery('form').css('display', 'none');
@@ -78,6 +79,11 @@
             jQuery('#result-box').css('display', 'flex');
             jQuery('#result-box').addClass('d-flex');
             jQuery('#message').html(response.response.message)
+            if (typeof window.trackFormSubmitOnce === 'function') {
+                window.trackFormSubmitOnce();
+            } else if (typeof console !== 'undefined' && typeof console.warn === 'function') {
+                console.warn('[GTM] Successful form submit was not tracked: trackFormSubmitOnce is unavailable. The Vite module may still be loading or failed to load.');
+            }
         }
     </script>
 @endpush

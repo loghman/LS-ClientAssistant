@@ -90,3 +90,7 @@
         color: #fff !important;
     }
 </style>
+
+@push('footer')
+    @include('sdk.workflow._gtm-form-tracking')
+@endpush
