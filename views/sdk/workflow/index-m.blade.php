@@ -432,6 +432,11 @@
             msg.style.display = 'block';
             msg.innerHTML = "🙏<br><br>" + response.response.message +
                 '<br><br><br><a href="{{setting('_env_client_url')}}" class="btn sm">بازگشت به {{setting('brand_name_fa')}}</a>';
+            if (typeof window.trackFormSubmitOnce === 'function') {
+                window.trackFormSubmitOnce();
+            } else if (typeof console !== 'undefined' && typeof console.warn === 'function') {
+                console.warn('[GTM] Successful form submit was not tracked: trackFormSubmitOnce is unavailable. The Vite module may still be loading or failed to load.');
+            }
         }
 
     </script>
