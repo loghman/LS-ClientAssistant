@@ -7,7 +7,7 @@
     <style>
         @font-face {
             font-family: iransans;
-            src: url(https://cdn.jsdelivr.net/npm/iransans@1.0.0/woff/IRANSansWeb.woff);
+            src: url(https://cdn.planet.bz/font/iransans/1.0.0/IRANSansWeb.woff);
         }
         body *{
             font-family: iransans,tahoma;
