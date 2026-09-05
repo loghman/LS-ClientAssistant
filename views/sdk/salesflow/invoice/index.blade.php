@@ -505,4 +505,116 @@
         @include('sdk.salesflow.invoice.partials.footer')
     </div>
     <img src="{{ setting('png_logo_url') }}" alt="{{ setting('brand_name_fa') }}" class=brand-logo>
+
+    <script>
+        (function () {
+            // Progressive enhancement only: payment links are plain <a href> tags rendered
+            // by Blade and must keep working even if JS is disabled/blocked/fails to load.
+            // This script only *adds* a guard against rapid/repeated clicks; it never blocks
+            // the very first click, so navigation to the payment gateway is never prevented.
+            var paymentLinks = [];
+            var isLocked = false;
+            var reenableTimerId = null;
+            // Safety-net only: if the tab truly navigates away (same-tab click), this
+            // timer is destroyed along with the page and never fires. It only matters
+            // when the tab is still alive (e.g. link opened in a new tab), acting as a
+            // fallback in case the focus/visibility signals below don't fire.
+            var REENABLE_SAFETY_TIMEOUT_MS = 8000;
+
+            function getButtonEl(link) {
+                return link && typeof link.querySelector === 'function' ? link.querySelector('.btn') : null;
+            }
+
+            function setLinkVisualState(link, disabled) {
+                var btn = getButtonEl(link);
+                if (!btn) {
+                    return;
+                }
+
+                if (disabled) {
+                    btn.classList.add('gray');
+                    btn.setAttribute('disabled', 'disabled');
+                } else {
+                    btn.classList.remove('gray');
+                    btn.removeAttribute('disabled');
+                }
+            }
+
+            function lockPaymentLinks() {
+                isLocked = true;
+                paymentLinks.forEach(function (link) {
+                    setLinkVisualState(link, true);
+                });
+            }
+
+            function unlockPaymentLinks() {
+                if (reenableTimerId !== null) {
+                    clearTimeout(reenableTimerId);
+                    reenableTimerId = null;
+                }
+
+                isLocked = false;
+                paymentLinks.forEach(function (link) {
+                    setLinkVisualState(link, false);
+                });
+            }
+
+            function handlePaymentLinkClick(event) {
+                if (isLocked) {
+                    event.preventDefault();
+                    return;
+                }
+
+                lockPaymentLinks();
+
+                // If this click opened the payment gateway in a new tab/window
+                // (e.g. Ctrl/Cmd/Middle-click), this tab never navigates away, so the
+                // lock must not stay forever. Fall back to a bounded timer as well.
+                reenableTimerId = setTimeout(unlockPaymentLinks, REENABLE_SAFETY_TIMEOUT_MS);
+            }
+
+            function initPaymentLinksOnce() {
+                var links = document.querySelectorAll('.timeline a.item[href]');
+                if (!links || links.length === 0) {
+                    return;
+                }
+
+                paymentLinks = Array.prototype.slice.call(links);
+                paymentLinks.forEach(function (link) {
+                    link.addEventListener('click', handlePaymentLinkClick);
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initPaymentLinksOnce);
+            } else {
+                initPaymentLinksOnce();
+            }
+
+            // If the user navigates back to this page from the payment gateway (bfcache),
+            // re-enable the link(s) so a legitimate retry is still possible.
+            window.addEventListener('pageshow', function (event) {
+                if (event.persisted) {
+                    unlockPaymentLinks();
+                }
+            });
+
+            // If the payment link opened in a new tab/window instead of navigating this
+            // tab away (e.g. Ctrl/Cmd/Middle-click, "Open in new tab"), this tab is still
+            // alive. As soon as the user comes back to look at it, re-enable the link so
+            // they never feel unable to pay again. A real same-tab navigation destroys
+            // this JS context entirely, so these listeners simply never fire in that case.
+            document.addEventListener('visibilitychange', function () {
+                if (isLocked && document.visibilityState === 'visible') {
+                    unlockPaymentLinks();
+                }
+            });
+
+            window.addEventListener('focus', function () {
+                if (isLocked) {
+                    unlockPaymentLinks();
+                }
+            });
+        })();
+    </script>
 @endsection
